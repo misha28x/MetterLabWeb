@@ -1,0 +1,16 @@
+@import "../../../assets/sass/variables";
+
+:host {
+	height: 100%;
+	width: 100%;
+
+	.content {
+		height: 100%;
+		width: 100%;
+
+		.main-content {
+			padding: $module-rem * 2;
+			margin: 0 0 0 $sidebar-width;
+		}
+	}
+}

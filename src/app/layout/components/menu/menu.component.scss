@@ -1,0 +1,45 @@
+@import "../../../../assets/sass/variables";
+
+$item-color: #0051a8;
+
+:host {
+	height: 100%;
+	width: 100%;
+
+	.main-menu {
+	  list-style-type: none;
+		padding: 0;
+		font-size: .9em;
+		font-weight: 600;
+		
+		.main-item {
+			border-bottom: 1px solid rgba(#000, .05);
+			height: 4 * $module-rem;
+			color: $item-color;
+
+			.item-icon {
+				font-size: 1.6em;
+				margin-bottom: 2px;
+				margin-right: $module-rem / 2;
+			}
+			.item-link {
+				align-items: center;
+				cursor: pointer;
+				padding: 0 $module-rem 0 ($module-rem * 3);
+				display: flex;
+				height: 100%;
+				text-decoration: none;
+				transition: 
+					background .2s $animation,
+					color .2s $animation;
+				width: 100%;
+
+				&:hover,
+				&.active {
+				  color: lighten($color: $item-color, $amount: 15);
+				  background: rgba(#000, .05);
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,24 @@
+@import "../../../../assets/sass/variables";
+
+:host {
+	background: $navbar-bg;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+	display: block;
+	height: $navbar-height;
+	width: 100%;
+
+	.navbar-wraper {
+		align-items: center;
+		display: flex;
+		height: 100%;
+
+		.nav-button {
+
+		}
+		.page-title {
+			margin-left: $sidebar-width + (2 * $module-rem);
+			font-size: 1.5em;
+			color: #fff;
+		}
+	}
+}
