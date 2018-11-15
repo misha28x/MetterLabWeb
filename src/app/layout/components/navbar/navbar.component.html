@@ -1,5 +1,9 @@
 <div class="navbar-wraper">
-	<div class="button">
+	<div 
+		class="nav-button" 
+		(click)="onButtonClick()"
+		[ngClass]="{'min': menuState}"
+	>
 		<span></span>
 		<span></span>
 		<span></span>

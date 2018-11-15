@@ -1,3 +1,5 @@
+@import "./variables";
+
 .mb-0 {
   margin-bottom: 0 !important;
 }
@@ -13,7 +15,29 @@
 .nowrap {
   white-space: nowrap !important;
 }
-.chat-container {
+mat-card {
+	overflow: hidden;
+}
+mat-card-header {
+	align-items: center;
+	background: main-palette(500);
+	color: rgba(#fff, 0.95);
+	display: flex;
+	font-size: 1.2em;
+	font-family: "Roboto";
+	padding: 8px  16px !important;
+	margin: -16px !important;
+	margin-bottom: 16px !important;
+
+	.icon {
+		font-size: 1.2em;
+		margin-right: $module-rem;
+	}
+	.mat-card-header-text {
+		margin: 0;
+	}
+}
+.chart-container {
   height: 200px !important;
   position: relative;
   overflow: hidden;

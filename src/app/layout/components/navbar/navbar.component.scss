@@ -10,13 +10,53 @@
 	.navbar-wraper {
 		align-items: center;
 		display: flex;
+		padding: 0 (2 * $module-rem);
 		height: 100%;
 
 		.nav-button {
+			cursor: pointer;
+			display: flex;
+			height: $navbar-height - (3.5 * $module-rem);
+			flex-direction: column;
+			justify-content: space-between;
+			position: relative;
+			margin-right: calc(#{$sidebar-width} - 22px);
+			transition: margin-right .2s $animation;
+			width: 22px;
 
+			span {
+				background: rgba(#fff, 0.8);
+				display: block;
+				margin-right: auto;
+				height: 1px;
+				margin: 0;
+				transition: width .2s $animation;
+				z-index: 10;
+
+				&:nth-child(1) {
+					width: 50%;
+				} 
+				&:nth-child(2) {
+					width: 100%;
+				}
+				&:nth-child(3) {
+					width: 75%;
+				}
+			}
+			&:hover {
+				> * {
+					width: 100% !important;
+				}
+			}
+			&.min {
+				margin-right: $module-rem * 5;
+			
+				span {
+					margin-left: auto;
+				}
+			}
 		}
 		.page-title {
-			margin-left: $sidebar-width + (2 * $module-rem);
 			font-size: 1.5em;
 			color: #fff;
 		}

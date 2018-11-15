@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding, Input } from '@angular/core';
 
 import { DataService } from '../../../services/data.service';
 import { IMenuItem } from '../../../interfaces/menu';
@@ -9,6 +9,9 @@ import { IMenuItem } from '../../../interfaces/menu';
 	styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+	@HostBinding('class.main-menu') true;
+	@HostBinding('class.min') @Input() min: Boolean;
+
 	menu: IMenuItem[];
 	url: string;
 

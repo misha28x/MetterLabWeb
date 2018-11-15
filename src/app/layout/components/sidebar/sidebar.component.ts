@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
+	@HostBinding('class.sidebar') true;
+	@HostBinding('class.min') @Input() min: Boolean;
+	@HostBinding('class.open') get getMenuState(): boolean { return !this.min; }
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
-
 }

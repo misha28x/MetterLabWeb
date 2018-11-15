@@ -5,8 +5,25 @@
 	box-shadow: 2px 0 4px 0 rgba(#000, 0.1);
 	height: calc(100% - #{$navbar-height});
 	overflow-y: auto;
+	overflow-x: hidden;
 	padding: 0;
 	position: fixed;
 	top: $navbar-height;
+	transition: width 0.3s $animation;
 	width: $sidebar-width;
+
+	@media #{max991} {
+		left: -100%;
+	}
+	&.open {
+		left: 0;
+	}
+	&.min {
+		width: $min-sidebar-width;
+
+		@media #{max991} {
+			width: $sidebar-width;
+			left: -100%;
+		}
+	}
 }
