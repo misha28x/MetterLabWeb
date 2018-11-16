@@ -11,7 +11,7 @@
 		.main-content {
 			padding: $module-rem * 2;
 			margin: 0 0 0 $sidebar-width;
-			transition: margin 0.2s $animation;
+			transition: margin 0.3s $animation;
 			
 			@media #{min991} {
 			  margin: 0 0 0 (2 * $module-rem) !important;

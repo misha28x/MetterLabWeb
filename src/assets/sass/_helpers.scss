@@ -37,6 +37,10 @@ mat-card-header {
 		margin: 0;
 	}
 }
+.chart {
+	width: 100%;
+	overflow: hidden;
+}
 .chart-container {
   height: 200px !important;
   position: relative;

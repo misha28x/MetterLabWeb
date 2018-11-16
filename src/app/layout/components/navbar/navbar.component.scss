@@ -16,19 +16,19 @@
 		.nav-button {
 			cursor: pointer;
 			display: flex;
-			height: $navbar-height - (3.5 * $module-rem);
+			height: 22px;
 			flex-direction: column;
 			justify-content: space-between;
 			position: relative;
 			margin-right: calc(#{$sidebar-width} - 22px);
-			transition: margin-right .2s $animation;
-			width: 22px;
+			transition: margin-right .3s $animation;
+			width: 26px;
 
-			span {
+			.bar {
 				background: rgba(#fff, 0.8);
 				display: block;
 				margin-right: auto;
-				height: 1px;
+				min-height: 2px;
 				margin: 0;
 				transition: width .2s $animation;
 				z-index: 10;
