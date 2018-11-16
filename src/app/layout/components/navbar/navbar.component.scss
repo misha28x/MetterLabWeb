@@ -29,6 +29,8 @@
 				display: block;
 				margin-right: auto;
 				min-height: 2px;
+				height: 2px;
+				max-height: 2px;
 				margin: 0;
 				transition: width .2s $animation;
 				z-index: 10;

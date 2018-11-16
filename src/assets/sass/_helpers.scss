@@ -40,6 +40,10 @@ mat-card-header {
 .chart {
 	width: 100%;
 	overflow: hidden;
+
+	&.h-300 {
+		min-height: 300px;
+	}
 }
 .chart-container {
   height: 200px !important;
