@@ -11,17 +11,8 @@
         </p>
 
         <div class="chart h-300">
-					<ngx-charts-bar-vertical 
-						[scheme]="colorScheme"
-						[results]="single"
-						[xAxis]="true"
-						[yAxis]="true"
-						[yAxisLabel]="'Кількість Заявок'"
-						[xAxisLabel]="'Місяць'"
-						[barPadding]="40"
-						[showXAxisLabel]="true"
-						[showYAxisLabel]="true"
-					></ngx-charts-bar-vertical>
+          <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="single" [xAxis]="true" [yAxis]="true" [yAxisLabel]="'Кількість Заявок'"
+            [xAxisLabel]="'Місяць'" [barPadding]="40" [showXAxisLabel]="true" [showYAxisLabel]="true"></ngx-charts-bar-vertical>
         </div>
       </mat-card-content>
     </mat-card>
@@ -34,12 +25,12 @@
         Непризначені заявки
       </mat-card-header>
       <mat-card-content>
-        <p>
-          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-          bred for hunting.
-        </p>
+       <div *ngFor="let item of posts">{{ item.title }}</div>
       </mat-card-content>
     </mat-card>
+  </div>
+
+  <div class="col-md-6">
+
   </div>
 </div>

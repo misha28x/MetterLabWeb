@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
 
-import { TCTableComponent } from '../';
+import { TableComponent } from '../';
 
 @Component({
   selector: 'app-column',
-  templateUrl: './column.component.html',
-  styleUrls: ['./column.component.scss']
+  templateUrl: './column.component.html'
 })
 export class ColumnComponent implements OnInit {
 	@ContentChild('tableBodyTemplate') bodyTemplate: TemplateRef<any>;
@@ -18,7 +17,7 @@ export class ColumnComponent implements OnInit {
 
 	config: any;
 		
-  constructor(private table: TCTableComponent) {
+  constructor(private table: TableComponent) {
 		this.enableFiltering = false;
 		this.enableSorting = false;
 

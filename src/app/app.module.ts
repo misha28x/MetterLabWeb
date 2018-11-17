@@ -10,6 +10,7 @@ import { MenuReducer } from './store/reducers/menu.reducer';
 import { LayoutModule } from './layout/layout.module';
 import { RoutingModule, ROUTES } from './routing/routing.module';
 import { PagesModule } from './pages/pages.module';
+import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
 
@@ -22,6 +23,7 @@ import { AppComponent } from './app.component';
 		RouterModule.forRoot(ROUTES, { useHash: true }),
 		BrowserAnimationsModule,
 		HttpClientModule,
+		UiModule,
 		StoreModule.forRoot({
 			menuState: MenuReducer
 		}),

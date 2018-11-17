@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { MaterialModule } from '../material/material.module';
+import { UiModule } from './../ui/ui.module';
 
 import { PageHomePageComponent } from './home-page';
 import { PageNewVerificationsComponent } from './new-verifications';
@@ -21,7 +22,7 @@ import { PageUploadDataComponent } from './upload-data';
 import { PageUserGuideComponent } from './user-guide';
 
 @NgModule({
-	imports: [MaterialModule, NgxChartsModule],
+	imports: [MaterialModule, NgxChartsModule, UiModule],
 	declarations: [
 		PageHomePageComponent,
 		PageNewVerificationsComponent,

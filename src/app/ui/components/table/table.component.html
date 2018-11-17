@@ -1,11 +1,11 @@
-<tc-form-group *ngIf="search">
-	<tc-input
+<mat-form-field *ngIf="search">
+	<app-input
 		[placeholder]="'Seach in table'"
-		[tcFilterTable]="config.filtering"
+		[appFilterTable]="config.filtering"
 		(tableChanged)="onChangeTable(config)"
 		[suffixIcon]="'icofont icofont-search-alt-2'"
-	></tc-input>
-</tc-form-group>
+	></app-input>
+</mat-form-field>
 
 <div class="table-wrap">
 	<table [ngClass]="getTableClasses()">
@@ -14,28 +14,27 @@
 				*ngFor="let c of columnList;"
 				[column]="c.config"
 				[align]="headerAlign"
-				[tcTableSort]="c.config.sort"
+				appTableSort="c.config.sort"
 				(sortChanged)="onChangeTable(config, c)"
-				[tcBgColor]="headerBgColor"
 			>
 				<div class="header-wrapper">
 					<ng-container *ngIf="!c.headerTemplate">
 						<ng-container *ngIf="!c.enableFiltering">
-							<span class="title" [tcColor]="headerColor">
+							<span class="title">
 								 {{ c.config.title }}
 							</span>
 						</ng-container>
 
 						<ng-container *ngIf="c.enableFiltering">
 							<div class="search-box">
-								<tc-input
+								<app-input
 									[size]="'sm'"
 									(click)="$event.stopPropagation();"
-									[tcFilterTable]="c.config.filtering"
+									[appFilterTable]="c.config.filtering"
 									[suffixIcon]="'icofont icofont-search-alt-2'"
 									(tableChanged)="onChangeTable(config, c)"
 									[placeholder]="c.config.title">
-						 		</tc-input>
+						 		</app-input>
 							</div>
 						</ng-container>
 
@@ -50,7 +49,7 @@
 				<ng-template *ngIf="c.headerTemplate" [ngTemplateOutlet]="c.headerTemplate"	></ng-template>
 			</th>
 		</tr>
-		<tr *ngFor="let row of rows"
+		<tr *ngFor="let row of rows; trackBy: trackByFn"
 				[align]="rowAlign"
 				[ngStyle]="{'background': contentBgColor, 'color'     : contentColor}"
 		>
@@ -68,4 +67,4 @@
 		</tr>
 	</table>
 </div>
-<tc-pagination  *ngIf="pagination" [pagesNumber]="pagesCount" [pageNum]="page"(goToPage)="goToPage($event)"></tc-pagination>
+<!-- <tc-pagination  *ngIf="pagination" [pagesNumber]="pagesCount" [pageNum]="page"(goToPage)="goToPage($event)"></tc-pagination> -->

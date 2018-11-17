@@ -8,7 +8,7 @@ import { ITableConfig } from '../../interfaces/tableConfig';
   templateUrl: './table.component.html',
 	styleUrls: ['./table.component.scss']
 })
-export class TCTableComponent implements  OnInit  {
+export class TableComponent implements  OnInit  {
 	@HostBinding('class.tc-table') true;
 
 	@Input() borderColor: string;
@@ -206,5 +206,9 @@ export class TCTableComponent implements  OnInit  {
 			});
 			column.filter = true;
 		}
+	}
+
+	trackByFn(index: number, item: any): any {
+		return index;
 	}
 }
