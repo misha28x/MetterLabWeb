@@ -49,10 +49,6 @@ export class PageHomePageComponent implements OnInit {
 
 	getData(): void {
 		const url = 'http://localhost:3000/api/posts';
-		const observer = {
-			next: x => this.rows = x,
-			error: err => this.dataSv.handleError(err)
-		};
 
 		this.posts = this.dataSv.getData(url)
 		.subscribe((postData) => {

@@ -8,9 +8,11 @@ import { MaterialModule } from './../material/material.module';
 import { TableComponent } from './components/table';
 import { ColumnComponent } from './components/table/column/column.component';
 import { InputComponent } from './components/input';
+import { FileUploadComponent } from './components/file-upload';
 
 import { FilterTableDirective } from './directives/filter-table/filter-table.directive';
 import { SortTableDirective } from './directives/sort-table/sort-table.directive';
+import { UploadDialogComponent } from './components/file-upload/upload-dialog/upload-dialog.component';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule],
@@ -19,14 +21,18 @@ import { SortTableDirective } from './directives/sort-table/sort-table.directive
 		FilterTableDirective,
 		TableComponent,
 		InputComponent,
-		ColumnComponent
+		ColumnComponent,
+		FileUploadComponent
 	],
 	declarations: [
 		SortTableDirective,
 		FilterTableDirective,
 		TableComponent,
 		InputComponent,
-		ColumnComponent
-	]
+		ColumnComponent,
+		FileUploadComponent,
+		UploadDialogComponent
+	],
+	entryComponents: [UploadDialogComponent]
 })
 export class UiModule { }

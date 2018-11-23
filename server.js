@@ -6,10 +6,12 @@ const normalizePort = val => {
 	var port = parseInt(val, 10);
 
 	if (isNaN(port)) {
+	// named pipe
 		return val;
 	}
 
 	if (port >= 0) {
+	// port number
 		return port;
 	}
 
@@ -39,6 +41,7 @@ const onListening = () => {
 	const addr = server.address();
 	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + port;
 	debug('Listening on ' + bind);
+	console.log('Server Started' + port);
 };
 
 const port = normalizePort(process.env.PORT || '3000');
@@ -47,6 +50,4 @@ app.set('port', port);
 const server = http.createServer(app);
 server.on('error', onError);
 server.on('listening', onListening);
-server.listen(port, () => {
-	console.log('Server Started ' + port);
-});
+server.listen(port);
