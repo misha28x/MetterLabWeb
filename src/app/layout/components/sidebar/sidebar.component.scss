@@ -2,7 +2,10 @@
 
 :host {
 	background: $sidebar-bg;
-	box-shadow: 2px 0 4px 0 rgba(#000, 0.1);
+	box-shadow: 
+		1px 0 2px -1px rgba(0, 0, 0, .18),
+		1px 0 2px 0 rgba(0, 0, 0, .12),
+		1px 0 2px 0 rgba(0, 0, 0, .1);
 	height: calc(100% - #{$navbar-height});
 	overflow-y: auto;
 	overflow-x: hidden;

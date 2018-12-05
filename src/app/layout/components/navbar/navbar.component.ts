@@ -20,6 +20,9 @@ export class NavbarComponent implements OnInit {
 			private store: Store<Boolean>) { }
 
   ngOnInit(): void {
+		this.store.select('menuState').subscribe((menuState: Boolean) => {
+			this.menuState = menuState;
+		});
 		this.pageTitle = this.activeRoute.firstChild.data['value']['title'];
 		this.getPageTitle();
 	}

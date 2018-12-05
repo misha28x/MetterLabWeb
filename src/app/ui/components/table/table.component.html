@@ -13,9 +13,8 @@
 			<th
 				*ngFor="let c of columnList;"
 				[column]="c.config"
-				[align]="headerAlign"
 				appTableSort="c.config.sort"
-				(sortChanged)="onChangeTable(config, c)"
+				(sortChanged)="onChangeTable(c)"
 			>
 				<div class="header-wrapper">
 					<ng-container *ngIf="!c.headerTemplate">
@@ -32,7 +31,7 @@
 									(click)="$event.stopPropagation();"
 									[appFilterTable]="c.config.filtering"
 									[suffixIcon]="'icofont icofont-search-alt-2'"
-									(tableChanged)="onChangeTable(config, c)"
+									(filterChanged)="onChangeTable(c)"
 									[placeholder]="c.config.title">
 						 		</app-input>
 							</div>
@@ -49,10 +48,7 @@
 				<ng-template *ngIf="c.headerTemplate" [ngTemplateOutlet]="c.headerTemplate"	></ng-template>
 			</th>
 		</tr>
-		<tr *ngFor="let row of rows; trackBy: trackByFn"
-				[align]="rowAlign"
-				[ngStyle]="{'background': contentBgColor, 'color'     : contentColor}"
-		>
+		<tr *ngFor="let row of rows; trackBy: trackByFn">
 			<td *ngFor="let col of columnList">
 				<ng-container *ngIf="!col.bodyTemplate"
 				>
@@ -67,4 +63,4 @@
 		</tr>
 	</table>
 </div>
-<!-- <tc-pagination  *ngIf="pagination" [pagesNumber]="pagesCount" [pageNum]="page"(goToPage)="goToPage($event)"></tc-pagination> -->
+<mat-paginator [length]="dataLenght" [pageSize]="itemsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)"></mat-paginator>

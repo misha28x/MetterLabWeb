@@ -6,18 +6,19 @@
 
 	.content {
 		height: 100%;
+		overflow: auto;
 		width: 100%;
 
 		.main-content {
 			padding: $module-rem * 2;
-			margin: 0 0 0 $sidebar-width;
+			margin: $navbar-height 0 0 $sidebar-width;
 			transition: margin 0.3s $animation;
 			
 			@media #{min991} {
-			  margin: 0 0 0 (2 * $module-rem) !important;
+			  margin: $navbar-height 0 0 (2 * $module-rem) !important;
 			}
 			&.min {
-				margin: 0 0 0 $min-sidebar-width;
+				margin: $navbar-height 0 0 $min-sidebar-width;
 			}
 		}
 	}

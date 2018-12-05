@@ -1,4 +1,6 @@
 import { Component, Input, HostBinding, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material';
+import { Observable } from 'rxjs';
 
 import { ColumnComponent } from './column/column.component';
 import { ITableConfig } from '../../interfaces/tableConfig';
@@ -11,15 +13,6 @@ import { ITableConfig } from '../../interfaces/tableConfig';
 export class TableComponent implements  OnInit  {
 	@HostBinding('class.tc-table') true;
 
-	@Input() borderColor: string;
-	@Input() borderStyle: string;
-	@Input() contentBgColor: string;
-	@Input() contentColor: string;
-	@Input() headerBgColor: string;
-	@Input() headerColor: string;
-	@Input() headerAlign: string;
-	@Input() rowAlign: string;
-
 	@Input() pagination: boolean;
 	@Input() bordered: boolean;
 	@Input() striped: boolean;
@@ -27,24 +20,21 @@ export class TableComponent implements  OnInit  {
 	@Input() search: boolean;
 
 	@Input() config: ITableConfig;
-	@Input() rows: Array<any>;
+	@Input() tableData: Observable<any>;
 	@Input() itemsPerPage: number;
 
 	columnList: ColumnComponent[];
 
+	pageEvent: PageEvent;
+	filtering: any;
+	_columns: Array<any>;
+	page: number;
+	pageSizeOptions: number[];
+	dataLenght: number;
 	private data: Array<any>;
-	private filtering: any;
-	private _columns: Array<any>;
-	private pagesCount: number;
-	private page: number;
+	private rows: Array<any>;
 
 	constructor() {
-		this.borderStyle = 'solid';
-		this.headerAlign = 'left';
-		this.rowAlign = 'left';
-		this.headerColor = '#000';
-		this.headerBgColor = 'rgba(#000,0.15)';
-
 		this.columnList = [];
 		this._columns = [];
 
@@ -56,28 +46,41 @@ export class TableComponent implements  OnInit  {
 			}
 		};
 
-		this.itemsPerPage = 10;
-		this.page = 1;
+		this.pageSizeOptions = [10, 50, 100, 200];
+		this.itemsPerPage = this.pageSizeOptions[0];
+		this.page = 0;
 	}
 
 	ngOnInit(): void {
 		this.getColumns();
-		this.data = this.rows;
-		this.pagesCount = Math.ceil(this.rows.length / this.itemsPerPage);
-		this.onChangeTable(this.data, null);
+		this.subscribeToData();
+	}
+
+	subscribeToData(): void {
+		const observer = {
+			next: x => this.setData(x),
+			error: err => console.log(err)
+		};
+
+		this.tableData.subscribe(observer);
+	}
+
+	setData(data: any[]): void {
+		if (data && data.length > 0) {
+			this.data = [].concat(data);
+			this.rows = [].concat(data);
+			this.initData();
+		}
+	}
+
+	initData(): void {
+		this.getColumns();
+		this.onChangeTable();
 	}
 
 	addColumn(column: ColumnComponent): void {
     this.columnList.push(column);
   }
-
-	getTableClasses(): any {
-		return {
-			'stripped': this.striped,
-			'hovered' : this.hovered,
-			'bordered': this.bordered
-		};
-	}
 
 	public getColumns(): void {
 		this.columnList.forEach(col => {
@@ -97,75 +100,78 @@ export class TableComponent implements  OnInit  {
 		return { _columns: sortColumns };
 	}
 
-	public goToPage(pageNum: number): void {
-		this.page = pageNum;
-		this.onChangeTable(this.data, null);
+	public onChangePage(event: PageEvent): void {
+		this.page = event.pageIndex;
+		this.itemsPerPage = event.pageSize;
+		this.onChangeTable();
 	}
 
-	public changePage(page: number, itemsPerPage: number, data: Array<any>): Array<any> {
-		const start = (page - 1) * itemsPerPage;
-		const end = itemsPerPage > -1 ? (start + itemsPerPage) : data.length;
+	public changePage(data: any[]): any[] {
+		let start = (this.page) * this.itemsPerPage;
+		
+		if (this.page > 0) {
+			--start;
+		}
+
+		if (data.length < (start + this.itemsPerPage)) {
+			return data.slice(start);
+		}
+
+		const end = start + this.itemsPerPage;
 		return data.slice(start, end);
 	}
 
 	public changeSort(data: any, config: any): any {
-    if (!config.sorting) {
+		if (!config.sorting) {
 			return data;
 		}
 
 		const columns = [];
 		this.columnList.forEach(col => {
 			columns.push(col.config);
-		});
+		})
+		let columnName: string = void 0;
+		let sort: string = void 0;
 
-    let columnName: string = void 0;
-    let sort: string = void 0;
-
-    for (let i = 0; i < columns.length; i++) {
-      if (columns[i].sort !== '' && columns[i].sort !== false) {
-        columnName = columns[i].name;
-        sort = columns[i].sort;
-      }
+		for (let i = 0; i < columns.length; i++) {
+			if (columns[i].sort !== '' && columns[i].sort !== false) {
+				columnName = columns[i].name;
+				sort = columns[i].sort;
+			}
 		}
 
 		if (!columnName) {
-      return data;
-    }
+			return data;
+		}
 
-    return data.sort((previous: any, current: any) => {
-      if (previous[columnName] > current[columnName]) {
-        return sort === 'desc' ? -1 : 1;
-			} 
-			
-      return sort === 'asc' ? -1 : 1;
-    });
+		return data.sort((previous: any, current: any) => {
+			if (previous[columnName] > current[columnName]) {
+				return sort === 'desc' ? -1 : 1;
+			} else if (previous[columnName] < current[columnName]) {
+				return sort === 'asc' ? -1 : 1;
+			}
+			return 0;
+		});
 	}
 
-	public changeFilter(data: any, config: any): any {
+	public changeFilter(data: any, filterString: string, column?: ColumnComponent): any {
 		let filteredData: Array<any> = data;
 
-    this.columnList.forEach((column: any) => {
-			if (column.config.filtering) {
-				filteredData = filteredData.filter((item: any) => {
-					return item[column.config.name].toLowerCase().match(column.config.filtering.filterString.toLowerCase());
-        });
-      }
-    });
-
-    if (!config.filtering) {
-      return filteredData;
-    }
-
-    if (config.filtering.columnName) {
-      return filteredData.filter((item: any) =>
-        item[config.filtering.columnName].toLowerCase().match(config.filtering.filterString.toLowerCase()));
-    }
+		if (!filterString || filterString.length === 0) {
+			return filteredData;
+		}
+		
+		if (column) {
+			filteredData = filteredData.filter((item: any) => {
+				return item[column.config.name].toString().toLowerCase().match(filterString.toLowerCase());
+			});
+		}
 
     const tempArray: Array<any> = [];
     filteredData.forEach((item: any) => {
       let flag = false;
       this.columnList.forEach((column: any) => {
-				if (item[column.config.name].toString().toLowerCase().match(config.filtering.filterString.toLowerCase())) {
+				if (item[column.config.name].toString().toLowerCase().match(filterString.toLowerCase())) {
           flag = true;
         }
       });
@@ -178,37 +184,35 @@ export class TableComponent implements  OnInit  {
     return filteredData;
   }
 
-	public onChangeTable(config: any, column: ColumnComponent): any {
-    if (config.filtering) {
-			Object.assign(this.config.filtering, config.filtering);
-    }
-
-    if (config.sorting) {
-			Object.assign(this.config.sorting, config.sorting);
-		}
-		let filteredData;
+	public onChangeTable(column?: ColumnComponent): void {
 		if (column) {
-			filteredData = this.changeFilter(this.data, column.config);
-		} else {
-			filteredData = this.changeFilter(this.data, config);
+				Object.assign(this.config, column.config);
 		}
+			
+		const filteredData = this.changeFilter(this.data, this.config.filtering.filterString);
+		
 		const sortedData = this.changeSort(filteredData, this.config);
-		this.rows = this.pagination ? this.changePage(this.page, this.itemsPerPage, sortedData) : sortedData;
-  }
+		
+		this.dataLenght = sortedData.length;
 
-	public filterClick(column: any, event: Event): void {
-		event.stopPropagation();
-		if (column.filter) {
-			column.filter = false;
+		console.log({ data: this.data, rows: this.rows });
+
+		if (this.pagination) {
+			this.rows = this.changePage(sortedData);
 		} else {
-			this.columnList.forEach(col => {
-				col.config.filter = false;
-			});
-			column.filter = true;
+			this.rows = sortedData;
 		}
-	}
+  }
 
 	trackByFn(index: number, item: any): any {
 		return index;
+	}
+
+	getTableClasses(): any {
+		return {
+			'stripped': this.striped,
+			'hovered': this.hovered,
+			'bordered': this.bordered
+		};
 	}
 }

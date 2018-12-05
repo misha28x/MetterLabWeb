@@ -11,7 +11,7 @@ export class FilterTableDirective {
 
 	@Input() public appFilterTable: any = {};
 
-  @Output() public tableChanged: EventEmitter<any> = new EventEmitter();
+  @Output() public filterChanged: EventEmitter<any> = new EventEmitter();
 
   @Input()
   public get config(): any {
@@ -27,6 +27,6 @@ export class FilterTableDirective {
   @HostListener('input', ['$event.target.value'])
   public onChangeFilter(event: any): void {
 		this.appFilterTable.filterString = event;
-    this.tableChanged.emit({ filtering: this.appFilterTable });
+    this.filterChanged.emit(this.appFilterTable.filterString);
 	}
 }

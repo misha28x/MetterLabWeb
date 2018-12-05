@@ -4,8 +4,10 @@
 	background: $navbar-bg;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 	display: block;
+	position: fixed;
 	height: $navbar-height;
 	width: 100%;
+	z-index: 999;
 
 	.navbar-wraper {
 		align-items: center;
@@ -26,6 +28,7 @@
 
 			.bar {
 				background: rgba(#fff, 0.8);
+				border-radius: 2px;
 				display: block;
 				margin-right: auto;
 				min-height: 2px;

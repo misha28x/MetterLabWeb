@@ -2,7 +2,7 @@ import * as MenuAction from '../actions/menu.actions';
 
 export type Action = MenuAction.All;
 
-const DEFAULT_STATE: Boolean = true;
+const DEFAULT_STATE: Boolean = false;
 
 export function MenuReducer(state: Boolean = DEFAULT_STATE, action: Action): Boolean {
 	switch (action.type) {
@@ -12,10 +12,10 @@ export function MenuReducer(state: Boolean = DEFAULT_STATE, action: Action): Boo
 		}
 		case MenuAction.CLOSE: {
 			state = false;
-			return state;
+			return ;
 		}
 		default: {
-			state = false;
+			state = true;
 			return state;
 		}
 	}

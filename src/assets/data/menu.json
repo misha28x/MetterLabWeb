@@ -45,16 +45,6 @@
 		"routing": "brigade-tasks"
 	},
 	{
-		"title": "Працівники",
-		"icon": "icofont-users",
-		"routing": "employee"
-	},
-	{
-		"title": "Довідник Демонтажних Бригад",
-		"icon": "icofont-computer",
-		"routing": "dis-brigade-dictationary"
-	},
-	{
 		"title": "Відхилені Повірки",
 		"icon": "icofont-archive",
 		"routing": "rejected-verification"
@@ -68,11 +58,6 @@
 		"title": "Звіти",
 		"icon": "icofont-file-excel",
 		"routing": "reports"
-	},
-	{
-		"title": "Вивантажити Дані",
-		"icon": "icofont-database-add",
-		"routing": "upload-data"
 	},
 	{
 		"title": "Інструкція Користувача",

@@ -37,6 +37,17 @@ mat-card-header {
 		margin: 0;
 	}
 }
+.bg {
+	&-success {
+		background: $success-color !important;
+	}
+	&-warning{ 
+		background: $warning-color !important;
+	}
+	&-error{ 
+		background: $error-color !important;
+	}
+}
 .chart {
 	width: 100%;
 	overflow: hidden;

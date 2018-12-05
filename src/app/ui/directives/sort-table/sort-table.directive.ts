@@ -27,7 +27,7 @@ export class SortTableDirective {
 	    switch (this.column.sort) {
 	      case 'asc': 
 	        this.column.sort = 'desc';
-	        break;
+					break;
 	      case 'desc': 
 	        this.column.sort = '';
 	        break;

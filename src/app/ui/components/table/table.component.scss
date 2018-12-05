@@ -2,7 +2,7 @@
 
 $header-bg: #f2f5f8;
 $row-hover-bg: rgba(#f2f5f8, 0.8);
-$active-bg: #ff3883;
+$active-bg: accent-palette(600);
 $table-border: solid 1px #e7e9ec;
 $scroll-height: 40 * $module;
 $input-color: rgba(
@@ -30,7 +30,8 @@ $_animation: $animation;
 
       th, td {
         border-bottom: 1px solid rgba(#000, 0.15);
-        padding: $module-rem;
+				padding: $module-rem;
+				min-width: 15 * $module-rem;
         transition:
           background .2s $_animation,
           border .2s $_animation,
@@ -48,6 +49,8 @@ $_animation: $animation;
         background: $header-bg;
         opacity: 1;
 				position: relative;
+				width:1px !important;
+				white-space:nowrap !important;
 
         .search-box {
           width: 100%;
@@ -62,17 +65,18 @@ $_animation: $animation;
 					opacity: 0.8;
 
           .arrows {
+						cursor: pointer;
             display: flex;
             font-size: 0.8em;
             flex-direction: column;
             height: 100%;
-						padding: 0 0 0 $module-rem;
+						margin: 0 0 0 $module-rem;
 
             .up {
 							transition: color 0.3s;
 
               &.active {
-                color: #ff3883;
+                color: accent-palette(600);
                 opacity: 1;
               }
             }
@@ -80,7 +84,7 @@ $_animation: $animation;
 							transition: color 0.3s;
 
               &.active {
-                color: #ff3883;
+                color: accent-palette(600);
                 opacity: 1;
               }
             }
