@@ -1,66 +1,48 @@
 <mat-form-field *ngIf="search">
-	<app-input
-		[placeholder]="'Seach in table'"
-		[appFilterTable]="config.filtering"
-		(tableChanged)="onChangeTable(config)"
-		[suffixIcon]="'icofont icofont-search-alt-2'"
-	></app-input>
+  <app-input [placeholder]="'Seach in table'" [appFilterTable]="config.filtering" (tableChanged)="onChangeTable(config)"
+    [suffixIcon]="'icofont icofont-search-alt-2'"></app-input>
 </mat-form-field>
 
 <div class="table-wrap">
-	<table [ngClass]="getTableClasses()">
-		<tr>
-			<th
-				*ngFor="let c of columnList;"
-				[column]="c.config"
-				appTableSort="c.config.sort"
-				(sortChanged)="onChangeTable(c)"
-			>
-				<div class="header-wrapper">
-					<ng-container *ngIf="!c.headerTemplate">
-						<ng-container *ngIf="!c.enableFiltering">
-							<span class="title">
-								 {{ c.config.title }}
-							</span>
-						</ng-container>
-
-						<ng-container *ngIf="c.enableFiltering">
-							<div class="search-box">
-								<app-input
-									[size]="'sm'"
-									(click)="$event.stopPropagation();"
+  <table [ngClass]="getTableClasses()">
+    <tr>
+      <th *ngFor="let c of columnList;" [column]="c.config" appTableSort="c.config.sort" (sortChanged)="onChangeTable(c)">
+				<div class="title">
+          {{ c.config.title }}
+        </div>
+        <div class="header-wrapper">
+          <ng-container *ngIf="!c.headerTemplate">
+            <ng-container *ngIf="c.enableFiltering">
+              <div class="search-box">
+                <app-input 
+									[size]="'sm'" 
+									(click)="$event.stopPropagation();" 
 									[appFilterTable]="c.config.filtering"
-									[suffixIcon]="'icofont icofont-search-alt-2'"
+                  [suffixIcon]="'icofont icofont-search-alt-2'"
 									(filterChanged)="onChangeTable(c)"
-									[placeholder]="c.config.title">
-						 		</app-input>
-							</div>
-						</ng-container>
+								></app-input>
+              </div>
+            </ng-container>
 
-						<span class="icons">
-							<span *ngIf="c.config.enableSorting" class="arrows">
-								<i class="up icofont icofont-caret-up pull-left"  [class.active]="c.config.sort == 'asc'"></i>
-								<i class="down icofont icofont-caret-down" [class.active]="c.config.sort == 'desc'"></i>
-							</span>
-						</span>
-					</ng-container>
-				</div>
-				<ng-template *ngIf="c.headerTemplate" [ngTemplateOutlet]="c.headerTemplate"	></ng-template>
-			</th>
-		</tr>
-		<tr *ngFor="let row of rows; trackBy: trackByFn">
-			<td *ngFor="let col of columnList">
-				<ng-container *ngIf="!col.bodyTemplate"
-				>
-				{{ row[col.config.name] }}
-				</ng-container>
-				<ng-template
-					*ngIf="col.bodyTemplate"
-					[ngTemplateOutlet]="col.bodyTemplate"
-					[ngTemplateOutletContext]="{$implicit: row[col.config.name] , row: row}"
-				></ng-template>
-			</td>
-		</tr>
-	</table>
+            <span class="icons">
+              <span *ngIf="c.config.enableSorting" class="arrows">
+                <i class="up icofont icofont-caret-up pull-left" [class.active]="c.config.sort == 'asc'"></i>
+                <i class="down icofont icofont-caret-down" [class.active]="c.config.sort == 'desc'"></i>
+              </span>
+            </span>
+          </ng-container>
+        </div>
+        <ng-template *ngIf="c.headerTemplate" [ngTemplateOutlet]="c.headerTemplate"></ng-template>
+      </th>
+    </tr>
+    <tr *ngFor="let row of rows; trackBy: trackByFn">
+      <td *ngFor="let col of columnList">
+        <ng-container *ngIf="!col.bodyTemplate">
+          {{ row[col.config.name] }}
+        </ng-container>
+        <ng-template *ngIf="col.bodyTemplate" [ngTemplateOutlet]="col.bodyTemplate" [ngTemplateOutletContext]="{$implicit: row[col.config.name] , row: row}"></ng-template>
+      </td>
+    </tr>
+  </table>
 </div>
 <mat-paginator [length]="dataLenght" [pageSize]="itemsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)"></mat-paginator>

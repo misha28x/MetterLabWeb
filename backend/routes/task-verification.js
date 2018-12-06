@@ -23,9 +23,8 @@ router.get('', (req, res, next) => {
 		if (err) {
 			console.log(err);
 		}
-		res.json(result);
+		res.status(200).json(result);
 	});
-	next();
 });
 
 module.exports = router;

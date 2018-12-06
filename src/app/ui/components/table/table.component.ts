@@ -163,15 +163,17 @@ export class TableComponent implements  OnInit  {
 		
 		if (column) {
 			filteredData = filteredData.filter((item: any) => {
-				return item[column.config.name].toString().toLowerCase().match(filterString.toLowerCase());
+				return item[column.config.name].toString().toLowerCase().startsWith(filterString.toLowerCase());
 			});
+
+			return filteredData;
 		}
 
     const tempArray: Array<any> = [];
     filteredData.forEach((item: any) => {
       let flag = false;
       this.columnList.forEach((column: any) => {
-				if (item[column.config.name].toString().toLowerCase().match(filterString.toLowerCase())) {
+				if (item[column.config.name].toString().toLowerCase().startsWith(filterString.toLowerCase())) {
           flag = true;
         }
       });
@@ -186,16 +188,14 @@ export class TableComponent implements  OnInit  {
 
 	public onChangeTable(column?: ColumnComponent): void {
 		if (column) {
-				Object.assign(this.config, column.config);
+				Object.assign(this.config.filtering, column.config.filtering);
 		}
 			
-		const filteredData = this.changeFilter(this.data, this.config.filtering.filterString);
+		const filteredData = this.changeFilter(this.data, this.config.filtering.filterString, column);
 		
 		const sortedData = this.changeSort(filteredData, this.config);
 		
 		this.dataLenght = sortedData.length;
-
-		console.log({ data: this.data, rows: this.rows });
 
 		if (this.pagination) {
 			this.rows = this.changePage(sortedData);
