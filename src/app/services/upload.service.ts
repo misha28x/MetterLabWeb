@@ -62,7 +62,7 @@ export class UploadService {
 
 			// Сертифікат
 			const num5 = this.bytesToInt(bbiFile.slice(120, 124));
-			if (num5 === 0) {
+			if (num5 == 0) {
 				protocol.protocolStatus = (true);
 			} else {
 				protocol.protocolStatus = (false);
@@ -85,8 +85,58 @@ export class UploadService {
 
 			// impuls / litr
 			let num3 = this.bytesToInt(bbiFile.slice(92, 96));
-			if (num3 == 0) {
-				num3 = 10000;
+			if (num == 0) {
+				num3 == 10000;
+			}
+
+			const ind = (index + 1 << 8);
+			for (let index = 0; index < num2; index++) {
+				// Створюємо новий тест
+				const test: Test;
+				// Заданный расход, м3/ч
+				b2 = bbiFile.slice(ind, ind + 4);
+				test.installedExes = (this.bytesToInt(b2) * 3.59999990463257 / num3).toFixed(3);
+				// Допустимая погрешность
+				b2 = bbiFile.slice(ind + 12, ind + 16);
+				test.assumedFault = (this.bytesToInt(b2) / 10).toFixed(0);
+				// Объем эталона
+				b2 = bbiFile.slice(ind + 16, ind + 20);
+				test.etalonCapacity = (this.bytesToInt(b2) / num3).toFixed(0);
+				// Начальное значение in Value
+				b2 = bbiFile.slice(ind + 40, ind + 44);
+				test.initValue = (this.bytesToInt(b2) / 10000).toFixed(2);
+				// Начальное значение, л
+				const startv = (this.bytesToInt(b2) / 10000);
+				// Конечное значение, л
+				b2 = bbiFile.slice(ind + 44, ind + 48);
+				test.finalValue = (this.bytesToInt(b2) / 10000).toFixed(2);
+				// Конечное значение in Value
+				const endv = (this.bytesToInt(b2) / 10000);
+				// Объем по счётчику, л
+				test.counterCapacity = (endv - startv).toFixed(2);
+
+				b2 = bbiFile.slice(ind + 56, ind + 60);
+				console.log('Продолжительность теста, с: ' + (this.bytesToInt(b2) / 1000).toFixed(1));
+
+				b2 = bbiFile.slice(ind + 64, ind + 68);
+				console.log('Средний расход, м3/ч, с: ' + (this.bytesToInt(b2) / 1000).toFixed(3));
+
+				// Визначення за формулою, чи входить в зону показ лічильника
+				// num7 num8 result1 result2
+				const result1 = (this.bytesToInt(b2) / 1000);
+				const result2 = (this.bytesToInt(b2) * 3.59999990463257 / num3);
+				b2 = bbiFile.slice(ind + 4, ind + 8);
+				const num7 = this.bytesToInt(b2);
+				b2 = bbiFile.slice(ind + 8, ind + 12);
+				const num8 = this.bytesToInt(b2);
+
+				if (result2 - result1 * num7 / 100.0 <= result1 && result2 + result2 * num8 / 100.0 >= result1) {
+					console.log('В зоне');
+				} else console.log('Не в зоне');
+
+				// Обробка поля результатів тесту
+				var ff = bbiFile.slice(ind + 36, ind + 40);
+
 			}
 
 		};
@@ -102,10 +152,10 @@ export class UploadService {
 		return decodedString;
 	}
 
-	bytesToInt(bytes: Uint8Array): Uint32Array {
+	bytesToInt(bytes: Uint8Array): number {
 		const startbyte = bytes.byteOffset + bytes.byteLength - Uint32Array.BYTES_PER_ELEMENT;
 		const u32bytes = bytes.buffer.slice(startbyte, startbyte + Uint32Array.BYTES_PER_ELEMENT);
-		return new Uint32Array(u32bytes);
+		return new Uint32Array(u32bytes)[0];
 	}
 
 	bytesToImage(bbiFile: Uint8Array, id: Number): Uint8Array {
