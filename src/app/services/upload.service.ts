@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs/Subject';
 
 const url = 'http://localhost:3000/api/upload';
 
@@ -15,7 +14,9 @@ export class UploadService {
 		let counter = 0;
 
 		files.forEach( file => {
-
+			let reader = new FileReader();
+			let bbiFile = reader.readAsArrayBuffer(reader);
+			console.log(bbiFile);
 		});
 	}
 }
