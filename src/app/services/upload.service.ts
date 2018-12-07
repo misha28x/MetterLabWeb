@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { Protocol, Test } from '../interfaces/protocol';
 
 const url = 'http://localhost:3000/api/upload';
@@ -14,9 +15,44 @@ export class UploadService {
 	public upload(files: Set<File>): void {
 		// let fileCounter = 0;
 		const reader = new FileReader();
-
 		reader.onload = () => {
-			const protocol: Protocol;
+
+			const tests: Test[] = [];
+
+			const protocol: Protocol = {
+				capacity: 0,
+				counterNumber: 0,
+				date: new Date(),
+				day: 0,
+				deviceNumber: 0,
+				hours: 0,
+				minutes: 0,
+				month: 0,
+				productionYear: 0,
+				protocolStatus: undefined,
+				result: '',
+				status: '',
+				temperature: 0,
+				tests: tests,
+				type: '',
+				year: 0
+			};
+
+			const test: Test = {
+				name: '',
+				installedExes: 0,
+				assumedFault: 0,
+				etalonCapacity: 0,
+				initValue: 0,
+				finalValue: 0,
+				counterCapacity: 0,
+				testDuration: 0,
+				mediumExes: 0,
+				isInZone: '',
+				startStateImage: null,
+				endStateImage: null
+			};
+
 			// console.log(reader.result);
 			const byteArray = <ArrayBuffer>reader.result;
 			const bbiFile = new Uint8Array(byteArray);
@@ -25,7 +61,7 @@ export class UploadService {
 			protocol.month = bbiFile[1];
 			protocol.year = (bbiFile[2] | bbiFile[3] << 8);
 			protocol.hours = bbiFile[4];
-			protocol.minute = bbiFile[5];
+			protocol.minutes = bbiFile[5];
 
 			// Дата
 			const date = new Date((bbiFile[2] | bbiFile[3] << 8), bbiFile[1], bbiFile[0], bbiFile[4], bbiFile[5]);
@@ -33,17 +69,17 @@ export class UploadService {
 
 			// Номер счётчика
 			const counter = bbiFile.slice(72, 84);
-			protocol.counterNumber = this.uintToString(counter);
-			// Температура
+			protocol.counterNumber = this.bytesToInt(counter)[0];
+			// Температура0
 			const temp = bbiFile.slice(20, 24);
-			protocol.temperature = this.bytesToInt(temp);
+			protocol.temperature = this.bytesToInt(temp)[0];
 			// Накоплений об'єм
 			const liter = bbiFile.slice(96, 104);
-			protocol.capacity = this.uintToString(liter);
+			protocol.capacity = this.bytesToInt(liter);
 			// Тип лічильника
 			const countType = bbiFile.slice(104, 110);
 			const countType2 = bbiFile.slice(112, 116);
-			protocol.type = this.uintToString(countType) + 'КВ' + this.uintToString(countType2));
+			protocol.type = this.uintToString(countType) + 'КВ' + this.uintToString(countType2);
 			// Рік виробництва
 			const year = bbiFile.slice(124, 128);
 			protocol.productionYear = this.bytesToInt(year);
@@ -62,7 +98,7 @@ export class UploadService {
 
 			// Сертифікат
 			const num5 = this.bytesToInt(bbiFile.slice(120, 124));
-			if (num5 == 0) {
+			if (num5 === 5) {
 				protocol.protocolStatus = (true);
 			} else {
 				protocol.protocolStatus = (false);
@@ -75,7 +111,7 @@ export class UploadService {
 			let sourceIndex = 312;
 			while (sourceIndex < 1792) {
 				b2 = bbiFile.slice(sourceIndex, sourceIndex + 4);
-				if (this.bytesToInt(b2) != 0) {
+				if (this.bytesToInt(b2) !==  0) {
 					++num2;
 					sourceIndex += 256;
 				} else { 
@@ -85,41 +121,40 @@ export class UploadService {
 
 			// impuls / litr
 			let num3 = this.bytesToInt(bbiFile.slice(92, 96));
-			if (num == 0) {
-				num3 == 10000;
+			if (num3 === 0) {
+				num3 = 10000;
 			}
 
-			const ind = (index + 1 << 8);
+			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
-				// Створюємо новий тест
-				const test: Test;
+				const ind = (index + 1 << 8);
 				// Заданный расход, м3/ч
 				b2 = bbiFile.slice(ind, ind + 4);
-				test.installedExes = (this.bytesToInt(b2) * 3.59999990463257 / num3).toFixed(3);
+				test.installedExes = (this.bytesToInt(b2) * 3.59999990463257 / num3);
 				// Допустимая погрешность
 				b2 = bbiFile.slice(ind + 12, ind + 16);
-				test.assumedFault = (this.bytesToInt(b2) / 10).toFixed(0);
+				test.assumedFault = (this.bytesToInt(b2) / 10);
 				// Объем эталона
 				b2 = bbiFile.slice(ind + 16, ind + 20);
-				test.etalonCapacity = (this.bytesToInt(b2) / num3).toFixed(0);
+				test.etalonCapacity = (this.bytesToInt(b2) / num3);
 				// Начальное значение in Value
 				b2 = bbiFile.slice(ind + 40, ind + 44);
-				test.initValue = (this.bytesToInt(b2) / 10000).toFixed(2);
+				test.initValue = (this.bytesToInt(b2) / 10000);
 				// Начальное значение, л
 				const startv = (this.bytesToInt(b2) / 10000);
 				// Конечное значение, л
 				b2 = bbiFile.slice(ind + 44, ind + 48);
-				test.finalValue = (this.bytesToInt(b2) / 10000).toFixed(2);
+				test.finalValue = (this.bytesToInt(b2) / 10000);
 				// Конечное значение in Value
 				const endv = (this.bytesToInt(b2) / 10000);
 				// Объем по счётчику, л
-				test.counterCapacity = (endv - startv).toFixed(2);
+				test.counterCapacity = (endv - startv);
 
 				b2 = bbiFile.slice(ind + 56, ind + 60);
-				console.log('Продолжительность теста, с: ' + (this.bytesToInt(b2) / 1000).toFixed(1));
+				test.testDuration = (this.bytesToInt(b2) / 1000);
 
 				b2 = bbiFile.slice(ind + 64, ind + 68);
-				console.log('Средний расход, м3/ч, с: ' + (this.bytesToInt(b2) / 1000).toFixed(3));
+			  test.mediumExes = (this.bytesToInt(b2) / 1000);
 
 				// Визначення за формулою, чи входить в зону показ лічильника
 				// num7 num8 result1 result2
@@ -131,11 +166,12 @@ export class UploadService {
 				const num8 = this.bytesToInt(b2);
 
 				if (result2 - result1 * num7 / 100.0 <= result1 && result2 + result2 * num8 / 100.0 >= result1) {
-					console.log('В зоне');
-				} else console.log('Не в зоне');
-
+					test.isInZone = 'В зоні';
+				} else {
+					test.isInZone = 'Не в зоні';
+				}
 				// Обробка поля результатів тесту
-				var ff = bbiFile.slice(ind + 36, ind + 40);
+				// const ff = bbiFile.slice(ind + 36, ind + 40);
 
 			}
 

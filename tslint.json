@@ -68,7 +68,6 @@
       }
     ],
     "no-arg": true,
-    "no-bitwise": true,
     "no-consecutive-blank-lines": true,
     "no-console": [
       true,
