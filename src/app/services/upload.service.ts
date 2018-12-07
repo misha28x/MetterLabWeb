@@ -161,7 +161,7 @@ export class UploadService {
 
 				b2 = bbiFile.slice(ind + 64, ind + 68);
 			  test.mediumExes = (this.bytesToInt(b2) / 1000);
-
+				console.log(test);
 				// Визначення за формулою, чи входить в зону показ лічильника
 				// num7 num8 result1 result2
 				let result1 = (this.bytesToInt(b2) / 1000);
