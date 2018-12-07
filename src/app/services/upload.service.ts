@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-<<<<<<< HEAD
-=======
+
 import { Protocol, Test } from '../interfaces/protocol';
->>>>>>> 16344b7f965dd6ac3e0f831313a001a42056b242
 
 const url = 'http://localhost:3000/api/upload';
 
@@ -17,15 +15,28 @@ export class UploadService {
 	public upload(files: Set<File>): void {
 		// let fileCounter = 0;
 		const reader = new FileReader();
-
-<<<<<<< HEAD
-		files.forEach( file => {
-			let reader = new FileReader();
-			let bbiFile = reader.readAsArrayBuffer(reader);
-			console.log(bbiFile);
-=======
 		reader.onload = () => {
-			const protocol: Protocol;
+
+			const tests: Test[] = [];
+
+			const protocol: Protocol = {
+				capacity: 0,
+				counterNumber: 0,
+				date: new Date(),
+				day: 0,
+				deviceNumber: 0,
+				hours: 0,
+				minutes: 0,
+				month: 0,
+				productionYear: 0,
+				protocolStatus: undefined,
+				result: '',
+				status: '',
+				temperature: 0,
+				tests: tests,
+				type: '',
+				year: 0
+			};
 			// console.log(reader.result);
 			const byteArray = <ArrayBuffer>reader.result;
 			const bbiFile = new Uint8Array(byteArray);
@@ -34,7 +45,7 @@ export class UploadService {
 			protocol.month = bbiFile[1];
 			protocol.year = (bbiFile[2] | bbiFile[3] << 8);
 			protocol.hours = bbiFile[4];
-			protocol.minute = bbiFile[5];
+			protocol.minutes = bbiFile[5];
 
 			// Дата
 			const date = new Date((bbiFile[2] | bbiFile[3] << 8), bbiFile[1], bbiFile[0], bbiFile[4], bbiFile[5]);
@@ -42,17 +53,17 @@ export class UploadService {
 
 			// Номер счётчика
 			const counter = bbiFile.slice(72, 84);
-			protocol.counterNumber = this.uintToString(counter);
-			// Температура
+			protocol.counterNumber = this.uintToString(counter)[0];
+			// Температура0
 			const temp = bbiFile.slice(20, 24);
-			protocol.temperature = this.bytesToInt(temp);
+			protocol.temperature = this.bytesToInt(temp)[0];
 			// Накоплений об'єм
 			const liter = bbiFile.slice(96, 104);
 			protocol.capacity = this.uintToString(liter);
 			// Тип лічильника
 			const countType = bbiFile.slice(104, 110);
 			const countType2 = bbiFile.slice(112, 116);
-			protocol.type = this.uintToString(countType) + 'КВ' + this.uintToString(countType2));
+			protocol.type = this.uintToString(countType) + 'КВ' + this.uintToString(countType2);
 			// Рік виробництва
 			const year = bbiFile.slice(124, 128);
 			protocol.productionYear = this.bytesToInt(year);
@@ -71,7 +82,7 @@ export class UploadService {
 
 			// Сертифікат
 			const num5 = this.bytesToInt(bbiFile.slice(120, 124));
-			if (num5 === 0) {
+			if (num5 === 5) {
 				protocol.protocolStatus = (true);
 			} else {
 				protocol.protocolStatus = (false);
@@ -84,7 +95,7 @@ export class UploadService {
 			let sourceIndex = 312;
 			while (sourceIndex < 1792) {
 				b2 = bbiFile.slice(sourceIndex, sourceIndex + 4);
-				if (this.bytesToInt(b2) != 0) {
+				if (this.bytesToInt(b2) !==  0) {
 					++num2;
 					sourceIndex += 256;
 				} else { 
@@ -94,7 +105,7 @@ export class UploadService {
 
 			// impuls / litr
 			let num3 = this.bytesToInt(bbiFile.slice(92, 96));
-			if (num3 == 0) {
+			if (num3 === 0) {
 				num3 = 10000;
 			}
 
@@ -102,7 +113,6 @@ export class UploadService {
 
 		files.forEach(file => {
 			reader.readAsArrayBuffer(file);
->>>>>>> 16344b7f965dd6ac3e0f831313a001a42056b242
 		});
 	}
 
@@ -112,10 +122,11 @@ export class UploadService {
 		return decodedString;
 	}
 
-	bytesToInt(bytes: Uint8Array): Uint32Array {
+	bytesToInt(bytes: Uint8Array): Number {
 		const startbyte = bytes.byteOffset + bytes.byteLength - Uint32Array.BYTES_PER_ELEMENT;
 		const u32bytes = bytes.buffer.slice(startbyte, startbyte + Uint32Array.BYTES_PER_ELEMENT);
-		return new Uint32Array(u32bytes);
+		
+		return new Uint32Array(u32bytes)[0];
 	}
 
 	bytesToImage(bbiFile: Uint8Array, id: Number): Uint8Array {

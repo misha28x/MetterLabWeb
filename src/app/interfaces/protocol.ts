@@ -1,4 +1,4 @@
-interface Protocol {
+export interface Protocol {
 	date: Date;
 	day: Number;
 	type: String;
@@ -17,7 +17,7 @@ interface Protocol {
 	protocolStatus: Boolean;
 }
 
-interface Test {
+export interface Test {
 	name: String;
 	installedExes: Number;
 	assumedFault: Number;
