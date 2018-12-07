@@ -9,15 +9,16 @@ interface Protocol {
 	counterNumber: Number;
 	capacity: Number;
 	temperature: Number;
+	productionYear: Number;
 	deviceNumber: Number;
 	tests: Test[];
 	status: String;
 	result: String;
-	protocolStatu: Boolean;
+	protocolStatus: Boolean;
 }
 
 interface Test {
-	name: string;
+	name: String;
 	installedExes: Number;
 	assumedFault: Number;
 	etalonCapacity: Number;
