@@ -28,6 +28,7 @@ export interface Test {
 	testDuration: number;
 	mediumExes: number;
 	isInZone: String;
+	calculatedFault: number;
 	result: String;
 	startStateImage: ImageBitmap;
 	endStateImage: ImageBitmap;

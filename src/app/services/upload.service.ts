@@ -38,22 +38,6 @@ export class UploadService {
 				year: 0
 			};
 
-			const test: Test = {
-				name: '',
-				installedExes: 0,
-				assumedFault: 0,
-				etalonCapacity: 0,
-				initValue: 0,
-				finalValue: 0,
-				counterCapacity: 0,
-				testDuration: 0,
-				mediumExes: 0,
-				isInZone: '',
-				result: '',
-				startStateImage: null,
-				endStateImage: null
-			};
-
 			// console.log(reader.result);
 			const byteArray = <ArrayBuffer>reader.result;
 			const bbiFile = new Uint8Array(byteArray);
@@ -133,6 +117,24 @@ export class UploadService {
 
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
+
+				const test: Test = {
+					name: '',
+					installedExes: 0,
+					assumedFault: 0,
+					etalonCapacity: 0,
+					initValue: 0,
+					finalValue: 0,
+					counterCapacity: 0,
+					testDuration: 0,
+					mediumExes: 0,
+					isInZone: '',
+					calculatedFault: 0,
+					result: '',
+					startStateImage: null,
+					endStateImage: null
+				};
+
 				const ind = (index + 1 << 8);
 				// Заданный расход, м3/ч
 				b2 = bbiFile.slice(ind, ind + 4);
@@ -155,13 +157,13 @@ export class UploadService {
 				const endv = (this.bytesToInt(b2) / 10000);
 				// Объем по счётчику, л
 				test.counterCapacity = (endv - startv);
-
+				// Продолжительность теста, с	
 				b2 = bbiFile.slice(ind + 56, ind + 60);
 				test.testDuration = (this.bytesToInt(b2) / 1000);
-
+				// Средний расход, м3/ч	
 				b2 = bbiFile.slice(ind + 64, ind + 68);
 			  test.mediumExes = (this.bytesToInt(b2) / 1000);
-				console.log(test);
+				
 				// Визначення за формулою, чи входить в зону показ лічильника
 				// num7 num8 result1 result2
 				let result1 = (this.bytesToInt(b2) / 1000);
@@ -178,10 +180,12 @@ export class UploadService {
 				}
 				// Обробка поля результатів тесту
 				const statusIndex = bbiFile.slice(ind + 36, ind + 40);
-				const converted = new Float32Array(statusIndex)[0];
-				const num4 =  converted / 100.0;
-				test.mediumExes = num4;
-				
+				// Main byte problem
+				const num4 = (this.bytesToInt(statusIndex) | 0x80) / 100.0;
+				if (test.initValue !== 0 && test.finalValue !== 0) {
+				test.calculatedFault = num4;
+				}
+							
 				// Перевірка за Начальное значение і Конечное значение
 				result2 = test.finalValue;
 				result1 = test.initValue;
@@ -201,6 +205,9 @@ export class UploadService {
 						test.result = 'Не Годен';
 					}
 				}
+
+				console.log(test);				
+
 				testId[index] = bbiFile[(index + 1 << 8) + 72];
 				if ((testId[index] % 10.0) === 0.0) {
 					++testIdCount;
@@ -209,7 +216,6 @@ export class UploadService {
 				test.name = testId[index].uintToString;
 				protocol.tests.push(test);
 			}
-
 		};
 
 		files.forEach(file => {
