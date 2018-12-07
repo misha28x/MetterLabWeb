@@ -49,6 +49,7 @@ export class UploadService {
 				testDuration: 0,
 				mediumExes: 0,
 				isInZone: '',
+				result: '',
 				startStateImage: null,
 				endStateImage: null
 			};
@@ -125,6 +126,11 @@ export class UploadService {
 				num3 = 10000;
 			}
 
+			// TODO ?
+			const testId = new Array;
+			let testIdCount;
+			let maxTestNumbers;
+
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
 				const ind = (index + 1 << 8);
@@ -158,8 +164,8 @@ export class UploadService {
 
 				// Визначення за формулою, чи входить в зону показ лічильника
 				// num7 num8 result1 result2
-				const result1 = (this.bytesToInt(b2) / 1000);
-				const result2 = (this.bytesToInt(b2) * 3.59999990463257 / num3);
+				let result1 = (this.bytesToInt(b2) / 1000);
+				let result2 = (this.bytesToInt(b2) * 3.59999990463257 / num3);
 				b2 = bbiFile.slice(ind + 4, ind + 8);
 				const num7 = this.bytesToInt(b2);
 				b2 = bbiFile.slice(ind + 8, ind + 12);
@@ -171,8 +177,35 @@ export class UploadService {
 					test.isInZone = 'Не в зоні';
 				}
 				// Обробка поля результатів тесту
-				// const ff = bbiFile.slice(ind + 36, ind + 40);
+				const statusIndex = bbiFile.slice(ind + 36, ind + 40);
+				const num4 = this.bytesToInt(statusIndex) / 100.0;
+			
+				// Перевірка за Начальное значение і Конечное значение
+				result2 = test.finalValue;
+				result1 = test.initValue;
 
+				if (result1 === 0.0) {
+					test.result = 'Не обработан';
+				} else if (result2 > result1) {
+					test.result = 'Не обработан';
+				} else if (result2 === result1) {
+					test.result = 'Не годен';
+				} else {
+					result1 = test.mediumExes;
+					result2 = test.installedExes;
+					if (result2 >= Math.abs(result1)) {
+						test.result = 'Годен';
+					} else {
+						test.result = 'Не Годен';
+					}
+				}
+				testId[index] = bbiFile[(index + 1 << 8) + 72];
+				if ((testId[index] % 10.0) === 0.0) {
+					++testIdCount;
+				}
+
+				test.name = testId[index].uintToString;
+				protocol.tests.push(test);
 			}
 
 		};

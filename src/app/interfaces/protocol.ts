@@ -1,16 +1,16 @@
 export interface Protocol {
 	date: Date;
-	day: Number;
+	day: number;
 	type: String;
-	year: Number;
-	hours: Number;
-	month: Number;
-	minutes: Number;
-	counterNumber: Number;
-	capacity: Number;
-	temperature: Number;
-	productionYear: Number;
-	deviceNumber: Number;
+	year: number;
+	hours: number;
+	month: number;
+	minutes: number;
+	counterNumber: number;
+	capacity: number;
+	temperature: number;
+	productionYear: number;
+	deviceNumber: number;
 	tests: Test[];
 	status: String;
 	result: String;
@@ -19,15 +19,16 @@ export interface Protocol {
 
 export interface Test {
 	name: String;
-	installedExes: Number;
-	assumedFault: Number;
-	etalonCapacity: Number;
-	initValue: Number;
-	finalValue: Number;
-	counterCapacity: Number;
-	testDuration: Number;
-	mediumExes: Number;
+	installedExes: number;
+	assumedFault: number;
+	etalonCapacity: number;
+	initValue: number;
+	finalValue: number;
+	counterCapacity: number;
+	testDuration: number;
+	mediumExes: number;
 	isInZone: String;
+	result: String;
 	startStateImage: ImageBitmap;
 	endStateImage: ImageBitmap;
 }
