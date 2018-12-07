@@ -172,14 +172,16 @@ export class UploadService {
 				const num8 = this.bytesToInt(b2);
 
 				if (result2 - result1 * num7 / 100.0 <= result1 && result2 + result2 * num8 / 100.0 >= result1) {
-					test.isInZone = 'В зоні';
-				} else {
 					test.isInZone = 'Не в зоні';
+				} else {
+					test.isInZone = 'В зоні';
 				}
 				// Обробка поля результатів тесту
 				const statusIndex = bbiFile.slice(ind + 36, ind + 40);
-				const num4 = this.bytesToInt(statusIndex) / 100.0;
-			
+				const converted = new Float32Array(statusIndex)[0];
+				const num4 =  converted / 100.0;
+				test.mediumExes = num4;
+				
 				// Перевірка за Начальное значение і Конечное значение
 				result2 = test.finalValue;
 				result1 = test.initValue;
