@@ -19,16 +19,16 @@ export interface Protocol {
 
 export interface Test {
 	name: String;
-	installedExes: number;
-	assumedFault: number;
-	etalonCapacity: number;
-	initValue: number;
-	finalValue: number;
-	counterCapacity: number;
-	testDuration: number;
-	mediumExes: number;
-	isInZone: String;
-	calculatedFault: number;
+	installedExes: number; 		// "Заданный расход, м3/ч";
+	assumedFault: number; 		// "Допустимая погрешность, +-%";
+	etalonCapacity: number; 	// "Объем эталона, л";
+	initValue: number; 				// "Начальное значение, л";
+	finalValue: number; 			// "Конечное значение, л";
+	counterCapacity: number;	// "Объем по счётчику, л";
+	testDuration: number; 		// "Продолжительность теста, с";
+	mediumExes: number; 			// "Средний расход, м3/ч";
+	isInZone: String; 				// "Статус расхода";
+	calculatedFault: number; 	// "Расчётная погрешность, %";
 	result: String;
 	startStateImage: ImageBitmap;
 	endStateImage: ImageBitmap;

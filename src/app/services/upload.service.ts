@@ -41,6 +41,7 @@ export class UploadService {
 			// console.log(reader.result);
 			const byteArray = <ArrayBuffer>reader.result;
 			const bbiFile = new Uint8Array(byteArray);
+			const anotherBbiFile = new Float32Array(byteArray);
 			// Дата
 			protocol.day = bbiFile[0];
 			protocol.month = bbiFile[1];
@@ -179,12 +180,24 @@ export class UploadService {
 					test.isInZone = 'В зоні';
 				}
 				// Обробка поля результатів тесту
-				const statusIndex = bbiFile.slice(ind + 36, ind + 40);
+				// const statusIndex = bbiFile.slice(ind + 36, ind + 40);
 				// Main byte problem
-				const num4 = (this.bytesToInt(statusIndex) | 0x80) / 100.0;
+				// const num4 = (this.bytesToInt(statusIndex) | 0x80) / 100.0;
+
 				if (test.initValue !== 0 && test.finalValue !== 0) {
-				test.calculatedFault = num4;
+				const differ = test.counterCapacity - test.etalonCapacity;
+					test.calculatedFault = (differ * 100 / test.etalonCapacity);
+				} else {
+					test.calculatedFault = 0;
 				}
+
+			/*	if (test.initValue !== 0 && test.finalValue !== 0) {
+					if (num4 > -1.28) {
+						test.calculatedFault = num4 - 1.28;
+					} else {
+				test.calculatedFault = num4;
+					} 
+				}*/
 							
 				// Перевірка за Начальное значение і Конечное значение
 				result2 = test.finalValue;
@@ -205,15 +218,16 @@ export class UploadService {
 						test.result = 'Не Годен';
 					}
 				}
-
-				console.log(test);				
-
+		
 				testId[index] = bbiFile[(index + 1 << 8) + 72];
 				if ((testId[index] % 10.0) === 0.0) {
 					++testIdCount;
 				}
 
 				test.name = testId[index].uintToString;
+
+				console.log(test);
+
 				protocol.tests.push(test);
 			}
 		};
