@@ -41,7 +41,6 @@ export class UploadService {
 			// console.log(reader.result);
 			const byteArray = <ArrayBuffer>reader.result;
 			const bbiFile = new Uint8Array(byteArray);
-			const anotherBbiFile = new Float32Array(byteArray);
 			// Дата
 			protocol.day = bbiFile[0];
 			protocol.month = bbiFile[1];
@@ -97,11 +96,11 @@ export class UploadService {
 			let sourceIndex = 312;
 			while (sourceIndex < 1792) {
 				b2 = bbiFile.slice(sourceIndex, sourceIndex + 4);
-				if (this.bytesToInt(b2) !==  0) {
+				if (this.bytesToInt(b2) !== 0) {
 					++num2;
 					sourceIndex += 256;
-				} else { 
-					break; 
+				} else {
+					break;
 				}
 			}
 
@@ -118,7 +117,6 @@ export class UploadService {
 
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
-
 				const test: Test = {
 					name: '',
 					installedExes: 0,
@@ -136,89 +134,90 @@ export class UploadService {
 					endStateImage: null
 				};
 
+				// index + 1 << 8
 				const ind = (index + 1 << 8);
+
 				// Заданный расход, м3/ч
 				b2 = bbiFile.slice(ind, ind + 4);
 				test.installedExes = (this.bytesToInt(b2) * 3.59999990463257 / num3);
+
 				// Допустимая погрешность
 				b2 = bbiFile.slice(ind + 12, ind + 16);
 				test.assumedFault = (this.bytesToInt(b2) / 10);
+
 				// Объем эталона
 				b2 = bbiFile.slice(ind + 16, ind + 20);
 				test.etalonCapacity = (this.bytesToInt(b2) / num3);
+
 				// Начальное значение in Value
 				b2 = bbiFile.slice(ind + 40, ind + 44);
 				test.initValue = (this.bytesToInt(b2) / 10000);
+
 				// Начальное значение, л
 				const startv = (this.bytesToInt(b2) / 10000);
+
 				// Конечное значение, л
 				b2 = bbiFile.slice(ind + 44, ind + 48);
 				test.finalValue = (this.bytesToInt(b2) / 10000);
+
 				// Конечное значение in Value
 				const endv = (this.bytesToInt(b2) / 10000);
+
 				// Объем по счётчику, л
 				test.counterCapacity = (endv - startv);
+
 				// Продолжительность теста, с	
 				b2 = bbiFile.slice(ind + 56, ind + 60);
 				test.testDuration = (this.bytesToInt(b2) / 1000);
+
 				// Средний расход, м3/ч	
 				b2 = bbiFile.slice(ind + 64, ind + 68);
-			  test.mediumExes = (this.bytesToInt(b2) / 1000);
-				
+				test.mediumExes = (this.bytesToInt(b2) / 1000);
+
 				// Визначення за формулою, чи входить в зону показ лічильника
 				// num7 num8 result1 result2
-				let result1 = (this.bytesToInt(b2) / 1000);
-				let result2 = (this.bytesToInt(b2) * 3.59999990463257 / num3);
+				const result1 = (this.bytesToInt(b2) / 1000);
+				const result2 = (this.bytesToInt(b2) * 3.59999990463257 / num3);
 				b2 = bbiFile.slice(ind + 4, ind + 8);
 				const num7 = this.bytesToInt(b2);
 				b2 = bbiFile.slice(ind + 8, ind + 12);
 				const num8 = this.bytesToInt(b2);
 
-				if (result2 - result1 * num7 / 100.0 <= result1 && result2 + result2 * num8 / 100.0 >= result1) {
+				if ((result2 - result2 * num7 / 100.0 <= result1) && (result2 + result2 * num8 / 100.0 >= result1)) {
 					test.isInZone = 'Не в зоні';
 				} else {
 					test.isInZone = 'В зоні';
 				}
 				// Обробка поля результатів тесту
-				// const statusIndex = bbiFile.slice(ind + 36, ind + 40);
-				// Main byte problem
-				// const num4 = (this.bytesToInt(statusIndex) | 0x80) / 100.0;
-
 				if (test.initValue !== 0 && test.finalValue !== 0) {
-				const differ = test.counterCapacity - test.etalonCapacity;
+					const differ = test.counterCapacity - test.etalonCapacity;
 					test.calculatedFault = (differ * 100 / test.etalonCapacity);
 				} else {
 					test.calculatedFault = 0;
 				}
-
-			/*	if (test.initValue !== 0 && test.finalValue !== 0) {
-					if (num4 > -1.28) {
-						test.calculatedFault = num4 - 1.28;
-					} else {
-				test.calculatedFault = num4;
-					} 
-				}*/
-							
 				// Перевірка за Начальное значение і Конечное значение
-				result2 = test.finalValue;
-				result1 = test.initValue;
+				const result1finalValue = test.finalValue;
+				const result2initValue = test.initValue;
 
-				if (result1 === 0.0) {
-					test.result = 'Не обработан';
-				} else if (result2 > result1) {
-					test.result = 'Не обработан';
-				} else if (result2 === result1) {
-					test.result = 'Не годен';
+				if (result1finalValue === 0.0) {
+					if (result1finalValue === 0.0 && result2initValue === 0.0) {
+						test.result = 'Не обработан';
+					} else if (result2initValue > result1finalValue) {
+						test.result = 'Не обработан';
+					} else if (result2initValue === result1finalValue) {
+						test.result = 'Не годен';
+					}
 				} else {
-					result1 = test.mediumExes;
-					result2 = test.installedExes;
-					if (result2 >= Math.abs(result1)) {
+					const result1calculatedFault = test.calculatedFault;
+					const result2assumedFault = test.assumedFault;
+
+					if (result2assumedFault >= Math.abs(result1calculatedFault)) {
 						test.result = 'Годен';
 					} else {
-						test.result = 'Не Годен';
+						test.result = 'Не годен';
 					}
 				}
-		
+				
 				testId[index] = bbiFile[(index + 1 << 8) + 72];
 				if ((testId[index] % 10.0) === 0.0) {
 					++testIdCount;

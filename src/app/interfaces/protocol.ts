@@ -1,26 +1,26 @@
 export interface Protocol {
-	date: Date;
-	day: number;
-	type: String;
-	year: number;
-	hours: number;
-	month: number;
-	minutes: number;
-	counterNumber: number;
-	capacity: number;
-	temperature: number;
-	productionYear: number;
-	deviceNumber: number;
-	tests: Test[];
-	status: String;
-	result: String;
-	protocolStatus: Boolean;
+	date: Date;								// Повна дата
+	day: number; 							// День
+	type: String; 						// Тип
+	year: number; 						// Рік
+	hours: number; 						// Години
+	month: number; 						// Місяць
+	minutes: number; 					// Хвилини
+	counterNumber: number;	 	// Номер лічильника
+	capacity: number; 				// Об'єм
+	temperature: number; 			// Температура
+	productionYear: number; 	// Рік виробітку
+	deviceNumber: number;		 	// Номер пристрою
+	tests: Test[];						// Масив з тестами
+	status: String; 					// Статус
+	result: String; 					// Результат
+	protocolStatus: Boolean; 	// Статус протоколу
 }
 
 export interface Test {
 	name: String;
-	installedExes: number; 		// "Заданный расход, м3/ч";
-	assumedFault: number; 		// "Допустимая погрешность, +-%";
+	installedExes: number; 		// "Заданный расход, м3/ч";				[0]
+	assumedFault: number; 		// "Допустимая погрешность, +-%"; [1]
 	etalonCapacity: number; 	// "Объем эталона, л";
 	initValue: number; 				// "Начальное значение, л";
 	finalValue: number; 			// "Конечное значение, л";
