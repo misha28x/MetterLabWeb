@@ -6,7 +6,7 @@ export interface Protocol {
 	hours: number; 						// Години
 	month: number; 						// Місяць
 	minutes: number; 					// Хвилини
-	counterNumber: number;	 	// Номер лічильника
+	counterNumber: String;	 	// Номер лічильника
 	capacity: number; 				// Об'єм
 	temperature: number; 			// Температура
 	productionYear: number; 	// Рік виробітку
@@ -30,6 +30,6 @@ export interface Test {
 	isInZone: String; 				// "Статус расхода";
 	calculatedFault: number; 	// "Расчётная погрешность, %";
 	result: String;
-	startStateImage: ImageBitmap;
-	endStateImage: ImageBitmap;
+	startStateImage: String;
+	endStateImage: String;
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Testability } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Protocol, Test } from '../interfaces/protocol';
@@ -21,7 +21,7 @@ export class UploadService {
 
 			const protocol: Protocol = {
 				capacity: 0,
-				counterNumber: 0,
+				counterNumber: '',
 				date: new Date(),
 				day: 0,
 				deviceNumber: 0,
@@ -54,10 +54,15 @@ export class UploadService {
 
 			// Номер счётчика
 			const counter = bbiFile.slice(72, 84);
-			protocol.counterNumber = this.bytesToInt(counter)[0];
-			// Температура0
+			let protocolCounter;
+			for (let i = 0; i < counter.byteLength; i++) {
+				protocolCounter += String.fromCharCode(counter[i]);
+			}
+			const ppss = protocolCounter.replace(/[^-0-9]/gim, '');
+			protocol.counterNumber = ppss;
+			// Температура
 			const temp = bbiFile.slice(20, 24);
-			protocol.temperature = this.bytesToInt(temp)[0];
+			protocol.temperature = this.bytesToInt(temp);
 			// Накоплений об'єм
 			const liter = bbiFile.slice(96, 104);
 			protocol.capacity = this.bytesToInt(liter);
@@ -112,9 +117,6 @@ export class UploadService {
 
 			// TODO ?
 			const testId = new Array;
-			let testIdCount;
-			let maxTestNumbers;
-
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
 				const test: Test = {
@@ -195,6 +197,8 @@ export class UploadService {
 				} else {
 					test.calculatedFault = 0;
 				}
+
+				let num4 = test.calculatedFault;
 				// Перевірка за Начальное значение і Конечное значение
 				const result1finalValue = test.finalValue;
 				const result2initValue = test.initValue;
@@ -217,18 +221,114 @@ export class UploadService {
 						test.result = 'Не годен';
 					}
 				}
+				let testIdCount = 0.0;
 				
-				testId[index] = bbiFile[(index + 1 << 8) + 72];
-				if ((testId[index] % 10.0) === 0.0) {
+				testId[index] = (bbiFile[(index + 1 << 8) + 72]);
+
+				// Підрахунок кількості тестів
+				if ((testId[index] % 10.0) === 0) {
 					++testIdCount;
 				}
+				
+				//  GetImage(bbiFile, 0).Save(@"C:\file\image0.jpeg", ImageFormat.Jpeg);
+				test.startStateImage = this.bytesToImage(bbiFile, index * 2 + 1).toString();
+				test.endStateImage = this.bytesToImage(bbiFile, index * 2 + 2).toString();
 
+				// Якщо змінна порожня, то створюється новий екземпляр з кількістю тестів
+				let num9 = testId[0];
+				if (num9 === 0.0) {
+					// Реалізація масиву тестів за testCount кількістю
+					let maxTestNumbers = [];
+				} else {
+					let index1 = 0;
+					let maxTestNumbers = [];
+
+					// Встановлення імен для тестів
+					for (let index2 = 0; index2 < testIdCount; ++index2) {
+						for (let index3 = 0; index3 < num2; ++index3) {
+							if (testId[index3] / 10.0 === index2 + 1 && testId[index3] > num9) {
+								num9 = testId[index3];
+								index1 = index3;
+							}
+							const testNumber = (index2 + 1);
+							const testCountNumber = testId[index1] % 10.0;
+							test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
+							
+							if (testId[index1] % 10.0 === 0.0) {
+								const testNumber = (index2 + 1);
+								const testCountNumber = testId[index1] % 10.0;
+								test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
+							}
+
+							if (testId[index1] % 10.0 === 0.0) {
+								maxTestNumbers[index2] = num9;
+								num9 = 0.0;
+								index1 = 0;
+							}
+
+							num4 = 1;
+							for (let index2 = 0; index2 < 6 - testIdCount; ++index2) {
+								for (let index3 = 0; index3 < num2; ++index3) {
+									if (testId[index3] / 10.0 === num4 && testId[index3] !== maxTestNumbers[num4-1] && testId[index3] > num9){
+										const testNumber = testId[index3] / 10.0;
+										const testCountNumber = testId[index3] % 10.0;
+										test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
+										if (testId[index3] % 10.0 === 0.0) {
+											const testNumber = testId[index3] / 10.0;
+											test.name = 'Тест ' + testNumber;
+										}
+										if (testId[index3] % 10.0 === 0.0) {
+											num9 = testId[index3];
+										}
+										index3 = num2;
+									} else if ((testId[index3] / 10.0) === num4 && (testId[index3] === maxTestNumbers[num4 - 1])) {
+										++num4;
+										num9 = 0.0;
+										index3 = -1;
+									}
+								}
+							}
+						}
+						// Протокол "Годен" чи "Не Годен" чи "Не обработан"
+						let index4 = 0;
+						let str10 = 'Годен';
+						for (let index1 = 0; index1 < testIdCount; ++index1) {
+							for (let index2 = 0; index2 < num2; ++index2) {
+								if (testId[index2] === maxTestNumbers[index4]) {
+									if (test.result === 'Годен') {
+										str10 = 'Не годен';
+										break;
+									}
+									if (test.result === 'Не обработан') {
+										str10 = 'Не обработан';
+									}
+								}								
+							}
+							++index4;	
+						}
+						// Протокол "В зоні" чи "Не в зоні"
+						protocol.result = str10;
+						let index5 = 0;
+						let str11 = 'В зоне';
+						for (let index1 = 0; index1 < testIdCount; ++index1) {
+							for (let index2 = 0; index2 < num2; ++index2) {
+								if (test.isInZone === 'Не в зоне') {
+									str11 = "Не в зоне";
+									break;
+								}
+							}
+							++index5;
+						}
+						protocol.status = str11;
+					}
+				}
+				// Встановлення імені тесту
 				test.name = testId[index].uintToString;
-
-				console.log(test);
-
+				// Додавання протоколу
 				protocol.tests.push(test);
 			}
+			console.log(protocol);
+			
 		};
 
 		files.forEach(file => {
