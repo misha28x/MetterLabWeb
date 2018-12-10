@@ -38,7 +38,6 @@ export class UploadService {
 				year: 0
 			};
 
-			// console.log(reader.result);
 			const byteArray = <ArrayBuffer>reader.result;
 			const bbiFile = new Uint8Array(byteArray);
 			// Дата
@@ -88,10 +87,12 @@ export class UploadService {
 
 			// Сертифікат
 			const num5 = this.bytesToInt(bbiFile.slice(120, 124));
-			if (num5 === 5) {
+			if (num5 === 0) {
 				protocol.protocolStatus = (true);
+				protocol.status = 'Разблокирован';
 			} else {
 				protocol.protocolStatus = (false);
+				protocol.status = 'Заблокирован';
 			}
 
 			// Тести
@@ -115,7 +116,6 @@ export class UploadService {
 				num3 = 10000;
 			}
 
-			// TODO ?
 			const testId = new Array;
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
@@ -220,28 +220,50 @@ export class UploadService {
 						test.result = 'Не годен';
 					}
 				}
-				
+
+				let testIdCount = 0.0;
+
 				testId[index] = (bbiFile[(index + 1 << 8) + 72]);
+				// Підрахунок кількості тестів
+				if ((testId[index] % 10.0) === 0) {
+					++testIdCount;
+				}
 
 				//  GetImage(bbiFile, 0).Save(@"C:\file\image0.jpeg", ImageFormat.Jpeg);
 				test.startStateImage = this.bytesToImage(bbiFile, index * 2 + 1).toString();
 				test.endStateImage = this.bytesToImage(bbiFile, index * 2 + 2).toString();
 
-					// Встановлення імені тесту
-					const testNameNumber = Math.round(testId[index] / 10);
-					const testNameSubNumber = Math.round(testId[index] % 10);
+				// Протокол "Не обработан" чи "Годен" чи "Не Годен"
+				if (test.result === 'Не обработан') {
+					protocol.result = 'Не обработан';
+				} else if (test.result === 'Годен') {
+					protocol.result = 'Годен';
+				} else if (test.result === 'Не годен') {
+					protocol.result = 'Не годен';
+				}
 
-					if (testNameSubNumber === 0) {
-						test.name = 'Тест ' + testNameNumber;
-					} else {
-						test.name = 'Тест ' + testNameNumber + ' Повтор ' + testNameSubNumber;
-					}
-								
+				// Протокол "В зоні" чи "Не в зоні"
+				if (test.isInZone === 'В зоне') {
+					protocol.status = 'В зоне';
+				} else if (test.isInZone === 'Не в зоне') {
+					protocol.status = 'Не в зоне';
+				}
+
+				// Встановлення імені тесту
+				const testNameNumber = Math.round(testId[index] / 10);
+				const testNameSubNumber = Math.round(testId[index] % 10);
+
+				if (testNameSubNumber === 0) {
+					test.name = 'Тест ' + testNameNumber;
+				} else {
+					test.name = 'Тест ' + testNameNumber + ' Повтор ' + testNameSubNumber;
+				}
+
 				// Додавання протоколу
 				protocol.tests.push(test);
 			}
 			console.log(protocol);
-			
+
 		};
 
 		files.forEach(file => {
