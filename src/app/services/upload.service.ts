@@ -262,7 +262,10 @@ export class UploadService {
 				// Додавання протоколу
 				protocol.tests.push(test);
 			}
-			console.log(protocol);
+			
+			this.http.post(url, JSON.stringify(protocol)).subscribe(() => {
+				console.log('Success');
+			});
 
 		};
 

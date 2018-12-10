@@ -5,9 +5,9 @@ const router = express.Router();
 
 const connection = mysql.createConnection({
 	host: 'localhost',
-	database: 'dbname',
-	user: 'username',
-	password: 'password',
+	database: 'android',
+	user: 'root',
+	password: 'root',
 });
 
 connection.connect(err => {
@@ -20,7 +20,7 @@ connection.connect(err => {
 
 router.post('', (req, res, next) => {
 	// Add data to database
-	connection.query();
+	connection.query('INSERT INTO `names`(`name`) VALUES (\'fuck you\');');
 	console.log('uploaded');
 });
 
