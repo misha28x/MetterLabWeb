@@ -234,14 +234,18 @@ export class UploadService {
 				test.startStateImage = this.bytesToImage(bbiFile, index * 2 + 1).toString();
 				test.endStateImage = this.bytesToImage(bbiFile, index * 2 + 2).toString();
 
+				let maxTestNumbers = [];
 				// Якщо змінна порожня, то створюється новий екземпляр з кількістю тестів
 				let num9 = testId[0];
 				if (num9 === 0.0) {
 					// Реалізація масиву тестів за testCount кількістю
-					let maxTestNumbers = [];
+					maxTestNumbers = [];
 				} else {
 					let index1 = 0;
-					let maxTestNumbers = [];
+					maxTestNumbers = [];
+
+					let testNumber;
+					let testCountNumber;
 
 					// Встановлення імен для тестів
 					for (let index2 = 0; index2 < testIdCount; ++index2) {
@@ -250,13 +254,13 @@ export class UploadService {
 								num9 = testId[index3];
 								index1 = index3;
 							}
-							const testNumber = (index2 + 1);
-							const testCountNumber = testId[index1] % 10.0;
+							testNumber = (index2 + 1);
+							testCountNumber = testId[index1] % 10.0;
 							test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
 							
 							if (testId[index1] % 10.0 === 0.0) {
-								const testNumber = (index2 + 1);
-								const testCountNumber = testId[index1] % 10.0;
+								testNumber = (index2 + 1);
+								testCountNumber = testId[index1] % 10.0;
 								test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
 							}
 
@@ -267,14 +271,14 @@ export class UploadService {
 							}
 
 							num4 = 1;
-							for (let index2 = 0; index2 < 6 - testIdCount; ++index2) {
-								for (let index3 = 0; index3 < num2; ++index3) {
-									if (testId[index3] / 10.0 === num4 && testId[index3] !== maxTestNumbers[num4-1] && testId[index3] > num9){
-										const testNumber = testId[index3] / 10.0;
-										const testCountNumber = testId[index3] % 10.0;
+							for (index2 = 0; index2 < 6 - testIdCount; ++index2) {
+								for (index3 = 0; index3 < num2; ++index3) {
+									if (testId[index3] / 10.0 === num4 && testId[index3] !== maxTestNumbers[num4 - 1] && testId[index3] > num9) {
+										testNumber = testId[index3] / 10.0;
+										testCountNumber = testId[index3] % 10.0;
 										test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
 										if (testId[index3] % 10.0 === 0.0) {
-											const testNumber = testId[index3] / 10.0;
+											testNumber = testId[index3] / 10.0;
 											test.name = 'Тест ' + testNumber;
 										}
 										if (testId[index3] % 10.0 === 0.0) {
@@ -292,8 +296,8 @@ export class UploadService {
 						// Протокол "Годен" чи "Не Годен" чи "Не обработан"
 						let index4 = 0;
 						let str10 = 'Годен';
-						for (let index1 = 0; index1 < testIdCount; ++index1) {
-							for (let index2 = 0; index2 < num2; ++index2) {
+						for (index1 = 0; index1 < testIdCount; ++index1) {
+							for (index2 = 0; index2 < num2; ++index2) {
 								if (testId[index2] === maxTestNumbers[index4]) {
 									if (test.result === 'Годен') {
 										str10 = 'Не годен';
@@ -308,16 +312,16 @@ export class UploadService {
 						}
 						// Протокол "В зоні" чи "Не в зоні"
 						protocol.result = str10;
-						let index5 = 0;
+						// let index5 = 0; ???
 						let str11 = 'В зоне';
-						for (let index1 = 0; index1 < testIdCount; ++index1) {
-							for (let index2 = 0; index2 < num2; ++index2) {
+						for (index1 = 0; index1 < testIdCount; ++index1) {
+							for (index2 = 0; index2 < num2; ++index2) {
 								if (test.isInZone === 'Не в зоне') {
-									str11 = "Не в зоне";
+									str11 = 'Не в зоне';
 									break;
 								}
 							}
-							++index5;
+							// ++index5; ??
 						}
 						protocol.status = str11;
 					}
