@@ -1,24 +1,27 @@
 const express = require('express');
-const multer = require('multer');
+const mysql = require('mysql');
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, 'backend/files');
-	},
-	filename: (req, file, cb) => {
-		cb(null, file.filename + '-' + Date.now() + '.bbi');
+const connection = mysql.createConnection({
+	host: 'localhost',
+	database: 'dbname',
+	user: 'username',
+	password: 'password',
+});
+
+connection.connect(err => {
+	if (err) {
+		console.error('Error connecting: ' + err.stack);
+		return;
 	}
+	console.log('Connected as id ' + connection.threadId);
 });
 
-const upload = multer({
-	storage: storage
-});
-
-router.post('', upload.single('file'), (req, res, next) => {
+router.post('', (req, res, next) => {
 	// Add data to database
+	connection.query();
 	console.log('uploaded');
 });
-``
+
 module.exports = router;
