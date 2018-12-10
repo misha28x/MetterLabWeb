@@ -198,7 +198,6 @@ export class UploadService {
 					test.calculatedFault = 0;
 				}
 
-				let num4 = test.calculatedFault;
 				// Перевірка за Начальное значение і Конечное значение
 				const result1finalValue = test.finalValue;
 				const result2initValue = test.initValue;
@@ -221,113 +220,23 @@ export class UploadService {
 						test.result = 'Не годен';
 					}
 				}
-				let testIdCount = 0.0;
 				
 				testId[index] = (bbiFile[(index + 1 << 8) + 72]);
 
-				// Підрахунок кількості тестів
-				if ((testId[index] % 10.0) === 0) {
-					++testIdCount;
-				}
-				
 				//  GetImage(bbiFile, 0).Save(@"C:\file\image0.jpeg", ImageFormat.Jpeg);
 				test.startStateImage = this.bytesToImage(bbiFile, index * 2 + 1).toString();
 				test.endStateImage = this.bytesToImage(bbiFile, index * 2 + 2).toString();
 
-				let maxTestNumbers = [];
-				// Якщо змінна порожня, то створюється новий екземпляр з кількістю тестів
-				let num9 = testId[0];
-				if (num9 === 0.0) {
-					// Реалізація масиву тестів за testCount кількістю
-					maxTestNumbers = [];
-				} else {
-					let index1 = 0;
-					maxTestNumbers = [];
+					// Встановлення імені тесту
+					const testNameNumber = Math.round(testId[index] / 10);
+					const testNameSubNumber = Math.round(testId[index] % 10);
 
-					let testNumber;
-					let testCountNumber;
-
-					// Встановлення імен для тестів
-					for (let index2 = 0; index2 < testIdCount; ++index2) {
-						for (let index3 = 0; index3 < num2; ++index3) {
-							if (testId[index3] / 10.0 === index2 + 1 && testId[index3] > num9) {
-								num9 = testId[index3];
-								index1 = index3;
-							}
-							testNumber = (index2 + 1);
-							testCountNumber = testId[index1] % 10.0;
-							test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
-							
-							if (testId[index1] % 10.0 === 0.0) {
-								testNumber = (index2 + 1);
-								testCountNumber = testId[index1] % 10.0;
-								test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
-							}
-
-							if (testId[index1] % 10.0 === 0.0) {
-								maxTestNumbers[index2] = num9;
-								num9 = 0.0;
-								index1 = 0;
-							}
-
-							num4 = 1;
-							for (index2 = 0; index2 < 6 - testIdCount; ++index2) {
-								for (index3 = 0; index3 < num2; ++index3) {
-									if (testId[index3] / 10.0 === num4 && testId[index3] !== maxTestNumbers[num4 - 1] && testId[index3] > num9) {
-										testNumber = testId[index3] / 10.0;
-										testCountNumber = testId[index3] % 10.0;
-										test.name = 'Тест ' + testNumber + ' Повтор ' + testCountNumber;
-										if (testId[index3] % 10.0 === 0.0) {
-											testNumber = testId[index3] / 10.0;
-											test.name = 'Тест ' + testNumber;
-										}
-										if (testId[index3] % 10.0 === 0.0) {
-											num9 = testId[index3];
-										}
-										index3 = num2;
-									} else if ((testId[index3] / 10.0) === num4 && (testId[index3] === maxTestNumbers[num4 - 1])) {
-										++num4;
-										num9 = 0.0;
-										index3 = -1;
-									}
-								}
-							}
-						}
-						// Протокол "Годен" чи "Не Годен" чи "Не обработан"
-						let index4 = 0;
-						let str10 = 'Годен';
-						for (index1 = 0; index1 < testIdCount; ++index1) {
-							for (index2 = 0; index2 < num2; ++index2) {
-								if (testId[index2] === maxTestNumbers[index4]) {
-									if (test.result === 'Годен') {
-										str10 = 'Не годен';
-										break;
-									}
-									if (test.result === 'Не обработан') {
-										str10 = 'Не обработан';
-									}
-								}								
-							}
-							++index4;	
-						}
-						// Протокол "В зоні" чи "Не в зоні"
-						protocol.result = str10;
-						// let index5 = 0; ???
-						let str11 = 'В зоне';
-						for (index1 = 0; index1 < testIdCount; ++index1) {
-							for (index2 = 0; index2 < num2; ++index2) {
-								if (test.isInZone === 'Не в зоне') {
-									str11 = 'Не в зоне';
-									break;
-								}
-							}
-							// ++index5; ??
-						}
-						protocol.status = str11;
+					if (testNameSubNumber === 0) {
+						test.name = 'Тест ' + testNameNumber;
+					} else {
+						test.name = 'Тест ' + testNameNumber + ' Повтор ' + testNameSubNumber;
 					}
-				}
-				// Встановлення імені тесту
-				test.name = testId[index].uintToString;
+								
 				// Додавання протоколу
 				protocol.tests.push(test);
 			}
