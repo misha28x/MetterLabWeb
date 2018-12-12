@@ -22,6 +22,8 @@ router.post('', (req, res, next) => {
 	// Add data to database
 	connection.query('INSERT INTO `names`(`name`) VALUES (\'fuck you\');');
 	console.log('uploaded');
+	// req.body - весь протокол 
+	// req.body.test - тести і так далі 
 });
 
 module.exports = router;

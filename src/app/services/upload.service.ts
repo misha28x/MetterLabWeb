@@ -263,10 +263,10 @@ export class UploadService {
 				protocol.tests.push(test);
 			}
 			
-			this.http.post(url, JSON.stringify(protocol)).subscribe(() => {
+			this.http.post<any>(url, protocol)
+			.subscribe(() => {
 				console.log('Success');
 			});
-
 		};
 
 		files.forEach(file => {
