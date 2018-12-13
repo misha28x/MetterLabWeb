@@ -6,14 +6,18 @@
 	}
 
 	.full-width {
+		align-items: center;
 		display: flex;
+		justify-content: space-between;
 	  width: 100%;
 
-		> * {
-			flex: 1;
+		&.inline {
+			> * {
+				width: 38%;
+			}
 		}
-		:first-child {
-			margin-right: 10px;
+		.input-field {
+			width: 65%;
 		}
 	}
 }

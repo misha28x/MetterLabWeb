@@ -16,8 +16,8 @@ export class NewVerificationComponent implements OnInit {
 
 	openDialg(): void {
 		this.matDialog.open(NewVerificationDialogComponent, {
-			width: '70%',
-			height: '70%'
+			width: '65%',
+			maxHeight: '95%'
 		});
 	}
 

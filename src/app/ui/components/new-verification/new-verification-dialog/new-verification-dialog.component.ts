@@ -7,9 +7,21 @@ import { MatDialogRef } from '@angular/material';
   styleUrls: ['./new-verification-dialog.component.scss']
 })
 export class NewVerificationDialogComponent implements OnInit {
+	step: number;
 
   constructor(private dialogRef: MatDialogRef<NewVerificationDialogComponent>) { }
 
-  ngOnInit(): void {
-  }
+	setStep(index: number): void {
+		this.step = index;
+	}
+
+	nextStep(): void {
+		this.step++;
+	}
+
+	prevStep(): void {
+		this.step--;
+	}
+
+  ngOnInit(): void { }
 }

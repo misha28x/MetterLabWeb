@@ -15,8 +15,8 @@ export class UploadService {
 	public upload(files: Set<File>): void {
 		// let fileCounter = 0;
 		const reader = new FileReader();
-		reader.onload = () => {
-
+		reader.onload = (event) => {
+			console.log(event.target.result.fileName);
 			const tests: Test[] = [];
 
 			const protocol: Protocol = {
@@ -263,10 +263,10 @@ export class UploadService {
 				protocol.tests.push(test);
 			}
 			
-			this.http.post<any>(url, protocol)
-			.subscribe(() => {
-				console.log('Success');
-			});
+			// this.http.post<any>(url, protocol)
+			// .subscribe(() => {
+			// 	console.log('Success');
+			// });
 		};
 
 		files.forEach(file => {

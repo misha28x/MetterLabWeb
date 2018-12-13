@@ -1,74 +1,109 @@
 <mat-accordion>
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        Загальна Інформація 
-      </mat-panel-title>
-      <mat-panel-description>
-        Type your name and age
-      </mat-panel-description>
+      Загальні відомості
     </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <input matInput placeholder="First name">
-    </mat-form-field>
+    <ng-template matExpansionPanelContent>
+    </ng-template>
 
-    <mat-form-field>
-      <input matInput placeholder="Age">
-    </mat-form-field>
-  </mat-expansion-panel>
-  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Місцезнаходження
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am 
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <mat-form-field class="full-width">
-    	<input matInput placeholder="Область">
-  	</mat-form-field>
-    <mat-form-field class="full-width">
-    	<input matInput placeholder="Район">
-  	</mat-form-field>
-    <mat-form-field class="full-width">
-    	<input matInput placeholder="Населений Пункт">
-  	</mat-form-field>
-    <mat-form-field class="full-width">
-    	<input matInput placeholder="Індекс">
-  	</mat-form-field>
-    <mat-form-field class="full-width">
-    	<input matInput placeholder="Вулиця">
-  	</mat-form-field>
-    <mat-form-field class="full-width">
-    	<input matInput placeholder="Будинок">
-  	</mat-form-field>
-    <mat-form-field class="full-width">
-    	<input matInput placeholder="Квартира">
-  	</mat-form-field>
+    <mat-action-row>
+      <button mat-button color="primary" (click)="nextStep()">Далі</button>
+    </mat-action-row>
   </mat-expansion-panel>
 
-  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        Лічильник
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am 
-      </mat-panel-description>
+      Місцезнаходженя
     </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
+
+    <ng-template matExpansionPanelContent>
+      <div class="full-width">
+        <span>Область</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Область">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <span>Район</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Район">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <span>Населений пункт</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Населений пункт">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <span>Індекс</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Індекс">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <span>Вулиця</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Вулиця">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <span>Будинок</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Будинок">
+        </mat-form-field>
+      </div>
+      <div class="full-width">
+        <span>Квартира</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Квартира">
+        </mat-form-field>
+      </div>
+			<div class="full-width inline">
+				<div class="d-flex justify-content-between align-items-center">
+					<span>Провести повірку з демонтажом</span>
+					<mat-checkbox></mat-checkbox>
+				</div>
+
+				<div class="d-flex justify-content-between align-items-center">
+					<mat-checkbox [labelPosition]="'before'">Перевірено на дублі </mat-checkbox>
+					<button mat-button color="primary"><i class="icofont-copy"></i></button>
+				</div>
+			</div>
+    </ng-template>
+    
+    <mat-action-row>
+      <button mat-button color="warn" (click)="prevStep()">Назад</button>
+      <button mat-button color="primary" (click)="nextStep()">Далі</button>
+    </mat-action-row>
   </mat-expansion-panel>
-  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+
+  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        Додаткова інформація
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am 
-      </mat-panel-description>
+      Лічильник
     </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
+
+    <ng-template matExpansionPanelContent>
+    </ng-template>
+
+    <mat-action-row>
+      <button mat-button color="warn" (click)="prevStep()">Назад</button>
+      <button mat-button color="primary" (click)="nextStep()">Далі</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
+    <mat-expansion-panel-header>
+      Додаткова інформація
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+    </ng-template>
+
+    <mat-action-row>
+      <button mat-button color="warn" (click)="prevStep()">Назад</button>
+      <button mat-button color="primary" (click)="nextStep()">Завершити</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
