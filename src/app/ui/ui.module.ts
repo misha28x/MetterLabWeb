@@ -13,6 +13,7 @@ import { FileUploadComponent } from './components/file-upload';
 import { FilterTableDirective } from './directives/filter-table/filter-table.directive';
 import { SortTableDirective } from './directives/sort-table/sort-table.directive';
 import { UploadDialogComponent } from './components/file-upload/upload-dialog/upload-dialog.component';
+import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule],
@@ -22,7 +23,8 @@ import { UploadDialogComponent } from './components/file-upload/upload-dialog/up
 		TableComponent,
 		InputComponent,
 		ColumnComponent,
-		FileUploadComponent
+		FileUploadComponent,
+		NewVerificationComponent
 	],
 	declarations: [
 		SortTableDirective,
@@ -31,8 +33,10 @@ import { UploadDialogComponent } from './components/file-upload/upload-dialog/up
 		InputComponent,
 		ColumnComponent,
 		FileUploadComponent,
-		UploadDialogComponent
+		UploadDialogComponent,
+		NewVerificationComponent,
+		NewVerificationDialogComponent
 	],
-	entryComponents: [UploadDialogComponent]
+	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent]
 })
 export class UiModule { }

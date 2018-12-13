@@ -5,9 +5,9 @@ const router = express.Router();
 
 const connection = mysql.createConnection({
 	host: 'localhost',
-	database: 'android',
+	database: 'water',
 	user: 'root',
-	password: 'root',
+	password: '',
 });
 
 connection.connect(err => {

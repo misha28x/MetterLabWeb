@@ -1,0 +1,74 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Загальна Інформація 
+      </mat-panel-title>
+      <mat-panel-description>
+        Type your name and age
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <input matInput placeholder="First name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Age">
+    </mat-form-field>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Місцезнаходження
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am 
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field class="full-width">
+    	<input matInput placeholder="Область">
+  	</mat-form-field>
+    <mat-form-field class="full-width">
+    	<input matInput placeholder="Район">
+  	</mat-form-field>
+    <mat-form-field class="full-width">
+    	<input matInput placeholder="Населений Пункт">
+  	</mat-form-field>
+    <mat-form-field class="full-width">
+    	<input matInput placeholder="Індекс">
+  	</mat-form-field>
+    <mat-form-field class="full-width">
+    	<input matInput placeholder="Вулиця">
+  	</mat-form-field>
+    <mat-form-field class="full-width">
+    	<input matInput placeholder="Будинок">
+  	</mat-form-field>
+    <mat-form-field class="full-width">
+    	<input matInput placeholder="Квартира">
+  	</mat-form-field>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Лічильник
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am 
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Додаткова інформація
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am 
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>
