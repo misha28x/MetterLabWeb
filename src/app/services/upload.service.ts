@@ -20,6 +20,7 @@ export class UploadService {
 			const tests: Test[] = [];
 
 			const protocol: Protocol = {
+				bbiFileName: '',
 				capacity: 0,
 				counterNumber: '',
 				date: new Date(),
@@ -120,6 +121,7 @@ export class UploadService {
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
 				const test: Test = {
+					bbiFileName: '',
 					name: '',
 					installedExes: 0,
 					assumedFault: 0,

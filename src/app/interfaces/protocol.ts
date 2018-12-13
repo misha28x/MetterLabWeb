@@ -1,4 +1,5 @@
 export interface Protocol {
+	bbiFileName: String;
 	date: Date;								// Повна дата
 	day: number; 							// День
 	type: String; 						// Тип
@@ -18,6 +19,7 @@ export interface Protocol {
 }
 
 export interface Test {
+	bbiFileName: String;
 	name: String;
 	installedExes: number; 		// "Заданный расход, м3/ч";				[0]
 	assumedFault: number; 		// "Допустимая погрешность, +-%"; [1]

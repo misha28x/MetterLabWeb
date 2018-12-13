@@ -7,7 +7,7 @@ let con = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
 	password: 'root',
-	database: 'water'
+	database: 'water_counters'
 });
 
 con.connect((err) => {
@@ -19,7 +19,7 @@ con.connect((err) => {
 });
 
 router.get('', (req, res, next) => {
-	con.query('SELECT * FROM main', (err, result) => {
+	con.query('SELECT * FROM new_applications', (err, result) => {
 		if (err) {
 			console.log(err);
 		}
