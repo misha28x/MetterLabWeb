@@ -37,6 +37,7 @@
     "rxjs": "~6.3.3",
     "rxjs-compat": "6.3.3",
     "ssl-root-cas": "^1.2.5",
+    "string-format-js": "^1.0.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
