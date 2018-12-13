@@ -11,12 +11,13 @@ const url = 'http://localhost:3000/api/upload';
 export class UploadService {
 
 	constructor(private http: HttpClient) { }
-
+	
 	public upload(files: Set<File>): void {
 		// let fileCounter = 0;
 		const reader = new FileReader();
+		let fileName: string;
+
 		reader.onload = (event) => {
-			console.log(event.target.result.fileName);
 			const tests: Test[] = [];
 
 			const protocol: Protocol = {
@@ -120,8 +121,9 @@ export class UploadService {
 			const testId = new Array;
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
+				console.log(fileName);
 				const test: Test = {
-					bbiFileName: '',
+					bbiFileName: fileName,
 					name: '',
 					installedExes: 0,
 					assumedFault: 0,
@@ -272,6 +274,7 @@ export class UploadService {
 		};
 
 		files.forEach(file => {
+			fileName = file.name;
 			reader.readAsArrayBuffer(file);
 		});
 	}
