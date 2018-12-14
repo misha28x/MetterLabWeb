@@ -1,4 +1,4 @@
-import { Injectable, Testability } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Protocol, Test } from '../interfaces/protocol';
@@ -11,13 +11,13 @@ const url = 'http://localhost:3000/api/upload';
 export class UploadService {
 
 	constructor(private http: HttpClient) { }
-	
+
 	public upload(files: Set<File>): void {
 		// let fileCounter = 0;
 		const reader = new FileReader();
 		let fileName: string;
 
-		reader.onload = (event) => {
+		reader.onload = () => {
 			const tests: Test[] = [];
 
 			const protocol: Protocol = {
@@ -43,6 +43,7 @@ export class UploadService {
 			const byteArray = <ArrayBuffer>reader.result;
 			const bbiFile = new Uint8Array(byteArray);
 			// Дата
+			protocol.bbiFileName = fileName;
 			protocol.day = bbiFile[0];
 			protocol.month = bbiFile[1];
 			protocol.year = (bbiFile[2] | bbiFile[3] << 8);
@@ -121,7 +122,6 @@ export class UploadService {
 			const testId = new Array;
 			// Заповнення масиву з тестами
 			for (let index = 0; index < num2; index++) {
-				console.log(fileName);
 				const test: Test = {
 					bbiFileName: fileName,
 					name: '',
@@ -266,11 +266,10 @@ export class UploadService {
 				// Додавання протоколу
 				protocol.tests.push(test);
 			}
-			
-			// this.http.post<any>(url, protocol)
-			// .subscribe(() => {
-			// 	console.log('Success');
-			// });
+
+			this.http.post<any>(url, protocol)
+				.subscribe(() => {
+				});
 		};
 
 		files.forEach(file => {
