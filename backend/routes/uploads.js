@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const format = require('string-format-js');
 
-const router = express.Router();
+ const router = express.Router();
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -43,16 +43,17 @@ router.post('', (req, res, next) => {
 });
 
 router.get('', (req, res, next) => {
-
-	connection.query("SELECT * FROM `protocols`", function (err, result) {
-	  // Викидає помилку, якщо при виконанні щось йде не так
-	  if (err) throw err;
-	  // Поле виведення
-	  console.log(result);
-	});
+	// connection.query("SELECT * FROM `protocols`", function (err, result) {
+	//   // Викидає помилку, якщо при виконанні щось йде не так
+	//   if (err) throw err;
+	//   // Поле виведення
+	//   console.log(result);
+	// });
 
   // res.json(JSON.stringify(connection.query("SELECT * FROM `protocols`")));
 	// res.json; - відправка файлу на клієнт.
+	console.log("GET request");
+	res.status(201).json({message: 'success'});
 });
 
 module.exports = router;
