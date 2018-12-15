@@ -114,7 +114,7 @@ router.get('/:id', (req, res, next) => {
   connection.query(selectionOne, function (err, rows, fields) {
     if (err) throw err;
 
-    let selection = "SELECT * FROM tests";
+    let selection = "SELECT * FROM tests WHERE Номер_протоколу = '" + req.params.id + "';";
 
     connection.query(selection, function (err, testRows, fields) {
       if (err) throw err;
