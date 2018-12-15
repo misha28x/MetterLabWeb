@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   database: 'water_counters',
   user: 'root',
-  password: 'root',
+  password: '',
 });
 
 connection.connect(err => {
@@ -41,81 +41,68 @@ router.post('', (req, res, next) => {
 
 router.get('', (req, res, next) => {
 
-  var protocolArray = new Array();
-
-
   connection.query('SELECT * from protocols', function (err, rows, fields) {
     if (err) throw err;
 
+    let selection = "SELECT * FROM tests";
 
-		  var testArray = new Array();
+    connection.query(selection, function (err, testRows, fields) {
+      if (err) throw err;
+      
+      let testArray = [];
+      let protocolArray = [];
 
-    for (var i in rows) {
-      var rp = new Object();
-      rp.id = rows[i].id;
-      rp.protocolNumber = rows[i].Номер_протоколу;
-      rp.date = rows[i].Дата_та_час;
-      rp.deviceNumber = rows[i].Номер_установки;
-      rp.systemNumber = rows[i].Системний_номер_установки;
-      rp.counterNumber = rows[i].Номер_лічильника;
-      rp.type = rows[i].Тип_лічильника;
-      rp.counterPurpose = rows[i].Призначення_лічильника;
-      rp.temperature = rows[i].Температура;
-      rp.productionYear = rows[i].Рік_випуску;
-      rp.capacity = rows[i].Накопичений_обєм;
-      rp.width = rows[i].Широта;
-      rp.height = rows[i].Довгота;
-      rp.isInZone = rows[i].Статус_витрати;
-      rp.result = rows[i].Результат_тесту;
-      rp.signDate = rows[i].Дата_підпису_протоколу;
-      rp.signName = rows[i].ПІБ_особи_підписувача;
-      rp.status = rows[i].Статус;
-			rp.tests = [];
-			
-      var selection = "SELECT * FROM tests WHERE Номер_протоколу='" + rp.protocolNumber + "';";
-				
-      connection.query(selection, function (err, testRows, fields) {
-				if (err) throw err;
-	
-        for (var i in testRows) {
-          var rt = new Object();
-          rt.id = testRows[i].id;
-          rt.bbiFileName = testRows[i].Номер_протоколу;
-          rt.name = testRows[i].Назва_тесту;
-          rt.installedExes = testRows[i].Задана_витрата;
-          rt.etalonCapacity = testRows[i].Обєм_еталону;
-          rt.initValue = testRows[i].Початкове_значення;
-          rt.finalValue = testRows[i].Кінцеве_значення;
-          rt.counterCapacity = testRows[i].Обєм_за_лічильником;
-          rt.testDuration = testRows[i].Тривалість_тесту;
-          rt.mediumExes = testRows[i].Фактична_витрата;
-          rt.isInZone = testRows[i].Статус_витрати;
-          rt.assumedFault = testRows[i].Допустима_похибка;
-          rt.calculatedFault = testRows[i].Фактична_похибка;
-          rt.result = testRows[i].Результат_тесту;
+      for (let i in testRows) {
+        let rt = new Object();
+        rt.id = testRows[i].id;
+        rt.bbiFileName = testRows[i].Номер_протоколу;
+        rt.name = testRows[i].Назва_тесту;
+        rt.installedExes = testRows[i].Задана_витрата;
+        rt.etalonCapacity = testRows[i].Обєм_еталону;
+        rt.initValue = testRows[i].Початкове_значення;
+        rt.finalValue = testRows[i].Кінцеве_значення;
+        rt.counterCapacity = testRows[i].Обєм_за_лічильником;
+        rt.testDuration = testRows[i].Тривалість_тесту;
+        rt.mediumExes = testRows[i].Фактична_витрата;
+        rt.isInZone = testRows[i].Статус_витрати;
+        rt.assumedFault = testRows[i].Допустима_похибка;
+        rt.calculatedFault = testRows[i].Фактична_похибка;
+        rt.result = testRows[i].Результат_тесту;
 
-					testArray.push(rt);
-				//	console.log(testArray);
-        }
-					rp.tests = testArray;		
-      });
-      protocolArray.push(rp);
-    }
+        testArray.push(rt);
+      }
 
-		console.log(protocolArray[0]);
-	//	console.log('Another fucking test');
-	//	console.log(testArray);
-		
-		
-  });
+      for (let i in rows) {
+        let rp = new Object();
+        rp.id = rows[i].id;
+        rp.protocolNumber = rows[i].Номер_протоколу;
+        rp.date = rows[i].Дата_та_час;
+        rp.deviceNumber = rows[i].Номер_установки;
+        rp.systemNumber = rows[i].Системний_номер_установки;
+        rp.counterNumber = rows[i].Номер_лічильника;
+        rp.type = rows[i].Тип_лічильника;
+        rp.counterPurpose = rows[i].Призначення_лічильника;
+        rp.temperature = rows[i].Температура;
+        rp.productionYear = rows[i].Рік_випуску;
+        rp.capacity = rows[i].Накопичений_обєм;
+        rp.width = rows[i].Широта;
+        rp.height = rows[i].Довгота;
+        rp.isInZone = rows[i].Статус_витрати;
+        rp.result = rows[i].Результат_тесту;
+        rp.signDate = rows[i].Дата_підпису_протоколу;
+        rp.signName = rows[i].ПІБ_особи_підписувача;
+        rp.status = rows[i].Статус;
+        rp.tests = [];
 
-
-
-  // res.json; - відправка файлу на клієнт.
-  console.log("GET request");
-
-  res.status(201).json({
-    message: 'success'
+        rp.tests = testArray.filter( (test) => {
+          return test.bbiFileName === rp.protocolNumber;
+        });
+        
+        console.log(rp);
+        protocolArray.push(rp);
+      }
+      res.status(200).send(protocolArray);
+    });
   });
 });
 

@@ -1,5 +1,7 @@
 const mysql = require('mysql');
 
+const config = reqiure('./config');
+
 module.exports.inint = function(configs) {
 	mysql.createPool({
 		host: process.env.MYSQL_HOST || configs.host,
