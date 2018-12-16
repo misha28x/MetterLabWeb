@@ -120,8 +120,7 @@ router.get('/:id', (req, res, next) => {
       if (err) throw err;
 
       let testArray = [];
-      let protocolArray = [];
-
+      
       for (let i in testRows) {
         let rt = new Object();
         rt.id = testRows[i].id;
@@ -141,6 +140,7 @@ router.get('/:id', (req, res, next) => {
 
         testArray.push(rt);
       }
+
       let rp = new Object();
       rp.id = rows[0].id;
       rp.protocolNumber = rows[0].Номер_протоколу;
@@ -162,20 +162,17 @@ router.get('/:id', (req, res, next) => {
       rp.status = rows[0].Статус;
       rp.tests = [];
 
-      rp.tests = testArray.filter((test) => {
-        return test.bbiFileName === rp.protocolNumber;
-      });
+      rp.tests = testArray;
 
       console.log(rp);
-      protocolArray.push(rp);
 
-      res.status(200).send(protocolArray);
+      res.status(200).send(rp);
     });
   });
 });
 
 // Оновлення протоколу
-router.put('', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
 	
 	// ! Передається все крім id і Номер_протококу !
   let varData = "`Дата_та_час`='%s',`Номер_установки`='%s',`Системний_номер_установки`='%s',`Номер_лічильника`='%s',`Тип_лічильника`='%s',`Призначення_лічильника`='%s',`Температура`='%s',`Рік_випуску`='%s',`Накопичений_обєм`='%s',`Широта`='%s',`Довгота`='%s',`Статус_витрати`='%s',`Результат_тесту`='%s',`Дата_підпису_протоколу`='%s',`ПІБ_особи_підписувача`='%s',`Статус`='%s'";
@@ -194,9 +191,8 @@ router.put('', (req, res, next) => {
     connection.query(varResult);
   });
 
-  console.log('uploaded');
-  // req.body - весь протокол 
-  // req.body.test - тести і так далі 
+  console.log('updated');
+  res.status(200);
 });
 
 module.exports = router;

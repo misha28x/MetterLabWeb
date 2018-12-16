@@ -10,10 +10,12 @@ export class DataService {
 	constructor(private http: HttpClient) { }
 
 	getData(url: string): any {
-		const URL: string = url;
-
-		return this.http.get(URL);
+		return this.http.get(url);
 	}
+
+  sendData(url: string, data: any): any {
+    return this.http.post(url, data);
+  }
 
 	handleError(error: any): Observable<never> {
 		return observableThrowError(error.error || 'Server Error');

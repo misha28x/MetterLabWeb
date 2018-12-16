@@ -15,9 +15,8 @@ export class PageNewVerificationsComponent implements OnInit {
   constructor(private dataSv: DataService) { }
 
   ngOnInit(): void {
-		this.url = 'http://localhost:3000/api/task-verification';
+		this.url = 'http://localhost:3000/api/new-verifications';
 
 		this.newVerifications = this.dataSv.getData(this.url);
   }
-
 }

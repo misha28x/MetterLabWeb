@@ -24,7 +24,7 @@
     <app-table [tableData]="newVerifications" [pagination]="true">
 			<app-column>
 				<ng-template #headerBodyTemplate>
-					<mat-checkbox>Check me!</mat-checkbox>
+					<mat-checkbox></mat-checkbox>
 				</ng-template>
 				<ng-template #tableBodyTemplate>
 					<mat-checkbox></mat-checkbox>
@@ -58,6 +58,7 @@
 			<app-column [columnTitle]="'Телефон'" [columnName]="'Телефон'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 			
 			<app-column [columnTitle]="'Примітка'" [columnName]="'Примітка'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
     </app-table>
   </mat-card-content>
 </mat-card>

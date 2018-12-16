@@ -1,3 +1,5 @@
+@import "../../../../../assets/sass/variables";
+
 :host {
 	.form {
 	  min-width: 150px;
@@ -20,4 +22,13 @@
 			width: 65%;
 		}
 	}
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: $module-rem;
+
+    :first-child {
+      margin-right: $module-rem / 2; 
+    }
+  }
 }

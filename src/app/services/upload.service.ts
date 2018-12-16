@@ -224,7 +224,7 @@ export class UploadService {
 						test.result = 'Не годен';
 					}
 				}
-
+        // TODO: невикористовувана зміна
 				let testIdCount = 0.0;
 
 				testId[index] = (bbiFile[(index + 1 << 8) + 72]);
