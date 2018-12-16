@@ -36,27 +36,31 @@ router.post('', (req, res, next) => {
     " `Район`, `Вулиця`, `Будинок`, `Квартира`, `Бажана_дата_повірки`, `Бажаний_час_повірки`, `Cправність_сантехніки`," +
     " `Вода_відсутня_до`, `Наявність_пломби`, `Телефон`, `Примітка`)" + formatedData);
 
-  connection.query(varResult);
+  connection.query(varResult, () => {
+    res.status(201);
+  });
 });
 
 // 3) Редагуваня повірки put
-router.put('', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   let varData = "`Номер_заявки`='%s',`Дата_надходження`='%s',`Клієнт`='%s',`Надавач_послуг`='%s',`Район`='%s'," +
     "`Вулиця`='%s',`Будинок`='%s',`Квартира`='%s',`Бажана_дата_повірки`='%s',`Бажаний_час_повірки`='%s', " +
     " `Cправність_сантехніки`='%s',`Вода_відсутня_до`='%s',`Наявність_пломби`='%s',`Телефон`='%s',`Примітка`='%s'";
   let formatedData = varData.format( /** змінні для запиту */ );
-  let varResult = "UPDATE new_verifications SET " + formatedData + " WHERE Номер_заявки = '" + /** змінна поля заявки */ +"';";;
+  let varResult = "UPDATE new_verifications SET " + formatedData + " WHERE Номер_заявки = '" + req.params.id +"';";;
 
-  connection.query(varResult);
+  connection.query(varResult, () => {
+    res.status(200);
+  });
 });
 
 // 4) Видалення повірки delete
-router.delete('', (req, res, next) => {
-	let varData = "DELETE FROM `new_verifications` WHERE `Номер_заявки`='%s';";
-	let formatedData = varData.format( /** змінні для запиту */ );
-	let varResult = formatedData;
+router.delete('/:id', (req, res, next) => {
+	let query = "DELETE FROM `new_verifications` WHERE `Номер_заявки`='" + req.params.id +"';";
 
-  connection.query(varResult);
+  connection.query(query, () => {
+    res.status(200);
+  });
 });
 
 module.exports = router;
