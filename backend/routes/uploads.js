@@ -8,7 +8,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './files');
+    cb(null, 'backend/temp');
   },
   filename: (req, file, cb) => {
     cb(null, 'tempo.zip');
@@ -25,7 +25,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   database: 'water_counters',
   user: 'root',
-  password: '',
+  password: 'root',
 });
 
 connection.connect(err => {
@@ -36,7 +36,7 @@ connection.connect(err => {
   console.log('Connected as id ' + connection.threadId);
 });
 
-router.get('/zip', upload.single('zip'), (req, res, next) => {
+router.post('', multer({storage: storage}).single('file'), (req, res, next) => {
 
   var zip = new JSZip();
   var protocolArray = [];
@@ -51,7 +51,7 @@ router.get('/zip', upload.single('zip'), (req, res, next) => {
             name: fileName,
             uint8array: await zip.file(fileName).async("uint8array")
           };
-          addProtocol(bbi.uint8array, bbi.name);
+          parseProtocol(bbi.uint8array, bbi.name);
         } else {
           zip.file("BluetoothDB.db").async("uint8array").then(function (data) {
             getResultsFromDatabase(data);
@@ -242,7 +242,7 @@ function getResultsFromDatabase(byteArray) {
   }
 }
 
-function upload(byteArray, fileName) {
+function parseProtocol(byteArray, fileName) {
 	const tests = [];
 	
   const protocol = {
@@ -481,7 +481,8 @@ function upload(byteArray, fileName) {
 
     // Додавання протоколу
     protocol.tests.push(test);
-  }
+	}
+	addProtocol(protocol);
 }
 
 function uintToString(bytes) {

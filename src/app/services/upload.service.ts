@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 // import { Protocol, Test } from '../interfaces/protocol';
 
-const url = 'http://localhost:3000/api/upload/zip';
+const url = 'http://localhost:3000/api/upload';
 
 @Injectable({
 	providedIn: 'root'
