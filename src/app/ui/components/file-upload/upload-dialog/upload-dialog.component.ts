@@ -14,6 +14,7 @@ export class UploadDialogComponent implements OnInit {
 	public files: Set<File> = new Set();
 
 	progress;
+  counter;
 	canBeClosed: boolean;
 	primaryButtonText: string;
 	showCancelButton: boolean;
@@ -24,7 +25,6 @@ export class UploadDialogComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.canBeClosed = true;
-		this.primaryButtonText = 'Upload';
 		this.showCancelButton = true;
 		this.uploading = false;
 		this.uploadSuccessful = false;
@@ -34,11 +34,10 @@ export class UploadDialogComponent implements OnInit {
 		this.file.nativeElement.click();
 	}
 
-	onFilesAdded(event): void {
-		console.log(event.target.files);
+	onFilesAdded(): void {
 		const files: { [key: string]: File } = this.file.nativeElement.files;
 
-		for (let key in files) {
+		for (const key in files) {
 			if (!isNaN(parseInt(key, 10))) {
 				this.files.add(files[key]);
 			}
@@ -46,29 +45,11 @@ export class UploadDialogComponent implements OnInit {
 	}
 
 	closeDialog(): void {
-		this.uploadService.upload(this.files);
-	// 	if (this.uploadSuccessful) {
-	// 		return this.dialogRef.close();
-	// 	}
-
-	// 	this.uploading = true;
-
-	// 	this.progress = this.uploadService.upload(this.files);
-
-	// 	const allProgressObservables = [];
-
-	// 	this.primaryButtonText = 'Finish';
-
-	// 	this.canBeClosed = false;
-	// 	this.dialogRef.disableClose = true;
-
-	// 	this.showCancelButton = false;
-
-	// 	forkJoin(allProgressObservables).subscribe(end => {
-	// 		this.canBeClosed = true;
-	// 		this.dialogRef.disableClose = false;
-	// 		this.uploadSuccessful = true;
-	// 		this.uploading = false;
-	// 	});
+    const observer = {
+      next: () => this.counter++,
+      error: err => console.log(err)
+    };
+    
+		this.uploadService.upload(this.files).subscribe();
 	}
 }

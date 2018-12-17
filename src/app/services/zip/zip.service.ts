@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';\
+
+import * as zip from './zip';
 
 @Injectable({
   providedIn: 'root'

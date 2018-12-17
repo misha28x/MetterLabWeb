@@ -47,6 +47,23 @@ mat-card-header {
 	&-error{ 
 		background: $error-color !important;
 	}
+  &-info {
+    background: $info-color !important;
+  }
+}
+.color {
+	&-success {
+		color: $success-color !important;
+	}
+	&-warning{ 
+		color: $warning-color !important;
+	}
+	&-error{ 
+		color: $error-color !important;
+	}
+  &-info {
+    color: $info-color !important;
+  }
 }
 .chart {
 	width: 100%;

@@ -31,8 +31,8 @@ export class TableComponent implements  OnInit  {
 	page: number;
 	pageSizeOptions: number[];
 	dataLenght: number;
-	private data: Array<any>;
-	private rows: Array<any>;
+	data: Array<any>;
+	rows: Array<any>;
 
 	constructor() {
 		this.columnList = [];
