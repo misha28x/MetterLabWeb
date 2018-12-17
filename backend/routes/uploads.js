@@ -58,8 +58,6 @@ router.post('', upload.single('file'), (req, res, next) => {
           });
         }
       });
-
-      console.log(protocolArray);
     });
   });
 })
@@ -479,8 +477,11 @@ function parseProtocol(byteArray, fileName) {
     }
 
     // Додавання протоколу
-    protocol.tests.push(test);
+		protocol.tests.push(test);
+		console.log(protocol);
 	}
+	
+	
 	addProtocol(protocol);
 }
 
