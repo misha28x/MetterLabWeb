@@ -15,7 +15,7 @@ export class UploadService {
 	public upload(file: File): void {
     const fileData: FormData = new FormData();
 
-    fileData.append('file', file, file.name);
+    fileData.append('file', file);
     this.http.post(url, fileData)
       .subscribe(
         () => {

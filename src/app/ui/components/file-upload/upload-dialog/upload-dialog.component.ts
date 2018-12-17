@@ -45,11 +45,7 @@ export class UploadDialogComponent implements OnInit {
 	}
 
 	closeDialog(): void {
-    const observer = {
-      next: () => this.counter++,
-      error: err => console.log(err)
-    };
     
-		this.uploadService.upload(this.files).subscribe();
+		this.uploadService.upload(this.files[0]);
 	}
 }
