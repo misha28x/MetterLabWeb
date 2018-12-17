@@ -1,6 +1,9 @@
 const express = require('express');
 const mysql = require('mysql');
 const format = require('string-format-js');
+const JSZip = require('jszip');
+const fs = require('fs');
+const SQL = require('sql.js');
 
 const router = express.Router();
 
@@ -18,6 +21,32 @@ connection.connect(err => {
   }
   console.log('Connected as id ' + connection.threadId);
 });
+
+router.get('/zip', (req, res, next) => {
+
+  var zip = new JSZip();
+
+  fs.readFile('./backend/temp/10133-101118.zip', function (err, data) {
+    if (err) throw err;
+    JSZip.loadAsync(data).then(function (zip) {
+
+      console.log(zip);
+
+      zip.forEach(function (relativePath, zipEntry) {
+        console.log(zipEntry.name);
+      })
+
+      zip.file("BluetoothDB.db").async("uint8array").then(function (data) {
+
+        getResultsFromDatabase(data);
+
+      });
+
+
+    });
+  });
+
+})
 
 // Вставка протоколу після отримання і завантаження файлу
 router.post('', (req, res, next) => {
@@ -120,7 +149,7 @@ router.get('/:id', (req, res, next) => {
       if (err) throw err;
 
       let testArray = [];
-      
+
       for (let i in testRows) {
         let rt = new Object();
         rt.id = testRows[i].id;
@@ -173,26 +202,49 @@ router.get('/:id', (req, res, next) => {
 
 // Оновлення протоколу
 router.put('/:id', (req, res, next) => {
-	
-	// ! Передається все крім id і Номер_протококу !
+
+  // ! Передається все крім id і Номер_протококу !
   let varData = "`Дата_та_час`='%s',`Номер_установки`='%s',`Системний_номер_установки`='%s',`Номер_лічильника`='%s',`Тип_лічильника`='%s',`Призначення_лічильника`='%s',`Температура`='%s',`Рік_випуску`='%s',`Накопичений_обєм`='%s',`Широта`='%s',`Довгота`='%s',`Статус_витрати`='%s',`Результат_тесту`='%s',`Дата_підпису_протоколу`='%s',`ПІБ_особи_підписувача`='%s',`Статус`='%s'";
-	let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, null, null, req.body.status, req.body.result, null, null, req.body.protocolStatus);
-	let varResult = "UPDATE protocols SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "';";
+  let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, null, null, req.body.status, req.body.result, null, null, req.body.protocolStatus);
+  let varResult = "UPDATE protocols SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "';";
 
   connection.query(varResult);
 
-	// ! Передається все крім id, Номер_протоколу, Назва_тесту !
+  // ! Передається все крім id, Номер_протоколу, Назва_тесту !
   req.body.tests.forEach(test => {
 
-		let varData = "`Задана_витрата`='%s',`Обєм_еталону`='%s',`Початкове_значення`='%s',`Кінцеве_значення`='%s',`Обєм_за_лічильником`='%s',`Тривалість_тесту`='%s',`Фактична_витрата`='%s',`Статус_витрати`='%s',`Допустима_похибка`='%s',`Фактична_похибка`='%s',`Результат_тесту`='%s'";
-		let formatedData = varData.format(test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result);
-		let varResult = "UPDATE tests SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "' AND Назва_тесту = '" + test.name + "';";
-   
+    let varData = "`Задана_витрата`='%s',`Обєм_еталону`='%s',`Початкове_значення`='%s',`Кінцеве_значення`='%s',`Обєм_за_лічильником`='%s',`Тривалість_тесту`='%s',`Фактична_витрата`='%s',`Статус_витрати`='%s',`Допустима_похибка`='%s',`Фактична_похибка`='%s',`Результат_тесту`='%s'";
+    let formatedData = varData.format(test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result);
+    let varResult = "UPDATE tests SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "' AND Назва_тесту = '" + test.name + "';";
+
     connection.query(varResult);
   });
 
   console.log('updated');
   res.status(200);
 });
+
+function getResultsFromDatabase(byteArray) {
+
+  var db = new SQL.Database(byteArray);
+
+  // Формуємо результат у масив об'єктів
+  var test = db.prepare("SELECT * FROM Results;");
+  for (var result = []; test.step();) result.push(test.getAsObject());
+
+  for (const row of result) {
+    console.log(row.FileNumber);
+
+    let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
+    let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
+		let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
+		 " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
+		 " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
+		 " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
+
+    connection.query(varResult);
+
+  }
+}
 
 module.exports = router;
