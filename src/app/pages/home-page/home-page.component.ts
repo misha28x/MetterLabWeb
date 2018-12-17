@@ -48,11 +48,11 @@ export class PageHomePageComponent implements OnInit {
 	}
 
 	getData(): void {
-		const url = 'http://localhost:3000/api/posts';
+		// const url = 'http://localhost:3000/api/posts';
 
-		this.posts = this.dataSv.getData(url)
-		.subscribe((postData) => {
-			this.posts = postData.posts;
-		});
+		// this.posts = this.dataSv.getData(url)
+		// .subscribe((postData) => {
+		// 	this.posts = postData.posts;
+		// });
 	}
 }

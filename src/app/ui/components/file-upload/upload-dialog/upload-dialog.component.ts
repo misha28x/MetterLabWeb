@@ -36,6 +36,7 @@ export class UploadDialogComponent implements OnInit {
 
 	onFilesAdded(): void {
 		const files: { [key: string]: File } = this.file.nativeElement.files;
+    console.log(files);
 
 		for (const key in files) {
 			if (!isNaN(parseInt(key, 10))) {
@@ -46,6 +47,6 @@ export class UploadDialogComponent implements OnInit {
 
 	closeDialog(): void {
     
-		this.uploadService.upload(this.files[0]);
+		this.uploadService.upload(this.files);
 	}
 }
