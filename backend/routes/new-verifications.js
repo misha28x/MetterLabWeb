@@ -21,7 +21,7 @@ connection.connect(err => {
 
 // 1) Запит для отримання усіх повірок get
 router.get('', (req, res, next) => {
-  con.query('SELECT * FROM new_verifications', (err, result) => {
+  connection.query('SELECT * FROM new_verifications', (err, result) => {
     if (err) {
       console.log(err);
     }
