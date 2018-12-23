@@ -8,6 +8,7 @@ const newVerificationsRoutes = require('./routes/new-verifications');
 // added
 const home = require('./routes/home');
 const providesRequests = require('./routes/provides-requests');
+const labRequests = require('./routes/lab-requests');
 const vericationsProtocols = require('./routes/verications-protocols');
 const rejectedProtocols = require('./routes/rejected-protocols');
 const stationTasks = require('./routes/station-tasks');
@@ -42,6 +43,7 @@ app.use('/api/new-verifications', newVerificationsRoutes);
 // added
 app.use('/api/home', home);
 app.use('/api/provides-requests', providesRequests);
+app.use('api/lab-requests', labRequests);
 app.use('/api/verications-protocols', vericationsProtocols);
 app.use('/api/rejected-protocols', rejectedProtocols);
 app.use('/api/station-tasks', stationTasks);

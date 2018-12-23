@@ -64,4 +64,18 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
+// Перевірка на дублі по адресі клієнта (район, вулиця, будинок, квартира)
+router.get('/:id', (req, res, next) => {
+  connection.query("SELECT * FROM `new_verifications` WHERE " +
+    "(`Район`='" + req.params.region +
+    "', `Вулиця`= '" + req.params.street +
+    "', `Будинок`= '" + req.params.house +
+    "', `Квартира` = '" + req.params.flat + "');", (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      res.status(200).json(result);
+    });
+});
+
 module.exports = router;
