@@ -19,7 +19,7 @@ con.connect((err) => {
 });
 
 router.get('', (req, res, next) => {
-	con.query('SELECT * FROM new_applications', (err, result) => {
+	con.query('SELECT * FROM new_verifications', (err, result) => {
 		if (err) {
 			console.log(err);
 		}
