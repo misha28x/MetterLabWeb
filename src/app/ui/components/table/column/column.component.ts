@@ -14,6 +14,7 @@ export class ColumnComponent implements OnInit {
 	@Input() columnName: string;
 	@Input() enableFiltering: boolean;
 	@Input() enableSorting: boolean;
+  @Input() width: number;
 
 	config: any;
 		
@@ -32,6 +33,8 @@ export class ColumnComponent implements OnInit {
 				columnName: ''
 			}
 		};
+
+    this.width = 160;
 	}
 
 	public setConfig(): void {

@@ -102,7 +102,6 @@ function bytesToImage(bbiFile, id) {
 
     default:
       break;
-
   }
   const imageBytes = bbiFile.slice(imgNum + 2, imgNum + 2 + imgLength);
   
@@ -153,7 +152,6 @@ function parseProtocol(byteArray, fileName) {
   };
 
   const bbiFile = new Uint8Array(byteArray);
-
   // Дата
   protocol.bbiFileName = fileName;
   protocol.day = bbiFile[0];
@@ -161,7 +159,6 @@ function parseProtocol(byteArray, fileName) {
   protocol.year = (bbiFile[2] | bbiFile[3] << 8);
   protocol.hours = bbiFile[4];
   protocol.minutes = bbiFile[5];
-
   // Дата
   const date = new Date((bbiFile[2] | bbiFile[3] << 8), bbiFile[1], bbiFile[0], bbiFile[4], bbiFile[5]);
   protocol.date = date;
@@ -169,6 +166,7 @@ function parseProtocol(byteArray, fileName) {
   // Номер счётчика
   const counter = bbiFile.slice(72, 84);
   let protocolCounter;
+
   for (let i = 0; i < counter.byteLength; i++) {
     protocolCounter += String.fromCharCode(counter[i]);
   }
@@ -201,7 +199,6 @@ function parseProtocol(byteArray, fileName) {
     protocol.protocolStatus = (false);
     protocol.status = 'Заблокирован';
   }
-
   // Тести
   let num2 = 0;
   let b2;
@@ -216,13 +213,11 @@ function parseProtocol(byteArray, fileName) {
       break;
     }
   }
-
   // impuls / litr
   let num3 = bytesToInt(bbiFile.slice(92, 96));
   if (num3 === 0) {
     num3 = 10000;
   }
-
   const testId = [];
   // Заповнення масиву з тестами
   for (let index = 0; index < num2; index++) {
@@ -339,7 +334,6 @@ function parseProtocol(byteArray, fileName) {
 
     test.startStateImage = bytesToImage(bbiFile, index * 2 + 1).toString();
     test.endStateImage = bytesToImage(bbiFile, index * 2 + 2).toString();
-		
     // Протокол "Не обработан" чи "Годен" чи "Не Годен"
     if (test.result === 'Не обработан') {
       protocol.result = 'Не обработан';
@@ -348,14 +342,12 @@ function parseProtocol(byteArray, fileName) {
     } else if (test.result === 'Не годен') {
       protocol.result = 'Не годен';
     }
-
     // Протокол "В зоні" чи "Не в зоні"
     if (test.isInZone === 'В зоне') {
       protocol.status = 'В зоне';
     } else if (test.isInZone === 'Не в зоне') {
       protocol.status = 'Не в зоне';
     }
-
     // Встановлення імені тесту
     const testNameNumber = Math.round(testId[index] / 10);
     const testNameSubNumber = Math.round(testId[index] % 10);
@@ -366,7 +358,6 @@ function parseProtocol(byteArray, fileName) {
       test.name = 'Тест ' + testNameNumber + ' Повтор ' + testNameSubNumber;
     }
 
-    // Додавання протоколу
     protocol.tests.push(test);
   }
   addProtocol(protocol);
@@ -395,10 +386,8 @@ function addProtocol(protocol) {
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
-
   var zip = new JSZip();
-  var protocolArray = [];
-  // 
+  
   fs.readFile('./backend/temp/tempo.zip', function (err, data) {
     if (err) throw err;
     JSZip.loadAsync(data).then(function (zip) {
@@ -406,8 +395,6 @@ router.post('', upload.single('file'), (req, res, next) => {
         if (zipEntry.name.includes('.bbi')) {
           zip.file(zipEntry.name).async("uint8array").then(byteArray => {
 						parseProtocol(byteArray, zipEntry.name.split('/')[1]);
-						//console.log(zipEntry.name.split('/')[1]);
-						
 					});
         } else {
           zip.file("BluetoothDB.db").async("uint8array").then(function (data) {
@@ -417,11 +404,9 @@ router.post('', upload.single('file'), (req, res, next) => {
       });
     });
 	});
+
 	res.status(201);
 })
-
-// Вставка протоколу після отримання і завантаження файлу
-
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {
   connection.query('SELECT * from protocols', function (err, rows, fields) {
@@ -481,7 +466,6 @@ router.get('', (req, res, next) => {
           return test.bbiFileName === rp.protocolNumber;
         });
 
-        console.log(rp);
         protocolArray.push(rp);
       }
       res.status(200).send(protocolArray);
@@ -546,8 +530,6 @@ router.get('/:id', (req, res, next) => {
 
       rp.tests = testArray;
 
-      console.log(rp);
-
       res.status(200).send(rp);
     });
   });
@@ -555,14 +537,12 @@ router.get('/:id', (req, res, next) => {
 
 // Оновлення протоколу
 router.put('/:id', (req, res, next) => {
-
   // ! Передається все крім id і Номер_протококу !
   let varData = "`Дата_та_час`='%s',`Номер_установки`='%s',`Системний_номер_установки`='%s',`Номер_лічильника`='%s',`Тип_лічильника`='%s',`Призначення_лічильника`='%s',`Температура`='%s',`Рік_випуску`='%s',`Накопичений_обєм`='%s',`Широта`='%s',`Довгота`='%s',`Статус_витрати`='%s',`Результат_тесту`='%s',`Дата_підпису_протоколу`='%s',`ПІБ_особи_підписувача`='%s',`Статус`='%s'";
   let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, null, null, req.body.status, req.body.result, null, null, req.body.protocolStatus);
   let varResult = "UPDATE protocols SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "';";
 
   connection.query(varResult);
-
   // ! Передається все крім id, Номер_протоколу, Назва_тесту !
   req.body.tests.forEach(test => {
 
@@ -573,7 +553,6 @@ router.put('/:id', (req, res, next) => {
     connection.query(varResult);
   });
 
-  console.log('updated');
   res.status(200);
 });
 

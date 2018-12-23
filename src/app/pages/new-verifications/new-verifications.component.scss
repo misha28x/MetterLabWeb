@@ -30,12 +30,9 @@
   .actions-row {
     display: flex;
     flex-flow: row wrap;
-    margin: 0 -10px;
 
     > * {
-      margin: 0 5px;
-      width: 25px;
-      height: 30px;
+      font-size: 1.6em;
     }
   }
 }

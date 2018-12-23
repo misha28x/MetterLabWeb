@@ -22,9 +22,9 @@
     </div>
 
     <app-table [tableData]="newVerifications" [pagination]="true">
-      <app-column>
+      <app-column [width]="30">
         <ng-template #headerBodyTemplate>
-          <mat-checkbox></mat-checkbox>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
         </ng-template>
         <ng-template #tableBodyTemplate>
           <mat-checkbox></mat-checkbox>
@@ -41,13 +41,13 @@
       <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Район'" [columnName]="'Район'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'Район'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Вулиця'" [columnName]="'Вулиця'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Будинок'" [columnName]="'Будинок'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'Будинок'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Квартира'" [columnName]="'Квартира'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'Квартира'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'Бажана_дата_повірки'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
@@ -55,33 +55,45 @@
       <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'Cправність_сантехніки'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true"
+      <app-column [width]="115" [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Наявність пломби'" [columnName]="'Наявність_пломби'" [enableSorting]="true"
+      <app-column [width]="140" [columnTitle]="'Наявність пломби'" [columnName]="'Наявність_пломби'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Телефон'" [columnName]="'Телефон'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="120" [columnTitle]="'Телефон'" [columnName]="'Телефон'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Примітка'" [columnName]="'Примітка'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'Примітка'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Дії'">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row"> 
             <button mat-icon-button>
-              <i class="icofont-ui-user"></i>
+              <i 
+                class="icofont-ui-user"
+                matTooltip="Додати відповідальну особу"
+              ></i>
             </button>
 
             <button mat-icon-button>
-              <i class="icofont-ui-user color-success"></i>
+              <i 
+                class="icofont-ui-user color-success"
+                matTooltip="Додати відповідальну особу"
+              ></i>
             </button>
 
             <button mat-icon-button>
-              <i class="icofont-ui-delete color-warning"></i>
+              <i 
+                class="icofont-ui-delete color-error"
+                matTooltip="Відхилити заявку"
+              ></i>
             </button>
 
             <button mat-icon-button>
-              <i class="icofont-info-circle color-info"></i>
+              <i 
+                class="icofont-info-circle color-info"
+                matTooltip="Інформація"
+              ></i>
             </button>
           </div>
         </ng-template>

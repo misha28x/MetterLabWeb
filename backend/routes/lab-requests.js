@@ -3,23 +3,23 @@ const mysql = require('mysql');
 
 const router = express.Router();
 
-const connection = mysql.createConnection({
+let con = mysql.createConnection({
   host: 'localhost',
-  database: 'water_counters',
   user: 'root',
   password: '',
+  database: 'water_counters'
 });
 
-connection.connect(err => {
+con.connect((err) => {
   if (err) {
-    console.error('Error connecting: ' + err.stack);
-    return;
+    console.log(err);
+  } else {
+    console.log('Connected');
   }
-  console.log('Connected as id ' + connection.threadId);
 });
 
 router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM lab_requests', (err, result) => {
+  con.query('SELECT * FROM results', (err, result) => {
     if (err) {
       console.log(err);
     }
