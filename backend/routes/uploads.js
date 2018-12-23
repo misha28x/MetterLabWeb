@@ -104,7 +104,7 @@ function bytesToImage(bbiFile, id) {
       break;
   }
   const imageBytes = bbiFile.slice(imgNum + 2, imgNum + 2 + imgLength);
-  
+
   return imageBytes;
 }
 
@@ -146,7 +146,8 @@ function parseProtocol(byteArray, fileName) {
     result: '',
     status: '',
     temperature: 0,
-    tests: tests,
+		tests: tests,
+		symbol: '',
     type: '',
     year: 0
   };
@@ -181,8 +182,19 @@ function parseProtocol(byteArray, fileName) {
   protocol.capacity = bytesToInt(liter);
   // Тип лічильника
   const countType = bbiFile.slice(104, 110);
-  const countType2 = bbiFile.slice(112, 116);
-  protocol.type = uintToString(countType) + 'КВ' + uintToString(countType2);
+  const countSymbol = bbiFile.slice(110, 116);
+
+  for (let i = 0; i < countSymbol.length; i++) {
+    if (countSymbol[i] > 127) {
+      countSymbol[i] -= 128;
+      if (countSymbol[i] === 74) {
+        countSymbol[i] = 75;
+      }
+    }
+  }
+  protocol.type = uintToString(countType);
+  protocol.symbol = uintToString(countSymbol);
+
   // Рік виробництва
   const year = bbiFile.slice(124, 128);
   protocol.productionYear = bytesToInt(year);
@@ -387,15 +399,15 @@ function addProtocol(protocol) {
 
 router.post('', upload.single('file'), (req, res, next) => {
   var zip = new JSZip();
-  
+
   fs.readFile('./backend/temp/tempo.zip', function (err, data) {
     if (err) throw err;
     JSZip.loadAsync(data).then(function (zip) {
       zip.forEach(async function (relativePath, zipEntry) {
         if (zipEntry.name.includes('.bbi')) {
           zip.file(zipEntry.name).async("uint8array").then(byteArray => {
-						parseProtocol(byteArray, zipEntry.name.split('/')[1]);
-					});
+            parseProtocol(byteArray, zipEntry.name.split('/')[1]);
+          });
         } else {
           zip.file("BluetoothDB.db").async("uint8array").then(function (data) {
             getResultsFromDatabase(data);
@@ -403,9 +415,9 @@ router.post('', upload.single('file'), (req, res, next) => {
         }
       });
     });
-	});
+  });
 
-	res.status(201);
+  res.status(201);
 })
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {

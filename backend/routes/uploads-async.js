@@ -9,9 +9,9 @@ const connection = mysql.createPool({
 });
 
 router.post('', (req, res, next) => {
-  let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`, `Тип_лічильника`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
+  let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`, `Умовне_позначення`, `Типорозмір_лічильника`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-  let formatedData = varData.format(req.body.bbiFileName, req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, null, null, req.body.status, req.body.result, null, null, req.body.protocolStatus);
+  let formatedData = varData.format(req.body.bbiFileName, req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.symbol ,req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, null, null, req.body.status, req.body.result, null, null, req.body.protocolStatus);
 
   connection.query(varPart + formatedData);
 
@@ -82,7 +82,8 @@ const getProtocols = async (req, res, next) => {
 			rp.deviceNumber = row.Номер_установки;
 			rp.systemNumber = row.Системний_номер_установки;
 			rp.counterNumber = row.Номер_лічильника;
-			rp.type = row.Тип_лічильника;
+			rp.symbol = row.Умовне_позначення;
+			rp.type = row.Типорозмір_лічильника;
 			rp.counterPurpose = row.Призначення_лічильника;
 			rp.temperature = row.Температура;
 			rp.productionYear = row.Рік_випуску;

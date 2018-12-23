@@ -27,4 +27,12 @@ router.get('', (req, res, next) => {
   });
 });
 
+router.get('/:id', (req, res, next) => {
+  let query = "SELECT * FROM verifications_archive WHERE `id_для_бригади`='" + req.params.id + "';";
+
+  connection.query(query, () => {
+    res.status(200);
+  });
+});
+
 module.exports = router;
