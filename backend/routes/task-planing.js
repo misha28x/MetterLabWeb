@@ -19,7 +19,7 @@ connection.connect((err) => {
 });
 
 router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM station_tasks', (err, result) => {
+  connection.query('SELECT * FROM task_planing', (err, result) => {
     if (err) {
       console.log(err);
     }
