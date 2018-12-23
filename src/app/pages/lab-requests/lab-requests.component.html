@@ -1,27 +1,16 @@
-<!-- <mat-card>
+<mat-card>
   <mat-card-content>
     <div class="actions">
-      <div class="task-actions">
-        <app-new-verification></app-new-verification>
-        <button mat-raised-button color="primary"><i class="icofont-search-document"></i> Глобальний Пошук</button>
-      </div>
+      <button mat-raised-button color="primary" class="bg-warning">
+        <i class="icofont-delete"></i> Скасувати Дійову Особу
+      </button>
 
-      <div class="user-actions">
-        <button mat-raised-button color="primary" class="bg-success">
-          <i class="icofont-ui-user"></i> Додати ДійовуОсобу
-        </button>
-
-        <button mat-raised-button color="primary" class="bg-warning">
-          <i class="icofont-delete"></i> Скасувати Дійову Особу
-        </button>
-
-        <button mat-raised-button color="warn">
-          <i class="icofont-minus"></i>Відхилити Повірку
-        </button>
-      </div>
+      <button mat-raised-button color="warn">
+        <i class="icofont-minus"></i>Відхилити Повірку
+      </button>
     </div>
 
-    <app-table [tableData]="newVerifications" [pagination]="true">
+    <app-table [tableData]="labRequests" [pagination]="true">
       <app-column>
         <ng-template #headerBodyTemplate>
           <mat-checkbox></mat-checkbox>
@@ -31,13 +20,15 @@
         </ng-template>
       </app-column>
 
-      <app-column [columnTitle]="'Дата надходження'" [columnName]="'Номер_заявки'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Дата надходження'" [columnName]="'Date'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="''" [columnName]="'Дата_надходження'" [enableSorting]="true"[enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Номер Заявки'" [columnName]="'Id_pc'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Клієнт'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'Надавач_послуг'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Район'" [columnName]="'Район'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
@@ -47,13 +38,17 @@
 
       <app-column [columnTitle]="'Квартира'" [columnName]="'Квартира'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'Бажана_дата_повірки'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'Бажана_дата_повірки'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'Cправність_сантехніки'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'Cправність_сантехніки'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Наявність пломби'" [columnName]="'Наявність_пломби'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Наявність пломби'" [columnName]="'Наявність_пломби'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Телефон'" [columnName]="'Телефон'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
@@ -82,4 +77,4 @@
       </app-column>
     </app-table>
   </mat-card-content>
-</mat-card> -->
+</mat-card>

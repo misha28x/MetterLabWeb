@@ -6,21 +6,17 @@
 <div class="table-wrap">
   <table [ngClass]="getTableClasses()">
     <tr>
-      <th *ngFor="let c of columnList;" [column]="c.config" appTableSort="c.config.sort" (sortChanged)="onChangeTable(c)">
-				<div class="title">
+      <th *ngFor="let c of columnList;" [column]="c.config" appTableSort="c.config.sort" (sortChanged)="onChangeTable(c)"
+        [ngStyle]="{'min-width.px': c.width}">
+        <div class="title">
           {{ c.config.title }}
         </div>
         <div class="header-wrapper">
           <ng-container *ngIf="!c.headerTemplate">
             <ng-container *ngIf="c.enableFiltering">
               <div class="search-box">
-                <app-input 
-									[size]="'sm'" 
-									(click)="$event.stopPropagation();" 
-									[appFilterTable]="c.config.filtering"
-                  [suffixIcon]="'icofont icofont-search-alt-2'"
-									(filterChanged)="onChangeTable(c)"
-								></app-input>
+                <app-input [size]="'sm'" (click)="$event.stopPropagation();" [appFilterTable]="c.config.filtering"
+                  [suffixIcon]="'icofont icofont-search-alt-2'" (filterChanged)="onChangeTable(c)"></app-input>
               </div>
             </ng-container>
 
@@ -31,12 +27,12 @@
               </span>
             </span>
           </ng-container>
+          <ng-template *ngIf="c.headerTemplate" [ngTemplateOutlet]="c.headerTemplate"></ng-template>
         </div>
-        <ng-template *ngIf="c.headerTemplate" [ngTemplateOutlet]="c.headerTemplate"></ng-template>
       </th>
     </tr>
     <tr *ngFor="let row of rows; trackBy: trackByFn">
-      <td *ngFor="let col of columnList">
+      <td *ngFor="let col of columnList" [ngStyle]="{'min-width.px': col.width}">
         <ng-container *ngIf="!col.bodyTemplate">
           {{ row[col.config.name] }}
         </ng-container>
