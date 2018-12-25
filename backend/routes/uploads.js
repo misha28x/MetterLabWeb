@@ -219,11 +219,11 @@ function parseProtocol(byteArray, fileName) {
   protocol.deviceNumber = bytesToInt(deviceNumber);
 
   // Широта
-	const latitude = bbiFile.slice(84, 88);
-	protocol.latitude = bytesToInt(latitude) / 100000;
+  const latitude = bbiFile.slice(84, 88);
+  protocol.latitude = bytesToInt(latitude) / 100000;
   // Довгота
-	const longitude = bbiFile.slice(88, 92);
-	protocol.longitude = bytesToInt(longitude) / 100000;
+  const longitude = bbiFile.slice(88, 92);
+  protocol.longitude = bytesToInt(longitude) / 100000;
 
   // Сертифікат
   const num5 = bytesToInt(bbiFile.slice(120, 124));
@@ -394,8 +394,8 @@ function parseProtocol(byteArray, fileName) {
     }
 
     protocol.tests.push(test);
-	}
-	
+  }
+
   addProtocol(protocol);
 }
 
@@ -404,7 +404,7 @@ function uintToString(bytes) {
     decodedString = decodeURIComponent(escape(encodedString));
   return decodedString;
 }
-// TODO: додати фото в базу даних (kill me pls)
+
 function addProtocol(protocol) {
   let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`,`Умовне_позначення` , `Тип_лічильника`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
@@ -472,6 +472,8 @@ router.get('', (req, res, next) => {
         rt.assumedFault = testRows[i].Допустима_похибка;
         rt.calculatedFault = testRows[i].Фактична_похибка;
         rt.result = testRows[i].Результат_тесту;
+        rt.startStateImage = testRows[i].Початкове_зображення;
+        rt.endStateImage = testRows[i].Кінцеве_зображення;
 
         testArray.push(rt);
       }
@@ -484,7 +486,8 @@ router.get('', (req, res, next) => {
         rp.deviceNumber = rows[i].Номер_установки;
         rp.systemNumber = rows[i].Системний_номер_установки;
         rp.counterNumber = rows[i].Номер_лічильника;
-        rp.type = rows[i].Тип_лічильника;
+        rp.symbol = rows[i].Умовне_позначення;
+        rp.type = rows[i].Типорозмір_лічильника;
         rp.counterPurpose = rows[i].Призначення_лічильника;
         rp.temperature = rows[i].Температура;
         rp.productionYear = rows[i].Рік_випуску;
@@ -574,16 +577,16 @@ router.get('/:id', (req, res, next) => {
 // Оновлення протоколу
 router.put('/:id', (req, res, next) => {
   // ! Передається все крім id і Номер_протококу !
-  let varData = "`Дата_та_час`='%s',`Номер_установки`='%s',`Системний_номер_установки`='%s',`Номер_лічильника`='%s',`Тип_лічильника`='%s',`Призначення_лічильника`='%s',`Температура`='%s',`Рік_випуску`='%s',`Накопичений_обєм`='%s',`Широта`='%s',`Довгота`='%s',`Статус_витрати`='%s',`Результат_тесту`='%s',`Дата_підпису_протоколу`='%s',`ПІБ_особи_підписувача`='%s',`Статус`='%s'";
-  let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, req.body.latitude, req.body.longitude, req.body.status, req.body.result, null, null, req.body.protocolStatus);
+  let varData = "`Дата_та_час`='%s',`Номер_установки`='%s',`Системний_номер_установки`='%s',`Номер_лічильника`='%s', `Умовне_позначення`='%s' ,`Типорозмір_лічильника`='%s',`Призначення_лічильника`='%s',`Температура`='%s',`Рік_випуску`='%s',`Накопичений_обєм`='%s',`Широта`='%s',`Довгота`='%s',`Статус_витрати`='%s',`Результат_тесту`='%s',`Дата_підпису_протоколу`='%s',`ПІБ_особи_підписувача`='%s',`Статус`='%s'";
+  let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.symbol, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, req.body.latitude, req.body.longitude, req.body.status, req.body.result, null, null, req.body.protocolStatus);
   let varResult = "UPDATE protocols SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "';";
 
   connection.query(varResult);
   // ! Передається все крім id, Номер_протоколу, Назва_тесту !
   req.body.tests.forEach(test => {
 
-    let varData = "`Задана_витрата`='%s',`Обєм_еталону`='%s',`Початкове_значення`='%s',`Кінцеве_значення`='%s',`Обєм_за_лічильником`='%s',`Тривалість_тесту`='%s',`Фактична_витрата`='%s',`Статус_витрати`='%s',`Допустима_похибка`='%s',`Фактична_похибка`='%s',`Результат_тесту`='%s'";
-    let formatedData = varData.format(test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result);
+    let varData = "`Задана_витрата`='%s',`Обєм_еталону`='%s',`Початкове_значення`='%s',`Кінцеве_значення`='%s',`Обєм_за_лічильником`='%s',`Тривалість_тесту`='%s',`Фактична_витрата`='%s',`Статус_витрати`='%s',`Допустима_похибка`='%s',`Фактична_похибка`='%s',`Результат_тесту`='%s',`Початкове_зображення`='%s',`Кінцеве_зображення`='%s'";
+    let formatedData = varData.format(test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
     let varResult = "UPDATE tests SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "' AND Назва_тесту = '" + test.name + "';";
 
     connection.query(varResult);
