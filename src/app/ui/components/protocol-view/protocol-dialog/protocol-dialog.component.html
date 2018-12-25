@@ -57,6 +57,16 @@
   </div>
 
   <div class="test" *ngFor="let test of data.tests">
-
+    <app-input [innerValue]="test.installedExes || ''"></app-input>
+    <app-input [innerValue]="test.assumedFault || ''"></app-input>
+    <app-input [innerValue]="test.etalonCapacity || ''"></app-input>
+    <app-input [innerValue]="test.initValue || ''"></app-input>
+    <app-input [innerValue]="test.finalValue || ''"></app-input>
+    <app-input [innerValue]="test.counterCapacity || ''"></app-input>
+    <app-input [innerValue]="test.testDuration || ''"></app-input>
+    <app-input [innerValue]="test.mediumExes|| ''"></app-input>
+    <app-input [innerValue]="test.isInZone || ''"></app-input>
+    <app-input [innerValue]="test.calculatedFault || ''"></app-input>
+    <app-input [innerValue]="test.result  || ''"></app-input>
   </div>
 </div>

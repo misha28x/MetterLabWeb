@@ -108,6 +108,8 @@ function bytesToImage(bbiFile, id) {
   return imageBytes;
 }
 
+// Images Bytes to Base64
+
 function getResultsFromDatabase(byteArray) {
   var db = new SQL.Database(byteArray);
 
@@ -194,10 +196,10 @@ function parseProtocol(byteArray, fileName) {
     }
   }
   // Типорозмір_лічильника
-  protocol.type = uintToString(countType);
+  protocol.type = '22'; // uintToString(countType);
 
   // Умовне_позначення
-  protocol.symbol = uintToString(countSymbol);
+  protocol.symbol = '33'; // uintToString(countSymbol);
 
   // Рік виробництва
   const year = bbiFile.slice(124, 128);
@@ -208,10 +210,10 @@ function parseProtocol(byteArray, fileName) {
 
   // Широта
   const latitude = bbiFile.slice(84, 88);
-  protocol.latitude = bytesToInt(latitude) / 100000;
+  protocol.latitude = 1;// bytesToInt(latitude);
   // Довгота
   const longitude = bbiFile.slice(88, 92);
-  protocol.longitude = bytesToInt(longitude) / 100000;
+  protocol.longitude = 1; // bytesToInt(longitude);
 
   // Сертифікат
   const num5 = bytesToInt(bbiFile.slice(120, 124));
@@ -258,8 +260,8 @@ function parseProtocol(byteArray, fileName) {
       isInZone: '',
       calculatedFault: 0,
       result: '',
-      startStateImage: null,
-      endStateImage: null
+      startStateImage: '',
+      endStateImage: ''
     };
 
     // index + 1 << 8
@@ -355,8 +357,8 @@ function parseProtocol(byteArray, fileName) {
       ++testIdCount;
     }
 
-    test.startStateImage = bytesToImage(bbiFile, index * 2 + 1).toString();
-    test.endStateImage = bytesToImage(bbiFile, index * 2 + 2).toString();
+    test.startStateImage = 'start'; //bytesToImage(bbiFile, index * 2 + 1).toString();
+    test.endStateImage = 'end'; // bytesToImage(bbiFile, index * 2 + 2).toString();
     // Протокол "Не обработан" чи "Годен" чи "Не Годен"
     if (test.result === 'Не обработан') {
       protocol.result = 'Не обработан';
@@ -394,9 +396,9 @@ function uintToString(bytes) {
 }
 
 function addProtocol(protocol) {
-  let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`,`Умовне_позначення` , `Тип_лічильника`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
+  let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`,`Умовне_позначення` , `Типорозмір_лічильника`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-  let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, prototype.symbol, protocol.type, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
+  let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
   connection.query(varPart + formatedData);
 
@@ -530,6 +532,8 @@ router.get('/:id', (req, res, next) => {
         rt.assumedFault = testRows[i].Допустима_похибка;
         rt.calculatedFault = testRows[i].Фактична_похибка;
         rt.result = testRows[i].Результат_тесту;
+        rt.startStateImage = testRows[i].Початкове_зображення;
+        rt.endStateImage = testRows[i].Кінцеве_зображення;
 
         testArray.push(rt);
       }
@@ -541,7 +545,8 @@ router.get('/:id', (req, res, next) => {
       rp.deviceNumber = rows[0].Номер_установки;
       rp.systemNumber = rows[0].Системний_номер_установки;
       rp.counterNumber = rows[0].Номер_лічильника;
-      rp.type = rows[0].Тип_лічильника;
+      rp.symbol = rows[0].Умовне_позначення;
+      rp.type = rows[0].Типорозмір_лічильника;
       rp.counterPurpose = rows[0].Призначення_лічильника;
       rp.temperature = rows[0].Температура;
       rp.productionYear = rows[0].Рік_випуску;
