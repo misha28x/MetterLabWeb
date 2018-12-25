@@ -108,6 +108,17 @@ function bytesToImage(bbiFile, id) {
   return imageBytes;
 }
 
+// Images Bytes to Base64
+
+function bytesToBase64(byteArray) {
+  var binary = '';
+  var len = byteArray.byteLength;
+  for (var i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return binary;
+}
+
 function getResultsFromDatabase(byteArray) {
   var db = new SQL.Database(byteArray);
 
@@ -142,12 +153,14 @@ function parseProtocol(byteArray, fileName) {
     minutes: 0,
     month: 0,
     productionYear: 0,
+    longitude: 0,
+    latitude: 0,
     protocolStatus: undefined,
     result: '',
     status: '',
     temperature: 0,
-		tests: tests,
-		symbol: '',
+    tests: tests,
+    symbol: '',
     type: '',
     year: 0
   };
@@ -192,7 +205,10 @@ function parseProtocol(byteArray, fileName) {
       }
     }
   }
+  // Типорозмір_лічильника
   protocol.type = uintToString(countType);
+
+  // Умовне_позначення
   protocol.symbol = uintToString(countSymbol);
 
   // Рік виробництва
@@ -201,6 +217,13 @@ function parseProtocol(byteArray, fileName) {
   // Номер установки
   const deviceNumber = bbiFile.slice(68, 72);
   protocol.deviceNumber = bytesToInt(deviceNumber);
+
+  // Широта
+	const latitude = bbiFile.slice(84, 88);
+	protocol.latitude = bytesToInt(latitude) / 100000;
+  // Довгота
+	const longitude = bbiFile.slice(88, 92);
+	protocol.longitude = bytesToInt(longitude) / 100000;
 
   // Сертифікат
   const num5 = bytesToInt(bbiFile.slice(120, 124));
@@ -344,8 +367,8 @@ function parseProtocol(byteArray, fileName) {
       ++testIdCount;
     }
 
-    test.startStateImage = bytesToImage(bbiFile, index * 2 + 1).toString();
-    test.endStateImage = bytesToImage(bbiFile, index * 2 + 2).toString();
+    test.startStateImage = bytesToBase64(bytesToImage(bbiFile, index * 2 + 1).toString());
+    test.endStateImage = bytesToBase64(bytesToImage(bbiFile, index * 2 + 2).toString());
     // Протокол "Не обработан" чи "Годен" чи "Не Годен"
     if (test.result === 'Не обработан') {
       protocol.result = 'Не обработан';
@@ -371,7 +394,8 @@ function parseProtocol(byteArray, fileName) {
     }
 
     protocol.tests.push(test);
-  }
+	}
+	
   addProtocol(protocol);
 }
 
@@ -384,14 +408,14 @@ function uintToString(bytes) {
 function addProtocol(protocol) {
   let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`, `Тип_лічильника`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-  let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.type, null, protocol.temperature, protocol.productionYear, protocol.capacity, null, null, protocol.status, protocol.result, null, null, protocol.protocolStatus);
+  let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.type, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
   connection.query(varPart + formatedData);
 
   protocol.tests.forEach(test => {
-    varPart = "INSERT INTO `tests`(`Номер_протоколу`, `Назва_тесту`, `Задана_витрата`, `Обєм_еталону`, `Початкове_значення`, `Кінцеве_значення`, `Обєм_за_лічильником`, `Тривалість_тесту`, `Фактична_витрата`, `Статус_витрати`, `Допустима_похибка`, `Фактична_похибка`, `Результат_тесту`) ";
-    varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result);
+    varPart = "INSERT INTO `tests`(`Номер_протоколу`, `Назва_тесту`, `Задана_витрата`, `Обєм_еталону`, `Початкове_значення`, `Кінцеве_значення`, `Обєм_за_лічильником`, `Тривалість_тесту`, `Фактична_витрата`, `Статус_витрати`, `Допустима_похибка`, `Фактична_похибка`, `Результат_тесту`, `Початкове_зображення`, `Кінцеве_зображення`) ";
+    varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+    formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
 
     connection.query(varPart + formatedData);
   });
@@ -465,8 +489,8 @@ router.get('', (req, res, next) => {
         rp.temperature = rows[i].Температура;
         rp.productionYear = rows[i].Рік_випуску;
         rp.capacity = rows[i].Накопичений_обєм;
-        rp.width = rows[i].Широта;
-        rp.height = rows[i].Довгота;
+        rp.latitude = rows[i].Широта;
+        rp.longitude = rows[i].Довгота;
         rp.isInZone = rows[i].Статус_витрати;
         rp.result = rows[i].Результат_тесту;
         rp.signDate = rows[i].Дата_підпису_протоколу;
@@ -531,8 +555,8 @@ router.get('/:id', (req, res, next) => {
       rp.temperature = rows[0].Температура;
       rp.productionYear = rows[0].Рік_випуску;
       rp.capacity = rows[0].Накопичений_обєм;
-      rp.width = rows[0].Широта;
-      rp.height = rows[0].Довгота;
+      rp.latitude = rows[0].Широта;
+      rp.longitude = rows[0].Довгота;
       rp.isInZone = rows[0].Статус_витрати;
       rp.result = rows[0].Результат_тесту;
       rp.signDate = rows[0].Дата_підпису_протоколу;
@@ -551,7 +575,7 @@ router.get('/:id', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   // ! Передається все крім id і Номер_протококу !
   let varData = "`Дата_та_час`='%s',`Номер_установки`='%s',`Системний_номер_установки`='%s',`Номер_лічильника`='%s',`Тип_лічильника`='%s',`Призначення_лічильника`='%s',`Температура`='%s',`Рік_випуску`='%s',`Накопичений_обєм`='%s',`Широта`='%s',`Довгота`='%s',`Статус_витрати`='%s',`Результат_тесту`='%s',`Дата_підпису_протоколу`='%s',`ПІБ_особи_підписувача`='%s',`Статус`='%s'";
-  let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, null, null, req.body.status, req.body.result, null, null, req.body.protocolStatus);
+  let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, req.body.latitude, req.body.longitude, req.body.status, req.body.result, null, null, req.body.protocolStatus);
   let varResult = "UPDATE protocols SET " + formatedData + " WHERE Номер_протоколу = '" + req.params.id + "';";
 
   connection.query(varResult);

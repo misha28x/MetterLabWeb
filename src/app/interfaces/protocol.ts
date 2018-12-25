@@ -12,6 +12,8 @@ export interface Protocol {
 	capacity: number; 				// Об'єм
 	temperature: number; 			// Температура
 	productionYear: number; 	// Рік виробітку
+	longitude: number;				// Довгота
+	latitude: number;					// Широта
 	deviceNumber: number;		 	// Номер пристрою
 	tests: Test[];						// Масив з тестами
 	status: String; 					// Статус
