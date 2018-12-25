@@ -125,7 +125,20 @@ function getResultsFromDatabase(byteArray) {
       " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
       " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
 
-    connection.query(varResult);
+			// TODO: count для кількості дублікатів
+    connection.query(varResult, function (err, rows) {
+      if (err) {
+        if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
+          console.log('Here you can handle duplication');
+          return;
+        } else {
+          console.log('Other error in the query');
+          return;
+        }
+      } else {
+        console.log('No error in the query');
+      }
+    });
 
   }
 }
@@ -211,7 +224,7 @@ function parseProtocol(byteArray, fileName) {
 
   // Широта
   const latitude = bbiFile.slice(84, 88);
-  protocol.latitude = 1;// bytesToInt(latitude);
+  protocol.latitude = 1; // bytesToInt(latitude);
   // Довгота
   const longitude = bbiFile.slice(88, 92);
   protocol.longitude = 1; // bytesToInt(longitude);
@@ -401,15 +414,30 @@ function addProtocol(protocol) {
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
   let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
-  connection.query(varPart + formatedData);
+	// TODO: додати count для кількості дублікатів
+  connection.query(varPart + formatedData, function (err, rows) {
+    if (err) {
 
-  protocol.tests.forEach(test => {
-    varPart = "INSERT INTO `tests`(`Номер_протоколу`, `Назва_тесту`, `Задана_витрата`, `Обєм_еталону`, `Початкове_значення`, `Кінцеве_значення`, `Обєм_за_лічильником`, `Тривалість_тесту`, `Фактична_витрата`, `Статус_витрати`, `Допустима_похибка`, `Фактична_похибка`, `Результат_тесту`, `Початкове_зображення`, `Кінцеве_зображення`) ";
-    varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
+      if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
+        console.log('Here you can handle duplication');
+        return;
+      } else {
+        console.log('Other error in the query');
+        return;
+      }
+    } else {
+      console.log('No error in the query');
+      protocol.tests.forEach(test => {
+        varPart = "INSERT INTO `tests`(`Номер_протоколу`, `Назва_тесту`, `Задана_витрата`, `Обєм_еталону`, `Початкове_значення`, `Кінцеве_значення`, `Обєм_за_лічильником`, `Тривалість_тесту`, `Фактична_витрата`, `Статус_витрати`, `Допустима_похибка`, `Фактична_похибка`, `Результат_тесту`, `Початкове_зображення`, `Кінцеве_зображення`) ";
+        varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+        formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
 
-    connection.query(varPart + formatedData);
+        connection.query(varPart + formatedData);
+      });
+    }
   });
+
+
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
