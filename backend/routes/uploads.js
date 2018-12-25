@@ -108,17 +108,6 @@ function bytesToImage(bbiFile, id) {
   return imageBytes;
 }
 
-// Images Bytes to Base64
-
-function bytesToBase64(byteArray) {
-  var binary = '';
-  var len = byteArray.byteLength;
-  for (var i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return binary;
-}
-
 function getResultsFromDatabase(byteArray) {
   var db = new SQL.Database(byteArray);
 
@@ -135,7 +124,6 @@ function getResultsFromDatabase(byteArray) {
       " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
 
     connection.query(varResult);
-
   }
 }
 
@@ -367,8 +355,8 @@ function parseProtocol(byteArray, fileName) {
       ++testIdCount;
     }
 
-    test.startStateImage = bytesToBase64(bytesToImage(bbiFile, index * 2 + 1).toString());
-    test.endStateImage = bytesToBase64(bytesToImage(bbiFile, index * 2 + 2).toString());
+    test.startStateImage = bytesToImage(bbiFile, index * 2 + 1).toString();
+    test.endStateImage = bytesToImage(bbiFile, index * 2 + 2).toString();
     // Протокол "Не обработан" чи "Годен" чи "Не Годен"
     if (test.result === 'Не обработан') {
       protocol.result = 'Не обработан';
