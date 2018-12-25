@@ -17,9 +17,9 @@ connection.connect((err) => {
     console.log('Connected');
   }
 });
-
+// TODO: видалити табличку verications-protocols
 router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM verications_protocols', (err, result) => {
+  connection.query('SELECT * FROM results', (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -28,7 +28,7 @@ router.get('', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  let query = "SELECT * FROM verications_protocols WHERE `Номер_заявки`='" + req.params.id + "';";
+  let query = "SELECT * FROM protocols WHERE `Номер_заявки`='" + req.params.id + "';";
 
   connection.query(query, () => {
     res.status(200);
