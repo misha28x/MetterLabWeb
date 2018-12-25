@@ -18,7 +18,6 @@ const verificationsArchiveRoutes = require('./routes/verifications-archive');
 const reportsRoutes = require('./routes/reports');
 const userGuideRoutes = require('./routes/user-guide');
 
-
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
