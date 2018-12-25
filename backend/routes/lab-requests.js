@@ -3,14 +3,14 @@ const mysql = require('mysql');
 
 const router = express.Router();
 
-let con = mysql.createConnection({
+let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'water_counters'
 });
 
-con.connect((err) => {
+connection.connect((err) => {
   if (err) {
     console.log(err);
   } else {
@@ -19,7 +19,7 @@ con.connect((err) => {
 });
 
 router.get('', (req, res, next) => {
-  con.query('SELECT * FROM results', (err, result) => {
+  connection.query('SELECT * FROM results', (err, result) => {
     if (err) {
       console.log(err);
     }

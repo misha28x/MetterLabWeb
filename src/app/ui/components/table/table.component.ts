@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, Output, EventEmitter } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { Observable } from 'rxjs';
 
@@ -22,6 +22,8 @@ export class TableComponent implements  OnInit  {
 	@Input() config: ITableConfig;
 	@Input() tableData: Observable<any>;
 	@Input() itemsPerPage: number;
+
+  @Output() rowSelected: EventEmitter<any>;
 
 	columnList: ColumnComponent[];
 
@@ -54,6 +56,8 @@ export class TableComponent implements  OnInit  {
 	ngOnInit(): void {
 		this.getColumns();
 		this.subscribeToData();
+
+    this.rowSelected = new EventEmitter<any>();
 	}
 
 	subscribeToData(): void {
@@ -127,9 +131,11 @@ export class TableComponent implements  OnInit  {
 		}
 
 		const columns = [];
+    
 		this.columnList.forEach(col => {
 			columns.push(col.config);
-		})
+		});
+
 		let columnName: string = void 0;
 		let sort: string = void 0;
 
@@ -147,7 +153,9 @@ export class TableComponent implements  OnInit  {
 		return data.sort((previous: any, current: any) => {
 			if (previous[columnName] > current[columnName]) {
 				return sort === 'desc' ? -1 : 1;
-			} else if (previous[columnName] < current[columnName]) {
+			} 
+      
+      if (previous[columnName] < current[columnName]) {
 				return sort === 'asc' ? -1 : 1;
 			}
 			return 0;
@@ -173,7 +181,11 @@ export class TableComponent implements  OnInit  {
     filteredData.forEach((item: any) => {
       let flag = false;
       this.columnList.forEach((column: any) => {
-				if (item[column.config.name].toString().toLowerCase().startsWith(filterString.toLowerCase())) {
+				if (item[column.config.name]
+              .toString()
+              .toLowerCase()
+              .startsWith(filterString.toLowerCase())
+            ) {
           flag = true;
         }
       });
@@ -186,7 +198,7 @@ export class TableComponent implements  OnInit  {
     return filteredData;
   }
 
-	public onChangeTable(column?: ColumnComponent): void {
+	onChangeTable(column?: ColumnComponent): void {
 		if (column) {
 				Object.assign(this.config.filtering, column.config.filtering);
 		}
@@ -202,6 +214,10 @@ export class TableComponent implements  OnInit  {
 		} else {
 			this.rows = sortedData;
 		}
+  }
+
+  onRowSelected(row: any): void {
+    this.rowSelected.emit(row);
   }
 
 	trackByFn(index: number, item: any): any {

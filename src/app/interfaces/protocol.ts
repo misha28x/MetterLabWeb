@@ -2,7 +2,8 @@ export interface Protocol {
 	bbiFileName: String;
 	date: Date;								// Повна дата
 	day: number; 							// День
-	type: String; 						// Тип
+	type: String; 						// Типорозмір
+	symbol: String;						// Умовне позначення
 	year: number; 						// Рік
 	hours: number; 						// Години
 	month: number; 						// Місяць

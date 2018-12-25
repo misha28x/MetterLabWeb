@@ -1,0 +1,52 @@
+<div class="protocol-block">
+  <div class="labesl">
+    <span class="label">Номер заявки</span>
+    <span class="label">Дата протоколу час п/н</span>
+    <span class="label">Номер установки</span>
+    <span class="label">Системний номер установки</span>
+    <span class="label">Номер лічильника</span>
+    <span class="label">Тип лічильника</span>
+    <span class="label">Призначення лічильника</span>
+    <span class="label">Температура</span>
+    <span class="label">Рік випуску</span>
+    <span class="label">Накопичений об'єм</span>
+    <span class="label">Широта</span>
+    <span class="label">Довгота</span>
+    <span class="label">Статус витрат</span>
+    <span class="label">Результат</span>
+    <span class="label">Дата підпису особи</span>
+    <span class="label">ПІБ особи, що підписала</span>
+    <span class="label">Статус</span>
+  </div>
+
+  <div class="inputs">
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.date"></app-input>
+    <app-input [innerValue]="data.deviceNumber"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.type"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.type"></app-input>
+    <app-input [innerValue]="data.temperature"></app-input>
+    <app-input [innerValue]="data.year"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.capacity"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.status"></app-input>
+    <app-input [innerValue]="data.result"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+    <app-input [innerValue]="data.counterNumber"></app-input>
+  </div>
+</div>
+
+<div class="tests-block">
+  <div class="labels">
+
+  </div>
+
+  <div class="test" *ngFor="let test of data.tests">
+
+  </div>
+</div>
