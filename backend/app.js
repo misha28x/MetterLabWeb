@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const uploadRoutes = require('./routes/uploads');
 const taskVerificationRoutes = require('./routes/task-verification');
 const newVerificationsRoutes = require('./routes/new-verifications');
-// added
 const homeRoutes = require('./routes/home');
 const providesRequestsRoutes = require('./routes/provides-requests');
 const labRequestsRoutes = require('./routes/lab-requests');
@@ -18,7 +17,6 @@ const rejectedVerificationRoutes = require('./routes/rejected-verification');
 const verificationsArchiveRoutes = require('./routes/verifications-archive');
 const reportsRoutes = require('./routes/reports');
 const userGuideRoutes = require('./routes/user-guide');
-
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -41,7 +39,6 @@ app.use(bodyParser.urlencoded({
 app.use('/api/upload', uploadRoutes);
 app.use('/api/task-verification', taskVerificationRoutes);
 app.use('/api/new-verifications', newVerificationsRoutes);
-// added
 app.use('/api/home', homeRoutes);
 app.use('/api/provides-requests', providesRequestsRoutes);
 app.use('api/lab-requests', labRequestsRoutes);

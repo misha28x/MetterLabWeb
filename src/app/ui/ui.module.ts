@@ -14,6 +14,8 @@ import { FilterTableDirective } from './directives/filter-table/filter-table.dir
 import { SortTableDirective } from './directives/sort-table/sort-table.directive';
 import { UploadDialogComponent } from './components/file-upload/upload-dialog/upload-dialog.component';
 import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
+import { ProtocolViewComponent } from './components/protocol-view';
+import { ProtocolDialogComponent } from './components/protocol-view/protocol-dialog/protocol-dialog.component';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule],
@@ -24,7 +26,8 @@ import { NewVerificationComponent, NewVerificationDialogComponent } from './comp
 		InputComponent,
 		ColumnComponent,
 		FileUploadComponent,
-		NewVerificationComponent
+		NewVerificationComponent,
+    ProtocolViewComponent
 	],
 	declarations: [
 		SortTableDirective,
@@ -35,7 +38,9 @@ import { NewVerificationComponent, NewVerificationDialogComponent } from './comp
 		FileUploadComponent,
 		UploadDialogComponent,
 		NewVerificationComponent,
-		NewVerificationDialogComponent
+		NewVerificationDialogComponent,
+    ProtocolViewComponent,
+    ProtocolDialogComponent
 	],
 	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent]
 })

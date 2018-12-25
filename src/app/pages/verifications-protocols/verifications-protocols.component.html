@@ -1,3 +1,91 @@
-<p>
-  verifications-protocols works!
-</p>
+<mat-card>
+  <mat-card-content>
+    <div class="actions">
+      <div class="task-actions">
+        <app-new-verification></app-new-verification>
+        <button mat-raised-button color="primary"><i class="icofont-search-document"></i> Глобальний Пошук</button>
+      </div>
+
+      <div class="user-actions">
+        <button mat-raised-button color="primary" class="bg-success">
+          <i class="icofont-ui-user"></i> Додати ДійовуОсобу
+        </button>
+
+        <button mat-raised-button color="primary" class="bg-warning">
+          <i class="icofont-delete"></i> Скасувати Дійову Особу
+        </button>
+
+        <button mat-raised-button color="warn">
+          <i class="icofont-minus"></i>Відхилити Повірку
+        </button>
+      </div>
+    </div>
+
+    <app-table [tableData]="protocols" [pagination]="true">
+      <app-column [width]="30">
+        <ng-template #headerBodyTemplate>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+        </ng-template>
+        <ng-template #tableBodyTemplate>
+          <mat-checkbox></mat-checkbox>
+        </ng-template>
+      </app-column>
+
+      <app-column [columnTitle]="'Дата створення протоколу'" [columnName]="'Дата_надходження'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Номер установки'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Номер протоколу'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Номер заявки'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Статус'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Номер лічильника'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Номер пломби'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Населений пункт'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'Район'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Вулиця'" [columnName]="'Вулиця'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="40" [columnTitle]="'Буд.'" [columnName]="'Будинок'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="40" [columnTitle]="'Кв.'" [columnName]="'Квартира'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Коментар'" [columnName]="'Коментар'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Дії'">
+        <ng-template #tableBodyTemplate let-row="row">
+          <div class="actions-row">
+            <button mat-icon-button>
+              <i class="icofont-info color-info" matTooltip="Інформація про заявку"></i>
+            </button>
+
+            <button mat-icon-button>
+              <i class="icofont-info-circle color-info" matTooltip="Інформація про протокол"></i>
+            </button>
+
+            <button mat-icon-button>
+              <i class="icofont-info-circle color-info" matTooltip="Переглянути протокол"></i>
+            </button>
+          </div>
+        </ng-template>
+      </app-column>
+    </app-table>
+  </mat-card-content>
+</mat-card>
+
+<app-protocol-view></app-protocol-view>
