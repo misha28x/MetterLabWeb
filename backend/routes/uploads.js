@@ -196,10 +196,10 @@ function parseProtocol(byteArray, fileName) {
     }
   }
   // Типорозмір_лічильника
-  protocol.type = '22'; // uintToString(countType);
+  protocol.type = uintToString(countType);
 
   // Умовне_позначення
-  protocol.symbol = '33'; // uintToString(countSymbol);
+  protocol.symbol = uintToString(countSymbol);
 
   // Рік виробництва
   const year = bbiFile.slice(124, 128);
@@ -357,8 +357,8 @@ function parseProtocol(byteArray, fileName) {
       ++testIdCount;
     }
 
-    test.startStateImage = 'start'; //bytesToImage(bbiFile, index * 2 + 1).toString();
-    test.endStateImage = 'end'; // bytesToImage(bbiFile, index * 2 + 2).toString();
+    test.startStateImage = bytesToImage(bbiFile, index * 2 + 1).toString();
+    test.endStateImage = bytesToImage(bbiFile, index * 2 + 2).toString();
     // Протокол "Не обработан" чи "Годен" чи "Не Годен"
     if (test.result === 'Не обработан') {
       protocol.result = 'Не обработан';
@@ -422,7 +422,7 @@ router.post('', upload.single('file'), (req, res, next) => {
           zip.file(zipEntry.name).async("uint8array").then(byteArray => {
             parseProtocol(byteArray, zipEntry.name.split('/')[1]);
           });
-        } else {
+        } else if (zipEntry.name.includes('.db')) {
           zip.file("BluetoothDB.db").async("uint8array").then(function (data) {
             getResultsFromDatabase(data);
           });
