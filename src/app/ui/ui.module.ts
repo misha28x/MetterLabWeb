@@ -16,6 +16,7 @@ import { UploadDialogComponent } from './components/file-upload/upload-dialog/up
 import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
 import { ProtocolViewComponent } from './components/protocol-view';
 import { ProtocolDialogComponent } from './components/protocol-view/protocol-dialog/protocol-dialog.component';
+import { VerificationViewComponent } from './components/verification-view/verification-view.component';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule],
@@ -40,7 +41,8 @@ import { ProtocolDialogComponent } from './components/protocol-view/protocol-dia
 		NewVerificationComponent,
 		NewVerificationDialogComponent,
     ProtocolViewComponent,
-    ProtocolDialogComponent
+    ProtocolDialogComponent,
+    VerificationViewComponent
 	],
 	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent]
 })

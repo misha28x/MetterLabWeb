@@ -73,6 +73,10 @@ mat-card-header {
 		min-height: 300px;
 	}
 }
+.full-screen-modal {
+  max-width: none !important;
+  overflow: hidden;
+}
 .chart-container {
   height: 200px !important;
   position: relative;

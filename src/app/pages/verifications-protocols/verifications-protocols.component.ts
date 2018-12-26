@@ -21,7 +21,11 @@ export class PageVerificationsProtocolsComponent implements OnInit {
     this.protocols = this.dataSv.getData(url);
   }
 
-  displayProtocol(protocol: Protocol): void { 
-    this.protocolSv.addProtocol(protocol);
+  displayProtocol(id: string): void { 
+    this.dataSv.getData(url + '/' + id).subscribe(
+      (protocol: Protocol) => {
+        this.protocolSv.addProtocol(protocol);
+      }
+    ); 
   }
 }

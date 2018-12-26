@@ -28,8 +28,9 @@ export class ProtocolViewComponent implements OnInit, OnDestroy {
   openDialog(protocol: Protocol): void {
     this.dialog.open(ProtocolDialogComponent, {
       data: protocol,
-      height: '95%',
-      width: '95%'
+      height: '98%',
+      width: '98vw',
+      panelClass: 'full-screen-modal'
     });
   }
 
