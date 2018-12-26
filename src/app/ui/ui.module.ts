@@ -42,6 +42,6 @@ import { ProtocolDialogComponent } from './components/protocol-view/protocol-dia
     ProtocolViewComponent,
     ProtocolDialogComponent
 	],
-	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent]
+	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent]
 })
 export class UiModule { }
