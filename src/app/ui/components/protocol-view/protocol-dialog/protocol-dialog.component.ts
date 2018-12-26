@@ -13,7 +13,7 @@ export class ProtocolDialogComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  getImage(base64Data: string): string {
-    return 'data:image/png;base64, ' + base64Data;
+  getImage(base64Data: string): any {
+    return 'data:image/png;base64,' + base64Data.toString();
   }
 }

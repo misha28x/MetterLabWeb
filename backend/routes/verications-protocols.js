@@ -25,7 +25,7 @@ router.get('/:id', (req, res, next) => {
 
     connection.query(selection, function (err, testRows, fields) {
       if (err) throw err;
-
+    
       let testArray = [];
 
       for (let i in testRows) {

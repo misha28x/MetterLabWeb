@@ -7,8 +7,8 @@ const SQL = require('sql.js');
 const multer = require('multer')
 const coder = require('base64-arraybuffer');
 
-require("google-closure-library");
-goog.require('goog.crypt.base64');
+// require("google-closure-library");
+// goog.require('goog.crypt.base64');
 
 const connection = require('../database/db');
 
@@ -132,8 +132,8 @@ function getResultsFromDatabase(byteArray) {
         console.log('No error in the query');
       }
     });
-
   }
+  // TODO: Додати запит на додавання зображення в protocols
 }
 
 function parseProtocol(byteArray, fileName) {
@@ -364,7 +364,7 @@ function parseProtocol(byteArray, fileName) {
       ++testIdCount;
     }
 
-		// goog.crypt.base64.encodeByteArray
+    // goog.crypt.base64.encodeByteArray
 
     test.startStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 1));
     test.endStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 2));
