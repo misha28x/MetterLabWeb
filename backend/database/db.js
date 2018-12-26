@@ -1,26 +1,20 @@
 const mysql = require('mysql');
+const settings = require('./config');
+let db;
 
-class Database {
-  constructor(config) {
-    this.connection = mysql.createConnection(config);
-  }
-  query(sql, args) {
-    return new Promise((resolve, reject) => {
-      this.connection.query(sql, args, (err, rows) => {
-        if (err)
-          return reject(err);
-        resolve(rows);
-      });
+function connectDatabase() {
+  if (!db) {
+    db = mysql.createConnection(settings);
+
+    db.connect(function (err) {
+      if (!err) {
+        console.log('Database is connected!');
+      } else {
+        console.log('Error connecting database!');
+      }
     });
   }
-  
-  close() {
-    return new Promise((resolve, reject) => {
-      this.connection.end(err => {
-        if (err)
-          return reject(err);
-        resolve();
-      });
-    });
-  }
+  return db;
 }
+
+module.exports = connectDatabase();

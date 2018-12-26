@@ -3,27 +3,10 @@ const mysql = require('mysql');
 
 const router = express.Router();
 
-let connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'water_counters'
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('Connected');
-  }
-});
+const connection = require('../database/db');
 // TODO: видалити табличку verications-protocols
 router.get('', (req, res, next) => {
-<<<<<<< HEAD
-  connection.query('SELECT * FROM result', (err, result) => {
-=======
   connection.query('SELECT * FROM results', (err, result) => {
->>>>>>> 35d007cfb2ef0cfd829c810ed715470d850c9936
     if (err) {
       console.log(err);
     }
