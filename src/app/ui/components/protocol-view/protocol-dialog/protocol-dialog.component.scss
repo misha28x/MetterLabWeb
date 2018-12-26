@@ -52,5 +52,14 @@
     >* {
       flex: 1;
     }
+
+    .test-images  {
+      display: flex;
+      flex-direction: column;
+
+      img {
+        min-width: 220px;
+      }
+    }
   }
 }

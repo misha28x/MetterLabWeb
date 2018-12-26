@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <app-table [tableData]="protocols" [pagination]="true">
+    <app-table [hovered]="true" [bordered]="true" [tableData]="protocols" [pagination]="true">
       <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
@@ -31,37 +31,37 @@
         </ng-template>
       </app-column>
 
-      <app-column [columnTitle]="'Дата створення протоколу'" [columnName]="'Date'" [enableSorting]="true"
+      <app-column [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'Date'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер установки'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="125" [columnTitle]="'Номер установки'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер протоколу'" [columnName]="'CounterNumber'" [enableSorting]="true"
+      <app-column [width]="125" [columnTitle]="'Номер протоколу'" [columnName]="'CounterNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер заявки'" [columnName]="'FileNumber'" [enableSorting]="true"
+      <app-column [width]="100" [columnTitle]="'Номер заявки'" [columnName]="'FileNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Статус'" [columnName]="'Status'" [enableSorting]="true"
+      <app-column [width]="80" [columnTitle]="'Статус'" [columnName]="'Status'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер лічильника'" [columnName]="'CounterNumber'" [enableSorting]="true"
+      <app-column [width]="125" [columnTitle]="'Номер лічильника'" [columnName]="'CounterNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер пломби'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+      <app-column [width]="115" [columnTitle]="'Номер пломби'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Населений пункт'" [columnName]="'City'" [enableSorting]="true"
+      <app-column [width]="125"[columnTitle]="'Населений пункт'" [columnName]="'City'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'District'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Вулиця'" [columnName]="'Street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [width]="40" [columnTitle]="'Буд.'" [columnName]="'Building'" [enableSorting]="true"
+      <app-column [width]="35" [columnTitle]="'Буд.'" [columnName]="'Building'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="40" [columnTitle]="'Кв.'" [columnName]="'Apartment'" [enableSorting]="true"
+      <app-column [width]="35" [columnTitle]="'Кв.'" [columnName]="'Apartment'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="110" [columnTitle]="'Коментар'" [columnName]="'Note'" [enableSorting]="true"
