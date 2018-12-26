@@ -31,40 +31,40 @@
         </ng-template>
       </app-column>
 
-      <app-column [columnTitle]="'Дата створення протоколу'" [columnName]="'Дата_надходження'" [enableSorting]="true"
+      <app-column [columnTitle]="'Дата створення протоколу'" [columnName]="'Date'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Номер установки'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер протоколу'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+      <app-column [columnTitle]="'Номер протоколу'" [columnName]="'CounterNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер заявки'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+      <app-column [columnTitle]="'Номер заявки'" [columnName]="'FileNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Статус'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+      <app-column [columnTitle]="'Статус'" [columnName]="'Status'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Номер лічильника'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+      <app-column [columnTitle]="'Номер лічильника'" [columnName]="'CounterNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Номер пломби'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Населений пункт'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+      <app-column [columnTitle]="'Населений пункт'" [columnName]="'City'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'Район'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'District'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Вулиця'" [columnName]="'Вулиця'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Вулиця'" [columnName]="'Street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [width]="40" [columnTitle]="'Буд.'" [columnName]="'Будинок'" [enableSorting]="true"
+      <app-column [width]="40" [columnTitle]="'Буд.'" [columnName]="'Building'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="40" [columnTitle]="'Кв.'" [columnName]="'Квартира'" [enableSorting]="true"
+      <app-column [width]="40" [columnTitle]="'Кв.'" [columnName]="'Apartment'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Коментар'" [columnName]="'Коментар'" [enableSorting]="true"
+      <app-column [width]="110" [columnTitle]="'Коментар'" [columnName]="'Note'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Дії'">
@@ -78,8 +78,8 @@
               <i class="icofont-info-circle color-info" matTooltip="Інформація про протокол"></i>
             </button>
 
-            <button mat-icon-button>
-              <i class="icofont-info-circle color-info" matTooltip="Переглянути протокол"></i>
+            <button mat-icon-button (click)="displayProtocol(row)">
+              <i class="icofont-edit color-info" matTooltip="Переглянути протокол"></i>
             </button>
           </div>
         </ng-template>

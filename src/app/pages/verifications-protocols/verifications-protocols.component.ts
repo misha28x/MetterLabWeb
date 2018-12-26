@@ -18,7 +18,7 @@ export class PageVerificationsProtocolsComponent implements OnInit {
   constructor(private dataSv: DataService, private protocolSv: ProtocolService) { }
 
   ngOnInit(): void {
-     this.protocols = this.dataSv.getData(url);
+    this.protocols = this.dataSv.getData(url);
   }
 
   displayProtocol(protocol: Protocol): void { 

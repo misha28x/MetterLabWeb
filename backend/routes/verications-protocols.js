@@ -19,14 +19,11 @@ connection.connect((err) => {
 });
 // TODO: видалити табличку verications-protocols
 router.get('', (req, res, next) => {
-<<<<<<< HEAD
-  connection.query('SELECT * FROM result', (err, result) => {
-=======
   connection.query('SELECT * FROM results', (err, result) => {
->>>>>>> 35d007cfb2ef0cfd829c810ed715470d850c9936
     if (err) {
       console.log(err);
     }
+    console.log('success');
     res.status(200).json(result);
   });
 });

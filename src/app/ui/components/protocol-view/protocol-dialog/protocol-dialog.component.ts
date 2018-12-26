@@ -11,7 +11,5 @@ export class ProtocolDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Protocol) { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void { }
 }
