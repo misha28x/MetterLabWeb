@@ -3,20 +3,7 @@ const mysql = require('mysql');
 
 const router = express.Router();
 
-let connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'water_counters'
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('Connected');
-  }
-});
+const connection = require('../database/db');
 
 router.get('', (req, res, next) => {
   connection.query('SELECT * FROM rejected_protocols', (err, result) => {

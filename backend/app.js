@@ -18,6 +18,8 @@ const verificationsArchiveRoutes = require('./routes/verifications-archive');
 const reportsRoutes = require('./routes/reports');
 const userGuideRoutes = require('./routes/user-guide');
 
+const fileSendingRoutes = require('./routes/files-sending');
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -41,7 +43,7 @@ app.use('/api/task-verification', taskVerificationRoutes);
 app.use('/api/new-verifications', newVerificationsRoutes);
 app.use('/api/home', homeRoutes);
 app.use('/api/provides-requests', providesRequestsRoutes);
-app.use('api/lab-requests', labRequestsRoutes);
+app.use('/api/lab-requests', labRequestsRoutes);
 app.use('/api/verications-protocols', vericationsProtocolsRoutes);
 app.use('/api/rejected-protocols', rejectedProtocolsRoutes);
 app.use('/api/task-planing', taskPlaningRoutes)
@@ -51,5 +53,6 @@ app.use('/api/rejected-verification', rejectedVerificationRoutes);
 app.use('/api/verifications-archive', verificationsArchiveRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/user-guide', userGuideRoutes);
+app.use('/api/file-sending', fileSendingRoutes);
 
 module.exports = app;

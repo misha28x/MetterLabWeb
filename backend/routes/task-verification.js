@@ -3,23 +3,10 @@ const mysql = require('mysql');
 
 const router = express.Router();
 
-let con = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'water_counters'
-});
-
-con.connect((err) => {
-	if (err) {
-		console.log(err);
-	} else {
-		console.log('Connected');
-	}
-});
+const connection = require('../database/db');
 
 router.get('', (req, res, next) => {
-	con.query('SELECT * FROM new_verifications', (err, result) => {
+	connection.query('SELECT * FROM new_verifications', (err, result) => {
 		if (err) {
 			console.log(err);
 		}

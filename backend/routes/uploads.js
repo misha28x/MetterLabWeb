@@ -6,6 +6,8 @@ const fs = require('fs');
 const SQL = require('sql.js');
 const multer = require('multer')
 
+const connection = require('../database/db');
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'backend/temp');
@@ -21,20 +23,7 @@ const upload = multer({
 
 const router = express.Router();
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  database: 'water_counters',
-  user: 'root',
-  password: '',
-});
 
-connection.connect(err => {
-  if (err) {
-    console.error('Error connecting: ' + err.stack);
-    return;
-  }
-  console.log('Connected as id ' + connection.threadId);
-});
 
 function bytesToInt(bytes) {
   const startbyte = bytes.byteOffset + bytes.byteLength - Uint32Array.BYTES_PER_ELEMENT;
