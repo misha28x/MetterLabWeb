@@ -6,7 +6,7 @@ const router = express.Router();
 const connection = require('../database/db');
 
 router.get('', (req, res, next) => {
-	con.query('SELECT * FROM new_verifications', (err, result) => {
+	connection.query('SELECT * FROM new_verifications', (err, result) => {
 		if (err) {
 			console.log(err);
 		}
