@@ -5,6 +5,10 @@ const JSZip = require('jszip');
 const fs = require('fs');
 const SQL = require('sql.js');
 const multer = require('multer')
+const coder = require('base64-arraybuffer');
+
+require("google-closure-library");
+goog.require('goog.crypt.base64');
 
 const connection = require('../database/db');
 
@@ -114,7 +118,7 @@ function getResultsFromDatabase(byteArray) {
       " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
       " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
 
-			// TODO: count для кількості дублікатів
+    // TODO: count для кількості дублікатів
     connection.query(varResult, function (err, rows) {
       if (err) {
         if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
@@ -360,8 +364,10 @@ function parseProtocol(byteArray, fileName) {
       ++testIdCount;
     }
 
-    test.startStateImage = bytesToImage(bbiFile, index * 2 + 1).toString();
-    test.endStateImage = bytesToImage(bbiFile, index * 2 + 2).toString();
+		// goog.crypt.base64.encodeByteArray
+
+    test.startStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 1));
+    test.endStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 2));
     // Протокол "Не обработан" чи "Годен" чи "Не Годен"
     if (test.result === 'Не обработан') {
       protocol.result = 'Не обработан';
@@ -403,7 +409,7 @@ function addProtocol(protocol) {
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
   let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
-	// TODO: додати count для кількості дублікатів
+  // TODO: додати count для кількості дублікатів
   connection.query(varPart + formatedData, function (err, rows) {
     if (err) {
 
