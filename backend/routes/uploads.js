@@ -7,9 +7,6 @@ const SQL = require('sql.js');
 const multer = require('multer')
 const coder = require('base64-arraybuffer');
 
-// require("google-closure-library");
-// goog.require('goog.crypt.base64');
-
 const connection = require('../database/db');
 
 const storage = multer.diskStorage({
@@ -133,7 +130,6 @@ function getResultsFromDatabase(byteArray) {
       }
     });
   }
-  // TODO: Додати запит на додавання зображення в protocols
 }
 
 function parseProtocol(byteArray, fileName) {
@@ -217,10 +213,10 @@ function parseProtocol(byteArray, fileName) {
 
   // Широта
   const latitude = bbiFile.slice(84, 88);
-  protocol.latitude = 1; // bytesToInt(latitude);
+  protocol.latitude = bytesToInt(latitude);
   // Довгота
   const longitude = bbiFile.slice(88, 92);
-  protocol.longitude = 1; // bytesToInt(longitude);
+  protocol.longitude = bytesToInt(longitude);
 
   // Сертифікат
   const num5 = bytesToInt(bbiFile.slice(120, 124));
@@ -364,8 +360,6 @@ function parseProtocol(byteArray, fileName) {
       ++testIdCount;
     }
 
-    // goog.crypt.base64.encodeByteArray
-
     test.startStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 1));
     test.endStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 2));
     // Протокол "Не обработан" чи "Годен" чи "Не Годен"
@@ -429,10 +423,16 @@ function addProtocol(protocol) {
 
         connection.query(varPart + formatedData);
       });
+
+      connection.query("SELECT Image FROM results WHERE FileNumber='" + protocol.bbiFileName + "';", (err, rows) => {
+        if (err) {
+          console.log(err);
+        } else {
+          connection.query("UPDATE `protocols` SET `Зображення`='" + coder.encode(rows[0].Image) + "' WHERE `Номер_протоколу`='" + protocol.bbiFileName + "';");
+        }
+      });
     }
   });
-
-
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
@@ -444,12 +444,12 @@ router.post('', upload.single('file'), (req, res, next) => {
     JSZip.loadAsync(data).then(function (zip) {
       zip.forEach(async function (relativePath, zipEntry) {
         if (zipEntry.name.includes('.bbi')) {
-          zip.file(zipEntry.name).async("uint8array").then(byteArray => {
-            parseProtocol(byteArray, zipEntry.name.split('/')[1]);
+          zip.file(zipEntry.name).async("uint8array").then(async (byteArray) => {
+            await parseProtocol(byteArray, zipEntry.name.split('/')[1]);
           });
         } else if (zipEntry.name.includes('.db')) {
-          zip.file("BluetoothDB.db").async("uint8array").then(function (data) {
-            db = data;
+          zip.file("BluetoothDB.db").async("uint8array").then(async (data) => {
+            await getResultsFromDatabase(data);
           });
         }
       });
