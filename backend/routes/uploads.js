@@ -436,7 +436,8 @@ function addProtocol(protocol) {
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
-  var zip = new JSZip();
+  let zip = new JSZip();
+  let db;
 
   fs.readFile('./backend/temp/tempo.zip', function (err, data) {
     if (err) throw err;
@@ -448,11 +449,12 @@ router.post('', upload.single('file'), (req, res, next) => {
           });
         } else if (zipEntry.name.includes('.db')) {
           zip.file("BluetoothDB.db").async("uint8array").then(function (data) {
-            getResultsFromDatabase(data);
+            db = data;
           });
         }
       });
     });
+    getResultsFromDatabase(db);
   });
 
   res.status(201);
