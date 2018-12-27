@@ -1,3 +1,108 @@
-<p>
-  verifications-archive works!
-</p>
+<!-- Архів Повірок -->
+<mat-card>
+  <mat-card-content>
+    <div class="actions"> </div>
+
+<app-table [hovered]="true" [bordered]="true" [tableData]="verificationsArchive" [pagination]="true">
+      <app-column [width]="30">
+        <ng-template #headerBodyTemplate>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+        </ng-template>
+        <ng-template #tableBodyTemplate>
+          <mat-checkbox></mat-checkbox>
+        </ng-template>
+      </app-column>
+
+      <app-column [width]="75" [columnTitle]="'Дата надходження'" [columnName]="'Дата_надходження'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Номер заявки'" [columnName]="'Номер_заявки'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Клієнт'" [columnName]="'Клієнт'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Населений пункт'" [columnName]="'Населений_пункт'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Вулиця клієнта'" [columnName]="'Вулиця_клієнта'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'Будинок'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Квартира'" [columnName]="'Квартира'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Індекс'" [columnName]="'Індекс'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Номер телефону'" [columnName]="'Номер_телефону'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Статус'" [columnName]="'Статус'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Уповноважена повірочна лабораторія'" [columnName]="'Уповноважена_повірочна_лабораторія'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Номер установки'" [columnName]="'Номер_установки'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Дата створення протоколу'" [columnName]="'Дата_створення_протоколу'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Номер протоколу'" [columnName]="'Номер_протоколу'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Дата підпису протоколу'" [columnName]="'Дата_підпису_протоколу'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Умовне позначення'" [columnName]="'Умовне_позначення'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Номер лічильника'" [columnName]="'Номер_лічильника'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Рік випуску лічильника'" [columnName]="'Рік_випуску_лічильника'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Лічильник демонтовано'" [columnName]="'Лічильник_демонтовано'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Номер пломби'" [columnName]="'Номер_пломби'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Придатний до'" [columnName]="'Придатний_до'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Надавач послуг'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Тип послуги'" [columnName]="'Тип_послуги'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Дата видачі документу'" [columnName]="'Дата_видачі_документу'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Коментар'" [columnName]="'Коментар'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Дата монтажу лічильника'" [columnName]="'Дата_монтажу_лічильника'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Дата завдання'" [columnName]="'Дата_завдання'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Назва бригади'" [columnName]="'Назва_бригади'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Примітка'" [columnName]="'Примітка'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Дії'">
+
+      </app-column>
+    </app-table>
+  </mat-card-content>
+</mat-card>

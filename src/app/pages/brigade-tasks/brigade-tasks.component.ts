@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { DataService } from '../../services/data.service';
+
+const url = 'http://localhost:3000/api/brigade-tasks';
 
 @Component({
 	selector: 'app-brigade-tasks',
@@ -7,8 +12,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageBrigadeTasksComponent implements OnInit {
 
-	constructor() { }
+	brigadeTasks: Observable<any[]>;
+
+	constructor(private dataSv: DataService) { }
 
 	ngOnInit(): void {
+		this.brigadeTasks = this.dataSv.getData(url);
 	}
 }

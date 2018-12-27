@@ -15,11 +15,24 @@ router.get('', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  let query = "SELECT * FROM verifications_archive WHERE `id_для_станції`='" + req.params.id + "';";
+  let query = "SELECT * FROM verifications_archive WHERE `id_для_станції`='" + req.params.id +
+    "' ORDER BY `позиція_завдання` DESC;";
 
   connection.query(query, () => {
     res.status(200);
   });
 });
+
+router.post('/position', (req, res, next) => {
+  req.body.forEach(ver => {
+    let query = "UPDATE `verifications_archive` SET `позиція_завдання`='" +
+      ver.position + "' WHERE `id_для_станції`='" + ver.stationId + "';";
+
+    connection.query(query, () => {
+      res.status(200);
+    });
+  });
+})
+
 
 module.exports = router;
