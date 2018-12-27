@@ -2,7 +2,10 @@ export interface Verification {
 	addingDate: String; 				// Дата_надходження
 	applicationNumber: String; 	// Номер_заявки
 	client: String; 						// Клієнт
+	phoneNumber: String;
 	employee: String; 					// ПІБ_Працівника
+	index: String;
+	city: String;
 	district: String;						// Район
 	street: String;						  // Вулиця
 	house: String; 							// Будинок
