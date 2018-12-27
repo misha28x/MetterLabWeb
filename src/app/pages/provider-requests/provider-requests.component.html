@@ -1,3 +1,42 @@
-<p>
-  provider-requests works!
-</p>
+<!-- Заявки Для Надавача Послуг -->
+<mat-card>
+  <mat-card-content>
+    <div class="actions"> </div>
+
+    <app-table [hovered]="true" [bordered]="true" [tableData]="newVerifications" [pagination]="true">
+      <app-column [width]="30">
+        <ng-template #headerBodyTemplate>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+        </ng-template>
+        <ng-template #tableBodyTemplate>
+          <mat-checkbox></mat-checkbox>
+        </ng-template>
+      </app-column>
+
+      <app-column [columnTitle]="'Дата надходження'" [columnName]="'Дата_надходження'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Номер заявки'" [columnName]="'Номер_заявки'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Клієнт'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'Район'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="115" [columnTitle]="'Населений пункт'" [columnName]="'Населений_пункт'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Вулиця клієнта'" [columnName]="'Вулиця_клієнта'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Буд., Кв.'" [columnName]="'Будинок_квартира'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Надавач послуг'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Дії'">
+
+      </app-column>
+    </app-table>
+  </mat-card-content>
+</mat-card>

@@ -1,3 +1,36 @@
-<p>
-  brigade-tasks works!
-</p>
+<!-- Завдання Для Бригад -->
+<mat-card>
+  <mat-card-content>
+    <div class="actions"> </div>
+
+    <app-table [hovered]="true" [bordered]="true" [tableData]="newVerifications" [pagination]="true">
+      <app-column [width]="30">
+        <ng-template #headerBodyTemplate>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+        </ng-template>
+        <ng-template #tableBodyTemplate>
+          <mat-checkbox></mat-checkbox>
+        </ng-template>
+      </app-column>
+
+      <app-column [width]="110" [columnTitle]="'Дата завдання'" [columnName]="'Дата_завдання'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Назва бригади'" [columnName]="'Назва_бригади'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'ПІБ контактної особи'" [columnName]="'ПІБ_контактної_особи'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Номер телефону'" [columnName]="'Номер_телефону'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Кількість заявок'" [columnName]="'Кількість_заявок'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Дії'">
+
+      </app-column>
+    </app-table>
+  </mat-card-content>
+</mat-card>

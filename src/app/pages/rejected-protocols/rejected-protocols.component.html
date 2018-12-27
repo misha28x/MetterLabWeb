@@ -1,3 +1,45 @@
-<p>
-  rejected-protocols works!
-</p>
+<!-- Відхилені Протоколи -->
+<mat-card>
+  <mat-card-content>
+    <div class="actions"> </div>
+
+    <app-table [hovered]="true" [bordered]="true" [tableData]="newVerifications" [pagination]="true">
+      <app-column [width]="30">
+        <ng-template #headerBodyTemplate>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+        </ng-template>
+        <ng-template #tableBodyTemplate>
+          <mat-checkbox></mat-checkbox>
+        </ng-template>
+      </app-column>
+
+      <app-column [width]="110" [columnTitle]="'Дата створення протоколу'" [columnName]="'Дата_створення_протоколу'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Номер установки'" [columnName]="'Номер_установки'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Номер протоколу'" [columnName]="'Номер_протоколу'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Номер заявки'" [columnName]="'Номер_заявки'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Номер лічильника'" [columnName]="'Номер_лічильника'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Номер пломби'" [columnName]="'Номер_пломби'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Причина відхилення'" [columnName]="'Причина_відхилення'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'ПІБ працівника який відхилив'" [columnName]="'ПІБ_працівника_який_відхилив'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Дії'">
+
+      </app-column>
+    </app-table>
+  </mat-card-content>
+</mat-card>
