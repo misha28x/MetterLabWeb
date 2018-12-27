@@ -454,8 +454,9 @@ router.post('', upload.single('file'), (req, res, next) => {
         }
       });
     });
-    getResultsFromDatabase(db);
   });
+
+  getResultsFromDatabase(db);
 
   res.status(201);
 })
