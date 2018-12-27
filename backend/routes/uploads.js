@@ -131,8 +131,12 @@ function getResultsFromDatabase(byteArray) {
       } else {
         console.log('No error in the query');
       }
-    });
-  }
+		});
+	}
+	
+	for (const row of result) {
+
+	}
   // TODO: Додати запит на додавання зображення в protocols
 }
 
@@ -217,10 +221,10 @@ function parseProtocol(byteArray, fileName) {
 
   // Широта
   const latitude = bbiFile.slice(84, 88);
-  protocol.latitude = 1; // bytesToInt(latitude);
+  protocol.latitude = bytesToInt(latitude);
   // Довгота
   const longitude = bbiFile.slice(88, 92);
-  protocol.longitude = 1; // bytesToInt(longitude);
+  protocol.longitude = bytesToInt(longitude);
 
   // Сертифікат
   const num5 = bytesToInt(bbiFile.slice(120, 124));
@@ -363,8 +367,6 @@ function parseProtocol(byteArray, fileName) {
     if ((testId[index] % 10.0) === 0) {
       ++testIdCount;
     }
-
-    // goog.crypt.base64.encodeByteArray
 
     test.startStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 1));
     test.endStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 2));
