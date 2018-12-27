@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { DataService } from '../../../../services/data.service';
 
@@ -12,10 +13,18 @@ const url = 'http://localhost:3000/api/new-verifications';
 })
 export class NewVerificationDialogComponent implements OnInit {
 	step: number;
+
+  generalDataForm: FormGroup;
+  locationForm: FormGroup;
+  counterForm: FormGroup;
+  additionalDataForm: FormGroup;
+
   private url: string;
+
   constructor(
     private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
-    private dataSv: DataService
+    private dataSv: DataService,
+    private fb: FormBuilder
     ) { }
 
 	setStep(index: number): void {
@@ -42,5 +51,46 @@ export class NewVerificationDialogComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.generalDataForm = this.fb.group({
+      surname: '',
+      name: '',
+      middlename: '',
+      phone: ''
+    });
+
+    this.locationForm = this.fb.group({
+      region: '',
+      district: '',
+      settlement: '',
+      index: '',
+      street: '',
+      house: '',
+      apartment: '',
+      isDismantled: false,
+      isUnique: false
+    });
+
+    this.counterForm = this.fb.group({
+      isDismantled: false,
+      montageDate: '',
+      employeeName: '',
+      coment: '',
+      counterNumber: '',
+      haveSeal: '',
+      counterType: '',
+      productionYear: '',
+      acumulatedVolume: ''
+    });
+
+    this.additionalDataForm = this.fb.group({
+      entrance: '',
+      doorCode: '',
+      floor: '',
+      favorDate: '',
+      sanitaryWellFare: '',
+      waterAbsent: '',
+      note: ''
+    });
+  }
 }

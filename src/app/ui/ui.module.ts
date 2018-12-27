@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MaterialModule } from './../material/material.module';
 
@@ -19,7 +19,7 @@ import { ProtocolDialogComponent } from './components/protocol-view/protocol-dia
 import { VerificationViewComponent } from './components/verification-view/verification-view.component';
 
 @NgModule({
-	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule],
+	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule, ReactiveFormsModule],
 	exports: [
 		SortTableDirective,
 		FilterTableDirective,

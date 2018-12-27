@@ -5,34 +5,36 @@
     </mat-expansion-panel-header>
 
     <ng-template matExpansionPanelContent>
-      <div class="full-width">
-        <span>Прізвище</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Прізвище">
-        </mat-form-field>
-      </div>
+      <form [formGroup]="generalDataForm">
+        <div class="full-width">
+          <span>Прізвище</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Прізвище" formControlName="surname">
+          </mat-form-field>
+        </div>
 
-      <div class="full-width">
-        <span>Ім'я</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Ім'я">
-        </mat-form-field>
-      </div>
+        <div class="full-width">
+          <span>Ім'я</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Ім'я" formControlName="name">
+          </mat-form-field>
+        </div>
 
-      <div class="full-width">
-        <span>По-батькові</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="По-батькові">
-        </mat-form-field>
-      </div>
+        <div class="full-width">
+          <span>По-батькові</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="По-батькові" formControlName="middlename">
+          </mat-form-field>
+        </div>
 
-      <div class="full-width">
-        <span>Номер телефону</span>
-        <mat-form-field class="input-field">
-          <span matPrefix>+380 &nbsp;</span>
-          <input matInput placeholder="Телефон">
-        </mat-form-field>
-      </div>
+        <div class="full-width">
+          <span>Номер телефону</span>
+          <mat-form-field class="input-field">
+            <span matPrefix>+380 &nbsp;</span>
+            <input matInput placeholder="Телефон" formControlName="phone">
+          </mat-form-field>
+        </div>
+      </form>
     </ng-template>
 
     <mat-action-row>
@@ -46,66 +48,68 @@
     </mat-expansion-panel-header>
 
     <ng-template matExpansionPanelContent>
-      <div class="full-width">
-        <span>Область</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Область">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Район</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Район">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Населений пункт</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Населений пункт">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Індекс</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Індекс">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Вулиця</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Вулиця">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Будинок</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Будинок">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Квартира</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Квартира">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width inline">
-        <div class="d-flex justify-content-between align-items-center">
-          <span>Провести повірку з демонтажом</span>
-          <mat-checkbox></mat-checkbox>
+      <form [formGroup]="locationForm">
+        <div class="full-width">
+          <span>Область</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Область" formControlName="region">
+          </mat-form-field>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center">
-          <mat-checkbox [labelPosition]="'before'">Перевірено на дублі </mat-checkbox>
-          <button mat-button color="primary"><i class="icofont-copy"></i></button>
+        <div class="full-width">
+          <span>Район</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Район" formControlName="district">
+          </mat-form-field>
         </div>
-      </div>
+
+        <div class="full-width">
+          <span>Населений пункт</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Населений пункт" formControlName="settlement">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Індекс</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Індекс" formControlName="index">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Вулиця</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Вулиця" formControlName="street">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Будинок</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Будинок" formControlName="house">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Квартира</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Квартира" formControlName="apartment">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width inline">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Провести повірку з демонтажом</span>
+            <mat-checkbox formControlName="isDismantled"></mat-checkbox>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <mat-checkbox [labelPosition]="'before'" formControlName="isUnique">Перевірено на дублі </mat-checkbox>
+            <button mat-button color="primary"><i class="icofont-copy"></i></button>
+          </div>
+        </div>
+      </form>
     </ng-template>
 
     <mat-action-row>
@@ -120,88 +124,90 @@
     </mat-expansion-panel-header>
 
     <ng-template matExpansionPanelContent>
-      <div class="full-width inline">
-        <div class="d-flex justify-content-between align-items-center">
-          <span>Лічильник демонтовано</span>
-          <mat-checkbox></mat-checkbox>
+      <form [formGroup]="counterForm">
+        <div class="full-width inline">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Лічильник демонтовано</span>
+            <mat-checkbox formControlName="isDismantled"></mat-checkbox>
+          </div>
         </div>
-      </div>
 
-      <div class="full-width">
-        <span>Дата монтажу лічильника</span>
-        <mat-form-field class="input-field">
-          <input matInput [matDatepicker]="montageDate" placeholder="Дата монтажу лічильника">
-          <mat-datepicker-toggle matSuffix [for]="montageDate"></mat-datepicker-toggle>
-          <mat-datepicker #montageDate></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>ПІБ працівника</span>
-        <mat-form-field class="input-field">
-          <mat-select placeholder="Favorite food">
-            <!-- TODO: Добавити прив'язку до таблиці працівники -->
-            <mat-option>Працівник</mat-option>
-            <mat-option>Працівник</mat-option>
-            <mat-option>Працівник</mat-option>
-            <mat-option>Працівник</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Коментар</span>
-        <mat-form-field class="input-field">
-          <mat-label>Коментар</mat-label>
-          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-            cdkAutosizeMaxRows="10"></textarea>
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Номер лічильника</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="'Номер лічильника'">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width inline">
-        <div class="d-flex justify-content-between align-items-center">
-          <span>Наявність пломби</span>
-          <mat-checkbox></mat-checkbox>
+        <div class="full-width">
+          <span>Дата монтажу лічильника</span>
+          <mat-form-field class="input-field">
+            <input matInput [matDatepicker]="montageDate" placeholder="Дата монтажу лічильника" formControlName="montageDate">
+            <mat-datepicker-toggle matSuffix [for]="montageDate"></mat-datepicker-toggle>
+            <mat-datepicker #montageDate></mat-datepicker>
+          </mat-form-field>
         </div>
-      </div>
 
-      <div class="full-width">
-        <span>Тип Лічильника</span>
-        <mat-form-field class="input-field">
-          <mat-select placeholder="Favorite food">
-            <!-- TODO: Добавити прив'язку до таблиці лічильники -->
-            <mat-option>Лічильник 1</mat-option>
-            <mat-option>Лічильник 2</mat-option>
-            <mat-option>Лічильник 3</mat-option>
-            <mat-option>Лічильник 4</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+        <div class="full-width">
+          <span>ПІБ працівника</span>
+          <mat-form-field class="input-field">
+            <mat-select placeholder="Favorite food" formControlName="employeeName">
+              <!-- TODO: Добавити прив'язку до таблиці працівники -->
+              <mat-option>Працівник</mat-option>
+              <mat-option>Працівник</mat-option>
+              <mat-option>Працівник</mat-option>
+              <mat-option>Працівник</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-      <div class="full-width">
-        <mat-form-field class="input-field">
-          <input matInput placeholder="'Рік випуску лічильника'">
-        </mat-form-field>
-        <span>Рік випуску</span>
-      </div>
-      <div class="full-width">
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Накопичений об'єм">
-        </mat-form-field>
-        <span>Накопичений об'єм</span>
-      </div>
-      <div class="full-width">
-        <mat-form-field class="input-field">
-          <input matInput placeholder="'xxxxx'">
-        </mat-form-field>
-      </div>
+        <div class="full-width">
+          <span>Коментар</span>
+          <mat-form-field class="input-field">
+            <mat-label>Коментар</mat-label>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="10" formControlName="coment"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Номер лічильника</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="'Номер лічильника'" formControlName="counterNumber">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width inline">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Наявність пломби</span>
+            <mat-checkbox formControlName="haveSeal"></mat-checkbox>
+          </div>
+        </div>
+
+        <div class="full-width">
+          <span>Тип Лічильника</span>
+          <mat-form-field class="input-field">
+            <mat-select placeholder="Favorite food" formControlName="counterType">
+              <!-- TODO: Добавити прив'язку до таблиці лічильники -->
+              <mat-option>Лічильник 1</mat-option>
+              <mat-option>Лічильник 2</mat-option>
+              <mat-option>Лічильник 3</mat-option>
+              <mat-option>Лічильник 4</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="'Рік випуску лічильника'" formControlName="productionYear">
+          </mat-form-field>
+          <span>Рік випуску</span>
+        </div>
+        <div class="full-width">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Накопичений об'єм" formControlName="acumulatedVolume">
+          </mat-form-field>
+          <span>Накопичений об'єм</span>
+        </div>
+        <div class="full-width">
+          <mat-form-field class="input-field">
+            <input matInput placeholder="'xxxxx'">
+          </mat-form-field>
+        </div>
+      </form>
     </ng-template>
 
     <mat-action-row>
