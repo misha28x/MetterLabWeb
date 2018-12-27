@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { DataService } from '../../services/data.service';
+
+const url = 'http://localhost:3000/api/provider-requests';
 
 @Component({
   selector: 'app-provider-requests',
@@ -7,8 +12,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageProviderRequestsComponent implements OnInit {
 
-  constructor() { }
+	providerRequests: Observable<any[]>;
+
+  constructor(private dataSv: DataService) { }
 
   ngOnInit(): void {
+		this.providerRequests = this.dataSv.getData(url);
   }
 }
