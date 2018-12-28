@@ -10,7 +10,7 @@ export interface Protocol {
 	minutes: number; 					// Хвилини
 	counterNumber: string;	 	// Номер лічильника
 	capacity: number; 				// Об'єм
-  image: string;
+	image: String;
 	temperature: number; 			// Температура
 	productionYear: number; 	// Рік виробітку
 	longitude: number;				// Довгота

@@ -121,6 +121,7 @@ function getResultsFromDatabase(byteArray) {
           return;
         } else {
           console.log('Other error in the query');
+          console.log(err);
           return;
         }
       } else {
@@ -208,6 +209,9 @@ function parseProtocol(byteArray, fileName) {
   // Номер установки
   const deviceNumber = bbiFile.slice(68, 72);
   protocol.deviceNumber = bytesToInt(deviceNumber);
+
+  // Image
+  protocol.image = coder.encode(bytesToImage(bbiFile, 0));
 
   // Широта
   const latitude = bbiFile.slice(84, 88);
@@ -397,9 +401,9 @@ function uintToString(bytes) {
 }
 
 function addProtocol(protocol) {
-  let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`,`Умовне_позначення` , `Типорозмір_лічильника`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
-  let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-  let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
+  let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`,`Умовне_позначення` , `Типорозмір_лічильника`, `Зображення`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
+  let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+  let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, protocol.image, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
   // TODO: додати count для кількості дублікатів
   connection.query(varPart + formatedData, function (err, rows) {
@@ -410,6 +414,8 @@ function addProtocol(protocol) {
         return;
       } else {
         console.log('Other error in the query');
+        console.log(err);
+
         return;
       }
     } else {
@@ -420,14 +426,6 @@ function addProtocol(protocol) {
         formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
 
         connection.query(varPart + formatedData);
-      });
-
-      connection.query("SELECT Image FROM results WHERE FileNumber='" + protocol.bbiFileName + "';", (err, rows) => {
-        if (err) {
-          console.log(err);
-        } else {
-          connection.query("UPDATE `protocols` SET `Зображення`='" + coder.encode(rows[0].Image) + "' WHERE `Номер_протоколу`='" + protocol.bbiFileName + "';");
-        }
       });
     }
   });
