@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
+import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-edit-dialog.component';
 
 @Component({
   selector: 'app-task-list-edit',
@@ -7,9 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskListEditComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit(): void { }
 }
