@@ -110,7 +110,10 @@ export class NewVerificationDialogComponent implements OnInit {
       brigadeName: '',
       note: this.additionalDataForm.get('note').value,
       serviceProvider: '',
-      
+      stationNumber: '',
+      status: '',
+      symbol: '',
+      taskDate: ''
     };
 
     this.dataSv.sendData(url, this.verification);

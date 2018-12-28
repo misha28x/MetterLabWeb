@@ -1,9 +1,9 @@
 <input type="file" #file style="display: none" (change)="onFilesAdded($event)" multiple />
 
-<div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+<div class="container">
   <h1 mat-dialog-title>Завантаження Архіву</h1>
   <div>
-    <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles($event)">
+    <button [disabled]="files.size > 0" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles($event)">
       Вибрати архів
     </button>
   </div>
@@ -12,13 +12,12 @@
     <mat-list>
       <mat-list-item *ngFor="let file of files">
         <h4 mat-line>{{ file.name }}</h4>
-        <mat-progress-bar *ngIf="progress" mode="determinate" [value]="progress[file.name].progress | async"></mat-progress-bar>
       </mat-list-item>
     </mat-list>
   </mat-dialog-content>
 
   <mat-dialog-actions class="actions">
-    <button *ngIf="showCancelButton" mat-button mat-dialog-close>Скасувати</button>
-    <button mat-raised-button color="primary" [disabled]="!canBeClosed" (click)="closeDialog()">Завантажити</button>
+    <button *ngIf="showCancelButton" mat-button mat-dialog-close>Закрити</button>
+    <button mat-raised-button color="primary" [disabled]="0 >= files.size" (click)="closeDialog()">Завантажити</button>
   </mat-dialog-actions>
 </div>

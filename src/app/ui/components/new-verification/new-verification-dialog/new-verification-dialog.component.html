@@ -144,7 +144,7 @@
         <div class="full-width">
           <span>ПІБ працівника</span>
           <mat-form-field class="input-field">
-            <mat-select placeholder="Favorite food" formControlName="employeeName">
+            <mat-select placeholder="Працівник" formControlName="employeeName">
               <!-- TODO: Добавити прив'язку до таблиці працівники -->
               <mat-option>Працівник</mat-option>
               <mat-option>Працівник</mat-option>
@@ -180,7 +180,7 @@
         <div class="full-width">
           <span>Тип Лічильника</span>
           <mat-form-field class="input-field">
-            <mat-select placeholder="Favorite food" formControlName="counterType">
+            <mat-select placeholder="Типорозмір лічильника" formControlName="counterType">
               <!-- TODO: Добавити прив'язку до таблиці лічильники -->
               <mat-option>Лічильник 1</mat-option>
               <mat-option>Лічильник 2</mat-option>
@@ -290,5 +290,5 @@
 
 <div class="buttons">
   <button mat-raised-button color="warn" (click)="prevStep()">Очистити</button>
-  <button mat-raised-button color="primary" (click)="send()">Надіслати</button>
+  <button mat-raised-button color="primary" (click)="sendData()">Надіслати</button>
 </div>

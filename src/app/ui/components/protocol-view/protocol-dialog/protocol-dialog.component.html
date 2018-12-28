@@ -37,7 +37,11 @@
     <app-input [readonly]="true" [innerValue]="data.result || ''"></app-input>
     <app-input></app-input>
     <app-input></app-input>
+    <div class="test-images">
+      <img [src]="getImage(data.image)">
+    </div>
   </div>
+
 </div>
 
 <div class="tests-block">
@@ -67,17 +71,9 @@
       <app-input [readonly]="true" [innerValue]="test.counterCapacity || ''"></app-input>
       <app-input [readonly]="true" [innerValue]="test.testDuration || ''"></app-input>
       <app-input [readonly]="true" [innerValue]="test.mediumExes|| ''"></app-input>
-      <app-input 
-        [readonly]="true" 
-        [innerValue]="test.isInZone || ''"
-        [ngClass]="{'success': test.isInZone == 'В зоні', 'failed': test.result == 'Не в зоні'}"
-      ></app-input>
+      <app-input [readonly]="true" [innerValue]="test.isInZone || ''" [ngClass]="{'success': test.isInZone == 'В зоні', 'failed': test.result == 'Не в зоні'}"></app-input>
       <app-input [readonly]="true" [innerValue]="test.calculatedFault || ''"></app-input>
-      <app-input 
-        [readonly]="true" 
-        [innerValue]="test.result  || ''" 
-        [ngClass]="{'success': test.result == 'Годен', 'failed': test.result == 'Не годен', 'unknowsn': test.result == 'Не обработан'}"
-      ></app-input>
+      <app-input [readonly]="true" [innerValue]="test.result  || ''" [ngClass]="{'success': test.result == 'Годен', 'failed': test.result == 'Не годен', 'unknowsn': test.result == 'Не обработан'}"></app-input>
     </div>
 
     <div class="test-images">

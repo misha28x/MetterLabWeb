@@ -1,29 +1,30 @@
 export interface Protocol {
-	bbiFileName: String;
+	bbiFileName: string;
 	date: Date;								// Повна дата
 	day: number; 							// День
-	type: String; 						// Типорозмір
-	symbol: String;						// Умовне позначення
+	type: string; 						// Типорозмір
+	symbol: string;						// Умовне позначення
 	year: number; 						// Рік
 	hours: number; 						// Години
 	month: number; 						// Місяць
 	minutes: number; 					// Хвилини
-	counterNumber: String;	 	// Номер лічильника
+	counterNumber: string;	 	// Номер лічильника
 	capacity: number; 				// Об'єм
+  image: string;
 	temperature: number; 			// Температура
 	productionYear: number; 	// Рік виробітку
 	longitude: number;				// Довгота
 	latitude: number;					// Широта
 	deviceNumber: number;		 	// Номер пристрою
 	tests: Test[];						// Масив з тестами
-	status: String; 					// Статус
-	result: String; 					// Результат
+	status: string; 					// Статус
+	result: string; 					// Результат
 	protocolStatus: Boolean; 	// Статус протоколу
 }
 
 export interface Test {
-	bbiFileName: String;
-	name: String;
+	bbiFileName: string;
+	name: string;
 	installedExes: number; 		// "Заданный расход, м3/ч";				[0]
 	assumedFault: number; 		// "Допустимая погрешность, +-%"; [1]
 	etalonCapacity: number; 	// "Объем эталона, л";
@@ -32,9 +33,9 @@ export interface Test {
 	counterCapacity: number;	// "Объем по счётчику, л";
 	testDuration: number; 		// "Продолжительность теста, с";
 	mediumExes: number; 			// "Средний расход, м3/ч";
-	isInZone: String; 				// "Статус расхода";
+	isInZone: string; 				// "Статус расхода";
 	calculatedFault: number; 	// "Расчётная погрешность, %";
-	result: String;
-	startStateImage: String;
-	endStateImage: String;
+	result: string;
+	startStateImage: string;
+	endStateImage: string;
 }

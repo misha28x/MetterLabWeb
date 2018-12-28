@@ -28,6 +28,7 @@ router.post('', (req, res, next) => {
 
   connection.query(varResult, () => {
     res.status(201);
+    console.log('added');
   });
 });
 

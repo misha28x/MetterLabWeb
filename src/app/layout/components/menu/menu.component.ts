@@ -25,7 +25,8 @@ export class MenuComponent implements OnInit {
 	getMenuItems(url: string): void {
 		const observer = {
 			next: x => this.menu = x,
-			error: err => this.dataSv.handleError(err)
+			error: err => this.dataSv.handleError(err),
+      complete: () => console.log(this.menu)
 		};
 
 		this.dataSv.getData(url).subscribe(observer);

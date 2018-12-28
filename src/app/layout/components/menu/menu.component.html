@@ -2,15 +2,9 @@
   <li class="main-item" *ngFor="let item of menu">
     <a [routerLink]="[item.routing]" [routerLinkActive]="'active'" class="item-link">
       <span class="item-icon" [ngClass]="item.icon"></span>
-      <ng-template *ngIf="item.counter">
-        <span matBadge="item.counter" matBadgeOverlap="false">
-          <span class="item-text">{{ item.title }}</span>
-        </span>
-      </ng-template>
-
-      <ng-template *ngIf="!item.counter">
-        <span class="item-text">{{ item.title }}</span>
-      </ng-template>
+      <span matBadge="{{ item.counter }}" matBadgeOverlap="false" class="item-text">
+        {{ item.title }}
+      </span>
     </a>
   </li>
 </ul>

@@ -14,7 +14,11 @@ export class DataService {
 	}
 
   sendData(url: string, data: any): any {
-    return this.http.post(url, data);
+    return this.http.post(url, data).subscribe(
+      next => {
+        console.log(next + 'Success');
+      }
+    );
   }
 
 	handleError(error: any): Observable<never> {

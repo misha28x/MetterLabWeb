@@ -24,8 +24,6 @@ const upload = multer({
 
 const router = express.Router();
 
-
-
 function bytesToInt(bytes) {
   const startbyte = bytes.byteOffset + bytes.byteLength - Uint32Array.BYTES_PER_ELEMENT;
   const u32bytes = bytes.buffer.slice(startbyte, startbyte + Uint32Array.BYTES_PER_ELEMENT);
@@ -455,8 +453,6 @@ router.post('', upload.single('file'), (req, res, next) => {
       });
     });
   });
-
-  getResultsFromDatabase(db);
 
   res.status(201);
 })

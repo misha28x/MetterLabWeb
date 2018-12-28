@@ -70,6 +70,7 @@ router.get('/:id', (req, res, next) => {
       rp.signDate = rows[0].Дата_підпису_протоколу;
       rp.signName = rows[0].ПІБ_особи_підписувача;
       rp.status = rows[0].Статус;
+      rp.image = rows[0].Зображення;
       rp.tests = [];
 
       rp.tests = testArray;

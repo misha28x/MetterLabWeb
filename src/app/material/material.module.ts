@@ -5,6 +5,7 @@ import {
 	MatButtonModule,
 	MatButtonToggleModule,
 	MatBottomSheetModule,
+  MatBadgeModule,
 	MatCardModule,
 	MatCheckboxModule,
 	MatChipsModule,
@@ -38,6 +39,7 @@ import {
 @NgModule({
 	imports: [
 		MatAutocompleteModule,
+    MatBadgeModule,
 		MatButtonModule,
 		MatButtonToggleModule,
 		MatBottomSheetModule,
@@ -72,6 +74,7 @@ import {
 	],
 	exports: [
 		MatAutocompleteModule,
+    MatBadgeModule,
 		MatButtonModule,
 		MatButtonToggleModule,
 		MatBottomSheetModule,
