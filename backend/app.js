@@ -17,6 +17,7 @@ const rejectedVerificationRoutes = require('./routes/rejected-verification');
 const verificationsArchiveRoutes = require('./routes/verifications-archive');
 const reportsRoutes = require('./routes/reports');
 const userGuideRoutes = require('./routes/user-guide');
+const menuRoutes = require('./routes/menu');
 
 const fileSendingRoutes = require('./routes/files-sending');
 
@@ -54,5 +55,6 @@ app.use('/api/verifications-archive', verificationsArchiveRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/user-guide', userGuideRoutes);
 app.use('/api/file-sending', fileSendingRoutes);
+app.use('/api/menu', menuRoutes);
 
 module.exports = app;
