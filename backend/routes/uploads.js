@@ -209,6 +209,8 @@ function parseProtocol(byteArray, fileName) {
   const deviceNumber = bbiFile.slice(68, 72);
   protocol.deviceNumber = bytesToInt(deviceNumber);
 
+	protocol.image = coder.encode(bytesToImage(bbiFile, 0));
+
   // Широта
   const latitude = bbiFile.slice(84, 88);
   protocol.latitude = bytesToInt(latitude);
