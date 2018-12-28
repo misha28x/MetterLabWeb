@@ -342,7 +342,7 @@ function parseProtocol(byteArray, fileName) {
     } else {
       const result1calculatedFault = test.calculatedFault;
       const result2assumedFault = test.assumedFault;
-
+p
       if (result2assumedFault >= Math.abs(result1calculatedFault)) {
         test.result = 'Годен';
       } else {
