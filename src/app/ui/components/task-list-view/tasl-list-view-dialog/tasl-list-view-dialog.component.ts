@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { DataService } from '../../../../services/data.service';
 
 @Component({
   selector: 'app-tasl-list-view-dialog',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaslListViewDialogComponent implements OnInit {
 
-  constructor() { }
+	taskList: Observable<any[]>;
+	private url: string;
+
+	constructor(private dataSv: DataService) { }
 
   ngOnInit() {
-  }
+		this.url = 'http://localhost:3000/api/station-tasks';
 
+		this.taskList = this.dataSv.getData(this.url);
+  }
 }

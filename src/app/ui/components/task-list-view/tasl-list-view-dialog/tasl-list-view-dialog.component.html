@@ -1,3 +1,54 @@
-<p>
-  tasl-list-view-dialog works!
-</p>
+<app-table [hovered]="true" [bordered]="true" [tableData]="taskList" [pagination]="true">
+  <app-column [width]="30">
+    <ng-template #headerBodyTemplate>
+      <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+    </ng-template>
+    <ng-template #tableBodyTemplate>
+      <mat-checkbox></mat-checkbox>
+    </ng-template>
+  </app-column>
+
+  <app-column [columnTitle]="'Надавач послуг'" [columnName]="'Надавач_послуг'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'ПІБ Клієнта'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Район'" [columnName]="''" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Вулиця клієнта'" [columnName]="'Вулиця_клієнта'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Буд.'" [columnName]="'Будинок'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Кв.'" [columnName]="'Квартира'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Під.'" [columnName]="''" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Пов.'" [columnName]="''" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Номер телефону'" [columnName]="'Номер_телефону'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Час'" [columnName]="'Дата_завдання'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Примітка'" [columnName]="'Примітка'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Дії'">
+    <ng-template #tableBodyTemplate let-row="row">
+      <div class="actions-row">
+        <button mat-icon-button>
+          <i class="icofont-ui-user" matTooltip="Додати відповідальну особу"></i>
+        </button>
+
+        <button mat-icon-button>
+          <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
+        </button>
+
+        <button mat-icon-button>
+          <i class="icofont-ui-delete color-error" matTooltip="Відхилити заявку"></i>
+        </button>
+
+        <button mat-icon-button>
+          <i class="icofont-info-circle color-info" matTooltip="Інформація"></i>
+        </button>
+      </div>
+    </ng-template>
+  </app-column>
+</app-table>
