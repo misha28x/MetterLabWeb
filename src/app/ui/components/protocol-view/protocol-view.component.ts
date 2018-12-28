@@ -32,7 +32,6 @@ export class ProtocolViewComponent implements OnInit, OnDestroy {
       width: '98vw',
       panelClass: 'full-screen-modal'
     });
-    console.log(protocol);
   }
 
   ngOnDestroy(): void {

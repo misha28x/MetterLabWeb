@@ -10,7 +10,16 @@ import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-e
 })
 export class TaskListEditComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+	constructor(private matDialog: MatDialog) { }
 
-  ngOnInit(): void { }
+	ngOnInit(): void {
+  }
+
+	openDialg(): void {
+		this.matDialog.open(TaskListEditDialogComponent, {
+			height: '98%',
+			width: '98vw',
+			panelClass: 'full-screen-modal'
+		});
+	}
 }
