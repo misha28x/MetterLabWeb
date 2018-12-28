@@ -1,25 +1,28 @@
 export interface Verification {
-	addingDate: String; 				// Дата_надходження
-	applicationNumber: String; 	// Номер_заявки
-	client: String; 						// Клієнт
-	phoneNumber: String;
-	employee: String; 					// ПІБ_Працівника
-	index: String;
-	city: String;
-	district: String;						// Район
-	street: String;						  // Вулиця
-	house: String; 							// Будинок
-	flat: String; 							// Квартира
-	isRemoved: boolean; 				// Лічильник_демонтовано
-	symbol: String; 						// Умовне_позначення
-	counterNumber: String; 			// Номер_лічильника
-	type: String; 							// Типорозмір_лічильника
-	productionYear: String; 		// Рік_випуску_лічильника
-	status: String; 						// Статус
-	serviceProvider: String; 		// Надавач_послуг
-	comment: String;					  // Коментар
-	note: String; 							// Примітка
-	taskDate: Date; 						// Дата_завдання
-	brigadeName: String; 				// Назва_бригади
-	stationNumber: String; 			// Номер_установки
+	addingDate: string; 				// Дата_надходження
+	applicationNumber: string; 	// Номер_заявки
+	client: string; 						// Клієнт
+	phoneNumber: string;
+	employeeName: string; 			// ПІБ_Працівника
+	index: string;
+  settlement: string;
+	district: string;						// Район
+	street: string;						  // Вулиця
+	house: string; 							// Будинок
+  apartment: string; 					// Квартира
+  isDismantled: boolean; 			// Лічильник_демонтовано
+  montageDate: string;
+	symbol: string; 						// Умовне_позначення
+	counterNumber: string; 			// Номер_лічильника
+  haveSeal: boolean;          // Наявність пломби
+  counterType: string; 				// Типорозмір_лічильника
+	productionYear: string; 		// Рік_випуску_лічильника
+  acumulatedVolume: string;   // Накопичений об'єм
+	status: string; 						// Статус
+	serviceProvider: string; 		// Надавач_послуг
+	comment: string;					  // Коментар
+	note: string; 							// Примітка
+	taskDate: string; 					// Дата_завдання
+	brigadeName: string; 				// Назва_бригади
+	stationNumber: string; 			// Номер_установки
 }

@@ -222,60 +222,63 @@
     </mat-expansion-panel-header>
 
     <ng-template matExpansionPanelContent>
-      <div class="full-width">
-        <span>Під'їзд</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Під'їзд">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Код на дверях</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Код на дверях">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Поверх</span>
-        <mat-form-field class="input-field">
-          <input matInput placeholder="Поверх">
-        </mat-form-field>
-      </div>
-
-      <div class="full-width">
-        <span>Бажана дата проведення повірки</span>
-        <mat-form-field class="input-field">
-          <input matInput [matDatepicker]="favorableDatePicker" placeholder="Бажана дата повірки">
-          <mat-datepicker-toggle matSuffix [for]="favorableDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #favorableDatePicker></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <div class="full-width inline">
-        <div class="d-flex justify-content-between align-items-center">
-          <span>Справність сантехніки</span>
-          <mat-checkbox></mat-checkbox>
+      <form [formGroup]="additionalDataForm">
+        <div class="full-width">
+          <span>Під'їзд</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Під'їзд" formControlName="entrance">
+          </mat-form-field>
         </div>
-      </div>
 
-      <div class="full-width">
-        <span>Вода відсутня до</span>
-        <mat-form-field class="input-field">
-          <input matInput [matDatepicker]="waterDatePicker" placeholder="Бажана дата повірки">
-          <mat-datepicker-toggle matSuffix [for]="waterDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #waterDatePicker></mat-datepicker>
-        </mat-form-field>
-      </div>
+        <div class="full-width">
+          <span>Код на дверях</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Код на дверях" formControlName="doorCode">
+          </mat-form-field>
+        </div>
 
-      <div class="full-width">
-        <span>Примітка</span>
-        <mat-form-field class="input-field">
-          <mat-label>Примітка</mat-label>
-          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-            cdkAutosizeMaxRows="10"></textarea>
-        </mat-form-field>
-      </div>
+        <div class="full-width">
+          <span>Поверх</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Поверх" formControlName="floor">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Бажана дата проведення повірки</span>
+          <mat-form-field class="input-field">
+            <input matInput [matDatepicker]="favorableDatePicker" placeholder="Бажана дата повірки" formControlName="favorDate">
+            <mat-datepicker-toggle matSuffix [for]="favorableDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #favorableDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="full-width inline">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Справність сантехніки</span>
+            <mat-checkbox formControlName="sanitaryWellFare"></mat-checkbox>
+          </div>
+        </div>
+
+        <div class="full-width">
+          <span>Вода відсутня до</span>
+          <mat-form-field class="input-field">
+            <input matInput [matDatepicker]="waterDatePicker" placeholder="Бажана дата повірки" formControlName="waterAbsentTo">
+            <mat-datepicker-toggle matSuffix [for]="waterDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #waterDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Примітка</span>
+          <mat-form-field class="input-field">
+            <mat-label>Примітка</mat-label>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="10"></textarea>
+          </mat-form-field>
+        </div>
+
+      </form>
     </ng-template>
 
     <mat-action-row>

@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { DataService } from '../../../../services/data.service';
+import { Verification } from '../../../../interfaces/verifications';
 
 const url = 'http://localhost:3000/api/new-verifications';
 
@@ -13,6 +14,7 @@ const url = 'http://localhost:3000/api/new-verifications';
 })
 export class NewVerificationDialogComponent implements OnInit {
 	step: number;
+  verification: Verification;
 
   generalDataForm: FormGroup;
   locationForm: FormGroup;
@@ -39,18 +41,6 @@ export class NewVerificationDialogComponent implements OnInit {
 		this.step--;
 	}
 
-  send(): void {
-    const testObj = {
-      number: 12345,
-      client: 'Vitalya',
-      data: new Date()
-    };
-
-    this.dataSv.sendData(url, testObj).subscribe(() => {
-      console.log('data sended');
-    });
-  }
-
   ngOnInit(): void {
     this.generalDataForm = this.fb.group({
       surname: '',
@@ -75,7 +65,7 @@ export class NewVerificationDialogComponent implements OnInit {
       isDismantled: false,
       montageDate: '',
       employeeName: '',
-      coment: '',
+      comment: '',
       counterNumber: '',
       haveSeal: '',
       counterType: '',
@@ -89,8 +79,40 @@ export class NewVerificationDialogComponent implements OnInit {
       floor: '',
       favorDate: '',
       sanitaryWellFare: '',
-      waterAbsent: '',
+      waterAbsentTo: '',
       note: ''
     });
+  }
+
+  sendData(): void {
+    this.verification = {
+      client: this.generalDataForm.get('surname').value + ' ' +
+        this.generalDataForm.get('name').value + ' ' +
+        this.generalDataForm.get('middlename'),
+      phoneNumber: this.generalDataForm.get('phone').value,
+      addingDate: new Date().getUTCDate() + '-' + new Date().getUTCMonth() + '-' + new Date().getUTCFullYear(),
+      district: this.locationForm.get('district').value,
+      settlement: this.locationForm.get('district').value,
+      index: this.locationForm.get('index').value,
+      street: this.locationForm.get('street').value,
+      house: this.locationForm.get('house').value,
+      apartment: this.locationForm.get('apartment').value,
+      isDismantled: this.locationForm.get('isDismantled').value,
+      montageDate: this.counterForm.get('montageDate').value,
+      employeeName: this.counterForm.get('employeeName').value,
+      comment: this.counterForm.get('comment').value,
+      counterNumber: this.counterForm.get('counterNumber').value,
+      haveSeal: this.counterForm.get('haveSeal').value,
+      counterType: this.counterForm.get('counterType').value,
+      productionYear: this.counterForm.get('productionYear').value,
+      acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
+      applicationNumber: '',
+      brigadeName: '',
+      note: this.additionalDataForm.get('note').value,
+      serviceProvider: '',
+      
+    };
+
+    this.dataSv.sendData(url, this.verification);
   }
 }
