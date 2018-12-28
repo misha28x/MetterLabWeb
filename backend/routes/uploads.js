@@ -453,7 +453,6 @@ router.post('', upload.single('file'), (req, res, next) => {
       });
     });
   });
-
   res.status(201);
 })
 // Отримання всіх протоколів

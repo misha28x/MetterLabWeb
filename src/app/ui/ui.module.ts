@@ -17,6 +17,10 @@ import { NewVerificationComponent, NewVerificationDialogComponent } from './comp
 import { ProtocolViewComponent } from './components/protocol-view';
 import { ProtocolDialogComponent } from './components/protocol-view/protocol-dialog/protocol-dialog.component';
 import { VerificationViewComponent } from './components/verification-view/verification-view.component';
+import { TaskListViewComponent } from './components/task-list-view/task-list-view.component';
+import { TaslListViewDialogComponent } from './components/task-list-view/tasl-list-view-dialog/tasl-list-view-dialog.component';
+import { TaskListEditComponent } from './components/task-list-edit/task-list-edit.component';
+import { TaskListEditDialogComponent } from './components/task-list-edit/task-list-edit-dialog/task-list-edit-dialog.component';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule, ReactiveFormsModule],
@@ -42,7 +46,11 @@ import { VerificationViewComponent } from './components/verification-view/verifi
 		NewVerificationDialogComponent,
     ProtocolViewComponent,
     ProtocolDialogComponent,
-    VerificationViewComponent
+    VerificationViewComponent,
+    TaskListViewComponent,
+    TaslListViewDialogComponent,
+    TaskListEditComponent,
+    TaskListEditDialogComponent
 	],
 	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent]
 })
