@@ -18,7 +18,7 @@ export class MenuComponent implements OnInit {
 	constructor(private dataSv: DataService) { }
 
 	ngOnInit(): void {
-		this.url = '../../../../assets/data/menu.json';
+		this.url = 'http://localhost:3000/api/menu';
 		this.getMenuItems(this.url);
 	}
 
