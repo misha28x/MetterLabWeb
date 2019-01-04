@@ -20,7 +20,7 @@ router.get('/:id', (req, res, next) => {
     generateFiles(result);
 
     // creating archives
-    var zip = new AdmZip();
+    const zip = new AdmZip();
 
     zip.addLocalFile("./backend/data/Database.db");
     zip.addLocalFile("./backend/data/Excel.xlsx");
@@ -31,26 +31,26 @@ router.get('/:id', (req, res, next) => {
 });
 
 function generateFiles(taskResult) {
-  var db = new mysql.Database();
-  var sqlString =
+  const db = new mysql.Database();
+  const sqlString =
     "CREATE TABLE Subscribers(id_pc INT, surname TEXT, name TEXT, middlename TEXT, city TEXT, district TEXT," +
     " bush TEXT, street TEXT, Building TEXT, Apartment TEXT, Tel TEXT, Date_visit TEXT, Counter_number TEXT," +
     " Note TEXT, Customer TEXT);";
   db.run(sqlString);
 
   taskResult.forEach(task => {
-    var varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    var formatedData = varData.format(task.Номер_заявки,
+    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+    let formatedData = varData.format(task.Номер_заявки,
       task.Клієнт.split(' ')[0], task.Клієнт.split(' ')[1], task.Клієнт.split(' ')[2],
       task.Населений_пункт, null, null, task.Вулиця_клієнта, task.Будинок, task.Квартира,
       task.Номер_телефону, task.Дата_завдання, task.Номер_лічильника, task.Примітка, task.Надавач_послуг);
-    var sqlStr = "INSERT INTO Subscribers(id_pc, surname, name, middlename, city, district," +
+    let sqlStr = "INSERT INTO Subscribers(id_pc, surname, name, middlename, city, district," +
       " bush, street, Building, Apartment, Tel, Date_visit, Counter_number, " +
       " Note, Customer)" + formatedData;
     db.run(sqlStr);
   });
 
-  var databaseArray = db.export();
+  const databaseArray = db.export();
 
   fs.writeFile('./backend/data/Database.db', databaseArray, (err) => {
     if (err) throw err;
@@ -101,10 +101,10 @@ function generateMail() {
 
 // Генерування табилці Excel
 function generateExcelFile(taskResult) {
-  var wb = new xl.Workbook();
+  const wb = new xl.Workbook();
 
   // Стиль для заголовків
-  var headers = wb.createStyle({
+  let headers = wb.createStyle({
     font: {
       bold: true,
     },
@@ -129,11 +129,11 @@ function generateExcelFile(taskResult) {
   });
 
   // Стиль для тексту
-  var text = wb.createStyle({
+  let text = wb.createStyle({
     
   });
 
-  var ws = wb.addWorksheet('Завдання');
+  let ws = wb.addWorksheet('Завдання');
 
   // Ширина для колонок
   ws.column(1).setWidth(16);

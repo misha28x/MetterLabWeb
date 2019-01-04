@@ -49,6 +49,7 @@ router.post('', (req, res, next) => {
 
       const id = rows[0].id_завдання;
       let position = 1;
+      
       /** дата надходження - номер телефону (ver.(verifications)) 
        * статус - уповноважен. лаб null
        * номер установки - null (?)

@@ -99,11 +99,11 @@ function bytesToImage(bbiFile, id) {
 // Images Bytes to Base64
 
 function getResultsFromDatabase(byteArray) {
-  var db = new SQL.Database(byteArray);
+  const db = new SQL.Database(byteArray);
 
   // Формуємо результат у масив об'єктів
-  var test = db.prepare("SELECT * FROM Results;");
-  for (var result = []; test.step();) result.push(test.getAsObject());
+  const test = db.prepare("SELECT * FROM Results;");
+  for (let result = []; test.step();) result.push(test.getAsObject());
 
   for (const row of result) {
     let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");

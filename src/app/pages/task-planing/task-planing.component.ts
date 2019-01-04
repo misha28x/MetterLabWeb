@@ -8,7 +8,6 @@ import { DataService } from './../../services/data.service';
   styleUrls: ['./task-planing.component.scss']
 })
 export class PageTaskPlaningComponent implements OnInit {
-
 	data: any;
 	config: any;
 	columns: Array<any>;

@@ -12,8 +12,7 @@ export class TaskListEditComponent implements OnInit {
 
 	constructor(private matDialog: MatDialog) { }
 
-	ngOnInit(): void {
-  }
+	ngOnInit(): void { }
 
 	openDialg(): void {
 		this.matDialog.open(TaskListEditDialogComponent, {

@@ -13,6 +13,7 @@ import { ProtocolDialogComponent } from './protocol-dialog/protocol-dialog.compo
 })
 export class ProtocolViewComponent implements OnInit, OnDestroy {
   @Input() protocol: Protocol;
+  
   subscription: Subscription;
 
   constructor(private dialog: MatDialog, private protocolSv: ProtocolService) { }

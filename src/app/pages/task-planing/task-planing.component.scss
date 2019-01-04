@@ -27,4 +27,12 @@
 			}
 		}
 	}
+  .actions-row {
+    display: flex;
+    flex-flow: row wrap;
+
+    >* {
+      font-size: 1.6em;
+    }
+  }
 }
