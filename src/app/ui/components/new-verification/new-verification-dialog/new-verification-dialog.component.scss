@@ -21,6 +21,34 @@
 		.input-field {
 			width: 65%;
 		}
+    .inline-form {
+      width: 65%;
+      max-width: 65%;
+      table-layout: fixed;
+
+      .w-2 {
+        width: (100% / 7);
+
+        mat-form-field {
+          width: 65%;
+        }
+      }
+      .w-4 {
+        width: 100% / 4;
+
+        mat-form-field {
+          width: 85%;
+        }
+      }
+      .w-6 {
+        width: 45%;
+
+        mat-form-field {
+          width: 100%;
+        }
+      }
+
+    }
 	}
   .buttons {
     display: flex;

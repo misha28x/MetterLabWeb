@@ -17,6 +17,7 @@ router.get('', (req, res, next) => {
     res.status(200).json(result);
   });
 });
+
 // 2) Додавання нової повірки post
 router.post('', (req, res, next) => {
   let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
@@ -67,7 +68,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // Роутер, що переміщає заявку в архів повірок
-router.post('', (req, res, next) => {
+router.post('/station-task', (req, res, next) => {
   let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s');";
   let taskAddingFormat = taskAdding.format(req.body.taskDate, req.body.type, req.body.number, req.body.employeeName, req.body.phoneNumber, req.body.count);
   let taskAddingResult = "INSERT INTO `station_tasks`(`Дата_завдання`, `Тип_установки`, " +

@@ -18,8 +18,8 @@ const verificationsArchiveRoutes = require('./routes/verifications-archive');
 const reportsRoutes = require('./routes/reports');
 const userGuideRoutes = require('./routes/user-guide');
 const menuRoutes = require('./routes/menu');
-
 const fileSendingRoutes = require('./routes/files-sending');
+const reportFormationRoutes = require('./routes/report-formation');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -43,6 +43,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/task-verification', taskVerificationRoutes);
 app.use('/api/new-verifications', newVerificationsRoutes);
 app.use('/api/home', homeRoutes);
+app.use('/api/report-formation', reportFormationRoutes);
 app.use('/api/provides-requests', providesRequestsRoutes);
 app.use('/api/lab-requests', labRequestsRoutes);
 app.use('/api/verications-protocols', vericationsProtocolsRoutes);

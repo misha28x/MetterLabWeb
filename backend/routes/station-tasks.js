@@ -28,10 +28,13 @@ router.post('/position', (req, res, next) => {
     let query = "UPDATE `verifications_archive` SET `позиція_завдання`='" +
       ver.position + "' WHERE `id_для_станції`='" + ver.stationId + "';";
 
-    connection.query(query, () => {
-      res.status(200);
+    connection.query(query, (err) => {
+      if (err) {
+        console.log(err);
+      }
     });
   });
+   res.status(200);
 })
 
 

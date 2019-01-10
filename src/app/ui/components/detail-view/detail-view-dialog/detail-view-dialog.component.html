@@ -1,0 +1,163 @@
+<mat-tab-group>
+  <mat-tab [label]="'Загальна відомості'">
+    <form [formGroup]="generalDataForm">
+      <div class="full-width">
+        <span>Прізвище</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Прізвище" formControlName="surname">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Ім'я</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Ім'я" formControlName="name">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>По-батькові</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="По-батькові" formControlName="middlename">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Номер телефону</span>
+        <mat-form-field class="input-field">
+          <span matPrefix>+380 &nbsp;</span>
+          <input matInput placeholder="Телефон" formControlName="phone">
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-tab>
+
+  <mat-tab [label]="'Місцезнаходження'">
+    <form [formGroup]="locationForm">
+      <div class="full-width">
+        <span>Область</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Область" formControlName="region">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Район</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Район" formControlName="district">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Населений пункт</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Населений пункт" formControlName="settlement">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Індекс</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Індекс" formControlName="index">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Вулиця</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Вулиця" formControlName="street">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Будинок</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Будинок" formControlName="house">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Квартира</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Квартира" formControlName="apartment">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width inline">
+        <div class="d-flex justify-content-between align-items-center">
+          <span>Провести повірку з демонтажом</span>
+          <mat-checkbox formControlName="isDismantled"></mat-checkbox>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+          <mat-checkbox [labelPosition]="'before'" formControlName="isUnique">Перевірено на дублі </mat-checkbox>
+          <button mat-button color="primary"><i class="icofont-copy"></i></button>
+        </div>
+      </div>
+    </form>
+  </mat-tab>
+
+  <mat-tab [label]="'Лічильник'">
+
+  </mat-tab>
+
+  <mat-tab [label]="'Додаткова інформація'">
+    <form [formGroup]="additionalDataForm">
+      <div class="full-width">
+        <span>Під'їзд</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Під'їзд" formControlName="entrance">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Код на дверях</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Код на дверях" formControlName="doorCode">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Поверх</span>
+        <mat-form-field class="input-field">
+          <input matInput placeholder="Поверх" formControlName="floor">
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Бажана дата проведення повірки</span>
+        <mat-form-field class="input-field">
+          <input matInput [matDatepicker]="favorableDatePicker" placeholder="Бажана дата повірки" formControlName="favorDate">
+          <mat-datepicker-toggle matSuffix [for]="favorableDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #favorableDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="full-width inline">
+        <div class="d-flex justify-content-between align-items-center">
+          <span>Справність сантехніки</span>
+          <mat-checkbox formControlName="sanitaryWellFare"></mat-checkbox>
+        </div>
+      </div>
+
+      <div class="full-width">
+        <span>Вода відсутня до</span>
+        <mat-form-field class="input-field">
+          <input matInput [matDatepicker]="waterDatePicker" placeholder="Бажана дата повірки" formControlName="waterAbsentTo">
+          <mat-datepicker-toggle matSuffix [for]="waterDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #waterDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <span>Примітка</span>
+        <mat-form-field class="input-field">
+          <mat-label>Примітка</mat-label>
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+            cdkAutosizeMaxRows="10"></textarea>
+        </mat-form-field>
+      </div>
+
+    </form>
+  </mat-tab>
+</mat-tab-group>

@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
-import { FormBuilder, FormGroup } from '@angular/forms';
-
-import { DataService } from '../../../../services/data.service';
-import { Verification } from '../../../../interfaces/verifications';
+import { Verification } from 'src/app/interfaces/verifications';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { DataService } from 'src/app/services/data.service';
 
 const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
-  selector: 'app-new-verification-dialog',
-  templateUrl: './new-verification-dialog.component.html',
-  styleUrls: ['./new-verification-dialog.component.scss']
+  selector: 'app-detail-view-dialog',
+  templateUrl: './detail-view-dialog.component.html',
+  styleUrls: ['./detail-view-dialog.component.scss']
 })
-export class NewVerificationDialogComponent implements OnInit {
-	step: number;
+export class DetailViewDialogComponent implements OnInit {
+
   verification: Verification;
 
   generalDataForm: FormGroup;
@@ -24,22 +22,9 @@ export class NewVerificationDialogComponent implements OnInit {
   private url: string;
 
   constructor(
-    private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
     private dataSv: DataService,
     private fb: FormBuilder
-    ) { }
-
-	setStep(index: number): void {
-		this.step = index;
-	}
-
-	nextStep(): void {
-		this.step++;
-	}
-
-	prevStep(): void {
-		this.step--;
-	}
+  ) { }
 
   ngOnInit(): void {
     this.generalDataForm = this.fb.group({
@@ -58,10 +43,7 @@ export class NewVerificationDialogComponent implements OnInit {
       house: '',
       apartment: '',
       isDismantled: false,
-      isUnique: false,
-      counterQuantity: 0,
-      
-      serviceProvider: ''
+      isUnique: false
     });
 
     this.counterForm = this.fb.group({
@@ -89,9 +71,9 @@ export class NewVerificationDialogComponent implements OnInit {
 
   sendData(): void {
     this.verification = {
-      client: this.generalDataForm.get('surname').value + ' ' +
+      client: (this.generalDataForm.get('surname').value + ' ' +
         this.generalDataForm.get('name').value + ' ' +
-        this.generalDataForm.get('middlename'),
+        this.generalDataForm.get('middlename')).toString(),
       phoneNumber: this.generalDataForm.get('phone').value,
       addingDate: new Date().getUTCDate() + '-' + new Date().getUTCMonth() + '-' + new Date().getUTCFullYear(),
       district: this.locationForm.get('district').value,

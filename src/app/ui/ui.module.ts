@@ -21,6 +21,8 @@ import { TaskListViewComponent } from './components/task-list-view/task-list-vie
 import { TaslListViewDialogComponent } from './components/task-list-view/tasl-list-view-dialog/tasl-list-view-dialog.component';
 import { TaskListEditComponent } from './components/task-list-edit/task-list-edit.component';
 import { TaskListEditDialogComponent } from './components/task-list-edit/task-list-edit-dialog/task-list-edit-dialog.component';
+import { DetailViewComponent } from './components/detail-view/detail-view.component';
+import { DetailViewDialogComponent } from './components/detail-view/detail-view-dialog/detail-view-dialog.component';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule, ReactiveFormsModule],
@@ -50,7 +52,9 @@ import { TaskListEditDialogComponent } from './components/task-list-edit/task-li
     TaskListViewComponent,
     TaslListViewDialogComponent,
     TaskListEditComponent,
-    TaskListEditDialogComponent
+    TaskListEditDialogComponent,
+    DetailViewComponent,
+    DetailViewDialogComponent
 	],
 	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent]
 })
