@@ -8,22 +8,31 @@ const path = require('path');
 const connection = require('../database/db');
 
 router.get('', (req, res, next) => {
-	var content = fs.readFileSync(path.resolve('backend/temp/docx', 'dovidtemp.docx'), 'binary');
-	
-	var zip = new JSZip(content);
+	let content;
 
-	var doc = new Docxtemplater();
+	// true/false - статус протоколу "придатний - не придатний"
+	if (false) {
+		content = fs.readFileSync(path.resolve('./backend/temp/docx', 'svidtemp.docx'), 'binary');
+	} else {
+		content = fs.readFileSync(path.resolve('./backend/temp/docx', 'dovidtemp.docx'), 'binary');
+	}	
+	
+	let zip = new JSZip(content);
+
+	let doc = new Docxtemplater();
 	doc.loadZip(zip);
 
 	doc.setData({
-	  try_hard: "Fuck це лайно!"
+		try_hard: "Fuck це лайно!"
+		
+		// ТЕГи прописувати тут
 	});
 
 	try {
-	  // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
+	  // заміна тегів на текст
 	  doc.render()
 	} catch (error) {
-	  var e = {
+	  let e = {
 	    message: error.message,
 	    name: error.name,
 	    stack: error.stack,
@@ -32,15 +41,17 @@ router.get('', (req, res, next) => {
 	  console.log(JSON.stringify({
 	    error: e
 	  }));
-	  // The error thrown here contains additional information when logged with JSON.stringify (it contains a property object).
 	  throw error;
 	}
 
-	var buf = doc.getZip().generate({ type: 'nodebuffer' });
+	let buf = doc.getZip().generate({
+	  type: 'nodebuffer'
+	});
 
-	// buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-	fs.writeFileSync(path.resolve('../backend/temp/docx', 'output.docx'), buf);
-	res.send('done');
+	// buffer перезаписує вміст файлу 
+	fs.writeFileSync(path.resolve('./backend/temp/docx', 'output.docx'), buf);
+	// Завантаження з серверу
+	res.download('./backend/temp/docx/output.docx', 'output.docx');
 });
 
 module.exports = router;
