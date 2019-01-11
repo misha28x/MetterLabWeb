@@ -6,12 +6,14 @@ export interface Verification {
 	employeeName: string; 			// ПІБ_Працівника
 	index: string;
   settlement: string;
+  region?: string;            // Область
 	district: string;						// Район
 	street: string;						  // Вулиця
 	house: string; 							// Будинок
   apartment: string; 					// Квартира
   isDismantled: boolean; 			// Лічильник_демонтовано
-  montageDate: string;
+  montageDate: string;        
+  counterQuantity?: number;   // Кількість лічильників
 	symbol: string; 						// Умовне_позначення
 	counterNumber: string; 			// Номер_лічильника
   haveSeal: boolean;          // Наявність пломби

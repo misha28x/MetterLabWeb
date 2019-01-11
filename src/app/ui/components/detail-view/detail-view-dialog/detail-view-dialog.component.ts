@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Verification } from 'src/app/interfaces/verifications';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { DataService } from 'src/app/services/data.service';
+
+import { Verification } from '../../../../interfaces/verifications';
+import { DataService } from '../../../../services/data.service';
+import { VerificationService } from '../../../../services/verification.service';
 
 const url = 'http://localhost:3000/api/new-verifications';
-
 @Component({
   selector: 'app-detail-view-dialog',
   templateUrl: './detail-view-dialog.component.html',
@@ -22,44 +24,50 @@ export class DetailViewDialogComponent implements OnInit {
   private url: string;
 
   constructor(
+    private verificationSv: VerificationService,
     private dataSv: DataService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: Verification
   ) { }
 
   ngOnInit(): void {
+    const surname = this.data.client.split('')[0];
+    const name = this.data.client.split('')[1];
+    const middlename = this.data.client.split('')[2];
+
     this.generalDataForm = this.fb.group({
-      surname: '',
-      name: '',
-      middlename: '',
-      phone: ''
+      surname: surname,
+      name: name,
+      middlename: middlename,
+      phone: this.data.phoneNumber
     });
 
     this.locationForm = this.fb.group({
-      region: '',
-      district: '',
-      settlement: '',
-      index: '',
-      street: '',
-      house: '',
-      apartment: '',
+      region: this.data.region,
+      district: this.data.district,
+      settlement: this.data.settlement,
+      index: this.data.index,
+      street: this.data.street,
+      house: this.data.house,
+      apartment: this.data.apartment,
       isDismantled: false,
       isUnique: false,
-      counterQuantity: 0,
-      serviceType: '',
-      serviceProvider: ''
+      counterQuantity: this.data.counterQuantity,
+      serviceType: this.data.serviceType,
+      serviceProvider: this.data.serviceProvider
     });
 
     this.counterForm = this.fb.group({
       isDismantled: false,
-      montageDate: '',
-      employeeName: '',
-      comment: '',
-      counterNumber: '',
-      haveSeal: '',
-      counterType: '',
-      productionYear: '',
-      symbol: '',
-      acumulatedVolume: ''
+      montageDate: this.data.montageDate,
+      employeeName: this.data.employeeName,
+      comment: this.data.comment,
+      counterNumber: this.data.counterNumber,
+      haveSeal: this.data.haveSeal,
+      counterType: this.data.counterType,
+      productionYear: this.data.productionYear,
+      symbol: this.data.symbol,
+      acumulatedVolume: this.data.acumulatedVolume
     });
 
     this.additionalDataForm = this.fb.group({
@@ -69,27 +77,35 @@ export class DetailViewDialogComponent implements OnInit {
       favorDate: '',
       sanitaryWellFare: '',
       waterAbsentTo: '',
-      note: ''
+      note: this.data.note
     });
   }
 
   sendData(): void {
-    this.verification = {
-      client: (this.generalDataForm.get('surname').value + ' ' +
-        this.generalDataForm.get('name').value + ' ' +
-        this.generalDataForm.get('middlename')).toString(),
+    this.dataSv.sendData(url, this.setVerification());
+  }
+  
+  setVerification(): Verification {
+    const name = this.generalDataForm.get('name').value.replace(/'/g, /\'/);
+    const surname = this.generalDataForm.get('surname').value.replace(/'/g, /\'/);
+    const middlename = this.generalDataForm.get('middlename').value.replace(/'/g, /\'/);
+
+    const fullName = `${surname} ${name} ${middlename}`;
+
+    return {
+      client: fullName,
       phoneNumber: this.generalDataForm.get('phone').value,
       addingDate: new Date().getUTCDate() + '-' + new Date().getUTCMonth() + '-' + new Date().getUTCFullYear(),
-      district: this.locationForm.get('district').value,
-      settlement: this.locationForm.get('district').value,
+      district: this.locationForm.get('district').value.replace(/'/g, /\'/),
+      settlement: this.locationForm.get('district').value.replace(/'/g, /\'/),
       index: this.locationForm.get('index').value,
       street: this.locationForm.get('street').value,
       house: this.locationForm.get('house').value,
       apartment: this.locationForm.get('apartment').value,
       isDismantled: this.locationForm.get('isDismantled').value,
       montageDate: this.counterForm.get('montageDate').value,
-      employeeName: this.counterForm.get('employeeName').value,
-      comment: this.counterForm.get('comment').value,
+      employeeName: this.counterForm.get('employeeName').value.replace(/'/g, /\'/),
+      comment: this.counterForm.get('comment').value.replace(/'/g, /\'/),
       counterNumber: this.counterForm.get('counterNumber').value,
       haveSeal: this.counterForm.get('haveSeal').value,
       counterType: this.counterForm.get('counterType').value,
@@ -97,15 +113,13 @@ export class DetailViewDialogComponent implements OnInit {
       acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
       applicationNumber: '',
       brigadeName: '',
-      note: this.additionalDataForm.get('note').value,
-      serviceProvider: this.locationForm.get('serviceProvider').value,
+      note: this.additionalDataForm.get('note').value.replace(/'/g, /\'/),
+      serviceProvider: this.locationForm.get('serviceProvider').value.replace(/'/g, /\'/),
       serviceType: this.locationForm.get('serviceType').value,
       stationNumber: '',
       status: '',
       symbol: this.counterForm.get('symbol').value,
       taskDate: ''
     };
-
-    this.dataSv.sendData(url, this.verification);
   }
 }
