@@ -43,7 +43,10 @@ export class DetailViewDialogComponent implements OnInit {
       house: '',
       apartment: '',
       isDismantled: false,
-      isUnique: false
+      isUnique: false,
+      counterQuantity: 0,
+      serviceType: '',
+      serviceProvider: ''
     });
 
     this.counterForm = this.fb.group({
@@ -55,6 +58,7 @@ export class DetailViewDialogComponent implements OnInit {
       haveSeal: '',
       counterType: '',
       productionYear: '',
+      symbol: '',
       acumulatedVolume: ''
     });
 
@@ -94,10 +98,11 @@ export class DetailViewDialogComponent implements OnInit {
       applicationNumber: '',
       brigadeName: '',
       note: this.additionalDataForm.get('note').value,
-      serviceProvider: '',
+      serviceProvider: this.locationForm.get('serviceProvider').value,
+      serviceType: this.locationForm.get('serviceType').value,
       stationNumber: '',
       status: '',
-      symbol: '',
+      symbol: this.counterForm.get('symbol').value,
       taskDate: ''
     };
 

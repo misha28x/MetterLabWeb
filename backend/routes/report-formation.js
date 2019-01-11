@@ -45,8 +45,6 @@ function generateDovidDocx(fields, tests) {
   let doc = new Docxtemplater();
   doc.loadZip(zip);
 
-	
-
   doc.setData({
 		date: getDate(fields[0].Дата_та_час, 0),
 		symbol: fields[0].Умовне_позначення,

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { DataService } from '../../../../services/data.service';
-import { Verification } from '../../../../interfaces/verifications';
+import { DataService } from 'src/app/services/data.service';
+import { Verification } from 'src/app/interfaces/verifications';
+import { VerificationService } from 'src/app/services/verification.service';
 
 const url = 'http://localhost:3000/api/new-verifications';
 
@@ -24,7 +24,7 @@ export class NewVerificationDialogComponent implements OnInit {
   private url: string;
 
   constructor(
-    private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
+    private verificationSv: VerificationService,
     private dataSv: DataService,
     private fb: FormBuilder
     ) { }
@@ -60,7 +60,7 @@ export class NewVerificationDialogComponent implements OnInit {
       isDismantled: false,
       isUnique: false,
       counterQuantity: 0,
-      
+      serviceType: '',
       serviceProvider: ''
     });
 
@@ -73,6 +73,7 @@ export class NewVerificationDialogComponent implements OnInit {
       haveSeal: '',
       counterType: '',
       productionYear: '',
+      symbol: '',
       acumulatedVolume: ''
     });
 
@@ -88,10 +89,22 @@ export class NewVerificationDialogComponent implements OnInit {
   }
 
   sendData(): void {
-    this.verification = {
-      client: this.generalDataForm.get('surname').value + ' ' +
-        this.generalDataForm.get('name').value + ' ' +
-        this.generalDataForm.get('middlename'),
+    this.dataSv.sendData(url, this.setVerification());
+  }
+  // TODO: Переробити на адресу
+  checkForDupliacates(): void {
+    this.verificationSv.addVerification(this.setVerification());
+  }
+
+  setVerification(): Verification {
+    const name = this.generalDataForm.get('name').value;
+    const surname = this.generalDataForm.get('surname').value;
+    const middlename = this.generalDataForm.get('middlename').value;
+
+    const fullName = `${surname} ${name} ${middlename}`;
+    
+    return {
+      client: fullName,
       phoneNumber: this.generalDataForm.get('phone').value,
       addingDate: new Date().getUTCDate() + '-' + new Date().getUTCMonth() + '-' + new Date().getUTCFullYear(),
       district: this.locationForm.get('district').value,
@@ -112,13 +125,12 @@ export class NewVerificationDialogComponent implements OnInit {
       applicationNumber: '',
       brigadeName: '',
       note: this.additionalDataForm.get('note').value,
-      serviceProvider: '',
+      serviceProvider: this.locationForm.get('serviceProvider').value,
+      serviceType: this.locationForm.get('serviceType').value,
       stationNumber: '',
       status: '',
-      symbol: '',
+      symbol: this.counterForm.get('symbol').value,
       taskDate: ''
     };
-
-    this.dataSv.sendData(url, this.verification);
   }
 }
