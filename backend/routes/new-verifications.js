@@ -54,7 +54,7 @@ router.delete('/:id', (req, res, next) => {
 });
 
 // Перевірка на дублі по адресі клієнта (район, вулиця, будинок, квартира)
-router.get('/:id', (req, res, next) => {
+router.post('/duplicate', (req, res, next) => {
   connection.query("SELECT * FROM `new_verifications` WHERE " +
     "(`Район`='" + req.body.district +
     "', `Вулиця`= '" + req.body.street +

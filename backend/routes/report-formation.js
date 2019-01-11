@@ -39,7 +39,7 @@ router.get('', (req, res, next) => {
 	var buf = doc.getZip().generate({ type: 'nodebuffer' });
 
 	// buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-	fs.writeFileSync(path.resolve('../backend/temp/docx', 'output.docx'), buf);
+	fs.writeFileSync(path.resolve('./backend/temp/docx', 'output.docx'), buf);
 	res.send('done');
 });
 

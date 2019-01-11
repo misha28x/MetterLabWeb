@@ -14,15 +14,12 @@ import { FilterTableDirective } from './directives/filter-table/filter-table.dir
 import { SortTableDirective } from './directives/sort-table/sort-table.directive';
 import { UploadDialogComponent } from './components/file-upload/upload-dialog/upload-dialog.component';
 import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
-import { ProtocolViewComponent } from './components/protocol-view';
-import { ProtocolDialogComponent } from './components/protocol-view/protocol-dialog/protocol-dialog.component';
+import { ProtocolViewComponent, ProtocolDialogComponent } from './components/protocol-view';
 import { VerificationViewComponent } from './components/verification-view/verification-view.component';
-import { TaskListViewComponent } from './components/task-list-view/task-list-view.component';
-import { TaslListViewDialogComponent } from './components/task-list-view/tasl-list-view-dialog/tasl-list-view-dialog.component';
-import { TaskListEditComponent } from './components/task-list-edit/task-list-edit.component';
-import { TaskListEditDialogComponent } from './components/task-list-edit/task-list-edit-dialog/task-list-edit-dialog.component';
-import { DetailViewComponent } from './components/detail-view/detail-view.component';
-import { DetailViewDialogComponent } from './components/detail-view/detail-view-dialog/detail-view-dialog.component';
+import { TaskListViewComponent, TaslListViewDialogComponent } from './components/task-list-view';
+import { TaskListEditComponent, TaskListEditDialogComponent } from './components/task-list-edit';
+import { DetailViewComponent, DetailViewDialogComponent } from './components/detail-view';
+import { DuplicateViewComponent, DuplicatViewDialogComponent } from './components/duplicate-view';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule, ReactiveFormsModule],
@@ -34,7 +31,9 @@ import { DetailViewDialogComponent } from './components/detail-view/detail-view-
 		ColumnComponent,
 		FileUploadComponent,
 		NewVerificationComponent,
-    ProtocolViewComponent
+    ProtocolViewComponent,
+    DuplicateViewComponent,
+    DuplicatViewDialogComponent
 	],
 	declarations: [
 		SortTableDirective,
@@ -54,8 +53,10 @@ import { DetailViewDialogComponent } from './components/detail-view/detail-view-
     TaskListEditComponent,
     TaskListEditDialogComponent,
     DetailViewComponent,
-    DetailViewDialogComponent
+    DetailViewDialogComponent,
+    DuplicateViewComponent,
+    DuplicatViewDialogComponent
 	],
-	entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent]
+  entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent, DuplicatViewDialogComponent]
 })
 export class UiModule { }

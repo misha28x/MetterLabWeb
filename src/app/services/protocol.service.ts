@@ -7,9 +7,7 @@ import { Protocol } from '../interfaces/protocol';
   providedIn: 'root'
 })
 export class ProtocolService {
-
   private protocolSource$ = new Subject<Protocol>();
-
   private protocolAdded$ = this.protocolSource$.asObservable();
 
   constructor() { }

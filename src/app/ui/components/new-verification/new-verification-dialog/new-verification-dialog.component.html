@@ -105,7 +105,7 @@
             <tr>
               <td class="w-2">
                 <mat-form-field>
-                  <mat-select>
+                  <mat-select formControlName="counterQuantity">
                     <mat-option [value]="1">1</mat-option>
                     <mat-option [value]="2">2</mat-option>
                     <mat-option [value]="3">3</mat-option>
@@ -119,7 +119,7 @@
               </td>
               <td class="w-4">
                 <mat-form-field>
-                  <mat-select>
+                  <mat-select formControlName="serviceType">
                     <mat-option [value]="'Холодна вода'">Холодна вода</mat-option>
                     <mat-option [value]="'Гаряча вода'">Гаряча вода</mat-option>
                   </mat-select>
@@ -127,10 +127,9 @@
               </td>
               <td class="w-6">
                 <mat-form-field>
-                  <mat-select>
+                  <mat-select formControlName="serviceProvider">
                     <!-- TODO: Добавити табличку виробників -->
-                    <mat-option [value]="'Холодна вода'">Холодна вода</mat-option>
-                    <mat-option [value]="'Гаряча вода'">Гаряча вода</mat-option>
+                    <!-- <mat-option *ngFor="let provider of providers" [value]="provider">Холодна вода</mat-option> -->
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -145,8 +144,10 @@
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
-            <mat-checkbox [labelPosition]="'before'" formControlName="isUnique">Перевірено на дублі </mat-checkbox>
-            <button mat-button color="primary"><i class="icofont-copy"></i></button>
+            <mat-checkbox [labelPosition]="'before'" formControlName="isUnique">Перевірено на дублі</mat-checkbox>
+            <button mat-raised-button color="primary" matTooltip="Перевірити на дублі" (click)="checkForDupliacates()">
+              <i class="icofont-copy"></i>
+            </button>
           </div>
         </div>
       </form>
@@ -206,7 +207,7 @@
         <div class="full-width">
           <span>Номер лічильника</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="'Номер лічильника'" formControlName="counterNumber">
+            <input matInput placeholder="Номер лічильника" formControlName="counterNumber">
           </mat-form-field>
         </div>
 
@@ -231,20 +232,23 @@
         </div>
 
         <div class="full-width">
-          <mat-form-field class="input-field">
-            <input matInput placeholder="'Рік випуску лічильника'" formControlName="productionYear">
-          </mat-form-field>
           <span>Рік випуску</span>
-        </div>
-        <div class="full-width">
           <mat-form-field class="input-field">
-            <input matInput placeholder="Накопичений об'єм" formControlName="acumulatedVolume">
+            <input matInput placeholder="Рік випуску лічильника" formControlName="productionYear">
           </mat-form-field>
-          <span>Накопичений об'єм</span>
         </div>
+        
         <div class="full-width">
+          <span>Рік випуску</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="'xxxxx'">
+            <input matInput placeholder="Рік випуску лічильника" formControlName="productionYear">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Накопичений об'єм</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="'xxxxx'" formControlName="acumulatedVolume">
           </mat-form-field>
         </div>
       </form>

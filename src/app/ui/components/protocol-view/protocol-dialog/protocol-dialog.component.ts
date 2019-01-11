@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
+
 import { Protocol } from 'src/app/interfaces/protocol';
 
 @Component({
