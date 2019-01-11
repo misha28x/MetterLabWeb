@@ -20,6 +20,7 @@ router.get('', (req, res, next) => {
 
 // 2) Додавання нової повірки post
 router.post('', (req, res, next) => {
+	symbolCheck(req.body);
   let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
   let formatedData = varData.format(req.body.addingDate, req.body.applicationNumber, req.body.client, req.body.employee, req.body.district, req.body.street, req.body.house, req.body.flat, req.body.isRemoved, req.body.symbol, req.body.counterNumber, req.body.type, req.body.productionYear, req.body.status, req.body.serviceProvider, req.body.comment, req.body.note, req.body.taskDate, req.body.brigadeName, req.body.stationNumber);
   let varResult = ("INSERT INTO `new_verifications`(`Дата_надходження`, `Номер_заявки`, `Клієнт`, `ПІБ_Працівника`," +
@@ -32,6 +33,12 @@ router.post('', (req, res, next) => {
     console.log('added');
   });
 });
+
+function symbolCheck(reqBody) {
+	reqBody.forEach(row => {
+		row.replace(/'/g, "\\'");
+	});
+}
 
 // 3) Редагуваня повірки put
 router.put('/:id', (req, res, next) => {

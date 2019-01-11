@@ -455,12 +455,12 @@ router.post('', upload.single('file'), (req, res, next) => {
 })
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {
-  connection.query('SELECT * from protocols', function (err, rows, fields) {
+  connection.query('SELECT * from protocols', function (err, rows) {
     if (err) throw err;
 
     let selection = "SELECT * FROM tests";
 
-    connection.query(selection, function (err, testRows, fields) {
+    connection.query(selection, function (err, testRows) {
       if (err) throw err;
 
       let testArray = [];
