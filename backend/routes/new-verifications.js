@@ -8,6 +8,16 @@ const connection = require('../database/db');
 
 // Values regex = \[.*?\] -> '%s'
 
+// Запит для отримання усіх повірок get
+router.get('', (req, res, next) => {
+  connection.query("SELECT * FROM archive WHERE `status`='' OR `status` IS NULL", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json(result);
+  });
+});
+
 // 1. Додавання нової повірки в Archive з усіма даними і статусом "Визначено відповідальну особу"
 // TODO: Встановити PrimaryKey/Qnique
 router.post('', (req, res, next) => {
@@ -30,16 +40,6 @@ router.put('/rejected/:id', (req, res, next) => {
  connection.query(varResult, () => {
    res.status(200);
  });
-});
-
-// Запит для отримання усіх повірок get
-router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM new_verifications', (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    res.status(200).json(result);
-  });
 });
 
 // З new werif select і в task_planinig з додаванням ПІБ потім видалити з new_verif
