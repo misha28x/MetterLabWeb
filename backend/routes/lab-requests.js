@@ -14,4 +14,13 @@ router.get('', (req, res, next) => {
   });
 });
 
+// 1. Відхилення заявки зі зміною статусу на "Відхилено" rejected
+// TODO: протестувати Update
+router.put('/rejected/:id', (req, res, next) => {
+  let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
+  connection.query(varResult, () => {
+    res.status(200);
+  });
+});
+
 module.exports = router;

@@ -14,14 +14,15 @@ router.get('', (req, res, next) => {
   });
 });
 
+// TODO: brigate_tasks i provider_request
+// TODO: змінити поля під інсерт для таблички
 router.get('/employee/:id', (req, res, next) => {
   connection.query("SELECT * FROM task_planing WHERE `Номер_заявки`='" + req.params.id + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
-		res.send(result);
-		// TODO: brigate_tasks i provider_request
-		// TODO: змінити поля під інсерт для таблички
+    res.send(result);
+
     let varData = (" VALUES ('%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
     let formatedData = varData.format(result[0].Дата_надходження, result[0].Номер_заявки, result[0].Клієнт, null, null, result[0].Район, result[0].Вулиця, result[0].Будинок, result[0].Квартира, null, null, null, null, null, null, result[0].Примітка);
 
@@ -77,14 +78,22 @@ router.post('/station-task', (req, res, next) => {
 
       // Переміщення заявок в архів з додаванням id завдання
       req.body.verifications.forEach(ver => {
-        let migrationToArchive = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-        let migrationToArchiveFormat = migrationToArchive.format(ver.addingDate, ver.applicationNumber, ver.client, ver.city, ver.street, ver.house, ver.flat, ver.index, ver.phoneNumber, null, null, req.body.number, null, null, null, (ver.symbol + ' ' + ver.type), ver.counterNumber, ver.productionYear, null, null, null, ver.serviceProvider, null, null, ver.comment, null, null, ver.brigadeName, ver.note, null, id, position);
-        let migrationToArchiveResult = "INSERT INTO `verifications_archive`(`Дата_надходження`, `Номер_заявки`, `Клієнт`, `Населений_пункт`, `Вулиця_клієнта`, `Будинок`, `Квартира`, `Індекс`, `Номер_телефону`, `Статус`, `Уповноважена_повірочна_лабораторія`, `Номер_установки`, `Дата_створення_протоколу`, `Номер_протоколу`, `Дата_підпису_протоколу`, `Умовне_позначення`, `Номер_лічильника`, `Рік_випуску_лічильника`, `Лічильник_демонтовано`, `Номер_пломби`, `Придатний_до`, `Надавач_послуг`, `Тип_послуги`, `Дата_видачі_документу`, `Коментар`, `Дата_монтажу_лічильника`, `Дата_завдання`, `Назва_бригади`, `Примітка`, `id_для_бригади`, `id_для_станції`, `позиція_завдання`) " + migrationToArchiveFormat;
-        connection.query(migrationToArchiveResult);
+				// 1. Оновлення заявки зі зміною статусу на "В роботі" inprogress
+				// TODO: протестувати Update
+        let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "' WHERE `applicationNumber`='" + ver.applicationNumber + "';";
+        connection.query(inProgressResult);
         position++;
       });
     })
   })
 });
 
+// 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
+// TODO: протестувати Update
+router.put('/rejected/:id', (req, res, next) => {
+  let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
+  connection.query(varResult, () => {
+    res.status(200);
+  });
+});
 module.exports = router;

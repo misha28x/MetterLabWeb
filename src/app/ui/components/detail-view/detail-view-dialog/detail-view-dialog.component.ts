@@ -96,7 +96,8 @@ export class DetailViewDialogComponent implements OnInit {
       client: fullName,
       phoneNumber: this.generalDataForm.get('phone').value,
       addingDate: new Date().getUTCDate() + '-' + new Date().getUTCMonth() + '-' + new Date().getUTCFullYear(),
-      district: this.locationForm.get('district').value.replace(/'/g, /\'/),
+			region: this.locationForm.get('region').value.replace(/'/g, /\'/),
+			district: this.locationForm.get('district').value.replace(/'/g, /\'/),
       settlement: this.locationForm.get('district').value.replace(/'/g, /\'/),
       index: this.locationForm.get('index').value,
       street: this.locationForm.get('street').value,
@@ -111,15 +112,16 @@ export class DetailViewDialogComponent implements OnInit {
       counterType: this.counterForm.get('counterType').value,
       productionYear: this.counterForm.get('productionYear').value,
       acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
-      applicationNumber: '',
-      brigadeName: '',
+      applicationNumber: '',      
       note: this.additionalDataForm.get('note').value.replace(/'/g, /\'/),
       serviceProvider: this.locationForm.get('serviceProvider').value.replace(/'/g, /\'/),
       serviceType: this.locationForm.get('serviceType').value,
       stationNumber: '',
       status: '',
       symbol: this.counterForm.get('symbol').value,
-      taskDate: ''
+			taskDate: '',
+			// відсутні поля, що є в Forms
+			counterQuantity: 0
     };
   }
 }

@@ -8,7 +8,7 @@ export interface Verification {
 	employeeName: string; 			// ПІБ_Працівника 									\\
 	index: string;							// Індекс + 	TODO: cityIndex				\\
   settlement: string;					// Населений пункт + 								\\
-  region?: string;            // Область 													\\
+  region: string;             // Область 													\\
 	district: string;						// Район 														\\
 	street: string;						  // Вулиця + 												\\
 	house: string; 							// Будинок + 												\\
@@ -30,15 +30,15 @@ export interface Verification {
 	taskDate: string; 					// Дата_завдання +									\\
 	stationNumber: string; 			// Номер_установки +								\\
 	// Дані з verifications_archive по протоколу
-	laboratory: string;					// Уповноважена_повірочна_лабораторі\\
-	protocolDate: string;				// Дата створення протоколу					\\
-	protocolNumber: string; 		// Номер протоколу									\\
-	protocolSignDate: string;		// Дата підпису протоколу						\\
-	sealNumber: string;					// Номер пломби											\\
-	suitableFor: string;				// Придатний до											\\
-	documentPrintDate: string;	// Дата видачі документу						\\
-	idForStation: number;				// id для станції										\\
-	positionInTask: number;			// позиція в завданні								\\
+	laboratory?: string;					// Уповноважена_повірочна_лабораторі\\
+	protocolDate?: string;				// Дата створення протоколу					\\
+	protocolNumber?: string; 		// Номер протоколу									\\
+	protocolSignDate?: string;		// Дата підпису протоколу						\\
+	sealNumber?: string;					// Номер пломби											\\
+	suitableFor?: string;				// Придатний до											\\
+	documentPrintDate?: string;	// Дата видачі документу						\\
+	idForStation?: number;				// id для станції										\\
+	positionInTask?: number;			// позиція в завданні								\\
 	// поля з new-verification-dialog
 	isUnique?: boolean;					// ?																\\
 }

@@ -125,6 +125,13 @@ function getResultsFromDatabase(byteArray) {
           return;
         }
       } else {
+				// 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
+				// TODO: перевірити UPDATE
+        if (row.Id_pc !== '' | row.Id_pc !== null) {
+          connection.query("UPDATE `archive` SET `status`='Проведено повірку' WHERE `applicationNumber`='" + row.Id_pc + "';", () => {
+            res.status(200);
+          });
+        }
         console.log('No error in the query');
       }
     });
