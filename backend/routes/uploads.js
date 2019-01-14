@@ -99,69 +99,89 @@ function bytesToImage(bbiFile, id) {
 // Images Bytes to Base64
 
 function getResultsFromDatabase(byteArray) {
+
   const db = new SQL.Database(byteArray);
 
   // Формуємо результат у масив об'єктів
   const test = db.prepare("SELECT * FROM Results;");
-  for (let result = []; test.step();) result.push(test.getAsObject());
+  let result;
+  for (result = []; test.step();) {
+    result.push(test.getAsObject());
+  }
+  const date = result[0].Date.split(' ')[0].replace(".", "-");
+  connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    let applicationNumber = '';
+    if (lastNumber.length > 0 && lastNumber[0]) {
+      applicationNumber = lastNumber[0].applicationNumber;
+    } else {
+      applicationNumber = createApplicationNumber(applicationNumber, date);
+    }
 
-  for (const row of result) {
-    let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
-    let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
-    let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
-      " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
-      " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
-      " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
+    for (const row of result) {
+      let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
+      let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
+      let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
+        " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
+        " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
+        " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
 
-    // TODO: count для кількості дублікатів
-    connection.query(varResult, function (err, rows) {
-      if (err) {
-        if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
-          console.log('Here you can handle duplication');
-          return;
+      // TODO: count для кількості дублікатів
+      connection.query(varResult, function (err, rows) {
+        if (err) {
+          if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
+            console.log('Here you can handle duplication');
+            return;
+          } else {
+            console.log('Other error in the query');
+            console.log(err);
+            return;
+          }
         } else {
-          console.log('Other error in the query');
-          console.log(err);
-          return;
-        }
-      } else {
-        // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
-        // TODO: перевірити UPDATE
-        if (row.Id_pc !== '' | row.Id_pc !== null) {
-          connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", () => {
-            res.status(200);
-          });
-        } else {
-          const date = row.Date.split(' ')[0].replace(".", "-");
-          connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, rows) => {
-            // TODO: призначення номеру заявки для протоколів в яких немає Id_pc
+          // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
+          // TODO: перевірити UPDATE
+          console.log(row.Id_pc);
+
+          if (row.Id_pc !== '' && row.Id_pc !== null) {
+            connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
+              if (err) {
+                console.log(err);
+              }
+            });
+          } else {
             const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
             const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-            let formatedData = varData.format(date, createApplicationNumber(rows[0].applicationNumber), fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /* TODO: stationNumber */ null, null, row.Date, row.FileNumber, null, null, null, null, null);
+            let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /* TODO: stationNumber */ null, null, row.Date, row.FileNumber, null, null, null, null, null);
             let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
             connection.query(varResult, (err) => {
               if (err) {
                 console.log(err);
               }
-              res.status(200);
             });
-          });
+            applicationNumber = (parseInt(applicationNumber) + 1).toString();
+            console.log({
+              applicationNumber: applicationNumber
+            });
+          }
+          console.log('No error in the query');
         }
-        console.log('No error in the query');
-      }
-    });
-  }
+      });
+    }
+  });
 }
 
 // ApplicationNumber creation
-function createApplicationNumber(lastApplicationNumber) {
+function createApplicationNumber(lastApplicationNumber, addingDate) {
   let cutDate = "00000000";
 
   if (typeof lastApplicationNumber !== 'undefined' && lastApplicationNumber.length >= 8) {
     cutDate = lastApplicationNumber.substr(0, 8);
   }
 
-  let dateLike = generateDateString();
+  let dateLike = generateDateString(addingDate);
 
   if (dateLike == cutDate) {
     return parseInt(lastApplicationNumber) + 1;
@@ -171,8 +191,8 @@ function createApplicationNumber(lastApplicationNumber) {
   return parseInt(dateLike) * 1000 + 1;
 }
 
-function generateDateString() {
-  const date = new Date();
+function generateDateString(addingDate) {
+  const date = new Date(addingDate);
   let day = date.getUTCDate();
   let month = date.getUTCMonth() + 1;
   let year = date.getUTCFullYear();
