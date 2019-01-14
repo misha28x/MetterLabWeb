@@ -29,7 +29,7 @@ export interface Verification {
 	note: string; 							// Примітка +												\\
 	taskDate: string; 					// Дата_завдання +									\\
 	stationNumber: string; 			// Номер_установки +								\\
-	// Дані з verifications_archive по протоколу
+	// Дані з archive по протоколу
 	laboratory?: string;					// Уповноважена_повірочна_лабораторі\\
 	protocolDate?: string;				// Дата створення протоколу					\\
 	protocolNumber?: string; 		// Номер протоколу									\\

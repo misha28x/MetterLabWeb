@@ -1,5 +1,5 @@
 export interface Protocol {
-	bbiFileName: string;
+	bbiFileName: string;			// Номер_протоколу
 	date: Date;								// Повна дата
 	day: number; 							// День
 	type: string; 						// Типорозмір
@@ -23,8 +23,8 @@ export interface Protocol {
 }
 
 export interface Test {
-	bbiFileName: string;
-	name: string;
+	bbiFileName: string;			// Номер_протоколу
+	name: string;							// Назва_тесту
 	installedExes: number; 		// "Заданный расход, м3/ч";				[0]
 	assumedFault: number; 		// "Допустимая погрешность, +-%"; [1]
 	etalonCapacity: number; 	// "Объем эталона, л";

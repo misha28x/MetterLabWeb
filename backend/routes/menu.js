@@ -76,7 +76,6 @@ function createMenu(newV, labR, proR, tasP) {
       routing: 'user-guide'
     }
   ];
-
 }
 
 // новві повірки, планування завдання, протоколи

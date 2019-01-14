@@ -29,17 +29,17 @@ router.get('/employee/:id', (req, res, next) => {
 router.post('/station-task', (req, res, next) => {
   let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s');";
   let taskAddingFormat = taskAdding.format(req.body.taskDate, req.body.type, req.body.number, req.body.employeeName, req.body.phoneNumber, req.body.count);
-  let taskAddingResult = "INSERT INTO `station_tasks`(`Дата_завдання`, `Тип_установки`, " +
-    " `Номер_установки`, `ПІБ_контактної_особи`, `Номер_телефону`, `Кількість_заявок`)" + taskAddingFormat;
+  let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, " +
+    " `stationNumber`, `contactName`, `phoneNumber`, `verifCount`)" + taskAddingFormat;
 
-  let getTasksId = "SELECT id_завдання FROM `station_tasks` ORDER BY `id_завдання` DESC;";
+  let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC;";
 
   // Запит на додавання завдання в station tasks
   connection.query(taskAddingResult, (err) => {
     // Запит на отримання id завдання з station tasks
     connection.query(getTasksId, (err, rows) => {
 
-      const id = rows[0].id_завдання;
+      const id = rows[0].id_task;
       let position = 1;
 
       // Переміщення заявок в архів з додаванням id завдання

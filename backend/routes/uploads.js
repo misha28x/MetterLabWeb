@@ -290,10 +290,10 @@ function parseProtocol(byteArray, fileName) {
 
   // Широта
   const latitude = bbiFile.slice(84, 88);
-  protocol.latitude = bytesToInt(latitude);
+  protocol.latitude = bytesToInt(latitude) / 100000;
   // Довгота
   const longitude = bbiFile.slice(88, 92);
-  protocol.longitude = bytesToInt(longitude);
+  protocol.longitude = bytesToInt(longitude) / 100000;
 
   // Сертифікат
   const num5 = bytesToInt(bbiFile.slice(120, 124));
@@ -475,7 +475,7 @@ function uintToString(bytes) {
 }
 
 function addProtocol(protocol) {
-  let varPart = "INSERT INTO `protocols`(`Номер_протоколу`, `Дата_та_час`, `Номер_установки`, `Системний_номер_установки`, `Номер_лічильника`,`Умовне_позначення` , `Типорозмір_лічильника`, `Зображення`, `Призначення_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Широта`, `Довгота`, `Статус_витрати`, `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус`) ";
+  let varPart = "INSERT INTO `protocols`(`bbiFileName`, `date`, `deviceNumber`, `systemDeviceNumber`, `counterNumber`,`symbol` , `type`, `image`, `counterPurpose`, `temperature`, `productionYear`, `capacity`, `latitude`, `longitude`, `status`, `result`, `signDate`, `signPerson`, `protocolStatus`) ";
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
   let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, protocol.image, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
@@ -495,7 +495,7 @@ function addProtocol(protocol) {
     } else {
       console.log('No error in the query');
       protocol.tests.forEach(test => {
-        varPart = "INSERT INTO `tests`(`Номер_протоколу`, `Назва_тесту`, `Задана_витрата`, `Обєм_еталону`, `Початкове_значення`, `Кінцеве_значення`, `Обєм_за_лічильником`, `Тривалість_тесту`, `Фактична_витрата`, `Статус_витрати`, `Допустима_похибка`, `Фактична_похибка`, `Результат_тесту`, `Початкове_зображення`, `Кінцеве_зображення`) ";
+        varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
         varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
         formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
 
@@ -543,21 +543,21 @@ router.get('', (req, res, next) => {
       for (let i in testRows) {
         let rt = new Object();
         rt.id = testRows[i].id;
-        rt.bbiFileName = testRows[i].Номер_протоколу;
-        rt.name = testRows[i].Назва_тесту;
-        rt.installedExes = testRows[i].Задана_витрата;
-        rt.etalonCapacity = testRows[i].Обєм_еталону;
-        rt.initValue = testRows[i].Початкове_значення;
-        rt.finalValue = testRows[i].Кінцеве_значення;
-        rt.counterCapacity = testRows[i].Обєм_за_лічильником;
-        rt.testDuration = testRows[i].Тривалість_тесту;
-        rt.mediumExes = testRows[i].Фактична_витрата;
-        rt.isInZone = testRows[i].Статус_витрати;
-        rt.assumedFault = testRows[i].Допустима_похибка;
-        rt.calculatedFault = testRows[i].Фактична_похибка;
-        rt.result = testRows[i].Результат_тесту;
-        rt.startStateImage = testRows[i].Початкове_зображення;
-        rt.endStateImage = testRows[i].Кінцеве_зображення;
+        rt.bbiFileName = testRows[i].bbiFileName;
+        rt.name = testRows[i].name;
+        rt.installedExes = testRows[i].installedExes;
+        rt.etalonCapacity = testRows[i].etalonCapacity;
+        rt.initValue = testRows[i].initValue;
+        rt.finalValue = testRows[i].finalValue;
+        rt.counterCapacity = testRows[i].counterCapacity;
+        rt.testDuration = testRows[i].testDuration;
+        rt.mediumExes = testRows[i].mediumExes;
+        rt.isInZone = testRows[i].isInZone;
+        rt.assumedFault = testRows[i].assumedFault;
+        rt.calculatedFault = testRows[i].calculatedFault;
+        rt.result = testRows[i].result;
+        rt.startStateImage = testRows[i].startStateImage;
+        rt.endStateImage = testRows[i].endStateImage;
 
         testArray.push(rt);
       }
@@ -565,24 +565,24 @@ router.get('', (req, res, next) => {
       for (let i in rows) {
         let rp = new Object();
         rp.id = rows[i].id;
-        rp.protocolNumber = rows[i].Номер_протоколу;
-        rp.date = rows[i].Дата_та_час;
-        rp.deviceNumber = rows[i].Номер_установки;
-        rp.systemNumber = rows[i].Системний_номер_установки;
-        rp.counterNumber = rows[i].Номер_лічильника;
-        rp.symbol = rows[i].Умовне_позначення;
-        rp.type = rows[i].Типорозмір_лічильника;
-        rp.counterPurpose = rows[i].Призначення_лічильника;
-        rp.temperature = rows[i].Температура;
-        rp.productionYear = rows[i].Рік_випуску;
-        rp.capacity = rows[i].Накопичений_обєм;
-        rp.latitude = rows[i].Широта;
-        rp.longitude = rows[i].Довгота;
-        rp.isInZone = rows[i].Статус_витрати;
-        rp.result = rows[i].Результат_тесту;
-        rp.signDate = rows[i].Дата_підпису_протоколу;
-        rp.signName = rows[i].ПІБ_особи_підписувача;
-        rp.status = rows[i].Статус;
+        rp.protocolNumber = rows[i].bbiFileName;
+        rp.date = rows[i].date;
+        rp.deviceNumber = rows[i].deviceNumber;
+        rp.systemNumber = rows[i].systemDeviceNumber;
+        rp.counterNumber = rows[i].counterNumber;
+        rp.symbol = rows[i].symbol;
+        rp.type = rows[i].type;
+        rp.counterPurpose = rows[i].counterPurpose;
+        rp.temperature = rows[i].temperature;
+        rp.productionYear = rows[i].productionYear;
+        rp.capacity = rows[i].capacity;
+        rp.latitude = rows[i].latitude;
+        rp.longitude = rows[i].longitude;
+        rp.isInZone = rows[i].status;
+        rp.result = rows[i].result;
+        rp.signDate = rows[i].signDate;
+        rp.signName = rows[i].signPerson;
+        rp.status = rows[i].protocolStatus;
         rp.tests = [];
 
         rp.tests = testArray.filter((test) => {
