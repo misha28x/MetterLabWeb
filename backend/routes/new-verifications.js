@@ -21,15 +21,18 @@ router.get('', (req, res, next) => {
 // 1. Додавання нової повірки в Archive з усіма даними і статусом "Визначено відповідальну особу"
 // TODO: Встановити PrimaryKey/Qnique
 router.post('', (req, res, next) => {
-  let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-  let formatedData = varData.format(req.body.addingDate, req.body.applicationNumber, req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, null, "Визначено відповідальну особу", req.body.comment, req.body.note, req.body.taskDate, req.body.stationNumber, null, null, null, null, null, null, null, null);
-  let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
-  connection.query(varResult, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    res.status(201);
-    console.log('Нова повірка створена. Визначено відповідальну особу');
+  // Знаходимо номер останньої створеної заявки
+  connection.query("SELECT `applicationNumber` FROM `archive` ORDER BY `applicationNumber` DESC LIMIT 1;", (err, rows) => {
+    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(rows[0].applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, null, "Визначено відповідальну особу", req.body.comment, req.body.note, req.body.taskDate, req.body.stationNumber, null, null, null, null, null, null, null, null);
+    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+    connection.query(varResult, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      res.status(201);
+      console.log('Нова повірка створена. Визначено відповідальну особу');
+    });
   });
 });
 
@@ -37,34 +40,19 @@ router.post('', (req, res, next) => {
 // TODO: пофіксити Update
 router.put('/rejected/:id', (req, res, next) => {
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
- connection.query(varResult, () => {
-   res.status(200);
- });
+  connection.query(varResult, () => {
+    res.status(200);
+  });
 });
 
 // З new werif select і в task_planinig з додаванням ПІБ потім видалити з new_verif
 router.get('/employee/:id', (req, res, next) => {
-  connection.query("SELECT * FROM new_verifications WHERE `Номер_заявки`='" + req.params.id + "';", (err, result) => {
+  connection.query("UPDATE `archive` SET `status`='Визначено відповідальну особу', `employeeName`='" + req.body.employee + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
     }
-    res.send(result);
-    let varData = (" VALUES ('%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
-    let formatedData = varData.format(result[0].Дата_надходження, result[0].Номер_заявки, result[0].Клієнт, null, 'req.body.employee', result[0].Район, result[0].Вулиця, result[0].Будинок, result[0].Квартира, null, null, null, null, null, null, result[0].Примітка);
-
-    let varResult = ("INSERT INTO `task_planing` (`Дата_надходження`, `Номер_заявки`, `Клієнт`, `Надавач_послуг`,`ПІБ_працівника`, `Район`, `Вулиця`, `Будинок`, `Квартира`, `Бажана_дата_повірки`, `Бажаний_час_повірки`, `Справність_сантехніки`, `Вода_відсутня_до`, `Наявність_пломби`, `Телефон`, `Примітка`)" + formatedData);
-
-    connection.query(varResult, (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        connection.query("DELETE FROM `new_verifications` WHERE `Номер_заявки`='" + req.params.id + "';", (err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
-      }
-    });
+    res.status(201);
+    console.log('Призначено відповідальну особу.');
   });
   // req.params.id - це номер заявки
   // req.body.employee - ПІБ
@@ -121,5 +109,37 @@ router.post('/duplicate', (req, res, next) => {
       res.status(200).json(result);
     });
 });
+
+function createApplicationNumber(lastApplicationNumber) {
+  let cutDate = "00000000";
+	
+  if (typeof lastApplicationNumber !== 'undefined' && lastApplicationNumber.length >= 8) {
+		cutDate = lastApplicationNumber.substr(0, 8);
+  }
+
+  let dateLike = generateDateString();
+
+  if (dateLike == cutDate) {
+    return parseInt(lastApplicationNumber) + 1;
+  }
+
+	
+  return parseInt(dateLike) * 1000 + 1;
+}
+
+function generateDateString() {
+  const date = new Date();
+  let day = date.getUTCDate();
+  let month = date.getUTCMonth() + 1;
+  let year = date.getUTCFullYear();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  if (month < 10) {
+    month = "0" + month;
+	}
+	
+  return day.toString() + month.toString() + year.toString();
+}
 
 module.exports = router;

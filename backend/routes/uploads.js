@@ -125,11 +125,26 @@ function getResultsFromDatabase(byteArray) {
           return;
         }
       } else {
-				// 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
-				// TODO: перевірити UPDATE
+        // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
+        // TODO: перевірити UPDATE
         if (row.Id_pc !== '' | row.Id_pc !== null) {
-          connection.query("UPDATE `archive` SET `status`='Проведено повірку' WHERE `applicationNumber`='" + row.Id_pc + "';", () => {
+          connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", () => {
             res.status(200);
+          });
+        } else {
+          const date = row.Date.split(' ')[0].replace(".", "-");
+          connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, rows) => {
+            // TODO: призначення номеру заявки для протоколів в яких немає Id_pc
+            const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+            const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
+            let formatedData = varData.format(date, createApplicationNumber(rows[0].applicationNumber), fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /* TODO: stationNumber */ null, null, row.Date, row.FileNumber, null, null, null, null, null);
+            let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+            connection.query(varResult, (err) => {
+              if (err) {
+                console.log(err);
+              }
+              res.status(200);
+            });
           });
         }
         console.log('No error in the query');
@@ -138,9 +153,42 @@ function getResultsFromDatabase(byteArray) {
   }
 }
 
+// ApplicationNumber creation
+function createApplicationNumber(lastApplicationNumber) {
+  let cutDate = "00000000";
+
+  if (typeof lastApplicationNumber !== 'undefined' && lastApplicationNumber.length >= 8) {
+    cutDate = lastApplicationNumber.substr(0, 8);
+  }
+
+  let dateLike = generateDateString();
+
+  if (dateLike == cutDate) {
+    return parseInt(lastApplicationNumber) + 1;
+  }
+
+
+  return parseInt(dateLike) * 1000 + 1;
+}
+
+function generateDateString() {
+  const date = new Date();
+  let day = date.getUTCDate();
+  let month = date.getUTCMonth() + 1;
+  let year = date.getUTCFullYear();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  if (month < 10) {
+    month = "0" + month;
+  }
+
+  return day.toString() + month.toString() + year.toString();
+}
+
 function parseProtocol(byteArray, fileName) {
   const tests = [];
-
+  // TODO: додати поле для номеру станції
   const protocol = {
     bbiFileName: '',
     capacity: 0,

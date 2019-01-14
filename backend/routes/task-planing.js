@@ -14,31 +14,14 @@ router.get('', (req, res, next) => {
   });
 });
 
-// TODO: brigate_tasks i provider_request
-// TODO: змінити поля під інсерт для таблички
+
+// TODO: перевірити UPDATE
+// 
 router.get('/employee/:id', (req, res, next) => {
-  connection.query("SELECT * FROM task_planing WHERE `Номер_заявки`='" + req.params.id + "';", (err, result) => {
+  connection.query("UPDATE `archive` SET `status`='', `employeeName`='' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
     }
-    res.send(result);
-
-    let varData = (" VALUES ('%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
-    let formatedData = varData.format(result[0].Дата_надходження, result[0].Номер_заявки, result[0].Клієнт, null, null, result[0].Район, result[0].Вулиця, result[0].Будинок, result[0].Квартира, null, null, null, null, null, null, result[0].Примітка);
-
-    let varResult = ("INSERT INTO `new_verifications` (`Дата_надходження`, `Номер_заявки`, `Клієнт`, `Надавач_послуг`,`ПІБ_працівника`, `Район`, `Вулиця`, `Будинок`, `Квартира`, `Бажана_дата_повірки`, `Бажаний_час_повірки`, `Справність_сантехніки`, `Вода_відсутня_до`, `Наявність_пломби`, `Телефон`, `Примітка`)" + formatedData);
-
-    connection.query(varResult, (err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        connection.query("DELETE FROM `task_planing` WHERE `Номер_заявки`='" + req.params.id + "';", (err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
-      }
-    });
   });
 });
 
@@ -58,29 +41,12 @@ router.post('/station-task', (req, res, next) => {
 
       const id = rows[0].id_завдання;
       let position = 1;
-      /** дата надходження - номер телефону (ver.(verifications)) 
-       * статус - уповноважен. лаб null
-       * номер установки(req.body.number)
-       * дата ств прот, номер прот, дата підп - null
-       * уомвне познач - (ver.(verifications) symbol + type)
-       * номер ліч, рік випуску - null
-       * лічильник демонтовано - (ver.(verifications))
-       * номер пломби, придатн. надавач посл - null
-       * тип послуги, дата вид документ - null
-       * коментар, дата монтажу - (ver.(verifications))
-       * дата завдання(req.body.taskDate)
-       * назва бригади  -null
-       * примітка - (ver.(verifications))
-       * id бриг - null
-       * id station - id
-       * позиція завдання - position
-       */
 
       // Переміщення заявок в архів з додаванням id завдання
-      req.body.verifications.forEach(ver => {
-				// 1. Оновлення заявки зі зміною статусу на "В роботі" inprogress
-				// TODO: протестувати Update
-        let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "' WHERE `applicationNumber`='" + ver.applicationNumber + "';";
+      req.body.verifications.forEach(applicationNumber => {
+        // 1. Оновлення заявки зі зміною статусу на "В роботі" inprogress
+        // TODO: протестувати Update
+        let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "' WHERE `applicationNumber`='" + applicationNumber + "';";
         connection.query(inProgressResult);
         position++;
       });
