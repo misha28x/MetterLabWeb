@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
 import { UiModule } from './../ui/ui.module';
 
 import { PageHomePageComponent } from './home-page';
-import { PageNewVerificationsComponent } from './new-verifications';
+import { PageNewVerificationsComponent, EmployeeDialogComponent } from './new-verifications';
 import { PageLabRequestsComponent } from './lab-requests';
 import { PageProviderRequestsComponent } from './provider-requests';
 import { PageVerificationsProtocolsComponent } from './verifications-protocols';
@@ -17,9 +18,10 @@ import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';
 import { PageReportsComponent } from './reports';
 import { PageUserGuideComponent } from './user-guide';
+import { TaskSendingComponent } from './task-planing/task-sending/task-sending.component';
 
 @NgModule({
-	imports: [MaterialModule, NgxChartsModule, UiModule],
+	imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule],
 	declarations: [
 		PageHomePageComponent,
 		PageNewVerificationsComponent,
@@ -33,7 +35,10 @@ import { PageUserGuideComponent } from './user-guide';
 		PageRejectedVerificationComponent,
 		PageVerificationsArchiveComponent,
 		PageReportsComponent,
-		PageUserGuideComponent
-	]
+		PageUserGuideComponent,
+    EmployeeDialogComponent,
+    TaskSendingComponent
+	],
+  entryComponents: [EmployeeDialogComponent]
 })
 export class PagesModule { }

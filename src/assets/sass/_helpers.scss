@@ -40,15 +40,19 @@ mat-card-header {
 .bg {
 	&-success {
 		background: $success-color !important;
+    color: $success-contrast;
 	}
 	&-warning{ 
 		background: $warning-color !important;
+    color: $warning-contrast;
 	}
 	&-error{ 
 		background: $error-color !important;
+    color: $error-contrast;
 	}
   &-info {
     background: $info-color !important;
+    color: $info-contrast;
   }
 }
 .color {

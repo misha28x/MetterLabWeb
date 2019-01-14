@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Надіслати завдання на станцію</h2>
+
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-select placeholder="Відповідальна особа" [(ngModel)]="selectedService">
+      <mat-option [value]="'Холодна вода'">
+        Холодна вода
+      </mat-option>
+
+      <mat-option [value]="'Гаряча вода'">
+        Гаряча вода
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Дата завдання">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Відповідальна особа" [(ngModel)]="selectedService">
+      <!-- TODO: Прив'язка до таблиці працівників -->
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Скасувати</button>
+  <button class="bg-success" mat-raised-button (click)="saveData()">Зберегти</button>
+</mat-dialog-actions>

@@ -68,14 +68,7 @@
       <app-column [columnTitle]="'Дії'">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row"> 
-            <button mat-icon-button>
-              <i 
-                class="icofont-ui-user"
-                matTooltip="Додати відповідальну особу"
-              ></i>
-            </button>
-
-            <button mat-icon-button>
+            <button mat-icon-button (click)="addEmployee(row['applicationNumber'])">
               <i 
                 class="icofont-ui-user color-success"
                 matTooltip="Додати відповідальну особу"
