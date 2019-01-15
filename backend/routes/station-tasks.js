@@ -16,8 +16,8 @@ router.get('', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  let query = "SELECT * FROM verifications_archive WHERE `id_для_станції`='" + req.params.id +
-    "' ORDER BY `позиція_завдання` DESC;";
+  let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id +
+    "' ORDER BY `positionInTask` DESC;";
 
   connection.query(query, () => {
     res.status(200);
@@ -25,8 +25,8 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.get('/excel/:id', (req, res, next) => {
-  let query = "SELECT * FROM verifications_archive WHERE `id_для_станції`='" + req.params.id +
-    "' ORDER BY `позиція_завдання` DESC;";
+  let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id +
+    "' ORDER BY `positionInTask` DESC;";
 
   connection.query(query, (err, taskResult) => {
     if (err) {
@@ -128,8 +128,8 @@ router.get('/excel/:id', (req, res, next) => {
 
 router.post('/position', (req, res, next) => {
   req.body.forEach(ver => {
-    let query = "UPDATE `verifications_archive` SET `позиція_завдання`='" +
-      ver.position + "' WHERE `id_для_станції`='" + ver.stationId + "';";
+    let query = "UPDATE `archive` SET `positionInTask`='" +
+      ver.position + "' WHERE `idForStation`='" + ver.stationId + "';";
 
     connection.query(query, (err) => {
       if (err) {
