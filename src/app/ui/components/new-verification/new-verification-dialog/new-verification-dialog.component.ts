@@ -125,7 +125,7 @@ export class NewVerificationDialogComponent implements OnInit {
 			acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
 			applicationNumber: '',
 			note: this.additionalDataForm.get('note').value.replace(/'/g, /\'/),
-			serviceProvider: this.locationForm.get('serviceProvider').value.replace(/'/g, /\'/),
+			serviceProvider: this.locationForm.get('serviceProvider').value,
 			serviceType: this.locationForm.get('serviceType').value,
 			stationNumber: '',
 			status: '',

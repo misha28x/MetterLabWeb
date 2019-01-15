@@ -19,13 +19,22 @@ router.get('', (req, res, next) => {
 });
 
 // 1. Додавання нової повірки в Archive з усіма даними і статусом "Визначено відповідальну особу"
-// TODO: Встановити PrimaryKey/Qnique
+// TODO: Встановити PrimaryKey/Qniquef
 router.post('', (req, res, next) => {
-  // Знаходимо номер останньої створеної заявки
-  connection.query("SELECT `applicationNumber` FROM `archive` ORDER BY `applicationNumber` DESC LIMIT 1;", (err, rows) => {
-    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(rows[0].applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.favorDate, req.body.sanitaryWellfare, req.body.waterAbsentTo, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, null, "Визначено відповідальну особу", req.body.comment, req.body.note, req.body.taskDate, req.body.stationNumber, null, null, null, null, null, null, null, null);
-    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+	// Знаходимо номер останньої створеної заявки
+	
+  connection.query("SELECT `applicationNumber` FROM `archive` ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
+		
+		let applicationNumber = '';
+		if (lastNumber.length > 0 && lastNumber[0]) {
+		  applicationNumber = lastNumber[0].applicationNumber;
+		} else {
+		  applicationNumber = createApplicationNumber(applicationNumber);
+		}
+		
+		let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.favorDate, req.body.sanitaryWellfare, req.body.waterAbsentTo, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, "Визначено відповідальну особу", req.body.comment, req.body.note);
+    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`)" + formatedData);
     connection.query(varResult, (err, result) => {
       if (err) {
         console.log(err);
