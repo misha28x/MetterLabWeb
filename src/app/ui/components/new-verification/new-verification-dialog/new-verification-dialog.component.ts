@@ -123,16 +123,14 @@ export class NewVerificationDialogComponent implements OnInit {
 			counterType: this.counterForm.get('counterType').value,
 			productionYear: this.counterForm.get('productionYear').value,
 			acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
-			applicationNumber: '',
+      favorDate: this.additionalDataForm.get('favorDate').value,
+      sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
+      waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
 			note: this.additionalDataForm.get('note').value.replace(/'/g, /\'/),
 			serviceProvider: this.locationForm.get('serviceProvider').value,
 			serviceType: this.locationForm.get('serviceType').value,
-			stationNumber: '',
-			status: '',
 			symbol: this.counterForm.get('symbol').value,
-			taskDate: '',
-			// відсутні поля, що є в Forms
-			counterQuantity: 0
+      counterQuantity: this.locationForm.get('counterQuantity').value
 		};
 	}
 }
