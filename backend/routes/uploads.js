@@ -525,7 +525,8 @@ router.post('', upload.single('file'), (req, res, next) => {
       });
     });
   });
-  res.status(201);
+	res.status(201);
+	res.send('success');
 })
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {
