@@ -23,9 +23,9 @@ router.get('', (req, res, next) => {
 router.post('', (req, res, next) => {
   // Знаходимо номер останньої створеної заявки
   connection.query("SELECT `applicationNumber` FROM `archive` ORDER BY `applicationNumber` DESC LIMIT 1;", (err, rows) => {
-    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(rows[0].applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, null, "Визначено відповідальну особу", req.body.comment, req.body.note, req.body.taskDate, req.body.stationNumber, null, null, null, null, null, null, null, null);
-    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(rows[0].applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.favorDate, req.body.sanitaryWellfare, req.body.waterAbsentTo, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, null, "Визначено відповідальну особу", req.body.comment, req.body.note, req.body.taskDate, req.body.stationNumber, null, null, null, null, null, null, null, null);
+    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
     connection.query(varResult, (err, result) => {
       if (err) {
         console.log(err);
@@ -58,17 +58,6 @@ router.get('/employee/:id', (req, res, next) => {
   // req.body.employee - ПІБ
 });
 
-// 3) Редагуваня повірки put
-router.put('/:id', (req, res, next) => {
-  let varData = "`addingDate`='%s',`client`='%s',`employeeName`='%s',`district`='%s',`street`='%s',`house`='%s',`apartment`='%s',`isDismantled`='%s',`symbol`='%s',`counterNumber`='%s',`serviceType`='%s',`productionYear`='%s',`status`='%s',`serviceProvider`='%s',`comment`='%s',`note`='%s',`taskDate`='%s',`stationNumber`='%s'";
-  let formatedData = varData.format(req.body.addingDate, req.body.client, req.body.employee, req.body.district, req.body.street, req.body.house, req.body.flat, req.body.isRemoved, req.body.symbol, req.body.counterNumber, req.body.type, req.body.productionYear, req.body.status, req.body.serviceProvider, req.body.comment, req.body.note, req.body.taskDate, req.body.stationNumber);
-  let varResult = "UPDATE archive SET " + formatedData + " WHERE applicationNumber = '" + req.params.id + "';";;
-
-  connection.query(varResult, () => {
-    res.status(200);
-  });
-});
-
 // 4) Видалення повірки delete
 router.delete('/:id', (req, res, next) => {
   let query = "DELETE FROM `archive` WHERE `applicationNumber`='" + req.params.id + "';";
@@ -94,9 +83,9 @@ router.post('/duplicate', (req, res, next) => {
 
 function createApplicationNumber(lastApplicationNumber) {
   let cutDate = "00000000";
-	
+
   if (typeof lastApplicationNumber !== 'undefined' && lastApplicationNumber.length >= 8) {
-		cutDate = lastApplicationNumber.substr(0, 8);
+    cutDate = lastApplicationNumber.substr(0, 8);
   }
 
   let dateLike = generateDateString();
@@ -105,7 +94,7 @@ function createApplicationNumber(lastApplicationNumber) {
     return parseInt(lastApplicationNumber) + 1;
   }
 
-	
+
   return parseInt(dateLike) * 1000 + 1;
 }
 
@@ -119,8 +108,8 @@ function generateDateString() {
   }
   if (month < 10) {
     month = "0" + month;
-	}
-	
+  }
+
   return day.toString() + month.toString() + year.toString();
 }
 
