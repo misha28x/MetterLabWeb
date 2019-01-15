@@ -126,7 +126,7 @@ export class NewVerificationDialogComponent implements OnInit {
       favorDate: this.additionalDataForm.get('favorDate').value,
       sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
       waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
-			note: this.additionalDataForm.get('note').value.replace(/'/g, /\'/),
+			note: this.additionalDataForm.get('note').value,
 			serviceProvider: this.locationForm.get('serviceProvider').value,
 			serviceType: this.locationForm.get('serviceType').value,
 			symbol: this.counterForm.get('symbol').value,
