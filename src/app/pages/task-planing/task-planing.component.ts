@@ -32,14 +32,36 @@ export class PageTaskPlaningComponent implements OnInit {
   }
 
   sendData(): void {
-    const dialogRef = this.dialog.open(TaskSendingComponent);
+    let stations = [];
+
+    const url = 'http://localhost:3000/api/task-planing/stations';
+
+    this.dataSv.getData(url)
+    .subscribe(
+      data => {
+        stations = data.map(
+          station => {
+            return station.stationNumber;
+          }
+        );
+
+        this.request(stations);
+      }
+    );
+  }
+
+  request(stations: string[]): void {
+    const dialogRef = this.dialog.open(TaskSendingComponent, {
+      data: stations
+    });
 
     dialogRef.afterClosed().subscribe(
       (data: Task) => {
         const taskData = {
           taskDate: data.taskDate,
           type: data.serviceType,
-          number: data.stationNumber
+          number: data.stationNumber,
+          verifications: this.selectedData
         };
 
         const url = 'http://localhost:3000/api/task-planing/station-task';
