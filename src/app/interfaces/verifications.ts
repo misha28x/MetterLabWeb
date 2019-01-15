@@ -2,7 +2,7 @@ export interface Verification {
 		// TODO: порівняти з вмістом verif-archive і тоді створити нову табличку
 		// + - було в обидвох таблицях; \\ - додано в Archive
 	addingDate: string; 				// Дата_надходження + 				 			\\
-	applicationNumber: string; 	// Номер_заявки +										\\
+	applicationNumber?: string; 	// Номер_заявки +										\\
 	client: string; 						// Клієнт + 												\\
 	phoneNumber: string;				// Номер телефону + 								\\
 	employeeName: string; 			// ПІБ_Працівника 									\\
@@ -23,22 +23,25 @@ export interface Verification {
 	productionYear: string; 		// Рік_випуску_лічильника +					\\
   acumulatedVolume: string;   // Накопичений об'єм								\\
   serviceType: string;        // Тип послуги +										\\
-	status: string; 						// Статус +													\\
+	status?: string; 						// Статус +													\\
 	serviceProvider: string; 		// Надавач_послуг + 								\\
 	comment: string;					  // Коментар +												\\
 	note: string; 							// Примітка +												\\
-	taskDate: string; 					// Дата_завдання +									\\
-	stationNumber: string; 			// Номер_установки +								\\
+	taskDate?: string; 					// Дата_завдання +									\\
+	stationNumber?: string; 			// Номер_установки +								\\
+  favorDate: string;          // Бажана дата повірки              \\
+  sanitaryWellfare: string;   // Справність сантехніки            \\
+  waterAbsentTo: string;      // Вода відсутня до...              \\
 	// Дані з archive по протоколу
-	laboratory?: string;					// Уповноважена_повірочна_лабораторі\\
-	protocolDate?: string;				// Дата створення протоколу					\\
+	laboratory?: string;				// Уповноважена_повірочна_лабораторі\\
+	protocolDate?: string;			// Дата створення протоколу					\\
 	protocolNumber?: string; 		// Номер протоколу									\\
-	protocolSignDate?: string;		// Дата підпису протоколу						\\
-	sealNumber?: string;					// Номер пломби											\\
+	protocolSignDate?: string;  // Дата підпису протоколу					 	\\
+	sealNumber?: string;				// Номер пломби											\\
 	suitableFor?: string;				// Придатний до											\\
 	documentPrintDate?: string;	// Дата видачі документу						\\
-	idForStation?: number;				// id для станції										\\
-	positionInTask?: number;			// позиція в завданні								\\
+	idForStation?: number;			// id для станції										\\
+	positionInTask?: number;		// позиція в завданні								\\
 	// поля з new-verification-dialog
 	isUnique?: boolean;					// ?																\\
 }
