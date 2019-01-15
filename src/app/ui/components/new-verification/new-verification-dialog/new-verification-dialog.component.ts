@@ -130,7 +130,9 @@ export class NewVerificationDialogComponent implements OnInit {
 			serviceProvider: this.locationForm.get('serviceProvider').value,
 			serviceType: this.locationForm.get('serviceType').value,
 			symbol: this.counterForm.get('symbol').value,
-      counterQuantity: this.locationForm.get('counterQuantity').value
+      counterQuantity: this.locationForm.get('counterQuantity').value,
+      floor: this.additionalDataForm.get('floor').value,
+      entrance: this.additionalDataForm.get('entrance').value
 		};
 	}
 }

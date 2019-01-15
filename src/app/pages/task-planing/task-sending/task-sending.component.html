@@ -21,7 +21,7 @@
 
   <mat-form-field>
     <mat-select placeholder="Відповідальна особа" [(ngModel)]="selectedService">
-      <!-- TODO: Прив'язка до таблиці працівників -->
+      <mat-option *ngFor="let station of stations" value="station">{{ station }}</mat-option>
     </mat-select>
   </mat-form-field>
 </mat-dialog-content>

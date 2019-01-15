@@ -28,10 +28,12 @@ export interface Verification {
 	comment: string;					  // Коментар +												\\
 	note: string; 							// Примітка +												\\
 	taskDate?: string; 					// Дата_завдання +									\\
-	stationNumber?: string; 			// Номер_установки +								\\
+	stationNumber?: string; 			// Номер_установки +						  \\
   favorDate: string;          // Бажана дата повірки              \\
   sanitaryWellfare: string;   // Справність сантехніки            \\
   waterAbsentTo: string;      // Вода відсутня до...              \\
+  entrance: string;           // Під'їзд                          \\
+  floor: string;              // Поверх                           \\
 	// Дані з archive по протоколу
 	laboratory?: string;				// Уповноважена_повірочна_лабораторі\\
 	protocolDate?: string;			// Дата створення протоколу					\\

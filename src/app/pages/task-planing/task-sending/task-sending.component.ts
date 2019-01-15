@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material';
 
 import { Task } from '../../../interfaces/taskData';
@@ -13,7 +14,10 @@ export class TaskSendingComponent implements OnInit {
   selectedDate: string;
   selectedStation: string;
 
-  constructor(private dialogRef: MatDialogRef<TaskSendingComponent>) { }
+  constructor(
+    private dialogRef: MatDialogRef<TaskSendingComponent>,
+    @Inject(MAT_DIALOG_DATA) public stations: string[]
+    ) { }
 
   ngOnInit(): void { }
 
@@ -26,5 +30,4 @@ export class TaskSendingComponent implements OnInit {
 
     this.dialogRef.close(data);
   }
-
 }
