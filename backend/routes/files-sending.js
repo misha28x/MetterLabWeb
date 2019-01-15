@@ -10,9 +10,7 @@ const router = express.Router();
 const connection = require('../database/db');
 
 router.get('/:id', (req, res, next) => {
-
   const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
-
   connection.query(queryStr, (err, result) => {
     if (err) {
       console.log(err);
@@ -25,6 +23,8 @@ router.get('/:id', (req, res, next) => {
     zip.addLocalFile("./backend/data/Database.db");
     zip.addLocalFile("./backend/data/Excel.xlsx");
     zip.writeZip("./backend/data/task.zip");
+
+// generateMail();
 
     res.status(200);
   });
@@ -42,7 +42,7 @@ function generateFiles(taskResult) {
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
     let formatedData = varData.format(task.applicationNumber,
       task.client.split(' ')[0], task.client.split(' ')[1], task.client.split(' ')[2],
-      task.settlement, null, null, task.street, task.house, task.apartment,
+      task.settlement, task.district, task.region, task.street, task.house, task.apartment,
       task.phoneNumber, task.taskDate, task.counterNumber, task.note, task.serviceProvider);
     let sqlStr = "INSERT INTO Subscribers(id_pc, surname, name, middlename, city, district," +
       " bush, street, Building, Apartment, Tel, Date_visit, Counter_number, " +
@@ -57,10 +57,7 @@ function generateFiles(taskResult) {
     console.log('Файл Database.db успішно збережено ');
   });
 
-  generateExcelFile(taskResult);
-
-
-  // generateMail();
+  generateExcelFile(taskResult);  
 }
 
 // Генерування листа
@@ -172,13 +169,13 @@ function generateExcelFile(taskResult) {
   taskResult.forEach(task => {
 		ws.cell(i, 1).string(task.addingDate).style(text);
 		ws.cell(i, 2).string(task.serviceProvider).style(text);
-		ws.cell(i, 3).string(' ').style(text);
+		ws.cell(i, 3).string(task.district).style(text);
 		ws.cell(i, 4).string(task.street).style(text);
 		ws.cell(i, 5).string(task.house).style(text);
 		ws.cell(i, 6).string(task.apartment).style(text);
-		ws.cell(i, 7).string(' ').style(text);
-		ws.cell(i, 8).string(' ').style(text);
-		ws.cell(i, 9).string(' ').style(text);
+		ws.cell(i, 7).string(task.entrance).style(text);
+		ws.cell(i, 8).string(task.floor).style(text);
+		ws.cell(i, 9).string(task.counterQuantity).style(text);
 		ws.cell(i, 10).string(task.client).style(text);
 		ws.cell(i, 11).string(task.phoneNumber).style(text);
 		ws.cell(i, 12).string(task.taskDate).style(text);
