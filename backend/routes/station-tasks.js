@@ -101,28 +101,27 @@ router.get('/excel/:id', (req, res, next) => {
 
     let i = 2;
     taskResult.forEach(task => {
-      ws.cell(i, 1).string(task.Дата_надходження).style(text);
-      ws.cell(i, 2).string(task.Надавач_послуг).style(text);
-      ws.cell(i, 3).string(' ').style(text);
-      ws.cell(i, 4).string(task.Вулиця_клієнта).style(text);
-      ws.cell(i, 5).string(task.Будинок).style(text);
-      ws.cell(i, 6).string(task.Квартира).style(text);
-      ws.cell(i, 7).string(' ').style(text);
-      ws.cell(i, 8).string(' ').style(text);
-      ws.cell(i, 9).string(' ').style(text);
-      ws.cell(i, 10).string(task.Клієнт).style(text);
-      ws.cell(i, 11).string(task.Номер_телефону).style(text);
-      ws.cell(i, 12).string(task.Дата_завдання).style(text);
-      ws.cell(i, 13).string(task.Номер_заявки).style(text);
-      ws.cell(i, 14).string(task.Примітка).style(text);
-      ws.cell(i, 15).string(task.Коментар).style(text);
-
+      ws.cell(i, 1).string(task.addingDate).style(text);
+      ws.cell(i, 2).string(task.serviceProvider).style(text);
+      ws.cell(i, 3).string(task.district).style(text);
+      ws.cell(i, 4).string(task.street).style(text);
+      ws.cell(i, 5).string(task.house).style(text);
+      ws.cell(i, 6).string(task.apartment).style(text);
+      ws.cell(i, 7).string(task.entrance).style(text);
+      ws.cell(i, 8).string(task.floor).style(text);
+      ws.cell(i, 9).string(task.counterQuantity).style(text);
+      ws.cell(i, 10).string(task.client).style(text);
+      ws.cell(i, 11).string(task.phoneNumber).style(text);
+      ws.cell(i, 12).string(task.taskDate).style(text);
+      ws.cell(i, 13).string(task.applicationNumber).style(text);
+      ws.cell(i, 14).string(task.note).style(text);
+      ws.cell(i, 15).string(task.comment).style(text);
       i++;
     });
 
     wb.write('./backend/data/checkExcel.xlsx');
-		console.log('Excel згенерований успішно!');
-		 res.download('./backend/data/checkExcel.xlsx', 'checkExcel.xlsx');
+    console.log('Excel згенерований успішно!');
+    res.download('./backend/data/checkExcel.xlsx', 'checkExcel.xlsx');
   });
 });
 
