@@ -20,6 +20,7 @@ import { TaskListViewComponent, TaslListViewDialogComponent } from './components
 import { TaskListEditComponent, TaskListEditDialogComponent } from './components/task-list-edit';
 import { DetailViewComponent, DetailViewDialogComponent } from './components/detail-view';
 import { DuplicateViewComponent, DuplicatViewDialogComponent } from './components/duplicate-view';
+import { BadgeComponent } from './components/badge';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule, ReactiveFormsModule],
@@ -33,7 +34,8 @@ import { DuplicateViewComponent, DuplicatViewDialogComponent } from './component
 		NewVerificationComponent,
     ProtocolViewComponent,
     DuplicateViewComponent,
-    DuplicatViewDialogComponent
+    DuplicatViewDialogComponent,
+    BadgeComponent
 	],
 	declarations: [
 		SortTableDirective,
@@ -55,7 +57,8 @@ import { DuplicateViewComponent, DuplicatViewDialogComponent } from './component
     DetailViewComponent,
     DetailViewDialogComponent,
     DuplicateViewComponent,
-    DuplicatViewDialogComponent
+    DuplicatViewDialogComponent,
+    BadgeComponent
 	],
   entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent, DuplicatViewDialogComponent]
 })

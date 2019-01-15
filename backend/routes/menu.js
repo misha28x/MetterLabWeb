@@ -5,7 +5,7 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
-function createMenu(newV, labR, proR, tasP) {
+function createMenu(newV, labR, tasP) {
   return [{
       title: 'Головна Панель',
       icon: 'icofont-ui-home',
@@ -23,12 +23,6 @@ function createMenu(newV, labR, proR, tasP) {
       routing: 'lab-requests',
       counter: labR
     },
-    // {
-    //   title: 'Заявки Для Надавача Послуг',
-    //   icon: 'icofont-dashboard-web',
-    //   routing: 'provides-requests',
-    //   counter: proR
-    // },
     {
       title: 'Електроні Протоколи Повірок',
       icon: 'icofont-file-powerpoint',
@@ -45,16 +39,16 @@ function createMenu(newV, labR, proR, tasP) {
       routing: 'tasks-planing',
       counter: tasP
     },
-    // {
-    //   title: 'Завдання Для Станцій',
-    //   icon: 'icofont-tack-pin',
-    //   routing: 'station-tasks'
-    // },
     {
-      title: 'Завдання Для Бригад',
+      title: 'Завдання Для Станцій',
       icon: 'icofont-tack-pin',
-      routing: 'brigade-tasks'
+      routing: 'station-tasks'
     },
+    // {
+    //   title: 'Завдання Для Бригад',
+    //   icon: 'icofont-tack-pin',
+    //   routing: 'brigade-tasks'
+    // },
     {
       title: 'Відхилені Повірки',
       icon: 'icofont-archive',
@@ -81,13 +75,13 @@ function createMenu(newV, labR, proR, tasP) {
 
 // новві повірки, планування завдання, протоколи
 router.get('', (req, res, next) => {
-  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку') AS protocols FROM dual;";
+  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS protocols FROM dual;";
   connection.query(queryString, (err, result) => {
     if (err) {
       console.log(err);
 		}
     
-		const menu = createMenu(result[0].new_verifications, result[0].task_planing, result[0].protocols);
+		const menu = createMenu(result[0].new_verifications, result[0].protocols, result[0].task_planing);
 
     res.status(200).json(menu);
   });

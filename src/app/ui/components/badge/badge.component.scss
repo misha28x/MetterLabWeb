@@ -1,0 +1,11 @@
+@import "../../../../assets/sass/variables";
+
+:host {
+  background: #4285f4 !important;
+  border-radius: .25rem;
+  color: #fff;
+  margin-left: ($module-rem / 4);
+  padding: .05rem 0.4em;
+  font-weight: 800;
+  line-height: 1.4;
+}

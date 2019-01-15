@@ -11,14 +11,13 @@ import { PageLabRequestsComponent } from './lab-requests';
 import { PageProviderRequestsComponent } from './provider-requests';
 import { PageVerificationsProtocolsComponent } from './verifications-protocols';
 import { PageRejectedProtocolsComponent } from './rejected-protocols';
-import { PageTaskPlaningComponent } from './task-planing';
+import { PageTaskPlaningComponent, TaskSendingComponent } from './task-planing';
 import { PageStationsTasksComponent } from './stations-tasks';
 import { PageBrigadeTasksComponent } from './brigade-tasks';
 import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';
 import { PageReportsComponent } from './reports';
 import { PageUserGuideComponent } from './user-guide';
-import { TaskSendingComponent } from './task-planing/task-sending/task-sending.component';
 
 @NgModule({
 	imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule],
@@ -39,6 +38,6 @@ import { TaskSendingComponent } from './task-planing/task-sending/task-sending.c
     EmployeeDialogComponent,
     TaskSendingComponent
 	],
-  entryComponents: [EmployeeDialogComponent]
+  entryComponents: [EmployeeDialogComponent, TaskSendingComponent]
 })
 export class PagesModule { }

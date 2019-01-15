@@ -1,8 +1,8 @@
 <h2 mat-dialog-title>Надіслати завдання на станцію</h2>
 
-<mat-dialog-content>
+<mat-dialog-content class="content">
   <mat-form-field>
-    <mat-select placeholder="Відповідальна особа" [(ngModel)]="selectedService">
+    <mat-select placeholder="Тип послуги" [(ngModel)]="selectedService">
       <mat-option [value]="'Холодна вода'">
         Холодна вода
       </mat-option>
@@ -28,5 +28,5 @@
 
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Скасувати</button>
-  <button class="bg-success" mat-raised-button (click)="saveData()">Зберегти</button>
+  <button class="bg-success" mat-raised-button (click)="saveData()">Надіслати</button>
 </mat-dialog-actions>

@@ -8,6 +8,7 @@ import { DefaultLayoutComponent } from './default';
 import { SidebarComponent } from './components/sidebar';
 import { NavbarComponent } from './components/navbar';
 import { MenuComponent } from './components/menu';
+import { UiModule } from '../ui/ui.module';
 
 @NgModule({
 	declarations: [
@@ -19,7 +20,8 @@ import { MenuComponent } from './components/menu';
 	imports: [
 		CommonModule,
 		RouterModule,
-		MaterialModule
+		MaterialModule,
+    UiModule
 	]
 })
 export class LayoutModule { }

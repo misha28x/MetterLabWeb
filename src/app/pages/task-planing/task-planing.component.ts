@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { DataService } from './../../services/data.service';
+import { DataService } from '../../services/data.service';
 import { TaskSendingComponent } from './task-sending/task-sending.component';
-import { Task } from 'src/app/interfaces/taskData';
+import { Task } from '../../interfaces/taskData';
 
 @Component({
   selector: 'app-task-planing',

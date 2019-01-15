@@ -40,7 +40,7 @@ $item-color: #0051a8;
 				  margin-right: $module-rem / 2;
 				}
 				.item-text {
-					transition: visibility 0s;
+					transition: visibility 0s, width .2s;
 					transition-delay: .2s ;
 				}
 			}
@@ -52,6 +52,7 @@ $item-color: #0051a8;
 				.item-text {
 					transition-delay: 0s !important;
 					visibility: hidden;
+          width: 0;
 				}
 			}
 		}
