@@ -6,7 +6,7 @@ const router = express.Router();
 const connection = require('../database/db');
 
 router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM verifications_archive', (err, result) => {
+  connection.query('SELECT * FROM archive', (err, result) => {
     if (err) {
       console.log(err);
     }

@@ -17,39 +17,39 @@
       </div>
     </div>
     <app-table [tableData]="tableData" [config]="config" [pagination]="true">
-      <app-column [columnTitle]="'Номер Заявки'" [columnName]="'Номер_заявки'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'Дата_надходження'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Клієнт'" [columnName]="'Клієнт'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'Надавач_послуг'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Район'" [columnName]="'Район'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Вулиця'" [columnName]="'Вулиця'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Будинок'" [columnName]="'Будинок'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Квартира'" [columnName]="'Квартира'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<!-- TODO: add fields to Database & Rename fields -->
+<app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'Бажана_дата_повірки'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'Бажана_дата_повірки'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'Cправність_сантехніки'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'Cправність_сантехніки'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [width]="115" [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [width]="140" [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Наявність пломби'" [columnName]="'Наявність_пломби'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [width]="120" [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Телефон'" [columnName]="'Телефон'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-      <app-column [columnTitle]="'Примітка'" [columnName]="'Примітка'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Дії'">
         <ng-template #tableBodyTemplate let-row="row">

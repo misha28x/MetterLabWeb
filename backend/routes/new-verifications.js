@@ -58,29 +58,11 @@ router.get('/employee/:id', (req, res, next) => {
   // req.body.employee - ПІБ
 });
 
-// 2) Додавання нової повірки post
-router.post('1', (req, res, next) => {
-  let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
-  let formatedData = varData.format(req.body.addingDate, req.body.applicationNumber, req.body.client, req.body.employee, req.body.district, req.body.street, req.body.house, req.body.flat, req.body.isRemoved, req.body.symbol, req.body.counterNumber, req.body.type, req.body.productionYear, req.body.status, req.body.serviceProvider, req.body.comment, req.body.note, req.body.taskDate, req.body.brigadeName, req.body.stationNumber);
-  // TODO: в task_planing
-  let varResult = ("INSERT INTO `new_verifications`(`Дата_надходження`, `Номер_заявки`, `Клієнт`, `ПІБ_Працівника`," +
-    " `Район`, `Вулиця`, `Будинок`, `Квартира`, `Лічильник_демонтовано`, `Умовне_позначення`, `Номер_лічильника`," +
-    " `Типорозмір_лічильника`, `Рік_випуску_лічильника`, `Статус`, `Надавач_послуг`, `Коментар`, `Примітка`, " +
-    "`Дата_завдання`, `Назва_бригади`, `Номер_установки`)" + formatedData);
-
-  connection.query(varResult, (err) => {
-    if (err) console.log(err);
-
-    res.status(201);
-    console.log('added');
-  });
-});
-
 // 3) Редагуваня повірки put
 router.put('/:id', (req, res, next) => {
-  let varData = "`Дата_надходження`='%s',`Клієнт`='%s',`ПІБ_Працівника`='%s',`Район`='%s',`Вулиця`='%s',`Будинок`='%s',`Квартира`='%s',`Лічильник_демонтовано`='%s',`Умовне_позначення`='%s',`Номер_лічильника`='%s',`Типорозмір_лічильника`='%s',`Рік_випуску_лічильника`='%s',`Статус`='%s',`Надавач_послуг`='%s',`Коментар`='%s',`Примітка`='%s',`Дата_завдання`='%s',`Назва_бригади`='%s',`Номер_установки`='%s'";
-  let formatedData = varData.format(req.body.addingDate, req.body.client, req.body.employee, req.body.district, req.body.street, req.body.house, req.body.flat, req.body.isRemoved, req.body.symbol, req.body.counterNumber, req.body.type, req.body.productionYear, req.body.status, req.body.serviceProvider, req.body.comment, req.body.note, req.body.taskDate, req.body.brigadeName, req.body.stationNumber);
-  let varResult = "UPDATE new_verifications SET " + formatedData + " WHERE Номер_заявки = '" + req.params.id + "';";;
+  let varData = "`addingDate`='%s',`client`='%s',`employeeName`='%s',`district`='%s',`street`='%s',`house`='%s',`apartment`='%s',`isDismantled`='%s',`symbol`='%s',`counterNumber`='%s',`serviceType`='%s',`productionYear`='%s',`status`='%s',`serviceProvider`='%s',`comment`='%s',`note`='%s',`taskDate`='%s',`stationNumber`='%s'";
+  let formatedData = varData.format(req.body.addingDate, req.body.client, req.body.employee, req.body.district, req.body.street, req.body.house, req.body.flat, req.body.isRemoved, req.body.symbol, req.body.counterNumber, req.body.type, req.body.productionYear, req.body.status, req.body.serviceProvider, req.body.comment, req.body.note, req.body.taskDate, req.body.stationNumber);
+  let varResult = "UPDATE archive SET " + formatedData + " WHERE applicationNumber = '" + req.params.id + "';";;
 
   connection.query(varResult, () => {
     res.status(200);
@@ -89,7 +71,7 @@ router.put('/:id', (req, res, next) => {
 
 // 4) Видалення повірки delete
 router.delete('/:id', (req, res, next) => {
-  let query = "DELETE FROM `new_verifications` WHERE `Номер_заявки`='" + req.params.id + "';";
+  let query = "DELETE FROM `archive` WHERE `applicationNumber`='" + req.params.id + "';";
 
   connection.query(query, () => {
     res.status(200);
@@ -98,11 +80,11 @@ router.delete('/:id', (req, res, next) => {
 
 // Перевірка на дублі по адресі клієнта (район, вулиця, будинок, квартира)
 router.post('/duplicate', (req, res, next) => {
-  connection.query("SELECT * FROM `new_verifications` WHERE " +
-    "(`Район`='" + req.body.district +
-    "', `Вулиця`= '" + req.body.street +
-    "', `Будинок`= '" + req.body.house +
-    "', `Квартира` = '" + req.body.flat + "');", (err, result) => {
+  connection.query("SELECT * FROM `archive` WHERE " +
+    "(`district`='" + req.body.district +
+    "', `street`= '" + req.body.street +
+    "', `house`= '" + req.body.house +
+    "', `apartment` = '" + req.body.flat + "');", (err, result) => {
       if (err) {
         console.log(err);
       }

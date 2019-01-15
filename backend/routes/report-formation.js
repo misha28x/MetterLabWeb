@@ -11,21 +11,21 @@ const connection = require('../database/db');
 
 router.get('/doc/:id', (req, res, next) => {
   let protocolNumber = "";
-  let selection = "SELECT `id`, `Номер_заявки`, `Номер_протоколу`, `Дата_та_час`, `Номер_лічильника`, `Умовне_позначення`," +
-    " `Типорозмір_лічильника`, `Температура`, `Рік_випуску`, `Накопичений_обєм`, `Статус_витрати`, " +
-    " `Результат_тесту`, `Дата_підпису_протоколу`, `ПІБ_особи_підписувача`, `Статус` " +
+  let selection = "SELECT `id`, `applicationNumber`, `bbiFileName`, `date`, `counterNumber`, `symbol`," +
+    " `type`, `temperature`, `productionYear`, `capacity`, `status`, " +
+    " `result`, `signDate`, `signPerson`, `status` " +
     "FROM `protocols` WHERE `id`='" + req.params.id + "';";
   connection.query(selection, function (err, fields) {
     if (err) throw err;
 
-    if (fields[0].Результат_тесту == 'Годен') {
+    if (fields[0].result == 'Годен') {
       generateSvidDocx(fields);
       // Завантаження з серверу
       res.download('./backend/temp/docx/svidOutput.docx', 'svidOutput.docx');
     } else {
-      protocolNumber = fields[0].Номер_протоколу;
+      protocolNumber = fields[0].bbiFileName;
       // query SELECT `id`,`Номер_протоколу`,`Назва_тесту`,`Фактична_витрата`,`Статус_витрати`,`Допустима_похибка`,`Фактична_похибка`,`Результат_тесту` FROM `tests` WHERE `Номер_протоколу`='" + protocolNumber + "' AND `Результат_тесту` LIKE '%оден';
-      connection.query("SELECT `Назва_тесту`, `Допустима_похибка`,`Фактична_похибка`,`Результат_тесту` FROM `tests` WHERE `Номер_протоколу`='" + protocolNumber + "' AND `Результат_тесту` LIKE '%оден';", function (err, tests) {
+      connection.query("SELECT `name`, `assumedFault`,`calculatedFault`,`result` FROM `tests` WHERE `bbiFileName`='" + protocolNumber + "' AND `result` LIKE '%оден';", function (err, tests) {
         if (err) {
           throw err;
         }
@@ -46,9 +46,10 @@ function generateDovidDocx(fields, tests) {
   doc.loadZip(zip);
 
   doc.setData({
-		date: getDate(fields[0].Дата_та_час, 0),
-		symbol: fields[0].Умовне_позначення,
-		type: fields[0].Типорозмір_лічильника,
+		// TODO: Формули, номер завдання
+		date: getDate(fields[0].date, 0),
+		symbol: fields[0].symbol,
+		type: fields[0].type,
 		taskNum: 'номЗав',
 		Qn: '1',
 		Qt: '2',
@@ -91,11 +92,11 @@ function generateSvidDocx(fields) {
 	 // TODO: на скільки років повірка?
 	 // TODO: номери завдання
   doc.setData({
-    date: getDate(fields[0].Дата_та_час, 4),
-    symbol: fields[0].Умовне_позначення,
-    type: fields[0].Типорозмір_лічильника,
+    date: getDate(fields[0].date, 4),
+    symbol: fields[0].symbol,
+    type: fields[0].type,
     taskNum: 'номер завдання',
-    singDate: getDate(fields[0].Дата_та_час, 0),
+    singDate: getDate(fields[0].date, 0),
     // ТЕГи прописувати тут
   });
 

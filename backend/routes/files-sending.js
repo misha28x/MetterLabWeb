@@ -11,7 +11,7 @@ const connection = require('../database/db');
 
 router.get('/:id', (req, res, next) => {
 
-  const queryStr = "SELECT * FROM verifications_archive WHERE `id_для_станції`= " + req.params.id + ";";
+  const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
 
   connection.query(queryStr, (err, result) => {
     if (err) {
@@ -40,10 +40,10 @@ function generateFiles(taskResult) {
 
   taskResult.forEach(task => {
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(task.Номер_заявки,
-      task.Клієнт.split(' ')[0], task.Клієнт.split(' ')[1], task.Клієнт.split(' ')[2],
-      task.Населений_пункт, null, null, task.Вулиця_клієнта, task.Будинок, task.Квартира,
-      task.Номер_телефону, task.Дата_завдання, task.Номер_лічильника, task.Примітка, task.Надавач_послуг);
+    let formatedData = varData.format(task.applicationNumber,
+      task.client.split(' ')[0], task.client.split(' ')[1], task.client.split(' ')[2],
+      task.settlement, null, null, task.street, task.house, task.apartment,
+      task.phoneNumber, task.taskDate, task.counterNumber, task.note, task.serviceProvider);
     let sqlStr = "INSERT INTO Subscribers(id_pc, surname, name, middlename, city, district," +
       " bush, street, Building, Apartment, Tel, Date_visit, Counter_number, " +
       " Note, Customer)" + formatedData;
@@ -170,21 +170,21 @@ function generateExcelFile(taskResult) {
 
 	let i = 2;
   taskResult.forEach(task => {
-		ws.cell(i, 1).string(task.Дата_надходження).style(text);
-		ws.cell(i, 2).string(task.Надавач_послуг).style(text);
+		ws.cell(i, 1).string(task.addingDate).style(text);
+		ws.cell(i, 2).string(task.serviceProvider).style(text);
 		ws.cell(i, 3).string(' ').style(text);
-		ws.cell(i, 4).string(task.Вулиця_клієнта).style(text);
-		ws.cell(i, 5).string(task.Будинок).style(text);
-		ws.cell(i, 6).string(task.Квартира).style(text);
+		ws.cell(i, 4).string(task.street).style(text);
+		ws.cell(i, 5).string(task.house).style(text);
+		ws.cell(i, 6).string(task.apartment).style(text);
 		ws.cell(i, 7).string(' ').style(text);
 		ws.cell(i, 8).string(' ').style(text);
 		ws.cell(i, 9).string(' ').style(text);
-		ws.cell(i, 10).string(task.Клієнт).style(text);
-		ws.cell(i, 11).string(task.Номер_телефону).style(text);
-		ws.cell(i, 12).string(task.Дата_завдання).style(text);
-		ws.cell(i, 13).string(task.Номер_заявки).style(text);
-		ws.cell(i, 14).string(task.Примітка).style(text);
-		ws.cell(i, 15).string(task.Коментар).style(text);
+		ws.cell(i, 10).string(task.client).style(text);
+		ws.cell(i, 11).string(task.phoneNumber).style(text);
+		ws.cell(i, 12).string(task.taskDate).style(text);
+		ws.cell(i, 13).string(task.applicationNumber).style(text);
+		ws.cell(i, 14).string(task.note).style(text);
+		ws.cell(i, 15).string(task.comment).style(text);
 
     i++;
   });
