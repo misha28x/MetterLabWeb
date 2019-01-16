@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const fs = require('fs');
-const JSZip = require('jszip');
+const JSZip = require('../assets/jszip2');
 const Docxtemplater = require('docxtemplater');
 const path = require('path');
 const pdfMake = require('pdfmake');
@@ -11,13 +11,14 @@ const connection = require('../database/db');
 
 router.get('/doc/:id', (req, res, next) => {
   let protocolNumber = "";
-  let selection = "SELECT `id`, `applicationNumber`, `bbiFileName`, `date`, `counterNumber`, `symbol`," +
+  let selection = "SELECT `id`, `applicationNumber`, `bbiFileName`, `date`, `counterNumber`, `deviceNumber`, `symbol`," +
     " `type`, `temperature`, `productionYear`, `capacity`, `status`, " +
     " `result`, `signDate`, `signPerson`, `status` " +
     "FROM `protocols` WHERE `id`='" + req.params.id + "';";
   connection.query(selection, function (err, fields) {
     if (err) throw err;
-
+		console.log(fields[0]);
+		
     if (fields[0].result == 'Годен') {
       generateSvidDocx(fields);
       // Завантаження з серверу
@@ -25,7 +26,7 @@ router.get('/doc/:id', (req, res, next) => {
     } else {
       protocolNumber = fields[0].bbiFileName;
       // query SELECT `id`,`Номер_протоколу`,`Назва_тесту`,`Фактична_витрата`,`Статус_витрати`,`Допустима_похибка`,`Фактична_похибка`,`Результат_тесту` FROM `tests` WHERE `Номер_протоколу`='" + protocolNumber + "' AND `Результат_тесту` LIKE '%оден';
-      connection.query("SELECT `name`, `assumedFault`,`calculatedFault`,`result` FROM `tests` WHERE `bbiFileName`='" + protocolNumber + "' AND `result` LIKE '%оден' ORDER BY `tests`.`name` ASC;", function (err, tests) {
+      connection.query("SELECT `name`, `assumedFault`,`calculatedFault`,`result` FROM `tests` WHERE `bbiFileName`='" + protocolNumber + "' AND `result` LIKE 'Не годен' ORDER BY `tests`.`name` ASC;", function (err, tests) {
         if (err) {
           throw err;
         }
@@ -45,15 +46,52 @@ function generateDovidDocx(fields, tests) {
   let doc = new Docxtemplater();
   doc.loadZip(zip);
 
+  let testsString = "";
+
+  /**    Qn: "δQn = мінус " + type + "%;",
+      Qt: "δQt = мінус " + type + "%;",
+  		Qmin: "δQmin = мінус " + type + "%;", */
+
+  for (const test of tests) {
+    switch (test.name.substring(5, 6)) {
+      case "1":
+        testsString.append("δQn = ");
+        if (test.calculatedFault < 0) {
+          testsString.append("мінус ");
+        }
+        testsString.append(percentDif(test) + "%;");
+        // testsString.append("δQn = мінус " + testRes + "%;");
+        break;
+      case "2":
+        testsString.append("δQt = ");
+        if (test.calculatedFault < 0) {
+          testsString.append("мінус ");
+        }
+        testsString.append(percentDif(test) + "%;");
+        break;
+      case "3":
+        testsString.append("δQmin = ");
+        if (test.calculatedFault < 0) {
+          testsString.append("мінус ");
+        }
+        testsString.append(percentDif(test) + "%;");
+        break;
+
+      default:
+        break;
+    }
+	}
+	
+	testsString.substring(0, str.length - 1)+".";
+
   doc.setData({
     // TODO: Формули, номер завдання
+    docNumber: createNumberString(fields[0]),
     date: getDate(fields[0].date, 0),
     symbol: fields[0].symbol,
     type: fields[0].type,
-    taskNum: 'номЗав',
-    Qn: '1',
-    Qt: '2',
-    Qmin: '3'
+    cNumber: fields[0].counterNumber,
+    testsVal: testsString.substring(0, str.length - 1) + "."
     // ТЕГи прописувати тут
   });
 
@@ -80,6 +118,14 @@ function generateDovidDocx(fields, tests) {
   // buffer перезаписує вміст файлу 
   fs.writeFileSync(path.resolve('./backend/temp/docx', 'dovidOutput.docx'), buf);
 }
+// Обчислення % для довідки
+function percentDif(test) {
+  let assumedFault = test.assumedFault;
+  let calculatedFault = Math.abs(test.calculatedFault);
+
+  return (calculatedFault - assumedFault) * 100 / assumedFault;
+}
+
 // fields - вибірка з protocols
 function generateSvidDocx(fields) {
   let content = fs.readFileSync(path.resolve('./backend/temp/docx', 'svidtemp.docx'), 'binary');
@@ -91,11 +137,13 @@ function generateSvidDocx(fields) {
 
   // TODO: на скільки років повірка?
   // TODO: номери завдання
+
   doc.setData({
+    docNumber: createNumberString(fields[0]),
+    cNumber: fields[0].counterNumber,
     date: getDate(fields[0].date, 4),
     symbol: fields[0].symbol,
     type: fields[0].type,
-    taskNum: 'номер завдання',
     singDate: getDate(fields[0].date, 0),
     // ТЕГи прописувати тут
   });
@@ -138,5 +186,22 @@ function getDate(stringDate, years) {
 router.get('/pdf/:id', (req, res, next) => {
   res.download('./backend/temp/docx/output1.pdf', 'output1.pdf');
 });
+
+function createNumberString(protocolObject) {
+  let docDate = new Date(protocolObject.date);
+  let day = docDate.getUTCDate();
+  let month = docDate.getUTCMonth() + 1;
+  let year = docDate.getUTCFullYear();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  if (month < 10) {
+    month = "0" + month;
+  }
+
+  let docNumberDate = day.toString() + month.toString() + year.toString().substring(2,4);
+  let docNumberProtocol = protocolObject.bbiFileName.substr(6, 2);
+  return docNumberString = protocolObject.deviceNumber + docNumberDate + docNumberProtocol;
+}
 
 module.exports = router;
