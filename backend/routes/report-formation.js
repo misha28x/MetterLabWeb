@@ -25,18 +25,18 @@ router.get('/doc/:id', (req, res, next) => {
     } else {
       protocolNumber = fields[0].bbiFileName;
       // query SELECT `id`,`Номер_протоколу`,`Назва_тесту`,`Фактична_витрата`,`Статус_витрати`,`Допустима_похибка`,`Фактична_похибка`,`Результат_тесту` FROM `tests` WHERE `Номер_протоколу`='" + protocolNumber + "' AND `Результат_тесту` LIKE '%оден';
-      connection.query("SELECT `name`, `assumedFault`,`calculatedFault`,`result` FROM `tests` WHERE `bbiFileName`='" + protocolNumber + "' AND `result` LIKE '%оден';", function (err, tests) {
+      connection.query("SELECT `name`, `assumedFault`,`calculatedFault`,`result` FROM `tests` WHERE `bbiFileName`='" + protocolNumber + "' AND `result` LIKE '%оден' ORDER BY `tests`.`name` ASC;", function (err, tests) {
         if (err) {
           throw err;
         }
-				generateDovidDocx(fields, tests);
-				// Завантаження з серверу
-				res.download('./backend/temp/docx/dovidOutput.docx', 'dovidOutput.docx');
+        generateDovidDocx(fields, tests);
+        // Завантаження з серверу
+        res.download('./backend/temp/docx/dovidOutput.docx', 'dovidOutput.docx');
       });
     }
   });
 });
-
+// fields - вибірка з protocols tests - вибірка з тестів за номером протоколу
 function generateDovidDocx(fields, tests) {
   let content = fs.readFileSync(path.resolve('./backend/temp/docx', 'dovidtemp.docx'), 'binary');
 
@@ -46,14 +46,14 @@ function generateDovidDocx(fields, tests) {
   doc.loadZip(zip);
 
   doc.setData({
-		// TODO: Формули, номер завдання
-		date: getDate(fields[0].date, 0),
-		symbol: fields[0].symbol,
-		type: fields[0].type,
-		taskNum: 'номЗав',
-		Qn: '1',
-		Qt: '2',
-		Qmin: '3'
+    // TODO: Формули, номер завдання
+    date: getDate(fields[0].date, 0),
+    symbol: fields[0].symbol,
+    type: fields[0].type,
+    taskNum: 'номЗав',
+    Qn: '1',
+    Qt: '2',
+    Qmin: '3'
     // ТЕГи прописувати тут
   });
 
@@ -80,7 +80,7 @@ function generateDovidDocx(fields, tests) {
   // buffer перезаписує вміст файлу 
   fs.writeFileSync(path.resolve('./backend/temp/docx', 'dovidOutput.docx'), buf);
 }
-
+// fields - вибірка з protocols
 function generateSvidDocx(fields) {
   let content = fs.readFileSync(path.resolve('./backend/temp/docx', 'svidtemp.docx'), 'binary');
 
@@ -89,8 +89,8 @@ function generateSvidDocx(fields) {
   let doc = new Docxtemplater();
   doc.loadZip(zip);
 
-	 // TODO: на скільки років повірка?
-	 // TODO: номери завдання
+  // TODO: на скільки років повірка?
+  // TODO: номери завдання
   doc.setData({
     date: getDate(fields[0].date, 4),
     symbol: fields[0].symbol,
@@ -125,18 +125,18 @@ function generateSvidDocx(fields) {
 }
 
 function getDate(stringDate, years) {
-	let docDate = new Date(stringDate);
-	let year = docDate.getFullYear() + years;
-	let month = docDate.getMonth();
-	let day = docDate.getDate();
+  let docDate = new Date(stringDate);
+  let year = docDate.getFullYear() + years;
+  let month = docDate.getMonth();
+  let day = docDate.getDate();
 
-	let months = ['cічня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
+  let months = ['cічня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
 
-	return date = day + " " + months[month] + " " + year + " р.";
+  return date = day + " " + months[month] + " " + year + " р.";
 }
 
 router.get('/pdf/:id', (req, res, next) => {
-   res.download('./backend/temp/docx/output1.pdf', 'output1.pdf');
+  res.download('./backend/temp/docx/output1.pdf', 'output1.pdf');
 });
 
 module.exports = router;
