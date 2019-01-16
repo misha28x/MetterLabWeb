@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 import { DataService } from 'src/app/services/data.service';
 import { Verification } from 'src/app/interfaces/verifications';
@@ -26,7 +27,8 @@ export class NewVerificationDialogComponent implements OnInit {
 	constructor(
 		private verificationSv: VerificationService,
 		private dataSv: DataService,
-		private fb: FormBuilder
+		private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: any
 	) { }
 
 	setStep(index: number): void {

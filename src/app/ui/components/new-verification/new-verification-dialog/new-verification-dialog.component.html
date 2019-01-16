@@ -129,7 +129,7 @@
                 <mat-form-field>
                   <mat-select formControlName="serviceProvider">
                     <!-- TODO: Добавити табличку виробників -->
-                    <!-- <mat-option *ngFor="let provider of providers" [value]="provider">Холодна вода</mat-option> -->
+                    <mat-option [value]="'ЛУЦЬКВОДОКАНАЛ'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option> 
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -186,11 +186,7 @@
           <span>ПІБ працівника</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Працівник" formControlName="employeeName">
-              <!-- TODO: Добавити прив'язку до таблиці працівники -->
-              <mat-option>Працівник</mat-option>
-              <mat-option>Працівник</mat-option>
-              <mat-option>Працівник</mat-option>
-              <mat-option>Працівник</mat-option>
+              <mat-option *ngFor="let employee of data.name" [value]="employee">{{ employee }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -222,22 +218,20 @@
           <span>Тип Лічильника</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Типорозмір лічильника" formControlName="counterType">
-              <!-- TODO: Добавити прив'язку до таблиці лічильники -->
-              <mat-option>Лічильник 1</mat-option>
-              <mat-option>Лічильник 2</mat-option>
-              <mat-option>Лічильник 3</mat-option>
-              <mat-option>Лічильник 4</mat-option>
+              <mat-option *ngFor="let type of data.Device" [value]="type">{{ type }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
         <div class="full-width">
-          <span>Рік випуску</span>
+          <span>Символ</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Рік випуску лічильника" formControlName="productionYear">
+            <mat-select placeholder="Символ" formControlName="symbol">
+              <mat-option *ngFor="let symbol of data.DN" [value]="symbol">{{ symbol }}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
-        
+
         <div class="full-width">
           <span>Рік випуску</span>
           <mat-form-field class="input-field">

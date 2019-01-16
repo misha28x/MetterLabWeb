@@ -15,7 +15,7 @@ router.get('/employee', (req, res, next) => {
 });
 
 router.get('/dn', (req, res, next) => {
-  connection.query("SELECT `DN` FROM type;", (err, symbol) => {
+  connection.query("SELECT DISTINCT `DN` FROM type;", (err, symbol) => {
     res.send(symbol);
   });
 });
