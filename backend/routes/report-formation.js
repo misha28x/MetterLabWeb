@@ -17,8 +17,8 @@ router.get('/doc/:id', (req, res, next) => {
     "FROM `protocols` WHERE `id`='" + req.params.id + "';";
   connection.query(selection, function (err, fields) {
     if (err) throw err;
-		console.log(fields[0]);
-		
+    console.log(fields[0]);
+
     if (fields[0].result == 'Годен') {
       generateSvidDocx(fields);
       // Завантаження з серверу
@@ -55,34 +55,47 @@ function generateDovidDocx(fields, tests) {
   for (const test of tests) {
     switch (test.name.substring(5, 6)) {
       case "1":
-        testsString.append("δQn = ");
+				testsString += ("δQn = ");
+				console.log({
+					value: test.calculatedFault,
+					bool: test.calculatedFault < 0
+				});
+				
         if (test.calculatedFault < 0) {
-          testsString.append("мінус ");
+          testsString += ("мінус ");
         }
-        testsString.append(percentDif(test) + "%;");
-        // testsString.append("δQn = мінус " + testRes + "%;");
+        testsString += (percentDif(test).toFixed(1) + "%; ");
+        // testsString+=("δQn = мінус " + testRes + "%;");
         break;
-      case "2":
-        testsString.append("δQt = ");
+			case "2":
+				console.log({
+				  value: test.calculatedFault,
+				  bool: test.calculatedFault < 0
+				});
+        testsString += ("δQt = ");
         if (test.calculatedFault < 0) {
-          testsString.append("мінус ");
+          testsString += ("мінус ");
         }
-        testsString.append(percentDif(test) + "%;");
+        testsString += (percentDif(test).toFixed(1) + "%; ");
         break;
-      case "3":
-        testsString.append("δQmin = ");
+			case "3":
+				console.log({
+				  value: test.calculatedFault,
+				  bool: test.calculatedFault < 0
+				});
+        testsString += ("δQmin = ");
         if (test.calculatedFault < 0) {
-          testsString.append("мінус ");
+          testsString += ("мінус ");
         }
-        testsString.append(percentDif(test) + "%;");
+        testsString += (percentDif(test).toFixed(1) + "%; ");
         break;
 
       default:
         break;
     }
-	}
-	
-	testsString.substring(0, str.length - 1)+".";
+  }
+
+  testsString.substring(0, testsString.length - 2);
 
   doc.setData({
     // TODO: Формули, номер завдання
@@ -91,7 +104,7 @@ function generateDovidDocx(fields, tests) {
     symbol: fields[0].symbol,
     type: fields[0].type,
     cNumber: fields[0].counterNumber,
-    testsVal: testsString.substring(0, str.length - 1) + "."
+    testsVal: testsString.substring(0, testsString.length - 2)
     // ТЕГи прописувати тут
   });
 
@@ -199,7 +212,7 @@ function createNumberString(protocolObject) {
     month = "0" + month;
   }
 
-  let docNumberDate = day.toString() + month.toString() + year.toString().substring(2,4);
+  let docNumberDate = day.toString() + month.toString() + year.toString().substring(2, 4);
   let docNumberProtocol = protocolObject.bbiFileName.substr(6, 2);
   return docNumberString = protocolObject.deviceNumber + docNumberDate + docNumberProtocol;
 }
