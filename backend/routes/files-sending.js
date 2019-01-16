@@ -78,14 +78,14 @@ function generateFiles(taskResult) {
 function generateMail() {
   nodemailer.createTestAccount((err, account) => {
 
-    // TODO: поштова скриньки. Змінити назву архіву. Прив'язка до станції
+    // TODO: поштова скриньки.
     let transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: 'misha1998x@gmail.com', // generated ethereal user
-        pass: 'BWD2G6Q2' // generated ethereal password
+        user: '', // generated ethereal user
+        pass: '' // generated ethereal password
       }
     });
 
