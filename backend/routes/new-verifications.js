@@ -57,7 +57,7 @@ router.put('/rejected/:id', (req, res, next) => {
 });
 
 // З new werif select і в task_planinig з додаванням ПІБ потім видалити з new_verif
-router.get('/employee/:id', (req, res, next) => {
+router.post('/employee/:id', (req, res, next) => {
   connection.query("UPDATE `archive` SET `status`='Визначено відповідальну особу', `employeeName`='" + req.body.employee + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);

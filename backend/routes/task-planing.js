@@ -39,19 +39,27 @@ router.post('/station-task', (req, res, next) => {
     const phNumber = station[0].phoneNumber;
     const eMail = station[0].contactEmail;
 
-    let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s');";
-    let taskAddingFormat = taskAdding.format(req.body.taskDate, "Переносна установка*", stNumber, emName, phNumber, eMail, req.body.verifications.length);
-    let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, " +
-      " `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
+    let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s', '%s');";
+    let taskAddingFormat = taskAdding.format(req.body.taskDate, "Переносна установка*", stNumber, emName, phNumber, eMail, 4);
+    let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, " + " `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
 
     let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC;";
 
     // Запит на додавання завдання в station tasks
     connection.query(taskAddingResult, (err) => {
       // Запит на отримання id завдання з station tasks
+      if (err) {
+        console.log(err)
+        res.json({sqlError: err});
+        return;
+      }
       connection.query(getTasksId, (err, rows) => {
 
-        const id = rows[0].id_task;
+        let id = 0;
+        console.log(rows);
+        if (rows.length > 0) {
+          id = rows[0].id_task;
+        } 
         let position = 1;
 
         // Переміщення заявок в архів з додаванням id завдання

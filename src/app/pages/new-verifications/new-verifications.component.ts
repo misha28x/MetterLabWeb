@@ -32,7 +32,7 @@ export class PageNewVerificationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       employee => {
-        this.dataSv.sendData(url + '/' + id, employee)
+        this.dataSv.sendData(url + '/employee/' + id, employee)
           .subscribe(
           () => {
             this.getData();
