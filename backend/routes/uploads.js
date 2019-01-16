@@ -141,6 +141,7 @@ function getResultsFromDatabase(byteArray) {
             return;
           }
         } else {
+
           // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
           // TODO: перевірити UPDATE
           console.log(row.Id_pc);
@@ -241,7 +242,8 @@ function parseProtocol(byteArray, fileName) {
   protocol.hours = bbiFile[4];
   protocol.minutes = bbiFile[5];
   // Дата
-  const date = new Date((bbiFile[2] | bbiFile[3] << 8), bbiFile[1], bbiFile[0], bbiFile[4], bbiFile[5]);
+  const date = new Date(`${protocol.month}.${protocol.day}.${protocol.year} ${protocol.hours}:${protocol.minutes}`);
+
   protocol.date = date;
 
   // Номер счётчика
@@ -525,8 +527,8 @@ router.post('', upload.single('file'), (req, res, next) => {
       });
     });
   });
-	res.status(201);
-	res.send('success');
+  res.status(201);
+  res.send('success');
 })
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {
