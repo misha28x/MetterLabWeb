@@ -5,28 +5,42 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const AdmZip = require('adm-zip');
 const format = require('string-format-js');
-
+const path = require('path');
 const router = express.Router();
 const connection = require('../database/db');
 
+const configOb = {
+  stationNumber: '',
+  taskDate: '',
+  contactEmail: '',
+  filesName: ''
+};
+
 router.get('/:id', (req, res, next) => {
+
   const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
   connection.query(queryStr, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    generateFiles(result);
+    // номер ст, дата завд,
+    connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
+      console.log({
+        stationRows: stationRows
+      });
 
-    // creating archives
-    const zip = new AdmZip();
+      connection.query("SELECT `contactEmail` FROM `stations` WHERE `stationNumber`='" + stationRows[0].stationNumber + "';", (err, emails) => {
+        if (err) {
+          console.log(err);
+        }
+        configOb.stationNumber = stationRows[0].stationNumber;
+        configOb.taskDate = stationRows[0].taskDate;
+        configOb.contactEmail = emails[0].contactEmail;
+        configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
+        generateFiles(result);
 
-    zip.addLocalFile("./backend/data/Database.db");
-    zip.addLocalFile("./backend/data/Excel.xlsx");
-    zip.writeZip("./backend/data/task.zip");
-
-// generateMail();
-
-    res.status(200);
+        res.json({
+          m: 'success'
+        });
+      });
+    });
   });
 });
 
@@ -52,36 +66,37 @@ function generateFiles(taskResult) {
 
   const databaseArray = db.export();
 
-  fs.writeFile('./backend/data/Database.db', databaseArray, (err) => {
+  fs.writeFile('./backend/data/' + configOb.filesName + '.db', databaseArray, (err) => {
     if (err) throw err;
-    console.log('Файл Database.db успішно збережено ');
-  });
+    console.log('Файл ' + configOb.filesName + '.db згенеровано ');
+    generateExcelFile(taskResult);
 
-  generateExcelFile(taskResult);  
+  });
 }
 
 // Генерування листа
 function generateMail() {
   nodemailer.createTestAccount((err, account) => {
 
+    // TODO: поштова скриньки. Змінити назву архіву. Прив'язка до станції
     let transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: 'dantetheslayer18@gmail.com', // generated ethereal user
-        pass: 'Fuck1This2Shit3' // generated ethereal password
+        user: 'misha1998x@gmail.com', // generated ethereal user
+        pass: 'BWD2G6Q2' // generated ethereal password
       }
     });
 
     let mailOptions = {
       from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      to: 'dantetheslayer18@gmail.com', // list of receivers
+      to: configOb.contactEmail, // list of receivers
       subject: 'Hello ✔', // Subject line
       text: 'Hello world?', // plain text body
       html: '<b>Hello world?</b>', // html body
       attachments: [{ // filename and content type is derived from path
-        path: './backend/data/task.zip'
+        path: './backend/data/' + configOb.filesName + '.zip'
       }]
     };
 
@@ -92,6 +107,19 @@ function generateMail() {
       console.log('Message sent: %s', info.messageId);
       // Preview only available when sending through an Ethereal account
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+			const directory = './backend/data';
+
+			fs.readdir(directory, (err, files) => {
+			  if (err) throw err;
+
+			  for (const file of files) {
+			    fs.unlink(path.join(directory, file), err => {
+			      if (err) throw err;
+			    });
+			  }
+			});
+
     });
   });
 }
@@ -127,7 +155,7 @@ function generateExcelFile(taskResult) {
 
   // Стиль для тексту
   let text = wb.createStyle({
-    
+
   });
 
   let ws = wb.addWorksheet('Завдання');
@@ -165,29 +193,44 @@ function generateExcelFile(taskResult) {
   ws.cell(1, 14).string('Примітка').style(headers);
   ws.cell(1, 15).string('Коментар').style(headers);
 
-	let i = 2;
+  let i = 2;
   taskResult.forEach(task => {
-		ws.cell(i, 1).string(task.addingDate).style(text);
-		ws.cell(i, 2).string(task.serviceProvider).style(text);
-		ws.cell(i, 3).string(task.district).style(text);
-		ws.cell(i, 4).string(task.street).style(text);
-		ws.cell(i, 5).string(task.house).style(text);
-		ws.cell(i, 6).string(task.apartment).style(text);
-		ws.cell(i, 7).string(task.entrance).style(text);
-		ws.cell(i, 8).string(task.floor).style(text);
-		ws.cell(i, 9).string(task.counterQuantity).style(text);
-		ws.cell(i, 10).string(task.client).style(text);
-		ws.cell(i, 11).string(task.phoneNumber).style(text);
-		ws.cell(i, 12).string(task.taskDate).style(text);
-		ws.cell(i, 13).string(task.applicationNumber).style(text);
-		ws.cell(i, 14).string(task.note).style(text);
-		ws.cell(i, 15).string(task.comment).style(text);
+    ws.cell(i, 1).string(task.addingDate).style(text);
+    ws.cell(i, 2).string(task.serviceProvider).style(text);
+    ws.cell(i, 3).string(task.district).style(text);
+    ws.cell(i, 4).string(task.street).style(text);
+    ws.cell(i, 5).string(task.house).style(text);
+    ws.cell(i, 6).string(task.apartment).style(text);
+    ws.cell(i, 7).string(task.entrance).style(text);
+    ws.cell(i, 8).string(task.floor).style(text);
+    ws.cell(i, 9).string(task.counterQuantity).style(text);
+    ws.cell(i, 10).string(task.client).style(text);
+    ws.cell(i, 11).string(task.phoneNumber).style(text);
+    ws.cell(i, 12).string(task.taskDate).style(text);
+    ws.cell(i, 13).string(task.applicationNumber).style(text);
+    ws.cell(i, 14).string(task.note).style(text);
+    ws.cell(i, 15).string(task.comment).style(text);
 
     i++;
   });
+  wb.write('./backend/data/' + configOb.filesName + '.xlsx', () => {
+    console.log('Excel ' + configOb.filesName + ' згенерований успішно!');
+    generateZip()
+  });
 
-  wb.write('./backend/data/Excel.xlsx');
-  console.log('Excel згенерований успішно!');
+}
+
+function generateZip() {
+  // creating archives
+  console.log("Adding files to zip");
+
+  const zip = new AdmZip();
+
+  zip.addLocalFile("./backend/data/" + configOb.filesName + ".db");
+  zip.addLocalFile("./backend/data/" + configOb.filesName + ".xlsx");
+  zip.writeZip("./backend/data/" + configOb.filesName + ".zip");
+
+  generateMail();
 }
 
 module.exports = router;
