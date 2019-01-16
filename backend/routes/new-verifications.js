@@ -8,6 +8,24 @@ const connection = require('../database/db');
 
 // Values regex = \[.*?\] -> '%s'
 
+router.get('/employee', (req, res, next) => {
+  connection.query("SELECT `name` FROM employees;", (err, name) => {
+    res.send(name);
+  });
+});
+
+router.get('/dn', (req, res, next) => {
+  connection.query("SELECT `DN` FROM type;", (err, symbol) => {
+    res.send(symbol);
+  });
+});
+
+router.get('/device', (req, res, next) => {
+  connection.query("SELECT `Device` FROM type;", (err, type) => {
+    res.send(type);
+  });
+});
+
 // Запит для отримання усіх повірок get
 router.get('', (req, res, next) => {
   connection.query("SELECT * FROM archive WHERE `status`='' OR `status` IS NULL", (err, result) => {
@@ -32,8 +50,8 @@ router.post('', (req, res, next) => {
     }
 
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, req.body.favorDate, req.body.sanitaryWellfare, req.body.waterAbsentTo, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, "Визначено відповідальну особу", req.body.comment, req.body.note);
-    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`)" + formatedData);
+    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, req.body.favorDate, req.body.sanitaryWellfare, req.body.waterAbsentTo, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, "Визначено відповідальну особу");
+    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`. `status`)" + formatedData);
     connection.query(varResult, (err, result) => {
       if (err) {
         console.log(err);
