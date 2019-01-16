@@ -28,6 +28,8 @@ export class PageTaskPlaningComponent implements OnInit {
 			}
 		};
 
+    this.selectedData = [];
+
 		this.tableData = this.dataSv.getData('http://localhost:3000/api/task-verification');
   }
 
