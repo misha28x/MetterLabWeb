@@ -6,7 +6,7 @@ const router = express.Router();
 const connection = require('../database/db');
 // TODO: протоколи, де статус "Повірено. Не придатний"
 router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM dual', (err, result) => {
+  connection.query("SELECT * FROM `archive` WHERE status ='Повірено. Не придатний'", (err, result) => {
     if (err) {
       console.log(err);
     }

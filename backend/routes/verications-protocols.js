@@ -4,9 +4,8 @@ const mysql = require('mysql');
 const router = express.Router();
 
 const connection = require('../database/db');
-// TODO: видалити табличку verications-protocols
 router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM results', (err, result) => {
+  connection.query("SELECT archive.protocolDate, archive.protocolNumber, archive.applicationNumber, archive.status, archive.counterNumber, archive.sealNumber, archive.settlement, archive.district, archive.street, archive.house, archive.apartment, archive.comment, protocols.deviceNumber FROM archive LEFT JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.status LIKE 'Проведено повірку%';", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -83,7 +82,7 @@ router.get('/:id', (req, res, next) => {
 // Оновлення протоколу
 router.put('/:id', (req, res, next) => {
   // ! Передається все крім id і Номер_протококу !
-  let varData = "`date`='%s',`deviceNumber`='%s',`systemDeviceNumber`='%s',`counterNumber`='%s', `symbol`='%s' ,`type`='%s',`counterPurpose`='%s',`temperature`='%s',`productionYear`='%s',`capacity`='%s',`latitude`='%s',`Довгота`='%s',`status`='%s',`result`='%s',`signDate`='%s',`signPerson`='%s',`protocolStatus`='%s'";
+  let varData = "`date`='%s',`deviceNumber`='%s',`systemDeviceNumber`='%s',`counterNumber`='%s', `symbol`='%s' ,`type`='%s',`counterPurpose`='%s',`temperature`='%s',`productionYear`='%s',`capacity`='%s',`latitude`='%s',`longitude`='%s',`status`='%s',`result`='%s',`signDate`='%s',`signPerson`='%s',`protocolStatus`='%s'";
   let formatedData = varData.format(req.body.date, req.body.deviceNumber, null, req.body.counterNumber, req.body.symbol, req.body.type, null, req.body.temperature, req.body.productionYear, req.body.capacity, req.body.latitude, req.body.longitude, req.body.status, req.body.result, null, null, req.body.protocolStatus);
   let varResult = "UPDATE protocols SET " + formatedData + " WHERE bbiFileName = '" + req.params.id + "';";
 

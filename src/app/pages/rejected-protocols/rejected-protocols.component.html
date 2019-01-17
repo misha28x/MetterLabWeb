@@ -3,38 +3,38 @@
   <mat-card-content>
     <div class="actions"> </div>
 
-<app-table [hovered]="true" [bordered]="true" [tableData]="rejectedProtocols" [pagination]="true">
-      <app-column [width]="30">
+    <app-table [hovered]="true" [bordered]="true" [tableData]="rejectedProtocols" [pagination]="true">
+      <!-- <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
         </ng-template>
         <ng-template #tableBodyTemplate>
           <mat-checkbox></mat-checkbox>
         </ng-template>
-      </app-column>
+      </app-column> -->
 
-      <app-column [width]="110" [columnTitle]="'Дата створення протоколу'" [columnName]="'Дата_створення_протоколу'"
+      <app-column [width]="110" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Номер установки'" [columnName]="'Номер_установки'" [enableSorting]="true"
+      <!-- TODO: <app-column [width]="110" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column> -->
+
+      <app-column [width]="110" [columnTitle]="'Номер протоколу'" [columnName]="'protocolNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Номер протоколу'" [columnName]="'Номер_протоколу'" [enableSorting]="true"
+      <app-column [width]="110" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Номер заявки'" [columnName]="'Номер_заявки'" [enableSorting]="true"
+      <app-column [width]="110" [columnTitle]="'Номер лічильника'" [columnName]="'counterNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Номер лічильника'" [columnName]="'Номер_лічильника'" [enableSorting]="true"
+      <app-column [width]="110" [columnTitle]="'Номер пломби'" [columnName]="'sealNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+      <!-- TODO: причини відхилення -->
+      <app-column [width]="110" [columnTitle]="'Причина відхилення'" [columnName]="''" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Номер пломби'" [columnName]="'Номер_пломби'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="110" [columnTitle]="'Причина відхилення'" [columnName]="'Причина_відхилення'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-      <app-column [width]="110" [columnTitle]="'ПІБ працівника який відхилив'" [columnName]="'ПІБ_працівника_який_відхилив'"
+      <app-column [width]="110" [columnTitle]="'ПІБ працівника який відхилив'" [columnName]="'employeeName'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Дії'">
