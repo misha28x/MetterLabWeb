@@ -12,7 +12,7 @@ import { PageProviderRequestsComponent } from './provider-requests';
 import { PageVerificationsProtocolsComponent } from './verifications-protocols';
 import { PageRejectedProtocolsComponent } from './rejected-protocols';
 import { PageTaskPlaningComponent, TaskSendingComponent } from './task-planing';
-import { PageStationsTasksComponent } from './stations-tasks';
+import { PageStationsTasksComponent, TaslListViewDialogComponent, TaskListEditDialogComponent } from './stations-tasks';
 import { PageBrigadeTasksComponent } from './brigade-tasks';
 import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';
@@ -20,24 +20,26 @@ import { PageReportsComponent } from './reports';
 import { PageUserGuideComponent } from './user-guide';
 
 @NgModule({
-	imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule],
-	declarations: [
-		PageHomePageComponent,
-		PageNewVerificationsComponent,
-		PageLabRequestsComponent,
-		PageProviderRequestsComponent,
-		PageVerificationsProtocolsComponent,
-		PageRejectedProtocolsComponent,
-		PageTaskPlaningComponent,
-		PageStationsTasksComponent,
-		PageBrigadeTasksComponent,
-		PageRejectedVerificationComponent,
-		PageVerificationsArchiveComponent,
-		PageReportsComponent,
-		PageUserGuideComponent,
+  imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule],
+  declarations: [
+    PageHomePageComponent,
+    PageNewVerificationsComponent,
+    PageLabRequestsComponent,
+    PageProviderRequestsComponent,
+    PageVerificationsProtocolsComponent,
+    PageRejectedProtocolsComponent,
+    PageTaskPlaningComponent,
+    PageStationsTasksComponent,
+    PageBrigadeTasksComponent,
+    PageRejectedVerificationComponent,
+    PageVerificationsArchiveComponent,
+    PageReportsComponent,
+    PageUserGuideComponent,
     EmployeeDialogComponent,
-    TaskSendingComponent
-	],
-  entryComponents: [EmployeeDialogComponent, TaskSendingComponent]
+    TaskSendingComponent,
+    TaslListViewDialogComponent,
+    TaskListEditDialogComponent
+  ],
+  entryComponents: [EmployeeDialogComponent, TaskSendingComponent, TaslListViewDialogComponent, TaskListEditDialogComponent]
 })
 export class PagesModule { }

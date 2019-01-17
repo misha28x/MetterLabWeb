@@ -16,8 +16,6 @@ import { UploadDialogComponent } from './components/file-upload/upload-dialog/up
 import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
 import { ProtocolViewComponent, ProtocolDialogComponent } from './components/protocol-view';
 import { VerificationViewComponent } from './components/verification-view/verification-view.component';
-import { TaskListViewComponent, TaslListViewDialogComponent } from './components/task-list-view';
-import { TaskListEditComponent, TaskListEditDialogComponent } from './components/task-list-edit';
 import { DetailViewComponent, DetailViewDialogComponent } from './components/detail-view';
 import { DuplicateViewComponent, DuplicatViewDialogComponent } from './components/duplicate-view';
 import { BadgeComponent } from './components/badge';
@@ -50,10 +48,6 @@ import { BadgeComponent } from './components/badge';
     ProtocolViewComponent,
     ProtocolDialogComponent,
     VerificationViewComponent,
-    TaskListViewComponent,
-    TaslListViewDialogComponent,
-    TaskListEditComponent,
-    TaskListEditDialogComponent,
     DetailViewComponent,
     DetailViewDialogComponent,
     DuplicateViewComponent,

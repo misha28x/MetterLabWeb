@@ -3,7 +3,7 @@
   <mat-card-content>
     <div class="actions"> </div>
 
-<app-table [hovered]="true" [bordered]="true" [tableData]="stationsTasks" [pagination]="true">
+    <app-table [hovered]="true" [bordered]="true" [tableData]="stationsTasks" [pagination]="true">
       <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
@@ -12,26 +12,27 @@
           <mat-checkbox></mat-checkbox>
         </ng-template>
       </app-column>
-<app-column [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
+
+      <app-column [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="115" [columnTitle]="'Тип установки'" [columnName]="'stationType'" [enableSorting]="true"
+      <app-column [width]="115" [columnTitle]="'Тип установки'" [columnName]="'stationType'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="115" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
+      <app-column [width]="115" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="115" [columnTitle]="'ПІБ контактної особи'" [columnName]="'contactName'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-<app-column [width]="115" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
+      <app-column [width]="115" [columnTitle]="'ПІБ контактної особи'" [columnName]="'contactName'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="115" [columnTitle]="'Кількість заявок'" [columnName]="'verifCount'" [enableSorting]="true"
+      <app-column [width]="115" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="115" [columnTitle]="'Кількість заявок'" [columnName]="'verifCount'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Дії'">
-
+        
       </app-column>
     </app-table>
   </mat-card-content>
