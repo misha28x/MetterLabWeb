@@ -20,24 +20,25 @@
         </ng-template>
       </app-column>
 
-<app-column [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
+      <app-column [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-<app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-<app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
+      <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-<!-- TODO: add fields to Database & Rename fields -->
+      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <!-- TODO: add fields to Database & Rename fields -->
       <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'Бажана_дата_повірки'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
@@ -47,14 +48,13 @@
       <app-column [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Дії'">
+      <app-column [columnTitle]="'Дії'" [width]="185">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button>
