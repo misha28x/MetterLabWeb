@@ -28,7 +28,7 @@ export class NewVerificationDialogComponent implements OnInit {
 		private verificationSv: VerificationService,
 		private dataSv: DataService,
 		private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: any
+		@Inject(MAT_DIALOG_DATA) public data: any
 	) { }
 
 	setStep(index: number): void {
@@ -91,7 +91,12 @@ export class NewVerificationDialogComponent implements OnInit {
 	}
 
 	sendData(): void {
-		this.dataSv.sendData(url, this.setVerification());
+		this.dataSv.sendData(url, this.setVerification())
+			.subscribe(
+				next => {
+					console.log('success');
+				}
+			);
 	}
 	// TODO: Переробити на адресу
 	checkForDupliacates(): void {
@@ -125,16 +130,16 @@ export class NewVerificationDialogComponent implements OnInit {
 			counterType: this.counterForm.get('counterType').value,
 			productionYear: this.counterForm.get('productionYear').value,
 			acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
-      favorDate: this.additionalDataForm.get('favorDate').value,
-      sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
-      waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
+			favorDate: this.additionalDataForm.get('favorDate').value,
+			sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
+			waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
 			note: this.additionalDataForm.get('note').value,
 			serviceProvider: this.locationForm.get('serviceProvider').value,
 			serviceType: this.locationForm.get('serviceType').value,
 			symbol: this.counterForm.get('symbol').value,
-      counterQuantity: this.locationForm.get('counterQuantity').value,
-      floor: this.additionalDataForm.get('floor').value,
-      entrance: this.additionalDataForm.get('entrance').value
+			counterQuantity: this.locationForm.get('counterQuantity').value,
+			floor: this.additionalDataForm.get('floor').value,
+			entrance: this.additionalDataForm.get('entrance').value
 		};
 	}
 }

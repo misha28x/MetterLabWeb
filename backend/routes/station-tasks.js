@@ -19,8 +19,14 @@ router.get('/:id', (req, res, next) => {
   let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id +
     "' ORDER BY `positionInTask` DESC;";
 
-  connection.query(query, () => {
-    res.status(200);
+  connection.query(query, (err, rows) => {
+    if (err) {
+      console.log(err);
+      res.json({
+        err: err
+      });
+    }
+    res.json(rows);
   });
 });
 
@@ -119,9 +125,10 @@ router.get('/excel/:id', (req, res, next) => {
       i++;
     });
 
-    wb.write('./backend/data/checkExcel.xlsx');
-    console.log('Excel згенерований успішно!');
-    res.download('./backend/data/checkExcel.xlsx', 'checkExcel.xlsx');
+    wb.write('./backend/data/checkExcel.xlsx', () => {
+      console.log('Excel згенерований успішно!');
+      res.download('./backend/data/' + taskResult[0].stationNumber + '-' + taskResult[0].taskDate + '.xlsx', 'checkExcel.xlsx');
+    });
   });
 });
 

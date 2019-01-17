@@ -108,6 +108,7 @@ function getResultsFromDatabase(byteArray) {
   for (result = []; test.step();) {
     result.push(test.getAsObject());
   }
+
   const date = result[0].Date.split(' ')[0].replace(".", "-");
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
@@ -189,7 +190,7 @@ function createApplicationNumber(lastApplicationNumber, addingDate) {
   }
 
 
-  return parseInt(dateLike) * 1000 + 1;
+  return parseInt(dateLike) * 1000000 + 1;
 }
 
 function generateDateString(addingDate) {

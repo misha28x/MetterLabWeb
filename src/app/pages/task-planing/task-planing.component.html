@@ -36,17 +36,16 @@
       <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-      <!-- TODO: add fields to Database & Rename fields -->
-      <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'Бажана_дата_повірки'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+<!-- TODO: add fields to Database & Rename fields -->
+<app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'Cправність_сантехніки'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Вода відсутня до'" [columnName]="'Вода_відсутня_до'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+<app-column [width]="115" [columnTitle]="'Вода відсутня до'" [columnName]="'waterAbsentTo'" [enableSorting]="true"
+  [enableFiltering]="true"></app-column>
 
       <app-column [width]="140" [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
