@@ -44,7 +44,7 @@ app.use('/api/lab-requests', labRequestsRoutes);
 app.use('/api/verications-protocols', vericationsProtocolsRoutes);
 app.use('/api/rejected-protocols', rejectedProtocolsRoutes);
 app.use('/api/task-planing', taskPlaningRoutes)
-app.use('/api/station-tasks', stationTasksRoutes);
+app.use('/api/stations-tasks', stationTasksRoutes);
 app.use('/api/rejected-verification', rejectedVerificationRoutes);
 app.use('/api/verifications-archive', verificationsArchiveRoutes);
 app.use('/api/reports', reportsRoutes);
