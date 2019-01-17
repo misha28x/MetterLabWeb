@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Verification } from '../../../../interfaces/verifications';
 import { DataService } from '../../../../services/data.service';
-import { VerificationService } from '../../../../services/verification.service';
 
 const url = 'http://localhost:3000/api/new-verifications';
+
 @Component({
   selector: 'app-detail-view-dialog',
   templateUrl: './detail-view-dialog.component.html',
@@ -24,50 +24,50 @@ export class DetailViewDialogComponent implements OnInit {
   private url: string;
 
   constructor(
-    private verificationSv: VerificationService,
     private dataSv: DataService,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: Verification
+    private dialogRef: MatDialogRef<DetailViewDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
-    const surname = this.data.client.split('')[0];
-    const name = this.data.client.split('')[1];
-    const middlename = this.data.client.split('')[2];
+    const surname = this.data.verification.client.split('')[0];
+    const name = this.data.verification.client.split('')[1];
+    const middlename = this.data.verification.client.split('')[2];
 
     this.generalDataForm = this.fb.group({
       surname: surname,
       name: name,
       middlename: middlename,
-      phone: this.data.phoneNumber
+      phone: this.data.verification.phoneNumber
     });
 
     this.locationForm = this.fb.group({
-      region: this.data.region,
-      district: this.data.district,
-      settlement: this.data.settlement,
-      index: this.data.index,
-      street: this.data.street,
-      house: this.data.house,
-      apartment: this.data.apartment,
+      region: this.data.verification.region,
+      district: this.data.verification.district,
+      settlement: this.data.verification.settlement,
+      index: this.data.verification.index,
+      street: this.data.verification.street,
+      house: this.data.verification.house,
+      apartment: this.data.verification.apartment,
       isDismantled: false,
       isUnique: false,
-      counterQuantity: this.data.counterQuantity,
-      serviceType: this.data.serviceType,
-      serviceProvider: this.data.serviceProvider
+      counterQuantity: this.data.verification.counterQuantity,
+      serviceType: this.data.verification.serviceType,
+      serviceProvider: this.data.verification.serviceProvider
     });
 
     this.counterForm = this.fb.group({
       isDismantled: false,
-      montageDate: this.data.montageDate,
-      employeeName: this.data.employeeName,
-      comment: this.data.comment,
-      counterNumber: this.data.counterNumber,
-      haveSeal: this.data.haveSeal,
-      counterType: this.data.counterType,
-      productionYear: this.data.productionYear,
-      symbol: this.data.symbol,
-      acumulatedVolume: this.data.acumulatedVolume
+      montageDate: this.data.verification.montageDate,
+      employeeName: this.data.verification.employeeName,
+      comment: this.data.verification.comment,
+      counterNumber: this.data.verification.counterNumber,
+      haveSeal: this.data.verification.haveSeal,
+      counterType: this.data.verification.counterType,
+      productionYear: this.data.verification.productionYear,
+      symbol: this.data.verification.symbol,
+      acumulatedVolume: this.data.verification.acumulatedVolume
     });
 
     this.additionalDataForm = this.fb.group({
@@ -77,14 +77,13 @@ export class DetailViewDialogComponent implements OnInit {
       favorDate: '',
       sanitaryWellFare: '',
       waterAbsentTo: '',
-      note: this.data.note
+      note: this.data.verification.note
     });
   }
 
   sendData(): void {
-    this.dataSv.sendData(url, this.setVerification());
+    this.data.verificationSv.sendData(url, this.setVerification());
   }
-  
   setVerification(): Verification {
     const name = this.generalDataForm.get('name').value.replace(/'/g, /\'/);
     const surname = this.generalDataForm.get('surname').value.replace(/'/g, /\'/);

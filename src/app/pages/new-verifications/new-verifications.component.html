@@ -31,64 +31,61 @@
         </ng-template>
       </app-column>
 
-<app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-<app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
+      <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-<app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
+      <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-<app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-<app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-<!-- TODO: add fields to Database & Rename fields -->
-<app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
+      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"
+      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="115" [columnTitle]="'Вода відсутня до'" [columnName]="'waterAbsentTo'" [enableSorting]="true"
+      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="140" [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true"
+      <app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+      <!-- TODO: add fields to Database & Rename fields -->
+      <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-<app-column [width]="120" [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [enableSorting]="true"
-  [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
-<app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="115" [columnTitle]="'Вода відсутня до'" [columnName]="'waterAbsentTo'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="140" [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="120" [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Дії'">
         <ng-template #tableBodyTemplate let-row="row">
-          <div class="actions-row"> 
+          <div class="actions-row">
+            <button mat-icon-button (click)="detailView(row['applicationNumber'])">
+              <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
+            </button>
+
             <button mat-icon-button (click)="addEmployee(row['applicationNumber'])">
-              <i 
-                class="icofont-ui-user color-success"
-                matTooltip="Додати відповідальну особу"
-              ></i>
+              <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
             </button>
 
             <button mat-icon-button>
-              <i 
-                class="icofont-ui-delete color-error"
-                matTooltip="Відхилити заявку"
-              ></i>
+              <i class="icofont-ui-delete color-error" matTooltip="Відхилити заявку"></i>
             </button>
 
-            <button mat-icon-button>
-              <i 
-                class="icofont-info-circle color-info"
-                matTooltip="Інформація"
-              ></i>
-            </button>
           </div>
         </ng-template>
       </app-column>
@@ -96,4 +93,5 @@
   </mat-card-content>
 </mat-card>
 
+<app-detail-view></app-detail-view>
 <app-duplicate-view></app-duplicate-view>

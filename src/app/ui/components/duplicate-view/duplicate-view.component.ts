@@ -19,7 +19,6 @@ export class DuplicateViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.verificationSv.getVerification().subscribe(
       (verification: Verification) => {
-        console.log(verification);
         this.openDialog(verification);
       }
     );
