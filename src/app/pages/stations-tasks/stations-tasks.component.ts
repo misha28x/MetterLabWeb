@@ -32,10 +32,6 @@ export class PageStationsTasksComponent implements OnInit {
 	}
 
 	downloadExcel(id: number): void {
-		this.dataSv.getData(url + '/excel/' + id).subscribe(
-			next => {
-				console.log(next);
-			}
-		);
+    this.dataSv.getFile(url + '/excel/' + id);
 	}
 }

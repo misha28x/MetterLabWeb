@@ -13,6 +13,10 @@ export class DataService {
 		return this.http.get(url);
 	}
 
+	getFile(url: string): any {
+    window.location.replace(url);
+	}
+
   sendData(url: string, data: any): any {
     return this.http.post(url, data);
   }

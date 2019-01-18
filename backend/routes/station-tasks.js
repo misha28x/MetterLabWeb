@@ -127,15 +127,7 @@ router.get('/excel/:id', (req, res, next) => {
 
 		let finalFileName = taskResult[0].stationNumber + '-' + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(0, 4) + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(6);
 
-    wb.write('./backend/data/' + finalFileName + '.xlsx', () => {
-      console.log('Excel ' + finalFileName + ' згенерований успішно!');
-      setTimeout(() => {
-				console.log('Початок завантаження файлу' + finalFileName);
-				
-				res.download('./backend/data/' + finalFileName + '.xlsx', finalFileName + '.xlsx');
-				console.log('Кінець завантаження файлу' + finalFileName);
-			}, 1000);
-    });
+    wb.write(finalFileName + '.xlsx', res);
   });
 });
 
