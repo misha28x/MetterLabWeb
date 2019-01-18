@@ -17,6 +17,7 @@ const userGuideRoutes = require('./routes/user-guide');
 const menuRoutes = require('./routes/menu');
 const fileSendingRoutes = require('./routes/files-sending');
 const reportFormationRoutes = require('./routes/report-formation');
+const autorizationRoutes = require('./routes/authorization');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -51,5 +52,6 @@ app.use('/api/reports', reportsRoutes);
 app.use('/api/user-guide', userGuideRoutes);
 app.use('/api/file-sending', fileSendingRoutes);
 app.use('/api/menu', menuRoutes);
+app.use('/api/autorization', autorizationRoutes);
 
 module.exports = app;
