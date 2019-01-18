@@ -36,6 +36,7 @@ router.post('/station-task', (req, res, next) => {
   console.log({
     data: req.body
   });
+  
   connection.query("SELECT * FROM stations;", (err, station) => {
     const stNumber = station[0].stationNumber;
     const emName = station[0].employeeName;

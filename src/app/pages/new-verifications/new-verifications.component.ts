@@ -44,12 +44,8 @@ export class PageNewVerificationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       employee => {
-        this.dataSv.sendData(url + '/employee/' + id, employee)
-          .subscribe(
-          () => {
-            this.getData();
-          }
-        );
+        this.dataSv.sendData(url + '/employee/' + id, { employee: employee || this.employee })
+          .subscribe(() => this.getData());
       }
     );
   }

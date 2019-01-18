@@ -22,10 +22,12 @@ export class TaskSendingComponent implements OnInit {
   ngOnInit(): void { }
 
   saveData(): void {
+    const date = this.selectedDate;
+    console.log(date);
     const data: Task = {
       stationNumber: this.selectedStation,
       serviceType: this.selectedService,
-      taskDate: this.selectedDate
+      taskDate: date
     };
 
     this.dialogRef.close(data);

@@ -84,7 +84,7 @@ router.post('/employee/:id', (req, res, next) => {
     if (err) {
       console.log(err);
     }
-    res.status(201);
+    res.status(201).send({ msg: 'success' });
     console.log('Призначено відповідальну особу.');
   });
   // req.params.id - це номер заявки
