@@ -44,7 +44,7 @@ router.post('/station-task', (req, res, next) => {
 
     let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s', '%s');";
     let taskAddingFormat = taskAdding.format(req.body.taskDate, "Переносна установка*", stNumber, emName, phNumber, eMail, req.body.verifications.length);
-    let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, " + " `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
+    let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
 
     let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC;";
 
@@ -59,7 +59,9 @@ router.post('/station-task', (req, res, next) => {
         return;
       }
       connection.query(getTasksId, (err, rows) => {
-
+        if (err) {
+          console.log(err);
+        }
         let id = 0;
         console.log(rows);
         if (rows.length > 0) {
@@ -71,14 +73,20 @@ router.post('/station-task', (req, res, next) => {
         req.body.verifications.forEach(applicationNumber => {
           // 1. Оновлення заявки зі зміною статусу на "В роботі" inprogress
           // TODO: протестувати Update
-          let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "', `taskDate`='" + req.body.taskDate + ", `stationNumber`='" + req.body.stationNumber + "' WHERE `applicationNumber`='" + applicationNumber + "';";
-          connection.query(inProgressResult);
+          let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "', `taskDate`='" + req.body.taskDate + "', `stationNumber`='" + req.body.stationNumber + "' WHERE `applicationNumber`='" + applicationNumber + "';";
+          connection.query(inProgressResult, (err) => {
+            if (err) {
+              console.log(err);
+            }
+          });
           position++;
         });
       })
     })
   });
-  res.send('success');
+  res.send({
+    message: 'success'
+  });
 });
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
@@ -86,7 +94,7 @@ router.post('/station-task', (req, res, next) => {
 router.put('/rejected/:id', (req, res, next) => {
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
-    res.status(200);
+    res.send(200);
   });
 });
 module.exports = router;
