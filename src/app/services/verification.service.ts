@@ -14,11 +14,9 @@ export class VerificationService {
 
   public addVerification(verification: Verification): void {
     this.verificationSource$.next(verification);
-    console.log(verification);
   }
 
   public getVerification(): Observable<Verification> {
-    console.log(this.verificationAdded$);
     return this.verificationAdded$;
   }
 }

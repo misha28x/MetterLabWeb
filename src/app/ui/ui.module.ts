@@ -33,6 +33,7 @@ import { BadgeComponent } from './components/badge';
     ProtocolViewComponent,
     DuplicateViewComponent,
     DuplicatViewDialogComponent,
+    DetailViewComponent,
     BadgeComponent
 	],
 	declarations: [

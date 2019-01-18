@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
+import { DetailViewService } from '../../services/detail-view.service';
 import { EmployeeDialogComponent } from './employee-dialog/employee-dialog.component';
 
 const url = 'http://localhost:3000/api/new-verifications';
@@ -16,7 +17,11 @@ export class PageNewVerificationsComponent implements OnInit {
 	newVerifications: Observable<any[]>;
   employee: string;
 	
-  constructor(private dataSv: DataService, private dialog: MatDialog) { }
+  constructor(
+    private dataSv: DataService,
+    private dialog: MatDialog,
+    private detailSv: DetailViewService
+    ) { }
 
   ngOnInit(): void {
     this.employee = 'Віталій Кришталюк';
@@ -25,6 +30,10 @@ export class PageNewVerificationsComponent implements OnInit {
 
   getData(): void {
     this.newVerifications = this.dataSv.getData(url);
+  }
+
+  detailView(id: number): void {
+    this.detailSv.addVerification(id);
   }
 
   addEmployee(id: number ): void {

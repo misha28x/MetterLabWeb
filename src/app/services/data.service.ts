@@ -14,7 +14,6 @@ export class DataService {
 	}
 
   sendData(url: string, data: any): any {
-    console.log(data);
     return this.http.post(url, data);
   }
 

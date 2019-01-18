@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { concat } from 'rxjs';
 
 import { NewVerificationDialogComponent } from './new-verification-dialog/new-verification-dialog.component';
 import { DataService } from '../../../services/data.service';
-import { concat } from 'rxjs';
 
 const employeeUrl = 'http://localhost:3000/api/new-verifications/employee';
 const typeUrl = 'http://localhost:3000/api/new-verifications/device';
@@ -23,9 +23,7 @@ export class NewVerificationComponent implements OnInit {
 
   ngOnInit(): void { }
 
-	openDialg(dialogData: any): void {
-    console.log(dialogData);
-
+	openDialog(dialogData: any): void {
 		this.matDialog.open(NewVerificationDialogComponent, {
 			width: '85%',
 			height: '98%',
@@ -52,7 +50,7 @@ export class NewVerificationComponent implements OnInit {
         });
       },
       err => this.dataSv.handleError(err),
-      () => this.openDialg(dialogData)
+      () => this.openDialog(dialogData)
     );
   }
 }
