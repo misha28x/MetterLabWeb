@@ -215,7 +215,7 @@ function generateExcelFile(taskResult) {
   });
   wb.write('./backend/data/' + configOb.filesName + '.xlsx', () => {
     console.log('Excel ' + configOb.filesName + ' згенерований успішно!');
-    generateZip()
+    generateZip();
   });
 
 }

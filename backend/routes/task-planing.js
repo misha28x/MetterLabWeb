@@ -36,15 +36,15 @@ router.post('/station-task', (req, res, next) => {
   console.log({
     data: req.body
   });
-  
-  connection.query("SELECT * FROM stations;", (err, station) => {
+
+  connection.query("SELECT * FROM stations WHERE stationNumber='"+ req.body.stationNumber +"';", (err, station) => {
     const stNumber = station[0].stationNumber;
     const emName = station[0].employeeName;
     const phNumber = station[0].phoneNumber;
     const eMail = station[0].contactEmail;
 
     let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s', '%s');";
-    let taskAddingFormat = taskAdding.format(req.body.taskDate, "Переносна установка*", stNumber, emName, phNumber, eMail, req.body.verifications.length);
+    let taskAddingFormat = taskAdding.format(formatDate(req.body.taskDate), "Переносна установка *", stNumber, emName, phNumber, eMail, req.body.verifications.length);
     let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
 
     let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC;";
@@ -74,7 +74,10 @@ router.post('/station-task', (req, res, next) => {
         req.body.verifications.forEach(applicationNumber => {
           // 1. Оновлення заявки зі зміною статусу на "В роботі" inprogress
           // TODO: протестувати Update
-          let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "', `taskDate`='" + req.body.taskDate + "', `stationNumber`='" + req.body.stationNumber + "' WHERE `applicationNumber`='" + applicationNumber + "';";
+          // 2019-01-24T22:00:00.000Z
+          
+
+          let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "', `taskDate`='" + formatDate(req.body.taskDate) + "', `stationNumber`='" + req.body.stationNumber + "' WHERE `applicationNumber`='" + applicationNumber + "';";
           connection.query(inProgressResult, (err) => {
             if (err) {
               console.log(err);
@@ -89,6 +92,13 @@ router.post('/station-task', (req, res, next) => {
     message: 'success'
   });
 });
+
+function formatDate(taskDate) {
+  let fullTaskDate = '' + taskDate;
+  let splitedTaskDate = fullTaskDate.split('T')[0];
+  let formatedTasskDate = splitedTaskDate.split('-')[2] + '-' + splitedTaskDate.split('-')[1] + '-' + splitedTaskDate.split('-')[0];
+  return formatedTasskDate;
+}
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
 // TODO: протестувати Update

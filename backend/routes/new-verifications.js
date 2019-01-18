@@ -28,7 +28,7 @@ router.get('/device', (req, res, next) => {
 
 // Запит для отримання усіх повірок get
 router.get('', (req, res, next) => {
-  connection.query("SELECT * FROM archive WHERE `status`='' OR `status` IS NULL", (err, result) => {
+  connection.query("SELECT * FROM archive WHERE `status`='' OR `status` IS NULL AND `employeeName`='' OR `employeeName` IS NULL", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -53,8 +53,9 @@ router.post('', (req, res, next) => {
     if (req.body.employeeName.length > 0) {
       status = "Визначено відповідальну особу";
     }
+
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, req.body.favorDate, req.body.sanitaryWellfare, req.body.waterAbsentTo, req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, req.body.montageDate, req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
+    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate), req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo), req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate), req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
     let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`, `status`)" + formatedData);
     connection.query(varResult, (err, result) => {
       if (err) {
@@ -68,6 +69,13 @@ router.post('', (req, res, next) => {
     g: 'good'
   });
 });
+
+function formatDate(taskDate) {
+  let fullTaskDate = '' + taskDate;
+  let splitedTaskDate = fullTaskDate.split('T')[0];
+  let formatedTasskDate = splitedTaskDate.split('-')[2] + '-' + splitedTaskDate.split('-')[1] + '-' + splitedTaskDate.split('-')[0];
+  return formatedTasskDate;
+}
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
 // TODO: пофіксити Update
@@ -84,7 +92,9 @@ router.post('/employee/:id', (req, res, next) => {
     if (err) {
       console.log(err);
     }
-    res.status(201).send({ msg: 'success' });
+    res.status(201).send({
+      msg: 'success'
+    });
     console.log('Призначено відповідальну особу.');
   });
   // req.params.id - це номер заявки

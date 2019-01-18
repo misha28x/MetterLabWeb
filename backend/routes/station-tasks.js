@@ -125,9 +125,16 @@ router.get('/excel/:id', (req, res, next) => {
       i++;
     });
 
-    wb.write('./backend/data/checkExcel.xlsx', () => {
-      console.log('Excel згенерований успішно!');
-      res.download('./backend/data/' + taskResult[0].stationNumber + '-' + taskResult[0].taskDate + '.xlsx', 'checkExcel.xlsx');
+		let finalFileName = taskResult[0].stationNumber + '-' + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(0, 4) + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(6);
+
+    wb.write('./backend/data/' + finalFileName + '.xlsx', () => {
+      console.log('Excel ' + finalFileName + ' згенерований успішно!');
+      setTimeout(() => {
+				console.log('Початок завантаження файлу' + finalFileName);
+				
+				res.download('./backend/data/' + finalFileName + '.xlsx', finalFileName + '.xlsx');
+				console.log('Кінець завантаження файлу' + finalFileName);
+			}, 1000);
     });
   });
 });

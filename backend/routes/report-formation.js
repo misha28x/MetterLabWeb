@@ -32,7 +32,7 @@ router.get('/doc/:id', (req, res, next) => {
         }
         generateDovidDocx(fields, tests);
         // Завантаження з серверу
-        res.download('./backend/temp/docx/dovidOutput.docx', 'dovidOutput.docx');
+        res.download('./backend/temp/docx/dovidOutput.docx', 'dovid2Output.docx');
       });
     }
   });

@@ -62,7 +62,7 @@ export class PageTaskPlaningComponent implements OnInit {
         const taskData = {
           taskDate: data.taskDate,
           type: data.serviceType,
-          number: data.stationNumber,
+					stationNumber: data.stationNumber,
           verifications: this.selectedData
         };
 
