@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Verification } from '../interfaces/verifications';
 
-const verUrl = 'http://localhost:3000/api/new-verifications/';
+const verUrl = 'http://localhost:3000/api/verifications-archive/';
 
 @Injectable({
   providedIn: 'root'

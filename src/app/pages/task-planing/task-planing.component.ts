@@ -67,9 +67,25 @@ export class PageTaskPlaningComponent implements OnInit {
         };
 
         const url = 'http://localhost:3000/api/task-planing/station-task';
-
-        this.dataSv.sendData(url, taskData);
+        console.log(taskData.verifications);
+        this.dataSv.sendData(url, taskData).subscribe(
+          () => {
+            console.log('success');
+          }
+        );
       }
     );
+  }
+
+  onChange(data: any, state: boolean): void {
+    if (state) {
+      this.selectedData.push(data);
+    } else {
+      this.selectedData = this.selectedData.filter(
+        (val: any) => {
+          return val !== data;
+        }
+      );
+    }
   }
 }

@@ -33,6 +33,9 @@ router.get('/stations', (req, res, next) => {
 
 // Роутер, що переміщає заявку в архів повірок
 router.post('/station-task', (req, res, next) => {
+  console.log({
+    data: req.body
+  });
   connection.query("SELECT * FROM stations;", (err, station) => {
     const stNumber = station[0].stationNumber;
     const emName = station[0].employeeName;
@@ -40,7 +43,7 @@ router.post('/station-task', (req, res, next) => {
     const eMail = station[0].contactEmail;
 
     let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s', '%s');";
-    let taskAddingFormat = taskAdding.format(req.body.taskDate, "Переносна установка*", stNumber, emName, phNumber, eMail, 4);
+    let taskAddingFormat = taskAdding.format(req.body.taskDate, "Переносна установка*", stNumber, emName, phNumber, eMail, req.body.verifications.length);
     let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, " + " `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
 
     let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC;";

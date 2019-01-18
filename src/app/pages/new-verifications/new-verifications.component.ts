@@ -16,6 +16,8 @@ const url = 'http://localhost:3000/api/new-verifications';
 export class PageNewVerificationsComponent implements OnInit {
 	newVerifications: Observable<any[]>;
   employee: string;
+
+  selectedData: any[];
 	
   constructor(
     private dataSv: DataService,
@@ -24,6 +26,7 @@ export class PageNewVerificationsComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.selectedData = [];
     this.employee = 'Віталій Кришталюк';
     this.getData();
   }
@@ -49,5 +52,19 @@ export class PageNewVerificationsComponent implements OnInit {
         );
       }
     );
+  }
+
+  onChange(data: any, state: boolean): void {
+    console.log(data);
+    if (state) {
+      this.selectedData.push(data);
+    } else {
+      this.selectedData = this.selectedData.filter(
+        (val: any) => {
+          return val !== data;
+        }
+      );
+    }
+    console.log(this.selectedData);
   }
 }

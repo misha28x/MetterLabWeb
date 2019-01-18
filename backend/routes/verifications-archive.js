@@ -25,4 +25,13 @@ router.put('/edit/:id', (req, res, next) => {
   });
 });
 
+router.get('/:id', (req, res, next) => {
+  connection.query('SELECT * FROM `archive` WHERE `applicationNumber` =' + req.params.id + ';', (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json(result);
+  });
+});
+
 module.exports = router;

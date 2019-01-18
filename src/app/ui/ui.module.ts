@@ -55,6 +55,12 @@ import { BadgeComponent } from './components/badge';
     DuplicatViewDialogComponent,
     BadgeComponent
 	],
-  entryComponents: [UploadDialogComponent, NewVerificationDialogComponent, ProtocolDialogComponent, DuplicatViewDialogComponent]
+  entryComponents: [
+    UploadDialogComponent,
+    NewVerificationDialogComponent,
+    ProtocolDialogComponent,
+    DuplicatViewDialogComponent,
+    DetailViewDialogComponent
+  ]
 })
 export class UiModule { }

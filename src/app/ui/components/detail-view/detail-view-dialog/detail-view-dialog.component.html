@@ -1,9 +1,9 @@
 <h2 mat-dialog-title>Детальніше</h2>
 
-<div mat-dialog-content>
+<div mat-dialog-content class="content">
   <mat-tab-group>
     <mat-tab [label]="'Загальна відомості'">
-      <form>
+      <form [formGroup]="generalDataForm">
         <div class="full-width">
           <span>Прізвище</span>
           <mat-form-field class="input-field">

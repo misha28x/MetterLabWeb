@@ -26,8 +26,8 @@
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
         </ng-template>
-        <ng-template #tableBodyTemplate>
-          <mat-checkbox></mat-checkbox>
+        <ng-template #tableBodyTemplate let-row="row">
+          <mat-checkbox (change)="onChange(row['applicationNumber'], $event.checked)"></mat-checkbox>
         </ng-template>
       </app-column>
 

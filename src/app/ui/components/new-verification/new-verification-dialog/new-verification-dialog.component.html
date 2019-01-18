@@ -30,8 +30,9 @@
         <div class="full-width">
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
-            <span matPrefix>+380 &nbsp;</span>
-            <input matInput placeholder="Телефон" formControlName="phone">
+            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phone">
+            <mat-hint align="start"><strong>Don't disclose personal info</strong> </mat-hint>
+            <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
           </mat-form-field>
         </div>
       </form>
@@ -129,7 +130,7 @@
                 <mat-form-field>
                   <mat-select formControlName="serviceProvider">
                     <!-- TODO: Добавити табличку виробників -->
-                    <mat-option [value]="'ЛУЦЬКВОДОКАНАЛ'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option> 
+                    <mat-option [value]="'ЛУЦЬКВОДОКАНАЛ'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -217,9 +218,10 @@
         <div class="full-width">
           <span>Тип Лічильника</span>
           <mat-form-field class="input-field">
-            <mat-select placeholder="Типорозмір лічильника" formControlName="counterType">
+            <input type="text" placeholder="Типорозмір лічильника" formControlName="counterType" matInput [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" >
               <mat-option *ngFor="let type of data.Device" [value]="type">{{ type }}</mat-option>
-            </mat-select>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 

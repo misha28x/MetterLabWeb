@@ -48,7 +48,7 @@ export class NewVerificationDialogComponent implements OnInit {
 			surname: '',
 			name: '',
 			middlename: '',
-			phone: ''
+			phone: '+380'
 		});
 
 		this.locationForm = this.fb.group({
@@ -92,11 +92,7 @@ export class NewVerificationDialogComponent implements OnInit {
 
 	sendData(): void {
 		this.dataSv.sendData(url, this.setVerification())
-			.subscribe(
-				next => {
-					console.log('success');
-				}
-			);
+			.subscribe(next => console.log);
 	}
 	// TODO: Переробити на адресу
 	checkForDupliacates(): void {
@@ -142,4 +138,10 @@ export class NewVerificationDialogComponent implements OnInit {
 			entrance: this.additionalDataForm.get('entrance').value
 		};
 	}
+
+  // saveByPattern() {
+  //   this.locationForm.patchValue(
+
+  //   );
+  // }
 }

@@ -31,43 +31,44 @@ export class DetailViewDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const surname = this.data.verification.client.split('')[0];
-    const name = this.data.verification.client.split('')[1];
-    const middlename = this.data.verification.client.split('')[2];
+    const nameArr = this.data.verification[0].client.split(' ');
+    const surname = nameArr[0];
+    const name = nameArr[1];
+    const middlename = nameArr[2];
 
     this.generalDataForm = this.fb.group({
       surname: surname,
       name: name,
       middlename: middlename,
-      phone: this.data.verification.phoneNumber
+      phone: this.data.verification[0].phoneNumber
     });
 
     this.locationForm = this.fb.group({
-      region: this.data.verification.region,
-      district: this.data.verification.district,
-      settlement: this.data.verification.settlement,
-      index: this.data.verification.index,
-      street: this.data.verification.street,
-      house: this.data.verification.house,
-      apartment: this.data.verification.apartment,
+      region: this.data.verification[0].region,
+      district: this.data.verification[0].district,
+      settlement: this.data.verification[0].settlement,
+      index: this.data.verification[0].index,
+      street: this.data.verification[0].street,
+      house: this.data.verification[0].house,
+      apartment: this.data.verification[0].apartment,
       isDismantled: false,
       isUnique: false,
-      counterQuantity: this.data.verification.counterQuantity,
-      serviceType: this.data.verification.serviceType,
-      serviceProvider: this.data.verification.serviceProvider
+      counterQuantity: this.data.verification[0].counterQuantity,
+      serviceType: this.data.verification[0].serviceType,
+      serviceProvider: this.data.verification[0].serviceProvider
     });
 
     this.counterForm = this.fb.group({
       isDismantled: false,
-      montageDate: this.data.verification.montageDate,
-      employeeName: this.data.verification.employeeName,
-      comment: this.data.verification.comment,
-      counterNumber: this.data.verification.counterNumber,
-      haveSeal: this.data.verification.haveSeal,
-      counterType: this.data.verification.counterType,
-      productionYear: this.data.verification.productionYear,
-      symbol: this.data.verification.symbol,
-      acumulatedVolume: this.data.verification.acumulatedVolume
+      montageDate: this.data.verification[0].montageDate,
+      employeeName: this.data.verification[0].employeeName,
+      comment: this.data.verification[0].comment,
+      counterNumber: this.data.verification[0].counterNumber,
+      haveSeal: this.data.verification[0].haveSeal,
+      counterType: this.data.verification[0].counterType,
+      productionYear: this.data.verification[0].productionYear,
+      symbol: this.data.verification[0].symbol,
+      acumulatedVolume: this.data.verification[0].acumulatedVolume
     });
 
     this.additionalDataForm = this.fb.group({
@@ -77,7 +78,7 @@ export class DetailViewDialogComponent implements OnInit {
       favorDate: '',
       sanitaryWellFare: '',
       waterAbsentTo: '',
-      note: this.data.verification.note
+      note: this.data.verification[0].note
     });
   }
 
