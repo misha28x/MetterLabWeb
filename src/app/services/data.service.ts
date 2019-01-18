@@ -14,11 +14,17 @@ export class DataService {
 	}
 
 	getFile(url: string): any {
-    window.location.replace(url);
+    window.open(url);
 	}
 
-  sendData(url: string, data: any): any {
-    return this.http.post(url, data);
+  sendData(url: string, data?: any): any {
+    let sendData = {};
+    
+    if (data) {
+      sendData = data;
+    }
+    
+    return this.http.post(url, sendData);
   }
 
 	handleError(error: any): Observable<never> {

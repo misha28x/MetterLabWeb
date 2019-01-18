@@ -9,7 +9,6 @@ router.get('', (req, res, next) => {
     if (err) {
       console.log(err);
     }
-    console.log('success');
     res.status(200).json(result);
   });
 });

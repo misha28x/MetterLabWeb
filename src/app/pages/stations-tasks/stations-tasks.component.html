@@ -1,17 +1,27 @@
 <!-- Завдання Для Станцій -->
 <mat-card>
   <mat-card-content>
-    <div class="actions"> </div>
+    <mat-card-header>
+      Перелік завдань
+    </mat-card-header>
+
+    <div class="actions">
+      <button mat-raised-button class="bg-success" (click)="sendData()">
+        <i class="icon icofont-paper-plane"></i>
+        Надіслати завдання
+      </button>
+    </div>
 
     <app-table [hovered]="true" [bordered]="true" [tableData]="stationsTasks" [pagination]="true">
       <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
         </ng-template>
-        <ng-template #tableBodyTemplate>
-          <mat-checkbox></mat-checkbox>
+        <ng-template #tableBodyTemplate let-row="row">
+          <mat-checkbox (change)="onChange(row['id_task'], $event.checked)"></mat-checkbox>
         </ng-template>
       </app-column>
+
       <app-column [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 

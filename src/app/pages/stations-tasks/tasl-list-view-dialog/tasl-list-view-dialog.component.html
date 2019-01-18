@@ -1,3 +1,5 @@
+<h2 mat-dialog-title>Список заявок завдання</h2>
+
 <app-table [hovered]="true" [bordered]="true" [tableData]="taskList" [pagination]="true">
 
   <app-column [columnTitle]="'Дата додання'" [columnName]="'addingDate'" [width]="90" [enableSorting]="true"
@@ -22,7 +24,7 @@
 
   <app-column [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Час'" [columnName]="'taskDate'" [width]="100"  [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Час'" [columnName]="'taskDate'" [width]="100" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
   <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 

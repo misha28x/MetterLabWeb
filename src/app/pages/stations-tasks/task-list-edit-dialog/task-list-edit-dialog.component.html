@@ -1,30 +1,31 @@
+<h2 mat-dialog-title>Порядок завдань</h2>
+
 <app-table [hovered]="true" [bordered]="true" [tableData]="taskList" [pagination]="true">
 
   <app-column [columnTitle]="'Дата додання'" [columnName]="'addingDate'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Район'" [columnName]="'district'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Район'" [columnName]="'district'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
   <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-<app-column [columnTitle]="'Дії'" [width]="100">
+  <app-column [columnTitle]="'Дії'" [width]="100">
     <ng-template #tableBodyTemplate let-row="row">
       <div class="actions-row">
         <button mat-icon-button>
-          <i class="icofont-ui-user" matTooltip="Додати відповідальну особу"></i>
+          <i class="color-info icofont-arrow-up"></i>
         </button>
 
         <button mat-icon-button>
-          <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
+          <i class="color-info icofont-arrow-down"></i>
         </button>
       </div>
     </ng-template>
   </app-column>
 
-<app-column [columnTitle]="'Буд.'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true" [width]="40"></app-column>
+  <app-column [columnTitle]="'Буд.'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true" [width]="40"></app-column>
 
-<app-column [columnTitle]="'Кв.'" [columnName]="'apartment'" [enableSorting]="true" [enableFiltering]="true" [width]="40"></app-column>
+  <app-column [columnTitle]="'Кв.'" [columnName]="'apartment'" [enableSorting]="true" [enableFiltering]="true" [width]="40"></app-column>
 
-  <app-column [columnTitle]="'К-сть'" [columnName]="'counterQuantity'" [enableSorting]="true" [enableFiltering]="true"
-    [width]="40"></app-column>
+  <app-column [columnTitle]="'К-сть'" [columnName]="'counterQuantity'" [enableSorting]="true" [enableFiltering]="true" [width]="40"></app-column>
 
 </app-table>

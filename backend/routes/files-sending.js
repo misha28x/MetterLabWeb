@@ -16,20 +16,17 @@ const configOb = {
   filesName: ''
 };
 
-router.get('/:id', (req, res, next) => {
+router.post('/:id', (req, res, next) => {
 
   const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
   connection.query(queryStr, (err, result) => {
-    // номер ст, дата завд,
     connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
-      console.log({
-        stationRows: stationRows
-      });
-
       connection.query("SELECT `contactEmail` FROM `stations` WHERE `stationNumber`='" + stationRows[0].stationNumber + "';", (err, emails) => {
         if (err) {
           console.log(err);
         }
+
+        console.log({ email: emails });
         configOb.stationNumber = stationRows[0].stationNumber;
         configOb.taskDate = stationRows[0].taskDate;
         configOb.contactEmail = emails[0].contactEmail;
@@ -84,8 +81,8 @@ function generateMail() {
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: '', // generated ethereal user
-        pass: '' // generated ethereal password
+        user: 'misha1998x@gmail.com', // generated ethereal user
+        pass: 'BWD2G6Q2' // generated ethereal password
       }
     });
 
