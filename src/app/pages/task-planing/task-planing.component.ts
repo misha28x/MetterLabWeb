@@ -59,7 +59,6 @@ export class PageTaskPlaningComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       (data: Task) => {
-        console.log(data);
         const taskData = {
           taskDate: data.taskDate,
           type: data.serviceType,
@@ -69,11 +68,8 @@ export class PageTaskPlaningComponent implements OnInit {
 
         const url = 'http://localhost:3000/api/task-planing/station-task';
         
-        // this.dataSv.sendData(url, taskData).subscribe(
-        //   () => {
-        //     console.log('success');
-        //   }
-        // );
+        this.dataSv.sendData(url, taskData)
+          .subscribe(() => console.log('success'));
       }
     );
   }
