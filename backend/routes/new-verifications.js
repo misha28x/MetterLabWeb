@@ -138,7 +138,7 @@ function createApplicationNumber(lastApplicationNumber) {
   }
 
 
-  return parseInt(dateLike) * 1000 + 1;
+  return parseInt(dateLike) * 1000000 + 1;
 }
 
 function generateDateString() {

@@ -123,53 +123,70 @@ function getResultsFromDatabase(byteArray) {
     }
 
     for (const row of result) {
-      let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
-      let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
-      let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
-        " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
-        " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
-        " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
+      connection.query("SELECT `applicationNumber` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
-      // TODO: count для кількості дублікатів
-      connection.query(varResult, function (err, rows) {
-        if (err) {
-          if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
-            console.log('Here you can handle duplication');
-            return;
+        let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
+        let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
+        let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
+          " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
+          " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
+          " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
+
+        // TODO: count для кількості дублікатів
+        connection.query(varResult, function (err, rows) {
+          if (err) {
+            if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
+              console.log('Запис для лічильника ' + row.CounterNumber + ' вже існує');
+              return;
+            } else {
+              console.log('Інша помилка в запиті на дублікати:');
+              console.log(err);
+              return;
+            }
           } else {
-            console.log('Other error in the query');
-            console.log(err);
-            return;
-          }
-        } else {
+            // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
+            // TODO: перевірити UPDATE
+            console.log(row.Id_pc);
 
-          // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
-          // TODO: перевірити UPDATE
-          console.log(row.Id_pc);
-
-          if (row.Id_pc !== '' && row.Id_pc !== null) {
-            connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
-              if (err) {
-                console.log(err);
+            if (row.Id_pc !== '' && row.Id_pc !== null) {
+              if (appNum.length == 0) {
+                const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+                const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
+                let formatedData = varData.format(date, row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
+                let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+                connection.query(varResult, (err) => {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+                console.log('Відсутні помилки в запиті на додавання: ' + row.Id_pc);
+              } else {
+                connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
+                  if (err) {
+                    console.log(err);
+                  }
+                });
+                console.log('Відсутні помилки в запиті на оновлення: ' + applicationNumber);
               }
-            });
-          } else {
-            const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
-            const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-            let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
-            let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
-            connection.query(varResult, (err) => {
-              if (err) {
-                console.log(err);
-              }
-            });
-            applicationNumber = (parseInt(applicationNumber) + 1).toString();
-            console.log({
-              applicationNumber: applicationNumber
-            });
+            } else {
+              const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+              const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
+              let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
+              let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+              connection.query(varResult, (err) => {
+                if (err) {
+                  console.log(err);
+                }
+              });
+              applicationNumber = (parseInt(applicationNumber) + 1).toString();
+              console.log({
+                applicationNumber: applicationNumber
+              });
+            }
+            console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber);
           }
-          console.log('No error in the query');
-        }
+        });
+
       });
     }
   });
@@ -302,10 +319,10 @@ function parseProtocol(byteArray, fileName) {
   const num5 = bytesToInt(bbiFile.slice(120, 124));
   if (num5 === 0) {
     protocol.protocolStatus = (true);
-    protocol.status = 'Разблокирован';
+    protocol.status = 'В зоні';
   } else {
     protocol.protocolStatus = (false);
-    protocol.status = 'Заблокирован';
+    protocol.status = 'Не в зоні';
   }
   // Тести
   let num2 = 0;
@@ -451,9 +468,9 @@ function parseProtocol(byteArray, fileName) {
     }
     // Протокол "В зоні" чи "Не в зоні"
     if (test.isInZone === 'В зоне') {
-      protocol.status = 'В зоне';
+      protocol.status = 'Разблокирован';
     } else if (test.isInZone === 'Не в зоне') {
-      protocol.status = 'Не в зоне';
+      protocol.status = 'Заблокирован';
     }
     // Встановлення імені тесту
     const testNameNumber = Math.round(testId[index] / 10);
@@ -487,16 +504,16 @@ function addProtocol(protocol) {
     if (err) {
 
       if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
-        console.log('Here you can handle duplication');
+        console.log('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
         return;
       } else {
-        console.log('Other error in the query');
+        console.log('Інша помилка при перевірці на дублікати:');
         console.log(err);
 
         return;
       }
     } else {
-      console.log('No error in the query');
+      console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
       protocol.tests.forEach(test => {
         varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
         varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
