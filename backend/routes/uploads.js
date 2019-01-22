@@ -150,6 +150,8 @@ function getResultsFromDatabase(byteArray) {
 
             if (row.Id_pc !== '' && row.Id_pc !== null) {
               if (appNum.length == 0) {
+								console.log({rowInfo: row});
+								
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
                 let formatedData = varData.format(date, row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
@@ -181,9 +183,9 @@ function getResultsFromDatabase(byteArray) {
               applicationNumber = (parseInt(applicationNumber) + 1).toString();
               console.log({
                 applicationNumber: applicationNumber
-              });
-            }
-            console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber);
+							});
+							console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber);
+            }            
           }
         });
 
@@ -230,7 +232,7 @@ function parseProtocol(byteArray, fileName) {
   // TODO: додати поле для номеру станції
   const protocol = {
     bbiFileName: '',
-    capacity: 0,
+    capacity: '',
     counterNumber: '',
     date: new Date(),
     day: 0,
@@ -278,8 +280,10 @@ function parseProtocol(byteArray, fileName) {
   const temp = bbiFile.slice(20, 24);
   protocol.temperature = bytesToInt(temp);
   // Накоплений об'єм
-  const liter = bbiFile.slice(96, 104);
-  protocol.capacity = bytesToInt(liter);
+	const liter = bbiFile.slice(96, 104);
+	console.log(bbiFile.slice(96, 104));
+			
+  protocol.capacity = '' + bytesToInt(liter);
   // Тип лічильника
   const countType = bbiFile.slice(104, 110);
   const countSymbol = bbiFile.slice(110, 116);

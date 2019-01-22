@@ -2,159 +2,113 @@
 
 <div mat-dialog-content class="content">
   <div class="protocol-block">
-    <table class="protocol-table">
-      <tr>
-        <td>Номер заявки</td>
-        <td>test number</td>
-      </tr>
-      <tr>
-        <td>Дата протоколу час п/н</td>
-        <td>12-12-12</td>
-      </tr>
-      <tr>
-        <td>Номер установки</td>
-        <td>{{ data.deviceNumber }}</td>
-      </tr>
-      <tr> 
-        <td>Номер лічильника</td>
-        <td>{{ data.counterNumber }}</td>
-      </tr>
-      <tr>
-        <td>Тип лічильника</td>
-        <td>{{ data.type }}</td>
-      </tr>
-      <tr>
-        <td>Призначення лічильника</td>
-        <td>counter purpose</td>
-      </tr>
-      <tr>
-        <td>Температура</td>
-        <td>{{ data.temperature }}</td>
-      </tr>
-      <tr>
-        <td>Рік випуску</td>
-        <td>{{ data.year }}</td>
-      </tr>
-      <tr>
-        <td>Накопичений об'єм</td>
-        <td>{{ data.capacity }}</td>
-      </tr>
-      <tr>
-        <td>Широта</td>
-        <td>{{ data.latitude }}</td>
-      </tr>
-      <tr>
-        <td>Довгота</td>
-        <td>{{ data.longitude }}</td>
-      </tr>
-      <tr>
-        <td>Статус витрат</td>
-        <td>{{ data.status }}</td>
-      </tr>
-      <tr>
-        <td>Результат</td>
-        <td>{{ data.result }}</td>
-      </tr>
-      <tr>
-        <td>Дата підпису особи</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>ПІБ особи, що підписала</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Статус</td>
-      </tr>
+    <tr>
+      <td>Номер заявки</td>
+      <td>test number</td>
+    </tr>
+    <tr>
+      <td>Дата протоколу час п/н</td>
+      <td>12-12-12</td>
+    </tr>
+    <tr>
+      <td>Номер установки</td>
+      <td>{{ data.deviceNumber }}</td>
+    </tr>
+    <tr>
+      <td>Номер лічильника</td>
+      <td>{{ data.counterNumber }}</td>
+    </tr>
+    <tr>
+      <td>Тип лічильника</td>
+      <td>{{ data.type }}</td>
+    </tr>
+    <tr>
+      <td>Призначення лічильника</td>
+      <td>counter purpose</td>
+    </tr>
+    <tr>
+      <td>Температура</td>
+      <td>{{ data.temperature }}</td>
+    </tr>
+    <tr>
+      <td>Рік випуску</td>
+      <td>{{ data.year }}</td>
+    </tr>
+    <tr>
+      <td>Накопичений об'єм</td>
+      <td>{{ data.capacity }}</td>
+    </tr>
+    <tr>
+      <td>Широта</td>
+      <td>{{ data.latitude }}</td>
+    </tr>
+    <tr>
+      <td>Довгота</td>
+      <td>{{ data.longitude }}</td>
+    </tr>
+    <tr>
+      <td>Статус витрат</td>
+      <td>{{ data.status }}</td>
+    </tr>
+    <tr>
+      <td>Результат</td>
+      <td>{{ data.result }}</td>
+    </tr>
+    <tr>
+      <td>Дата підпису особи</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ПІБ особи, що підписала</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Статус</td>
+    </tr>
     </table>
   </div>
+  <tr>
+    <td>{{ test.name }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.installedExes }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.assumedFault }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.etalonCapacity }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.initValue }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.finalValue }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.counterCapacity }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.testDuration }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.mediumExes }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.isInZone }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.calculatedFault }}</td>
+  </tr>
+  <tr>
+    <td>{{ test.result }}</td>
+  </tr>
+  </table>
 
-  <div class="tests-block">
-
-    <table class="test-table first">
-      <tr>
-        <td>Назва тесту</td>
-      </tr>
-      <tr>
-        <td>Задана витрата м³/год</td>
-      </tr>
-      <tr>
-        <td>Допустима похибка%</td>
-      </tr>
-      <tr>
-        <td>Об'єм еталону, дм³</td>
-      </tr>
-      <tr>
-        <td>Початкове значення лічильника, дм³</td>
-      </tr>
-      <tr>
-        <td>Кінцеве значення лічильника, дм³</td>
-      </tr>
-      <tr>
-        <td>Об'єм за лічильником, дм³</td>
-      </tr>
-      <tr>
-        <td>Тривалість тесту, с</td>
-      </tr>
-      <tr>
-        <td>Фактична витрата, м³/год</td>
-      </tr>
-      <tr>
-        <td>Статус витрати</td>
-      </tr>
-      <tr>
-        <td>Фактична похибка, %</td>
-      </tr>
-      <tr>
-        <td>Результат тесту</td>
-      </tr>
-    </table>
-
-
-    <div class="test" *ngFor="let test of data.tests">
-      <table class="test-table">
-        <tr>
-          <td>{{ test.name }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.installedExes }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.assumedFault }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.etalonCapacity }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.initValue }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.finalValue }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.counterCapacity }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.testDuration }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.mediumExes }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.isInZone }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.calculatedFault }}</td>
-        </tr>
-        <tr>
-          <td>{{ test.result }}</td>
-        </tr>
-      </table>
-
-      <div class="test-images">
-        <img [src]="getImage(test.startStateImage)">
-        <img [src]="getImage(test.endStateImage)">
-      </div>
-    </div>
+  <div class="test-images">
+    <img [src]="getImage(test.startStateImage)">
+    <img [src]="getImage(test.endStateImage)">
   </div>
+</div>
+</div>
 </div>
