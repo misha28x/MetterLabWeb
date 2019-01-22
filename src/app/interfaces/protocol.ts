@@ -1,4 +1,7 @@
 export interface Protocol {
+	applicationNumber?: string; // Номер заявки
+	serviceType?: number;			// Тип послуги
+	acumulatedVolume?: string // Накопичений об'єм
 	bbiFileName: string;			// Номер_протоколу
 	date: Date;								// Повна дата
 	day: number; 							// День
@@ -9,7 +12,7 @@ export interface Protocol {
 	month: number; 						// Місяць
 	minutes: number; 					// Хвилини
 	counterNumber: string;	 	// Номер лічильника
-	capacity: number; 				// Об'єм
+	capacity: string; 				// Об'єм
 	image: String;
 	temperature: number; 			// Температура
 	productionYear: number; 	// Рік виробітку
@@ -17,7 +20,7 @@ export interface Protocol {
 	latitude: number;					// Широта
 	deviceNumber: number;		 	// Номер пристрою
 	tests: Test[];						// Масив з тестами
-	status: string; 					// Статус
+	isInZone: string; 					// Статус
 	result: string; 					// Результат
 	protocolStatus: Boolean; 	// Статус протоколу
 }

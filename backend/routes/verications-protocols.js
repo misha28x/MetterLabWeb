@@ -14,7 +14,7 @@ router.get('', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  let selectionOne = "SELECT * FROM protocols WHERE bbiFileName = '" + req.params.id + "';";
+  let selectionOne = "SELECT protocols.bbiFileName, archive.applicationNumber, protocols.date, protocols.deviceNumber, protocols.counterNumber, protocols.type, archive.serviceType, protocols.temperature, protocols.productionYear, archive.acumulatedVolume, protocols.latitude, protocols.longitude, protocols.status, protocols.result, protocols.protocolStatus, protocols.image FROM protocols INNER JOIN archive ON protocols.bbiFileName = archive.protocolNumber WHERE protocols.bbiFileName = '" + req.params.id + "';";
 
   connection.query(selectionOne, function (err, rows, fields) {
     if (err) throw err;
@@ -49,7 +49,7 @@ router.get('/:id', (req, res, next) => {
       }
 
       let rp = new Object();
-      rp.id = rows[0].id;
+      rp.applicationNumber = rows[0].applicationNumber;
       rp.protocolNumber = rows[0].bbiFileName;
       rp.date = rows[0].date;
       rp.deviceNumber = rows[0].deviceNumber;
@@ -57,17 +57,17 @@ router.get('/:id', (req, res, next) => {
       rp.counterNumber = rows[0].counterNumber;
       rp.symbol = rows[0].symbol;
       rp.type = rows[0].type;
-      rp.counterPurpose = rows[0].counterPurpose;
+      rp.serviceType = rows[0].serviceType;
       rp.temperature = rows[0].temperature;
       rp.productionYear = rows[0].productionYear;
-      rp.capacity = rows[0].capacity;
+      rp.acumulatedVolume = rows[0].acumulatedVolume;
       rp.latitude = rows[0].latitude;
       rp.longitude = rows[0].longitude;
       rp.isInZone = rows[0].status;
       rp.result = rows[0].result;
       rp.signDate = rows[0].signDate;
       rp.signName = rows[0].signPerson;
-      rp.status = rows[0].protocolStatus;
+      rp.protocolStatus = rows[0].protocolStatus;
       rp.image = rows[0].image;
       rp.tests = [];
 
