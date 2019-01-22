@@ -54,7 +54,8 @@ router.get("/:id", (req, res, next) => {
             break;
         }
         res.json({
-          menu: menuObj
+					menu: menuObj,
+					permission: user[0].user_permissions
         });
       } else {
         res.json({
