@@ -7,11 +7,11 @@ const SQL = require('sql.js');
 const multer = require('multer')
 const coder = require('base64-arraybuffer');
 
-const io = require('../app').get('io');
-// TODO: connect io
-io.on('connection', client => {
-	console.log('connected');	
-});
+// const io = require('../app').get('io');
+// // TODO: connect io
+// io.on('connection', client => {
+// 	console.log('connected');	
+// });
 
 const connection = require('../database/db');
 
@@ -162,14 +162,8 @@ function getResultsFromDatabase(byteArray) {
           } else {
             // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
             // TODO: перевірити UPDATE
-            console.log(row.Id_pc);
-
             if (row.Id_pc !== '' && row.Id_pc !== null) {
               if (appNum.length == 0) {
-                console.log({
-                  rowInfo: row
-                });
-
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
                 let formatedData = varData.format(date, row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */ row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
@@ -239,6 +233,21 @@ function generateDateString(addingDate) {
   }
 
   return day.toString() + month.toString() + year.toString();
+}
+
+function generateFormatedDateString(addingDate) {
+  const date = new Date(addingDate);
+  let day = date.getUTCDate();
+  let month = date.getUTCMonth() + 1;
+  let year = date.getUTCFullYear();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  if (month < 10) {
+    month = "0" + month;
+  }
+
+  return day.toString() + "-" + month.toString()+ "-" + year.toString();
 }
 
 function parseProtocol(byteArray, fileName) {
@@ -515,7 +524,7 @@ function addProtocol(protocol) {
   let errorObject = '';
   let varPart = "INSERT INTO `protocols`(`bbiFileName`, `date`, `deviceNumber`, `systemDeviceNumber`, `counterNumber`,`symbol` , `type`, `image`, `counterPurpose`, `temperature`, `productionYear`, `capacity`, `latitude`, `longitude`, `status`, `result`, `signDate`, `signPerson`, `protocolStatus`) ";
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-  let formatedData = varData.format(protocol.bbiFileName, generateDateString(protocol.date), protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, protocol.image, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
+  let formatedData = varData.format(protocol.bbiFileName, generateFormatedDateString(protocol.date), protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, protocol.image, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
   // TODO: додати count для кількості дублікатів
   connection.query(varPart + formatedData, function (err, rows) {
@@ -524,25 +533,25 @@ function addProtocol(protocol) {
       if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
         console.log('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
 				uploadInfo.errors.push('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
-				io.emit('error', {
-				  err: 'Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName
-				})
+				// io.emit('error', {
+				//   err: 'Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName
+				// })
         return;
       } else {
         console.log('Інша помилка при перевірці на дублікати:');
 				uploadInfo.errors.push('Помилка читання файлу');
-					io.emit('error', {
-						err: 'Помилка читання файлу'
-					});
+					// io.emit('error', {
+					// 	err: 'Помилка читання файлу'
+					// });
         console.log(err);
 
         return;
       }
     } else {
 			console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
-			io.emit('success', {
-				msg: 'Файл додано: ' + protocol.bbiFileName
-			});
+			// io.emit('success', {
+			// 	msg: 'Файл додано: ' + protocol.bbiFileName
+			// });
       protocol.tests.forEach(test => {
         varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
         varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
