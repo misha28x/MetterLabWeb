@@ -9,40 +9,54 @@
     display: flex;
     flex-flow: row nowrap;
     flex: 1;
+    max-height: 100%;
   }
+  
+  .table {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
+    77 0 8px 10px 1px rgba(0, 0, 0, .14),
+    0 3px 14px 2px rgba(0, 0, 0, .12);
+    background-color: transparent;
+    margin-bottom: 1rem;
+    max-width: 100%;
+    width: 100%;
 
-  .labels {
-    display: flex;
-    flex-direction: column;
-  }
+    tr {
+      border-collapse: collapse;
 
-  .label {
-    border: 1px solid #d1d1d1;
-    border-right: none;
-    display: block;
-    padding: $module-rem / 2;
-    margin: -1px 0;
-    min-width: 180px;
+      td {
+        border: 1px solid #dee2e6;
+        padding: .25rem;
+        vertical-align: top;
+        width: 200px;
+      }
 
-    &:first-child {
-      border-top-width: 2px;
-      margin-bottom: -2px;
+      td+td {
+        width: auto;
+      }
     }
+  }
+
+  .protocol-table {
+    @extend .table;
+  }
+
+  .test-table {
+    @extend .table;
+    
+    &.first {
+      min-width: 260px;
+    }
+    min-width: 200px;
+    width: 200px;
   }
 
   .protocol-block {
     display: flex;
     flex-direction: row;
-    max-width: 900px;
+    min-width: 380px;
+    width: 380px;
     margin-right: $module-rem;
-
-    .label {
-      min-width: 220px !important;
-    }
-
-    .inputs {
-      min-width: 240px;
-    }
   }
 
   .tests-block {
@@ -51,9 +65,6 @@
     overflow-x: auto;
     width: 1400px;
 
-    .inputs {
-      min-width: 180px;
-    }
 
     >* {
       flex: 1;
@@ -65,7 +76,7 @@
     flex-direction: column;
 
     img {
-      min-width: 180px;
+      width: 200px;
     }
   }
 }

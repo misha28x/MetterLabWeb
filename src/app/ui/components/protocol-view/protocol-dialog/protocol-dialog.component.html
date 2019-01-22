@@ -2,82 +2,155 @@
 
 <div mat-dialog-content class="content">
   <div class="protocol-block">
-    <div class="labels">
-      <span class="label">Номер заявки</span>
-      <span class="label">Дата протоколу час п/н</span>
-      <span class="label">Номер установки</span>
-      <span class="label">Системний номер установки</span>
-      <span class="label">Номер лічильника</span>
-      <span class="label">Тип лічильника</span>
-      <span class="label">Призначення лічильника</span>
-      <span class="label">Температура</span>
-      <span class="label">Рік випуску</span>
-      <span class="label">Накопичений об'єм</span>
-      <span class="label">Широта</span>
-      <span class="label">Довгота</span>
-      <span class="label">Статус витрат</span>
-      <span class="label">Результат</span>
-      <span class="label">Дата підпису особи</span>
-      <span class="label">ПІБ особи, що підписала</span>
-      <span class="label">Статус</span>
-    </div>
-
-    <div class="inputs">
-      <app-input [readonly]="true" [innerValue]="data.applicationNumber || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.date || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.deviceNumber || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.counterNumber || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.type || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.serviceType || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.temperature || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.productionYear || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.acumulatedVolume || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.latitude  || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.longitude || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.isInZone || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.result || ''"></app-input>
-      <app-input [readonly]="true" [innerValue]="''"></app-input>
-      <app-input [readonly]="true" [innerValue]="''"></app-input>
-      <app-input [readonly]="true" [innerValue]="data.protocolStatus || ''"></app-input>
-      <div class="test-images">
-        <img [src]="getImage(data.image)">
-      </div>
-    </div>
-
+    <table class="protocol-table">
+      <tr>
+        <td>Номер заявки</td>
+        <td>{{ data.applicationNumber }}</td>
+      </tr>
+      <tr>
+        <td>Дата протоколу час п/н</td>
+        <td>{{ data.date }}</td>
+      </tr>
+      <tr>
+        <td>Номер установки</td>
+        <td>{{ data.deviceNumber }}</td>
+      </tr>
+      <tr>
+        <td>Номер лічильника</td>
+        <td>{{ data.counterNumber }}</td>
+      </tr>
+      <tr>
+        <td>Тип лічильника</td>
+        <td>{{ data.type }}</td>
+      </tr>
+      <tr>
+        <td>Призначення лічильника</td>
+        <td>{{ data.serviceType }}</td>
+      </tr>
+      <tr>
+        <td>Температура</td>
+        <td>{{ data.temperature }}</td>
+      </tr>
+      <tr>
+        <td>Рік випуску</td>
+        <td>{{ data.productionYear }}</td>
+      </tr>
+      <tr>
+        <td>Накопичений об'єм</td>
+        <td>{{ data.acumulatedVolume }}</td>
+      </tr>
+      <tr>
+        <td>Широта</td>
+        <td>{{ data.latitude }}</td>
+      </tr>
+      <tr>
+        <td>Довгота</td>
+        <td>{{ data.longitude }}</td>
+      </tr>
+      <tr>
+        <td>Статус витрат</td>
+        <td>{{ data.isInZone }}</td>
+      </tr>
+      <tr>
+        <td>Результат</td>
+        <td>{{ data.result }}</td>
+      </tr>
+      <tr>
+        <td>Дата підпису особи</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>ПІБ особи, що підписала</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Статус</td>
+        <td>{{ data.protocolStatus }}</td>
+      </tr>
+    </table>
   </div>
 
   <div class="tests-block">
-    <div class="labels">
-      <span class="label">Назва тесту</span>
-      <span class="label">Задана витрата м³/год</span>
-      <span class="label">Допустима похибка%</span>
-      <span class="label">Об'єм еталону, дм³</span>
-      <span class="label">Початкове значення лічильника, дм³</span>
-      <span class="label">Кінцеве значення лічильника, дм³</span>
-      <span class="label">Об'єм за лічильником, дм³</span>
-      <span class="label">Тривалість тесту, с</span>
-      <span class="label">Фактична витрата, м³/год</span>
-      <span class="label">Статус витрати</span>
-      <span class="label">Фактична похибка, %</span>
-      <span class="label">Результат тесту </span>
-    </div>
+
+    <table class="test-table first">
+      <tr>
+        <td>Назва тесту</td>
+      </tr>
+      <tr>
+        <td>Задана витрата м³/год</td>
+      </tr>
+      <tr>
+        <td>Допустима похибка%</td>
+      </tr>
+      <tr>
+        <td>Об'єм еталону, дм³</td>
+      </tr>
+      <tr>
+        <td>Початкове значення лічильника, дм³</td>
+      </tr>
+      <tr>
+        <td>Кінцеве значення лічильника, дм³</td>
+      </tr>
+      <tr>
+        <td>Об'єм за лічильником, дм³</td>
+      </tr>
+      <tr>
+        <td>Тривалість тесту, с</td>
+      </tr>
+      <tr>
+        <td>Фактична витрата, м³/год</td>
+      </tr>
+      <tr>
+        <td>Статус витрати</td>
+      </tr>
+      <tr>
+        <td>Фактична похибка, %</td>
+      </tr>
+      <tr>
+        <td>Результат тесту</td>
+      </tr>
+    </table>
+
 
     <div class="test" *ngFor="let test of data.tests">
-      <div class="inputs">
-        <span class="label">{{ test.name }}</span>
-        <app-input [readonly]="true" [innerValue]="test.installedExes || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.assumedFault || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.etalonCapacity || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.initValue || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.finalValue || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.counterCapacity || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.testDuration || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.mediumExes|| ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.isInZone || ''" [ngClass]="{'success': test.isInZone == 'В зоні', 'failed': test.result == 'Не в зоні'}"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.calculatedFault || ''"></app-input>
-        <app-input [readonly]="true" [innerValue]="test.result  || ''" [ngClass]="{'success': test.result == 'Годен', 'failed': test.result == 'Не годен', 'unknowsn': test.result == 'Не обработан'}"></app-input>
-      </div>
+      <table class="test-table">
+        <tr>
+          <td>{{ test.name }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.installedExes }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.assumedFault }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.etalonCapacity }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.initValue }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.finalValue }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.counterCapacity }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.testDuration }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.mediumExes }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.isInZone }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.calculatedFault }}</td>
+        </tr>
+        <tr>
+          <td>{{ test.result }}</td>
+        </tr>
+      </table>
 
       <div class="test-images">
         <img [src]="getImage(test.startStateImage)">
