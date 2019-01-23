@@ -7,6 +7,7 @@ const connection = require('../database/db');
 
 // Отримання непризначених заявок (Працівник чи статус не призначений)
 router.get('', (req, res, next) => {
+
   connection.query("SELECT `addingDate`, `street` FROM archive WHERE " +
     "(`employeeName` is null or `employeeName` = '' or `status` is null or `status` = '');", (err, result) => {
       if (err) {

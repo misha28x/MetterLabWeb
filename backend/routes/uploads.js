@@ -6,9 +6,16 @@ const fs = require('fs');
 const SQL = require('sql.js');
 const multer = require('multer')
 const coder = require('base64-arraybuffer');
+const app = require('../app');
 
-// const io = require('../app').get('io');
-// // TODO: connect io
+//const io = app.get('io');
+
+// const io = require('socket.io')(app);
+
+// TODO: connect io
+
+// var io = ioo();
+
 // io.on('connection', client => {
 // 	console.log('connected');	
 // });

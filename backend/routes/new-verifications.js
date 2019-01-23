@@ -6,7 +6,18 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
+// TODO: io
+const server = require('../../server');
+const io = require('socket.io')(server);
+
 // Values regex = \[.*?\] -> '%s'
+// TODO: io
+io.on('connection', function (socket) {
+  console.log('a user connected');
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+});
 
 router.get('/employee', (req, res, next) => {
   connection.query("SELECT `name` FROM employees;", (err, name) => {
@@ -28,6 +39,7 @@ router.get('/device', (req, res, next) => {
 
 // Запит для отримання усіх повірок get
 router.get('', (req, res, next) => {
+
   connection.query("SELECT * FROM archive WHERE `status`='' OR `status` IS NULL AND `employeeName`='' OR `employeeName` IS NULL", (err, result) => {
     if (err) {
       console.log(err);

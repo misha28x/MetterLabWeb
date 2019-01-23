@@ -47,7 +47,7 @@ const onListening = () => {
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 // TODO: socket.io
-const server = http.createServer(app);
+const server = module.exports = http.createServer(app);
 const io = require('socket.io')(server);
 app.set("io", io);
 

@@ -87,11 +87,11 @@ function generateMail() {
     });
 
     let mailOptions = {
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
+      from: '"Адреса відправника', // sender address
       to: configOb.contactEmail, // list of receivers
-      subject: 'Hello ✔', // Subject line
-      text: 'Hello world?', // plain text body
-      html: '<b>Hello world?</b>', // html body
+      subject: 'Тема', // Subject line
+      text: 'Звичайний текст', // plain text body
+      html: '<b>Текст в форматі html</b>', // html body
       attachments: [{ // filename and content type is derived from path
         path: './backend/data/' + configOb.filesName + '.zip'
       }]
