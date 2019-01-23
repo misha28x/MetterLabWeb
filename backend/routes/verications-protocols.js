@@ -14,7 +14,7 @@ router.get('', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  let selectionOne = "SELECT protocols.bbiFileName, archive.applicationNumber, protocols.date, protocols.deviceNumber, protocols.counterNumber, protocols.type, archive.serviceType, protocols.temperature, protocols.productionYear, archive.acumulatedVolume, protocols.latitude, protocols.longitude, protocols.status, protocols.result, protocols.protocolStatus, protocols.image FROM protocols INNER JOIN archive ON protocols.bbiFileName = archive.protocolNumber WHERE protocols.bbiFileName = '" + req.params.id + "';";
+  let selectionOne = "SELECT protocols.bbiFileName, archive.applicationNumber, protocols.date, protocols.deviceNumber, protocols.counterNumber, protocols.symbol,protocols.type, archive.serviceType, protocols.temperature, protocols.productionYear, archive.acumulatedVolume, protocols.latitude, protocols.longitude, protocols.status, protocols.result, protocols.protocolStatus, protocols.image FROM protocols INNER JOIN archive ON protocols.bbiFileName = archive.protocolNumber WHERE protocols.bbiFileName = '" + req.params.id + "';";
 
   connection.query(selectionOne, function (err, rows, fields) {
     if (err) throw err;

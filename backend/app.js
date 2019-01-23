@@ -1,5 +1,6 @@
 const express = require('express');
-const app = express();
+const app = module.exports = express();
+
 const bodyParser = require('body-parser');
 
 const uploadRoutes = require('./routes/uploads');

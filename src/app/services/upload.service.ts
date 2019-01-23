@@ -18,8 +18,8 @@ export class UploadService {
     files.forEach(file => {
       fileData.append('file', file);
       console.log(file);
-      this.http.post(url, fileData).subscribe(() => {
-        console.log('success');
+      this.http.post(url, fileData).subscribe((res) => {
+				console.log(res);
       }
       );
     });

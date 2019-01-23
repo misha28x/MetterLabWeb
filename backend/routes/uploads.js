@@ -6,6 +6,19 @@ const fs = require('fs');
 const SQL = require('sql.js');
 const multer = require('multer')
 const coder = require('base64-arraybuffer');
+const app = require('../app');
+
+//const io = app.get('io');
+
+// const io = require('socket.io')(app);
+
+// TODO: connect io
+
+// var io = ioo();
+
+// io.on('connection', client => {
+// 	console.log('connected');	
+// });
 
 const connection = require('../database/db');
 
@@ -23,6 +36,16 @@ const upload = multer({
 });
 
 const router = express.Router();
+
+// TODO:
+const uploadInfo = {
+  counter: 0,
+  errors: []
+};
+
+router.get('/io', (req, res, next) => {
+
+});
 
 function bytesToInt(bytes) {
   const startbyte = bytes.byteOffset + bytes.byteLength - Uint32Array.BYTES_PER_ELEMENT;
@@ -146,15 +169,11 @@ function getResultsFromDatabase(byteArray) {
           } else {
             // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
             // TODO: перевірити UPDATE
-            console.log(row.Id_pc);
-
             if (row.Id_pc !== '' && row.Id_pc !== null) {
               if (appNum.length == 0) {
-								console.log({rowInfo: row});
-								
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-                let formatedData = varData.format(date, row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
+                let formatedData = varData.format(date, row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */ row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
                 let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
                 connection.query(varResult, (err) => {
                   if (err) {
@@ -181,11 +200,8 @@ function getResultsFromDatabase(byteArray) {
                 }
               });
               applicationNumber = (parseInt(applicationNumber) + 1).toString();
-              console.log({
-                applicationNumber: applicationNumber
-							});
-							console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber);
-            }            
+              console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber);
+            }
           }
         });
 
@@ -208,7 +224,6 @@ function createApplicationNumber(lastApplicationNumber, addingDate) {
     return parseInt(lastApplicationNumber) + 1;
   }
 
-
   return parseInt(dateLike) * 1000000 + 1;
 }
 
@@ -225,6 +240,21 @@ function generateDateString(addingDate) {
   }
 
   return day.toString() + month.toString() + year.toString();
+}
+
+function generateFormatedDateString(addingDate) {
+  const date = new Date(addingDate);
+  let day = date.getUTCDate();
+  let month = date.getUTCMonth() + 1;
+  let year = date.getUTCFullYear();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  if (month < 10) {
+    month = "0" + month;
+  }
+
+  return day.toString() + "-" + month.toString()+ "-" + year.toString();
 }
 
 function parseProtocol(byteArray, fileName) {
@@ -280,9 +310,8 @@ function parseProtocol(byteArray, fileName) {
   const temp = bbiFile.slice(20, 24);
   protocol.temperature = bytesToInt(temp);
   // Накоплений об'єм
-	const liter = bbiFile.slice(96, 104);
-	console.log(bbiFile.slice(96, 104));
-			
+  const liter = bbiFile.slice(96, 104);
+
   protocol.capacity = '' + bytesToInt(liter);
   // Тип лічильника
   const countType = bbiFile.slice(104, 110);
@@ -499,9 +528,10 @@ function uintToString(bytes) {
 }
 
 function addProtocol(protocol) {
+  let errorObject = '';
   let varPart = "INSERT INTO `protocols`(`bbiFileName`, `date`, `deviceNumber`, `systemDeviceNumber`, `counterNumber`,`symbol` , `type`, `image`, `counterPurpose`, `temperature`, `productionYear`, `capacity`, `latitude`, `longitude`, `status`, `result`, `signDate`, `signPerson`, `protocolStatus`) ";
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-  let formatedData = varData.format(protocol.bbiFileName, protocol.date, protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, protocol.image, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
+  let formatedData = varData.format(protocol.bbiFileName, generateFormatedDateString(protocol.date), protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, protocol.image, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
   // TODO: додати count для кількості дублікатів
   connection.query(varPart + formatedData, function (err, rows) {
@@ -509,15 +539,26 @@ function addProtocol(protocol) {
 
       if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
         console.log('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
+				uploadInfo.errors.push('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
+				// io.emit('error', {
+				//   err: 'Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName
+				// })
         return;
       } else {
         console.log('Інша помилка при перевірці на дублікати:');
+				uploadInfo.errors.push('Помилка читання файлу');
+					// io.emit('error', {
+					// 	err: 'Помилка читання файлу'
+					// });
         console.log(err);
 
         return;
       }
     } else {
-      console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
+			console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
+			// io.emit('success', {
+			// 	msg: 'Файл додано: ' + protocol.bbiFileName
+			// });
       protocol.tests.forEach(test => {
         varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
         varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
@@ -526,10 +567,15 @@ function addProtocol(protocol) {
         connection.query(varPart + formatedData);
       });
     }
+    uploadInfo.counter++;
   });
+
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
+	uploadInfo.counter = 0;
+	uploadInfo.errors = [];
+	
   let zip = new JSZip();
   let db;
 
@@ -550,7 +596,7 @@ router.post('', upload.single('file'), (req, res, next) => {
     });
   });
   res.status(201);
-  res.send('success');
+  res.json(uploadInfo);
 })
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {
