@@ -13,10 +13,16 @@ import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
+import { EndStateDialogComponent } from './end-state-dialog/end-state-dialog.component';
+import { StartStateDialogComponent } from './start-state-dialog/start-state-dialog.component';
+import { CounterDialogDataComponent } from './counter-dialog-data/counter-dialog-data.component';
 
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
+		EndStateDialogComponent,
+		StartStateDialogComponent,
+		CounterDialogDataComponent
 	],
 	imports: [
 		BrowserModule,
