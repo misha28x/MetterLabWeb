@@ -26,7 +26,6 @@ router.post('/:id', (req, res, next) => {
           console.log(err);
         }
 
-        console.log({ email: emails });
         configOb.stationNumber = stationRows[0].stationNumber;
         configOb.taskDate = stationRows[0].taskDate;
         configOb.contactEmail = emails[0].contactEmail;
@@ -81,19 +80,23 @@ function generateMail() {
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: 'misha1998x@gmail.com', // generated ethereal user
-        pass: 'BWD2G6Q2' // generated ethereal password
+        user: 'volynaquastandart@gmail.com', // generated ethereal user
+        pass: 'qawsed321' // generated ethereal password
       }
     });
 
     let mailOptions = {
-      from: '"Адреса відправника', // sender address
-      to: configOb.contactEmail, // list of receivers
+      from: 'Адреса відправника', // sender address
+      to: 'misha1998x@gmail.com', //configOb.contactEmail, // list of receivers
       subject: 'Тема', // Subject line
       text: 'Звичайний текст', // plain text body
       html: '<b>Текст в форматі html</b>', // html body
       attachments: [{ // filename and content type is derived from path
         path: './backend/data/' + configOb.filesName + '.zip'
+      }, {
+        path: './backend/data/' + configOb.filesName + '.db'
+      }, {
+        path: './backend/data/' + configOb.filesName + '.xlsx'
       }]
     };
 
@@ -105,17 +108,17 @@ function generateMail() {
       // Preview only available when sending through an Ethereal account
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-			const directory = './backend/data';
+      const directory = './backend/data';
 
-			fs.readdir(directory, (err, files) => {
-			  if (err) throw err;
+      fs.readdir(directory, (err, files) => {
+        if (err) throw err;
 
-			  for (const file of files) {
-			    fs.unlink(path.join(directory, file), err => {
-			      if (err) throw err;
-			    });
-			  }
-			});
+        for (const file of files) {
+          fs.unlink(path.join(directory, file), err => {
+            if (err) throw err;
+          });
+        }
+      });
 
     });
   });
@@ -123,6 +126,8 @@ function generateMail() {
 
 // Генерування табилці Excel
 function generateExcelFile(taskResult) {
+	console.log(taskResult);
+	
   const wb = new xl.Workbook();
 
   // Стиль для заголовків
@@ -192,6 +197,8 @@ function generateExcelFile(taskResult) {
 
   let i = 2;
   taskResult.forEach(task => {
+		console.log(task);
+		
     ws.cell(i, 1).string(task.addingDate).style(text);
     ws.cell(i, 2).string(task.serviceProvider).style(text);
     ws.cell(i, 3).string(task.district).style(text);
@@ -200,7 +207,7 @@ function generateExcelFile(taskResult) {
     ws.cell(i, 6).string(task.apartment).style(text);
     ws.cell(i, 7).string(task.entrance).style(text);
     ws.cell(i, 8).string(task.floor).style(text);
-    ws.cell(i, 9).string(task.counterQuantity).style(text);
+    ws.cell(i, 9).string(task.counterQuantity.toString()).style(text);
     ws.cell(i, 10).string(task.client).style(text);
     ws.cell(i, 11).string(task.phoneNumber).style(text);
     ws.cell(i, 12).string(task.taskDate).style(text);
@@ -211,7 +218,7 @@ function generateExcelFile(taskResult) {
     i++;
   });
   wb.write('./backend/data/' + configOb.filesName + '.xlsx', () => {
-    console.log('Excel ' + configOb.filesName + ' згенерований успішно!');
+    console.log('Файл ' + configOb.filesName + '.xlsx згенеровано ');
     generateZip();
   });
 
