@@ -47,7 +47,7 @@ router.post('/station-task', (req, res, next) => {
     let taskAddingFormat = taskAdding.format(formatDate(req.body.taskDate), "Переносна установка *", stNumber, emName, phNumber, eMail, req.body.verifications.length);
     let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
 
-    let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC;";
+    let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC LIMIT 1;";
 
     // Запит на додавання завдання в station tasks
     connection.query(taskAddingResult, (err) => {
