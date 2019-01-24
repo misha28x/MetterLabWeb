@@ -29,12 +29,13 @@
         border: 1px solid #dee2e6;
         padding: .4rem;
         vertical-align: top;
-        font-style: bold;''
+        font-weight: 700;
         width: 200px;
       }
 
       td+td {
         width: auto;
+        font-weight: normal;
       }
     }
   }

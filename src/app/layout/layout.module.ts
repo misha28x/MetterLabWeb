@@ -9,13 +9,15 @@ import { SidebarComponent } from './components/sidebar';
 import { NavbarComponent } from './components/navbar';
 import { MenuComponent } from './components/menu';
 import { UiModule } from '../ui/ui.module';
+import { ExtraComponent } from './extra/extra.component';
 
 @NgModule({
 	declarations: [
 		DefaultLayoutComponent,
 		SidebarComponent,
 		NavbarComponent,
-		MenuComponent
+		MenuComponent,
+		ExtraComponent
 	],
 	imports: [
 		CommonModule,

@@ -14,6 +14,8 @@ import { PageLabRequestsComponent } from '../pages/lab-requests';
 import { PageProviderRequestsComponent } from '../pages/provider-requests';
 import { PageVerificationsProtocolsComponent } from '../pages/verifications-protocols';
 import { PageTaskPlaningComponent } from '../pages/task-planing';
+import { AuthorizationPageComponent } from '../pages/authorization-page';
+import { ExtraComponent } from '../layout/extra/extra.component';
 
 export const DEFAULT_ROUTES = [
 	{ path: 'home', component: PageHomePageComponent, data: { title: 'Головна Панель' } },
@@ -31,6 +33,10 @@ export const DEFAULT_ROUTES = [
 	{ path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } }
 ];
 
+export const EXTRA_ROUTES = [
+  { path: 'auth', component: AuthorizationPageComponent }
+];
+
 export const ROUTES: Routes = [
 	{
 		path: '',
@@ -41,7 +47,12 @@ export const ROUTES: Routes = [
 		path: 'default',
 		component: DefaultLayoutComponent,
 		children: DEFAULT_ROUTES
-	}
+	},
+  {
+    path: 'extra',
+    component: ExtraComponent,
+    children: EXTRA_ROUTES
+  }
 ];
 
 @NgModule({

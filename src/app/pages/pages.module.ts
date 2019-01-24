@@ -18,7 +18,7 @@ import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';
 import { PageReportsComponent } from './reports';
 import { PageUserGuideComponent } from './user-guide';
-import { AuthorizationPageComponent } from './authorization-page/authorization-page.component';
+import { AuthorizationPageComponent } from './authorization-page';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule],
