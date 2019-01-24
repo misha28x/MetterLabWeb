@@ -23,7 +23,7 @@ router.get('/:id', (req, res, next) => {
 
     connection.query(selection, function (err, testRows, fields) {
       if (err) throw err;
-    
+
       let testArray = [];
 
       for (let i in testRows) {
@@ -97,6 +97,24 @@ router.put('/:id', (req, res, next) => {
   });
 
   res.status(200);
+});
+
+// TODO: редагування тестів
+router.put('/test/init/:id', (req, res, next) => {
+  connection.query("UPDATE tests SET initValue`='" + req.body.initValue + "' WHERE id = '" + req.params.id + "';", (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+});
+
+// TODO: редагування тестів
+router.put('/test/final/:id', (req, res, next) => {
+  connection.query("UPDATE tests SET finalValue`='" + req.body.finalValue + "' WHERE id = '" + req.params.id + "';", (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 });
 
 module.exports = router;
