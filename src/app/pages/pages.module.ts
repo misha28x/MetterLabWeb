@@ -18,6 +18,7 @@ import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';
 import { PageReportsComponent } from './reports';
 import { PageUserGuideComponent } from './user-guide';
+import { AuthorizationPageComponent } from './authorization-page/authorization-page.component';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule],
@@ -38,7 +39,8 @@ import { PageUserGuideComponent } from './user-guide';
     EmployeeDialogComponent,
     TaskSendingComponent,
     TaslListViewDialogComponent,
-    TaskListEditDialogComponent
+    TaskListEditDialogComponent,
+    AuthorizationPageComponent
   ],
   entryComponents: [EmployeeDialogComponent, TaskSendingComponent, TaslListViewDialogComponent, TaskListEditDialogComponent]
 })

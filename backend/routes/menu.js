@@ -1,9 +1,11 @@
 const express = require('express');
 const mysql = require('mysql');
-
 const router = express.Router();
 
 const connection = require('../database/db');
+const io = require('../socket/socket');
+
+let socket;
 
 function createMenu(newV, labR, tasP) {
   return [{

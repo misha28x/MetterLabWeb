@@ -47,9 +47,19 @@ const onListening = () => {
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 // TODO: socket.io
-const server = module.exports = http.createServer(app);
-const io = require('socket.io')(server);
-app.set("io", io);
+const server = http.createServer(app);
+
+const io = require('./backend/socket/socket');
+io.init(server);
+io.getIo().on('connection', (socket) => {
+  console.log('connected');
+
+  io.getIo().on('change', (data)=> {
+    console.log('changed');
+  });
+});
+
+
 
 server.on('error', onError);
 server.on('listening', onListening);

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { MenuReducer } from './store/reducers/menu.reducer';
 
@@ -13,6 +14,8 @@ import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
 	declarations: [
@@ -24,6 +27,7 @@ import { AppComponent } from './app.component';
 		BrowserAnimationsModule,
 		HttpClientModule,
 		UiModule,
+    SocketIoModule.forRoot(config),
 		StoreModule.forRoot({
 			menuState: MenuReducer
 		}),
