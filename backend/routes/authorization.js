@@ -16,9 +16,9 @@ const counters = {
 };
 
 // Авторизація
-router.get("/:id", (req, res, next) => {
+router.get("", (req, res, next) => {
   // "SELECT user_permissions FROM users WHERE user_name='" + req.body.login + "' AND user_password='" + req.body.password + "';"
-  connection.query("SELECT user_permissions FROM users WHERE id ='" + req.params.id + "';", (err, user) => {
+  connection.query("SELECT user_permissions FROM users WHERE 	user_name ='" + req.body.email + "' AND user_password='" + req.body.pass + "';", (err, user) => {
     if (err) {
       console.log(err);
     }
@@ -40,22 +40,22 @@ router.get("/:id", (req, res, next) => {
         switch (user[0].user_permissions) {
           case 1:
             menuObj = getUserMenu()
-						break;
-						
+            break;
+
           case 2:
             menuObj = getMetrologyMenu()
-						break;
-						
+            break;
+
           case 3:
             menuObj = getAdminMenu()
-						break;
-						
+            break;
+
           default:
             break;
         }
         res.json({
-					menu: menuObj,
-					permission: user[0].user_permissions
+          menu: menuObj,
+          permission: user[0].user_permissions
         });
       } else {
         res.json({

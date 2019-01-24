@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../material/material.module';
 import { UiModule } from './../ui/ui.module';
@@ -21,7 +21,7 @@ import { PageUserGuideComponent } from './user-guide';
 import { AuthorizationPageComponent } from './authorization-page';
 
 @NgModule({
-  imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule],
+  imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule],
   declarations: [
     PageHomePageComponent,
     PageNewVerificationsComponent,

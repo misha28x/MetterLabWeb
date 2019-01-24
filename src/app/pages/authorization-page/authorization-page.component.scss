@@ -1,0 +1,57 @@
+@import '../../../assets/sass/variables';
+
+:host {
+  align-items: center;
+  background: accent-palette(500);
+  background: linear-gradient(to right, accent-palette(500), accent-palette(300));
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  width: 100%;
+
+  .container {
+    max-width: 650px;
+
+    .text-col {
+      @media #{$max767} {
+        display: none;
+      }
+    }
+
+    .text-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+      max-width: $module-rem * 40;
+
+      .privacy {
+        display: flex;
+        flex-wrap: wrap;
+        margin: ($module-rem * 3) (-$module-rem) 0;
+
+        a {
+          margin: 0 $module-rem;
+        }
+      }
+    }
+
+    .login-form {
+      padding: 0 $module-rem;
+
+			.header-style {
+				margin-top: 16px;
+			}
+
+      .full-width {
+        width: 100%;
+      }
+
+      .forgot-box {
+        margin-top: ($module-rem * 4);
+        text-align: center;
+      }
+    }
+  }
+}
