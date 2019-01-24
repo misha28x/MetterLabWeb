@@ -20,17 +20,34 @@ export class ProtocolDialogComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) public data: Protocol
     ) { }
 
-  ngOnInit(): void { }
-
-  saveProtocol(): void {
-    
+  ngOnInit(): void { 
+    console.log(this.data.tests[0]);
   }
 
-  changeEndState(base64Data: string, value: number): void {
+  saveProtocol(): void { }
+
+  saveTests(): void { }
+
+  changeProtocolData(): void { 
+
+  }
+
+  changeStartState(base64Data: string, value: number, id: number): void {
+    this.dialog.open(StartStateDialogComponent, {
+      data: {
+        imgData: base64Data.toString(),
+        value: value,
+        test: id
+      }
+    });
+  }
+
+  changeEndState(base64Data: string, value: number, id: number): void {
     this.dialog.open(EndStateDialogComponent, {
       data: {
         imgData: base64Data.toString(),
-        value: value
+        value: value,
+        test: id 
       }
     });
   }

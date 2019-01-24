@@ -1,9 +1,11 @@
 const express = require('express');
 const mysql = require('mysql');
-
 const router = express.Router();
 
 const connection = require('../database/db');
+const io = require('../socket/socket');
+
+let socket;
 
 function createMenu(newV, labR, tasP) {
   return [{
@@ -74,6 +76,11 @@ function createMenu(newV, labR, tasP) {
 
 // новві повірки, планування завдання, протоколи
 router.get('', (req, res, next) => {
+  socket = io.getIo();
+
+  socket.on('change', (data) => {
+    console.log('changed, some data ' + data);
+  })
   const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS protocols FROM dual;";
   connection.query(queryString, (err, result) => {
     if (err) {

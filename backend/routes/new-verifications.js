@@ -6,19 +6,6 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
-// TODO: io
-const server = require('../../server');
-const io = require('socket.io')(server);
-
-// Values regex = \[.*?\] -> '%s'
-// TODO: io
-io.on('connection', function (socket) {
-  console.log('a user connected');
-  socket.on('disconnect', function () {
-    console.log('user disconnected');
-  });
-});
-
 router.get('/employee', (req, res, next) => {
   connection.query("SELECT `name` FROM employees;", (err, name) => {
     res.send(name);

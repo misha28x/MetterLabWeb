@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { MenuReducer } from './store/reducers/menu.reducer';
 
@@ -13,16 +14,12 @@ import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
-import { EndStateDialogComponent } from './end-state-dialog/end-state-dialog.component';
-import { StartStateDialogComponent } from './start-state-dialog/start-state-dialog.component';
-import { CounterDialogDataComponent } from './counter-dialog-data/counter-dialog-data.component';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
 	declarations: [
-		AppComponent,
-		EndStateDialogComponent,
-		StartStateDialogComponent,
-		CounterDialogDataComponent
+		AppComponent
 	],
 	imports: [
 		BrowserModule,
@@ -30,6 +27,7 @@ import { CounterDialogDataComponent } from './counter-dialog-data/counter-dialog
 		BrowserAnimationsModule,
 		HttpClientModule,
 		UiModule,
+    SocketIoModule.forRoot(config),
 		StoreModule.forRoot({
 			menuState: MenuReducer
 		}),

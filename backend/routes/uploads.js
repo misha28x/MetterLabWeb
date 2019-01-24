@@ -6,21 +6,8 @@ const fs = require('fs');
 const SQL = require('sql.js');
 const multer = require('multer')
 const coder = require('base64-arraybuffer');
-const app = require('../app');
-
-//const io = app.get('io');
-
-// const io = require('socket.io')(app);
-
-// TODO: connect io
-
-// var io = ioo();
-
-// io.on('connection', client => {
-// 	console.log('connected');	
-// });
-
 const connection = require('../database/db');
+const io = require('../socket/socket');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -37,15 +24,10 @@ const upload = multer({
 
 const router = express.Router();
 
-// TODO:
 const uploadInfo = {
   counter: 0,
   errors: []
 };
-
-router.get('/io', (req, res, next) => {
-
-});
 
 function bytesToInt(bytes) {
   const startbyte = bytes.byteOffset + bytes.byteLength - Uint32Array.BYTES_PER_ELEMENT;
@@ -155,7 +137,6 @@ function getResultsFromDatabase(byteArray) {
           " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
           " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
 
-        // TODO: count для кількості дублікатів
         connection.query(varResult, function (err, rows) {
           if (err) {
             if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
@@ -167,8 +148,6 @@ function getResultsFromDatabase(byteArray) {
               return;
             }
           } else {
-            // 1. Оновлення заявки зі статусом "Проведено повірку" в rows де є непорожній номер заявки (Id_pc)
-            // TODO: перевірити UPDATE
             if (row.Id_pc !== '' && row.Id_pc !== null) {
               if (appNum.length == 0) {
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
@@ -254,7 +233,7 @@ function generateFormatedDateString(addingDate) {
     month = "0" + month;
   }
 
-  return day.toString() + "-" + month.toString()+ "-" + year.toString();
+  return day.toString() + "-" + month.toString() + "-" + year.toString();
 }
 
 function parseProtocol(byteArray, fileName) {
@@ -539,26 +518,25 @@ function addProtocol(protocol) {
 
       if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
         console.log('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
-				uploadInfo.errors.push('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
-				// io.emit('error', {
-				//   err: 'Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName
-				// })
+        io.getIo().emit('error', {
+          err: 'Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName
+        });
         return;
       } else {
         console.log('Інша помилка при перевірці на дублікати:');
-				uploadInfo.errors.push('Помилка читання файлу');
-					// io.emit('error', {
-					// 	err: 'Помилка читання файлу'
-					// });
+        uploadInfo.errors.push('Помилка читання файлу');
+        io.getIo().emit('error', {
+          err: 'Помилка читання файлу'
+        });
         console.log(err);
 
         return;
       }
     } else {
-			console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
-			// io.emit('success', {
-			// 	msg: 'Файл додано: ' + protocol.bbiFileName
-			// });
+      console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
+      io.getIo().emit('success', {
+      	msg: 'Файл додано: ' + protocol.bbiFileName
+      });
       protocol.tests.forEach(test => {
         varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
         varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
@@ -573,9 +551,9 @@ function addProtocol(protocol) {
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
-	uploadInfo.counter = 0;
-	uploadInfo.errors = [];
-	
+  uploadInfo.counter = 0;
+  uploadInfo.errors = [];
+
   let zip = new JSZip();
   let db;
 

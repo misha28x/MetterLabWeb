@@ -4,6 +4,7 @@ import { concat } from 'rxjs';
 
 import { NewVerificationDialogComponent } from './new-verification-dialog/new-verification-dialog.component';
 import { DataService } from '../../../services/data.service';
+import { SocketService } from '../../../services/socket.service';
 
 const employeeUrl = 'http://localhost:3000/api/new-verifications/employee';
 const typeUrl = 'http://localhost:3000/api/new-verifications/device';
@@ -18,10 +19,13 @@ export class NewVerificationComponent implements OnInit {
 
   constructor(
       private matDialog: MatDialog,
-      private dataSv: DataService  
+      private dataSv: DataService,
+      private socket: SocketService
     ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+  }
 
 	openDialog(dialogData: any): void {
 		this.matDialog.open(NewVerificationDialogComponent, {

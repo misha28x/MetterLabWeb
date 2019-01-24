@@ -23,11 +23,13 @@
 
     tr {
       border-collapse: collapse;
+      border-radius: .25rem;
 
       td {
         border: 1px solid #dee2e6;
-        padding: .25rem;
+        padding: .4rem;
         vertical-align: top;
+        font-style: bold;
         width: 200px;
       }
 
