@@ -11,11 +11,15 @@ export class TestService {
 
   constructor(private http: HttpClient) { }
 
-  updateEndState(id: number, value: number): void {
-    this.http.put(endStateUrl + id, value).subscribe();
+  updateEndState(id: number, value: string): void {
+    this.http.put(endStateUrl + id, { finalValue: value }).subscribe(res => {
+      console.log('success');
+    });
   }
 
-  updateStartState(id: number, value: number): void {
-    this.http.put(startStateUrl + id, value).subscribe();
+  updateStartState(id: number, value: string): void {
+    this.http.put(startStateUrl + id, { initValue: value }).subscribe(res => {
+      console.log('success');
+    });
   }
 }

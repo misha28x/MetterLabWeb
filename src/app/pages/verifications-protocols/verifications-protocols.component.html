@@ -1,23 +1,9 @@
 <mat-card>
+  <mat-card-header>Список протоколів</mat-card-header>
   <mat-card-content>
     <div class="actions">
       <div class="task-actions">
-        <app-new-verification></app-new-verification>
-        <button mat-raised-button color="primary"><i class="icofont-search-document"></i> Глобальний Пошук</button>
-      </div>
-
-      <div class="user-actions">
-        <button mat-raised-button color="primary" class="bg-success">
-          <i class="icofont-ui-user"></i> Додати ДійовуОсобу
-        </button>
-
-        <button mat-raised-button color="primary" class="bg-warning">
-          <i class="icofont-delete"></i> Скасувати Дійову Особу
-        </button>
-
-        <button mat-raised-button color="warn">
-          <i class="icofont-minus"></i>Відхилити Повірку
-        </button>
+        <button mat-raised-button class="bg-success"><i class="icofont-send-mail"></i> Надіслати</button>
       </div>
     </div>
 
@@ -43,7 +29,7 @@
       <app-column [width]="100" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="120" [columnTitle]="'Статус'" [columnName]="'status'" [enableSorting]="true"
+      <app-column [width]="200" [columnTitle]="'Статус'" [columnName]="'status'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="125" [columnTitle]="'Номер лічильника'" [columnName]="'counterNumber'" [enableSorting]="true"

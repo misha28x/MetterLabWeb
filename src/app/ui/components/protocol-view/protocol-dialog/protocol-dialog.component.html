@@ -49,11 +49,19 @@
       </tr>
       <tr>
         <td>Статус витрат</td>
-        <td>{{ data.isInZone }}</td>
+        <td [ngClass]="{
+            'success': data.isInZone == 'В зоні',
+            'error': data.isInZone != 'В зоні'
+          }">
+          {{ data.isInZone }}</td>
       </tr>
       <tr>
         <td>Результат</td>
-        <td>{{ data.result }}</td>
+        <td [ngClass]="{
+            'success': data.result == 'Годен',
+            'error': data.isInZone != 'Годен'
+        }">
+          {{ data.result }}</td>
       </tr>
       <tr>
         <td>Дата підпису особи</td>
@@ -118,7 +126,7 @@
           <td>{{ test.name }}</td>
         </tr>
         <tr>
-          <td>{{ test.installedExes }}</td>
+          <td>{{ formatData(test.installedExes) }}</td>
         </tr>
         <tr>
           <td>{{ test.assumedFault }}</td>
@@ -133,28 +141,38 @@
           <td>{{ test.finalValue }}</td>
         </tr>
         <tr>
-          <td>{{ test.counterCapacity }}</td>
+          <td>{{ formatData(test.counterCapacity) }}</td>
         </tr>
         <tr>
           <td>{{ test.testDuration }}</td>
         </tr>
         <tr>
-          <td>{{ test.mediumExes }}</td>
+          <td>{{ formatData(test.mediumExes) }}</td>
         </tr>
         <tr>
-          <td>{{ test.isInZone }}</td>
+          <td [ngClass]="{
+            'success': data.isInZone == 'В зоні',
+            'error': data.isInZone != 'В зоні'
+          }">
+            {{ test.isInZone }}
+          </td>
         </tr>
         <tr>
-          <td>{{ test.calculatedFault }}</td>
+          <td>{{ formatData(test.calculatedFault) }}</td>
         </tr>
         <tr>
-          <td>{{ test.result }}</td>
+          <td [ngClass]="{
+            'success': data.result == 'Годен',
+            'error': data.isInZone != 'Годен'
+          }">
+            {{ test.result }}
+          </td>
         </tr>
       </table>
 
       <div class="test-images">
-        <img [src]="getImage(test.startStateImage)">
-        <img [src]="getImage(test.endStateImage)">
+        <img (click)="changeStartState(test.startStateImage, test.initValue, test.id)" [src]="getImage(test.startStateImage)">
+        <img (click)="changeEndState(test.endStateImage, test.finalValue, test.id)" [src]="getImage(test.endStateImage)">
       </div>
     </div>
   </div>
