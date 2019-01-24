@@ -17,26 +17,30 @@ const configOb = {
 };
 
 router.post('/:id', (req, res, next) => {
+  if (req.body.status = '' || req.body.status == null) {
+    const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
+    connection.query(queryStr, (err, result) => {
+      connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
+        connection.query("SELECT `contactEmail` FROM `stations` WHERE `stationNumber`='" + stationRows[0].stationNumber + "';", (err, emails) => {
+          if (err) {
+            console.log(err);
+          }
 
-  const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
-  connection.query(queryStr, (err, result) => {
-    connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
-      connection.query("SELECT `contactEmail` FROM `stations` WHERE `stationNumber`='" + stationRows[0].stationNumber + "';", (err, emails) => {
-        if (err) {
-          console.log(err);
-        }
+          configOb.stationNumber = stationRows[0].stationNumber;
+          configOb.taskDate = stationRows[0].taskDate;
+          configOb.contactEmail = emails[0].contactEmail;
+          configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
+          generateFiles(result);
 
-        configOb.stationNumber = stationRows[0].stationNumber;
-        configOb.taskDate = stationRows[0].taskDate;
-        configOb.contactEmail = emails[0].contactEmail;
-        configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
-        generateFiles(result);
-
-        res.json({
-          m: 'success'
+          res.json({
+            m: 'success'
+          });
         });
       });
     });
+  }
+  res.json({
+    msg: 'Завдання вже надіслано'
   });
 });
 
@@ -126,8 +130,8 @@ function generateMail() {
 
 // Генерування табилці Excel
 function generateExcelFile(taskResult) {
-	console.log(taskResult);
-	
+  console.log(taskResult);
+
   const wb = new xl.Workbook();
 
   // Стиль для заголовків
@@ -197,8 +201,8 @@ function generateExcelFile(taskResult) {
 
   let i = 2;
   taskResult.forEach(task => {
-		console.log(task);
-		
+    console.log(task);
+
     ws.cell(i, 1).string(task.addingDate).style(text);
     ws.cell(i, 2).string(task.serviceProvider).style(text);
     ws.cell(i, 3).string(task.district).style(text);

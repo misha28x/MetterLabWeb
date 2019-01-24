@@ -1,3 +1,31 @@
-<p>
-  authorization-page works!
-</p>
+<div class="container">
+
+  <mat-card class="mb-0" >
+    <form class="login-form mb-0">
+
+			<h2 class="header-style">Вхід</h2>
+			
+			<p>Для входу пройдіть авторизацію</p>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Email" [formControl]="emailFormControl">
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          Введіть коректний email
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Будь ласка, <strong>введіть</strong> email
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Password" [formControl]="passwordFormControl" type="password">
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Будь ласка, <strong>введіть</strong> пароль
+        </mat-error>
+      </mat-form-field>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Увійти</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

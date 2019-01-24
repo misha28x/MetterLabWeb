@@ -144,6 +144,13 @@ router.post('/position', (req, res, next) => {
   });
   res.status(200);
 })
-
+// Видалення заявки з завдання і переміщення її в планування завдання
+router.get('/delete/:id', (req, res) => {
+	connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='"+ req.params.id +"';", (err) => {
+		if (err) {
+			console.log(err);			
+		}
+	});
+});
 
 module.exports = router;
