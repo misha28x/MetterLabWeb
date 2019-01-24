@@ -1,0 +1,77 @@
+@import '../../../../../assets/sass/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .content {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+    overflow: hidden;
+
+    .spinner {
+      align-self: center;
+      margin: auto;
+    }
+
+    .counters {
+      align-self: flex-start;
+      border: 1px solid rgba(#000, .1);
+      border-radius: 4px;
+      box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2),
+        0 1px 1px 0 rgba(0, 0, 0, .14),
+        0 1px 3px 0 rgba(0, 0, 0, .12);
+      display: flex;
+      justify-content: space-between;
+      padding: 0;
+      margin: 0 0 ($module-rem / 2) 0;
+      list-style-type: none;
+      width: 100%;
+
+      .counter {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        font-size: 1.3em;
+        height: 105px;
+        padding: $module-rem;
+        text-align: center;
+
+        .main-text {
+          font-size: 2em;
+
+          &.success {
+            color: $success-color;
+          }
+
+          &.error {
+            color: $error-color;
+          }
+
+          &.info {
+            color: $info-color;
+          }
+        }
+        .sub-text {
+          font-size: 0.8em;
+        }
+      }
+    }
+
+    .err-list {
+      flex: 1;
+      list-style-type: none;
+      overflow: auto;
+
+      .item {
+        background: rgba($error-color, .35);
+        border-radius: 4px;
+        padding: module-rem / 2;
+        height: ubset;
+        margin-bottom: $module-rem / 2;
+      }
+    }
+  }
+}

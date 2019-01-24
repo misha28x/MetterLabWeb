@@ -1,0 +1,8 @@
+@import '../../../../assets/sass/variables';
+
+:host {
+  i {
+    font-size: 1.4em;
+    margin-right: $module-rem / 2;
+  }
+}

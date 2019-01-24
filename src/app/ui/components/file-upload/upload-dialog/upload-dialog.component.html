@@ -1,23 +1,62 @@
 <input type="file" #file style="display: none" (change)="onFilesAdded($event)" multiple />
 
-<div class="container">
-  <h1 mat-dialog-title>Завантаження Архіву</h1>
-  <div>
-    <button [disabled]="files.size > 0" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles($event)">
-      Вибрати архів
-    </button>
-  </div>
+<h1 mat-dialog-title>{{ title }}</h1>
+<mat-dialog-content class="content">
+  <ng-container *ngIf="!uploading && !uploadedSuccesfully">
+    <div>
+      <button 
+        [disabled]="files.size > 0" 
+        mat-raised-button color="primary" 
+        class="add-files-btn" 
+        (click)="addFiles($event)"
+      >
+        Вибрати архів
+      </button>
+    </div>
 
-  <mat-dialog-content>
     <mat-list>
       <mat-list-item *ngFor="let file of files">
         <h4 mat-line>{{ file.name }}</h4>
       </mat-list-item>
     </mat-list>
-  </mat-dialog-content>
+  </ng-container>
 
-  <mat-dialog-actions class="actions">
-    <button *ngIf="showCancelButton" mat-button mat-dialog-close>Закрити</button>
-    <button mat-raised-button color="primary" [disabled]="0 >= files.size" (click)="closeDialog()">Завантажити</button>
-  </mat-dialog-actions>
-</div>
+  <ng-container *ngIf="uploading && !uploadedSuccesfully">
+    <mat-spinner class="spinner"></mat-spinner>
+  </ng-container>
+
+  <ng-container *ngIf="uploadedSuccesfully">
+    <ul class="counters">
+      <li class="counter">
+        <span class="main-text info">{{ downloaded + errorList.length}}</span>
+        <span class="sub-text">Усього</span>
+      </li>
+
+      <li class="counter">
+        <span class="main-text success">{{ downloaded }}</span>
+        <span class="sub-text">Успішно </span>
+      </li>
+
+      <li class="counter">
+        <span class="main-text error">{{ errorList.length }}</span>
+        <span class="sub-text">Помилок </span>
+      </li>
+    </ul>
+
+    <mat-list class="err-list">
+      <mat-list-item class="item" *ngFor="let err of errorList">
+        <span mat-line>{{ err }}</span>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="actions">
+  <button *ngIf="!uploading" mat-raised-button mat-dialog-close>Закрити</button>
+
+<button *ngIf="!uploading && !uploadedSuccesfully" mat-raised-button color="primary" [disabled]="0 >= files.size"
+    (click)="uploadFiles()">
+    Завантажити
+  </button>
+</mat-dialog-actions>

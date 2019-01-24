@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 
 import { UploadService } from '../../../../services/upload.service';
 import { SocketService } from '../../../../services/socket.service';
+import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-upload-dialog',
@@ -14,26 +15,24 @@ export class UploadDialogComponent implements OnInit {
 
 	public files: Set<File> = new Set();
 
-	canBeClosed: boolean;
-	primaryButtonText: string;
-	showCancelButton: boolean;
+  title: string;
+  errorList: string[];
+  downloaded: number;
 	uploading: boolean;
-	uploadSuccessful: boolean;
-
+  uploadedSuccesfully: boolean;
+	
 	constructor(
       private dialogRef: MatDialogRef<UploadDialogComponent>,
       private uploadService: UploadService,
       private socketSv: SocketService
-      ) { }
+    ) { }
 
 	ngOnInit(): void {
-		this.canBeClosed = true;
-		this.showCancelButton = true;
 		this.uploading = false;
-		this.uploadSuccessful = false;
-    this.socketSv.errors.subscribe(next => 
-        console.log(next.err));
-    this.socketSv.updateCounters();
+    this.uploadedSuccesfully = false;
+    this.title = 'Завантаження архіву';
+    this.errorList = [];
+    this.downloaded = 0;
 	}
 
 	addFiles(): void {
@@ -50,7 +49,26 @@ export class UploadDialogComponent implements OnInit {
 		}
 	}
 
-	closeDialog(): void {
+	uploadFiles(): void {
+    this.uploading = true;
+    this.title = 'Іде завантаження';
 		this.uploadService.upload(this.files);
+    
+    const firstFile = this.socketSv.errors.pipe(first());
+
+    firstFile.subscribe(() => {
+      this.title = 'Завантаження завершено';
+      this.uploading = false;
+      this.uploadedSuccesfully = true;
+      this.dialogRef.updateSize('60%', '80%');
+    });
+
+    this.socketSv.errors.subscribe((next: any) => {
+      if (next.hasOwnProperty('err')) {
+        this.errorList.push(next.err);
+      } else {
+        this.downloaded++;
+      }
+    });
 	}
 }
