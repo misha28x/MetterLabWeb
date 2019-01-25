@@ -32,9 +32,9 @@ router.post('/:id', (req, res, next) => {
           configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
           generateFiles(result);
 
-          // res.json({
-          //   m: 'success'
-          // });
+          res.json({
+            m: 'success'
+          });
         });
       });
     });
@@ -95,7 +95,7 @@ function generateMail() {
 
     let mailOptions = {
       from: 'Адреса відправника', // sender address
-      to: 'misha1998x@gmail.com', //configOb.contactEmail, // list of receivers
+      to: configOb.contactEmail, // list of receivers
       subject: 'Тема', // Subject line
       text: 'Звичайний текст', // plain text body
       html: '<b>Текст в форматі html</b>', // html body
