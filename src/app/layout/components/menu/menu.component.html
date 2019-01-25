@@ -1,5 +1,5 @@
 <ul class="main-menu mb-0">
-  <li class="main-item" *ngFor="let item of menu">
+  <li class="main-item" *ngFor="let item of menu | async">
     <a [routerLink]="[item.routing]" [routerLinkActive]="'active'" class="item-link">
       <span class="item-icon" [ngClass]="item.icon"></span>
       <span class="item-text">{{ item.title }}</span>

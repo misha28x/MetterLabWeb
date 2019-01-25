@@ -40,7 +40,7 @@ export const EXTRA_ROUTES = [
 export const ROUTES: Routes = [
 	{
 		path: '',
-		redirectTo: 'default/home',
+		redirectTo: 'extra/auth',
 		pathMatch: 'full'
 	},
 	{

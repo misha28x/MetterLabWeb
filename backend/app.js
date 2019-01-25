@@ -1,5 +1,6 @@
 const express = require('express');
-const app = module.exports = express();
+const app = express();
+const cors = require('cors');
 
 const bodyParser = require('body-parser');
 
@@ -20,11 +21,13 @@ const fileSendingRoutes = require('./routes/files-sending');
 const reportFormationRoutes = require('./routes/report-formation');
 const autorizationRoutes = require('./routes/authorization');
 
+app.use(cors());
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader(
     'Access-Control-Allow-Methods',
@@ -53,6 +56,6 @@ app.use('/api/reports', reportsRoutes);
 app.use('/api/user-guide', userGuideRoutes);
 app.use('/api/file-sending', fileSendingRoutes);
 app.use('/api/menu', menuRoutes);
-app.use('/api/autorization', autorizationRoutes);
+app.use('/api/authorization', autorizationRoutes);
 
 module.exports = app;

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 
 import { DataService } from '../../services/data.service';
+import { MenuService } from '../../services/menu.service';
 
-const authUrl = 'http://localhost:3000/api/authorization/';
+const authUrl = 'http://localhost:3000/api/authorization';
 
 @Component({
 	selector: 'app-authorization-page',
@@ -21,12 +23,15 @@ export class AuthorizationPageComponent implements OnInit {
 		Validators.required
 	]);
 
-	constructor(private dataSv: DataService) { }
+	constructor(
+      private dataSv: DataService,
+      private menuSv: MenuService,
+      private router: Router
+    ) { }
 
-	ngOnInit() {
-	}
+	ngOnInit(): void { }
 
-	auth() {
+	authorization(): void {
 		const authData = {
 			email: '',
 			pass: ''
@@ -35,11 +40,22 @@ export class AuthorizationPageComponent implements OnInit {
 		authData.email = this.emailFormControl.value;
 		authData.pass = this.passwordFormControl.value;
 
-		return this.dataSv.sendData(authUrl, authData).subscribe(res => {
+		this.dataSv.sendData(authUrl, authData).subscribe(res => {
 			if (res.hasOwnProperty('error')) {
 				return;
 			}
-			
+      
+      this.redirectHome();
+      
+      setTimeout(() => {
+        this.menuSv.setMenu(res.menu);
+      }, 10);
 		});
 	}
+
+  redirectHome(): void {
+    setTimeout(() => {
+      this.router.navigate(['default/home'], { replaceUrl: true });
+    }, 0);
+  }
 }

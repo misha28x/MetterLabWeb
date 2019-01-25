@@ -5,9 +5,6 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
-// new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) 
-// FROM `archive` WHERE `status`='Проведено повірку на місці') AS lab_requests FROM dual;";
-
 const counters = {
   new_verifications: 0,
   task_planing: 0,
@@ -16,11 +13,11 @@ const counters = {
 };
 
 // Авторизація
-router.get("", (req, res, next) => {
+router.post("", (req, res, next) => {
   // "SELECT user_permissions FROM users WHERE user_name='" + req.body.login + "' AND user_password='" + req.body.password + "';"
   connection.query("SELECT user_permissions FROM users WHERE 	user_name ='" + req.body.email + "' AND user_password='" + req.body.pass + "';", (err, user) => {
     if (err) {
-      console.log(err);
+       console.log(err);
     }
     const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology FROM dual;";
     connection.query(queryString, (err2, result) => {
@@ -144,11 +141,11 @@ function getMetrologyMenu() {
       icon: 'icofont-file-powerpoint',
       routing: 'rejected-protocols'
     },
-    //  {
-    //    title: 'Архів Повірок',
-    //    icon: 'icofont-archive',
-    //    routing: 'verifications-archive'
-    //  },
+     {
+       title: 'Архів Повірок',
+       icon: 'icofont-archive',
+       routing: 'verifications-archive'
+     },
     {
       title: 'Звіти',
       icon: 'icofont-file-excel',
