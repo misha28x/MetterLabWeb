@@ -17,7 +17,7 @@ const configOb = {
 };
 
 router.post('/:id', (req, res, next) => {
-  if (req.body.status = '' || req.body.status == null) {
+  if (true) { // req.body.status = '' || req.body.status == null
     const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
     connection.query(queryStr, (err, result) => {
       connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
@@ -32,16 +32,17 @@ router.post('/:id', (req, res, next) => {
           configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
           generateFiles(result);
 
-          res.json({
-            m: 'success'
-          });
+          // res.json({
+          //   m: 'success'
+          // });
         });
       });
     });
+  } else {
+    res.json({
+      msg: 'Завдання вже надіслано'
+    });
   }
-  res.json({
-    msg: 'Завдання вже надіслано'
-  });
 });
 
 function generateFiles(taskResult) {
