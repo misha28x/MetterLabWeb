@@ -17,7 +17,7 @@ const configOb = {
 };
 
 router.post('/:id', (req, res, next) => {
-  // if (req.body.status = '' || req.body.status == null) {
+  if (true) { // req.body.status = '' || req.body.status == null
     const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
     connection.query(queryStr, (err, result) => {
       connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
@@ -38,10 +38,11 @@ router.post('/:id', (req, res, next) => {
         });
       });
     });
-  // }
-  // res.json({
-  //   msg: 'Завдання вже надіслано'
-  // });
+  } else {
+    res.json({
+      msg: 'Завдання вже надіслано'
+    });
+  }
 });
 
 function generateFiles(taskResult) {
