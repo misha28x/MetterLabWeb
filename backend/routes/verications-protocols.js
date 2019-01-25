@@ -101,20 +101,25 @@ router.put('/:id', (req, res, next) => {
 
 // TODO: редагування тестів
 router.put('/test/init/:id', (req, res, next) => {
-  connection.query("UPDATE tests SET initValue`='" + req.body.initValue + "' WHERE id = '" + req.params.id + "';", (err) => {
+  console.log({body:  req.body});
+  connection.query("UPDATE tests SET `initValue`='" + req.body.initValue + "' WHERE id = '" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
     }
   });
+  
+  res.json({ msg: 'success' });
 });
 
 // TODO: редагування тестів
 router.put('/test/final/:id', (req, res, next) => {
-  connection.query("UPDATE tests SET finalValue`='" + req.body.finalValue + "' WHERE id = '" + req.params.id + "';", (err) => {
+  connection.query("UPDATE tests SET `finalValue`='" + req.body.finalValue + "' WHERE id = '" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
     }
   });
+
+  res.json({ msg: 'success' });
 });
 
 module.exports = router;

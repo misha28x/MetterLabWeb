@@ -519,17 +519,16 @@ function addProtocol(protocol) {
       if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
         console.log('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
         io.getIo().emit('error', {
-          err: 'Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName
+          err: protocol.bbiFileName + ': Уже додано'
         });
         return;
       } else {
         console.log('Інша помилка при перевірці на дублікати:');
         uploadInfo.errors.push('Помилка читання файлу');
         io.getIo().emit('error', {
-          err: 'Помилка читання файлу'
+          err: protocol.bbiFileName + ': Помилка читання файлу'
         });
         console.log(err);
-
         return;
       }
     } else {

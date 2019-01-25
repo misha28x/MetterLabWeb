@@ -14,11 +14,18 @@ import { FilterTableDirective } from './directives/filter-table/filter-table.dir
 import { SortTableDirective } from './directives/sort-table/sort-table.directive';
 import { UploadDialogComponent } from './components/file-upload/upload-dialog/upload-dialog.component';
 import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
-import { ProtocolViewComponent, ProtocolDialogComponent } from './components/protocol-view';
 import { VerificationViewComponent } from './components/verification-view/verification-view.component';
 import { DetailViewComponent, DetailViewDialogComponent } from './components/detail-view';
 import { DuplicateViewComponent, DuplicatViewDialogComponent } from './components/duplicate-view';
 import { BadgeComponent } from './components/badge';
+
+import {
+  ProtocolViewComponent,
+  ProtocolDialogComponent,
+  CounterDialogDataComponent,
+  EndStateDialogComponent,
+  StartStateDialogComponent
+  } from './components/protocol-view';
 
 @NgModule({
 	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule, ReactiveFormsModule],
@@ -34,7 +41,10 @@ import { BadgeComponent } from './components/badge';
     DuplicateViewComponent,
     DuplicatViewDialogComponent,
     DetailViewComponent,
-    BadgeComponent
+    BadgeComponent,
+    CounterDialogDataComponent,
+    EndStateDialogComponent,
+    StartStateDialogComponent
 	],
 	declarations: [
 		SortTableDirective,
@@ -53,14 +63,20 @@ import { BadgeComponent } from './components/badge';
     DetailViewDialogComponent,
     DuplicateViewComponent,
     DuplicatViewDialogComponent,
-    BadgeComponent
+    BadgeComponent,
+    CounterDialogDataComponent,
+    EndStateDialogComponent,
+    StartStateDialogComponent
 	],
   entryComponents: [
     UploadDialogComponent,
     NewVerificationDialogComponent,
     ProtocolDialogComponent,
     DuplicatViewDialogComponent,
-    DetailViewDialogComponent
+    DetailViewDialogComponent,
+    CounterDialogDataComponent,
+    EndStateDialogComponent,
+    StartStateDialogComponent
   ]
 })
 export class UiModule { }

@@ -9,7 +9,7 @@ import { SidebarComponent } from './components/sidebar';
 import { NavbarComponent } from './components/navbar';
 import { MenuComponent } from './components/menu';
 import { UiModule } from '../ui/ui.module';
-import { ExtraComponent } from './extra/extra.component';
+import { ExtraComponent } from './extra';
 
 @NgModule({
 	declarations: [

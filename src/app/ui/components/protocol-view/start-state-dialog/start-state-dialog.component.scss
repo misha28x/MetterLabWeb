@@ -1,0 +1,12 @@
+@import '../../../../../assets/sass/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    min-width: 400px;
+    border-radius: 4px;
+    margin-bottom: $module-rem * 2;
+  }
+}

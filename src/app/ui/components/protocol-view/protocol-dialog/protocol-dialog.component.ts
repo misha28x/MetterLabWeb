@@ -20,8 +20,10 @@ export class ProtocolDialogComponent implements OnInit {
       @Inject(MAT_DIALOG_DATA) public data: Protocol
     ) { }
 
-  ngOnInit(): void { 
-    console.log(this.data.tests[0]);
+  ngOnInit(): void { }
+
+  formatData(data: string): string {
+    return parseFloat(data).toFixed(3);
   }
 
   saveProtocol(): void { }
@@ -35,7 +37,7 @@ export class ProtocolDialogComponent implements OnInit {
   changeStartState(base64Data: string, value: number, id: number): void {
     this.dialog.open(StartStateDialogComponent, {
       data: {
-        imgData: base64Data.toString(),
+        base64Data: base64Data.toString(),
         value: value,
         test: id
       }
@@ -45,7 +47,7 @@ export class ProtocolDialogComponent implements OnInit {
   changeEndState(base64Data: string, value: number, id: number): void {
     this.dialog.open(EndStateDialogComponent, {
       data: {
-        imgData: base64Data.toString(),
+        base64Data: base64Data,
         value: value,
         test: id 
       }

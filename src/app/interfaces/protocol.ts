@@ -26,6 +26,7 @@ export interface Protocol {
 }
 
 export interface Test {
+  id?: number;
 	bbiFileName: string;			// Номер_протоколу
 	name: string;							// Назва_тесту
 	installedExes: number; 		// "Заданный расход, м3/ч";				[0]

@@ -6,22 +6,18 @@ import { HttpClient } from '@angular/common/http';
 const url = 'http://localhost:3000/api/upload';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class UploadService {
 
-	constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-	public upload(files: Set<File>): void {
+  public upload(files: Set<File>): void {
     const fileData: FormData = new FormData();
 
     files.forEach(file => {
       fileData.append('file', file);
-      console.log(file);
-      this.http.post(url, fileData).subscribe((res) => {
-				console.log(res);
-      }
-      );
+      this.http.post(url, fileData).subscribe(res => console.log(res));
     });
-	}
+  }
 }
