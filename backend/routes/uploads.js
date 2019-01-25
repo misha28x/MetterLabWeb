@@ -524,7 +524,6 @@ function addProtocol(protocol) {
         return;
       } else {
         console.log('Інша помилка при перевірці на дублікати:');
-        uploadInfo.errors.push('Помилка читання файлу');
         io.getIo().emit('error', {
           err: protocol.bbiFileName + ': Помилка читання файлу'
         });
@@ -544,15 +543,11 @@ function addProtocol(protocol) {
         connection.query(varPart + formatedData);
       });
     }
-    uploadInfo.counter++;
   });
 
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
-  uploadInfo.counter = 0;
-  uploadInfo.errors = [];
-
   let zip = new JSZip();
   let db;
 
@@ -573,7 +568,7 @@ router.post('', upload.single('file'), (req, res, next) => {
     });
   });
   res.status(201);
-  res.json(uploadInfo);
+  res.json({result: 'success'});
 })
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {

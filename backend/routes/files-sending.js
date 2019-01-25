@@ -55,10 +55,13 @@ function generateFiles(taskResult) {
 
   taskResult.forEach(task => {
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+		// TODO: додане правильне представлення бажаного часу
+		let taskDateArray = task.taskDate.split('-');
+    let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
     let formatedData = varData.format(task.applicationNumber,
       task.client.split(' ')[0], task.client.split(' ')[1], task.client.split(' ')[2],
       task.settlement, task.district, task.region, task.street, task.house, task.apartment,
-      task.phoneNumber, task.taskDate, task.counterNumber, task.note, task.serviceProvider);
+      task.phoneNumber, visitDateTime, task.counterNumber, task.note, task.serviceProvider);
     let sqlStr = "INSERT INTO Subscribers(id_pc, surname, name, middlename, city, district," +
       " bush, street, Building, Apartment, Tel, Date_visit, Counter_number, " +
       " Note, Customer)" + formatedData;
@@ -203,8 +206,10 @@ function generateExcelFile(taskResult) {
   let i = 2;
   taskResult.forEach(task => {
     console.log(task);
-
-    ws.cell(i, 1).string(task.addingDate).style(text);
+// TODO: додане правильне представлення бажаного часу
+let taskDateArray = task.taskDate.split('-');
+let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
+    ws.cell(i, 1).string(task.taskDate).style(text);
     ws.cell(i, 2).string(task.serviceProvider).style(text);
     ws.cell(i, 3).string(task.district).style(text);
     ws.cell(i, 4).string(task.street).style(text);
@@ -215,7 +220,7 @@ function generateExcelFile(taskResult) {
     ws.cell(i, 9).string(task.counterQuantity.toString()).style(text);
     ws.cell(i, 10).string(task.client).style(text);
     ws.cell(i, 11).string(task.phoneNumber).style(text);
-    ws.cell(i, 12).string(task.taskDate).style(text);
+    ws.cell(i, 12).string(visitDateTime).style(text);
     ws.cell(i, 13).string(task.applicationNumber).style(text);
     ws.cell(i, 14).string(task.note).style(text);
     ws.cell(i, 15).string(task.comment).style(text);

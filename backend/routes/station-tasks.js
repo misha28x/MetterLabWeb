@@ -83,8 +83,8 @@ router.get('/excel/:id', (req, res, next) => {
     ws.column(8).setWidth(11);
     ws.column(9).setWidth(24);
     ws.column(10).setWidth(32);
-    ws.column(11).setWidth(12);
-    ws.column(12).setWidth(14);
+    ws.column(11).setWidth(14);
+    ws.column(12).setWidth(17);
     ws.column(13).setWidth(17);
     ws.column(14).setWidth(72);
     ws.column(15).setWidth(11);
@@ -107,6 +107,10 @@ router.get('/excel/:id', (req, res, next) => {
 
     let i = 2;
     taskResult.forEach(task => {
+// TODO: додане правильне представлення бажаного часу
+let taskDateArray = task.taskDate.split('-');
+let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
+
       ws.cell(i, 1).string(task.addingDate).style(text);
       ws.cell(i, 2).string(task.serviceProvider).style(text);
       ws.cell(i, 3).string(task.district).style(text);
@@ -118,7 +122,7 @@ router.get('/excel/:id', (req, res, next) => {
       ws.cell(i, 9).string(task.counterQuantity).style(text);
       ws.cell(i, 10).string(task.client).style(text);
       ws.cell(i, 11).string(task.phoneNumber).style(text);
-      ws.cell(i, 12).string(task.taskDate).style(text);
+      ws.cell(i, 12).string(visitDateTime).style(text);
       ws.cell(i, 13).string(task.applicationNumber).style(text);
       ws.cell(i, 14).string(task.note).style(text);
       ws.cell(i, 15).string(task.comment).style(text);
