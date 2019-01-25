@@ -17,7 +17,7 @@ const configOb = {
 };
 
 router.post('/:id', (req, res, next) => {
-  if (true) { // req.body.status = '' || req.body.status == null
+  if (true) { // TODO: req.body.status = '' || req.body.status == null
     const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
     connection.query(queryStr, (err, result) => {
       connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
@@ -207,7 +207,7 @@ function generateExcelFile(taskResult) {
   taskResult.forEach(task => {
     console.log(task);
 // TODO: додане правильне представлення бажаного часу
-let taskDateArray = task.taskDate.split('-');
+let taskDateArray = task.taskDate.split('.');
 let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
     ws.cell(i, 1).string(task.taskDate).style(text);
     ws.cell(i, 2).string(task.serviceProvider).style(text);

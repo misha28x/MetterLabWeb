@@ -233,7 +233,7 @@ function generateFormatedDateString(addingDate) {
     month = "0" + month;
   }
 
-  return day.toString() + "-" + month.toString() + "-" + year.toString();
+  return year.toString() + "." + month.toString() + "." + day.toString();
 }
 
 function parseProtocol(byteArray, fileName) {
