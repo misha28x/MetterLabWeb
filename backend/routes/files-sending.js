@@ -31,13 +31,18 @@ router.post('/:id', (req, res, next) => {
           configOb.contactEmail = emails[0].contactEmail;
           configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
           generateFiles(result);
-
-          res.json({
-            m: 'success'
+          // TODO: зміна статусу на В роботі після надсилання завдання
+          connection.query("UPDATE `station_tasks` SET `task_status`='В роботі' WHERE `id_task`='" + req.params.id + "';", (err) => {
+            if (err) {
+              console.log(err);
+            };
+            res.json({
+              m: 'success'
+            });
           });
         });
       });
-    });
+    })
   } else {
     res.json({
       msg: 'Завдання вже надіслано'
@@ -55,8 +60,8 @@ function generateFiles(taskResult) {
 
   taskResult.forEach(task => {
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-		// TODO: додане правильне представлення бажаного часу
-		let taskDateArray = task.taskDate.split('-');
+    // TODO: додане правильне представлення бажаного часу
+    let taskDateArray = task.taskDate.split('-');
     let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
     let formatedData = varData.format(task.applicationNumber,
       task.client.split(' ')[0], task.client.split(' ')[1], task.client.split(' ')[2],
@@ -134,7 +139,6 @@ function generateMail() {
 
 // Генерування табилці Excel
 function generateExcelFile(taskResult) {
-  console.log(taskResult);
 
   const wb = new xl.Workbook();
 
@@ -206,9 +210,9 @@ function generateExcelFile(taskResult) {
   let i = 2;
   taskResult.forEach(task => {
     console.log(task);
-// TODO: додане правильне представлення бажаного часу
-let taskDateArray = task.taskDate.split('.');
-let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
+    // TODO: додане правильне представлення бажаного часу
+    let taskDateArray = task.taskDate.split('.');
+    let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
     ws.cell(i, 1).string(task.taskDate).style(text);
     ws.cell(i, 2).string(task.serviceProvider).style(text);
     ws.cell(i, 3).string(task.district).style(text);
