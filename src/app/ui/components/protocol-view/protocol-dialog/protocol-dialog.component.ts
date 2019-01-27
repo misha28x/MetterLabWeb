@@ -23,15 +23,17 @@ export class ProtocolDialogComponent implements OnInit {
   ngOnInit(): void { }
 
   formatData(data: string): string {
-    return parseFloat(data).toFixed(3);
+    return parseFloat(data).toFixed(2);
   }
 
   saveProtocol(): void { }
 
   saveTests(): void { }
 
-  changeProtocolData(): void { 
-
+  changeProtocolData(protocolData: Protocol): void { 
+    this.dialog.open(CounterDialogDataComponent, {
+      data: protocolData
+    });
   }
 
   changeStartState(base64Data: string, value: number, id: number): void {

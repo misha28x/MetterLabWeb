@@ -50,8 +50,7 @@ export class PageStationsTasksComponent implements OnInit {
     };
 
     const task = forkJoin(
-      this.selectedData.map
-      ( id => this.dataSv.sendData(sendUrl + id))
+      this.selectedData.map( id => this.dataSv.sendData(sendUrl + id))
     );
     
     task.subscribe(observer);

@@ -1,28 +1,29 @@
 export interface Protocol {
+  id?: number;
 	applicationNumber?: string; // Номер заявки
-	serviceType?: number;			// Тип послуги
-	acumulatedVolume?: string // Накопичений об'єм
-	bbiFileName: string;			// Номер_протоколу
-	date: Date;								// Повна дата
-	day: number; 							// День
-	type: string; 						// Типорозмір
-	symbol: string;						// Умовне позначення
-	year: number; 						// Рік
-	hours: number; 						// Години
-	month: number; 						// Місяць
-	minutes: number; 					// Хвилини
-	counterNumber: string;	 	// Номер лічильника
-	capacity: string; 				// Об'єм
-	image: String;
-	temperature: number; 			// Температура
-	productionYear: number; 	// Рік виробітку
-	longitude: number;				// Довгота
-	latitude: number;					// Широта
-	deviceNumber: number;		 	// Номер пристрою
-	tests: Test[];						// Масив з тестами
-	isInZone: string; 					// Статус
-	result: string; 					// Результат
-	protocolStatus: Boolean; 	// Статус протоколу
+	serviceType?: number;			  // Тип послуги
+	acumulatedVolume?: string;  // Накопичений об'єм
+	bbiFileName: string;			  // Номер_протоколу
+	date: Date;								  // Повна дата
+	day: number; 							  // День
+	type: string; 						  // Типорозмір
+	symbol: string;						  // Умовне позначення
+	year: number; 						  // Рік
+	hours: number; 						  // Години
+	month: number; 						  // Місяць
+	minutes: number; 					  // Хвилини
+	counterNumber: string;	 	  // Номер лічильника
+	capacity: string; 				  // Об'єм
+	image: String;  
+	temperature: number; 			  // Температура
+	productionYear: number; 	  // Рік виробітку
+	longitude: number;				  // Довгота
+	latitude: number;					  // Широта
+	deviceNumber: number;		 	  // Номер пристрою
+	tests: Test[];						  // Масив з тестами
+	isInZone: string; 				  // Статус витрат
+	result: string; 					  // Результат
+	protocolStatus: Boolean; 	  // Статус протоколу
 }
 
 export interface Test {

@@ -1,3 +1,14 @@
-<p>
-  counter-dialog-data works!
-</p>
+<h2 mat-dialog-title>Дані протоколу</h2>
+<mat-dialog-content class="content">
+  <img [src]="getImgSource()">
+
+  <form class="form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Кінцеве значення лічильника" value="{{ data.value }}" [formControl]="state">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button class="bg-success" (click)="saveState()">Зберегти</button>
+  <button mat-button mat-dialog-close>Скасувати</button>
+</mat-dialog-actions>

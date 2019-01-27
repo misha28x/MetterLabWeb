@@ -134,7 +134,9 @@ function getMetrologyMenu() {
     {
       title: 'Електроні Протоколи Повірок',
       icon: 'icofont-file-powerpoint',
-      routing: 'verications-protocols'
+      routing: 'verications-protocols',
+      counter: counters.metrology
+      
     },
     {
       title: 'Відхилені Протоколи',

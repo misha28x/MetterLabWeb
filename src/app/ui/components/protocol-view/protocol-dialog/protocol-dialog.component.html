@@ -1,5 +1,3 @@
-<h2 mat-dialog-title>Протокол</h2>
-
 <div mat-dialog-content class="content">
   <div class="protocol-block">
     <table class="protocol-table">
@@ -63,19 +61,50 @@
         }">
           {{ data.result }}</td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td>Дата підпису особи</td>
         <td></td>
       </tr>
       <tr>
         <td>ПІБ особи, що підписала</td>
         <td></td>
-      </tr>
+      </tr> -->
       <tr>
         <td>Статус</td>
-        <td>{{ data.protocolStatus }}</td>
+        <td>{{ data.protocolStatus ? 'Розблоковано' : 'Заблоковано' }}</td>
       </tr>
     </table>
+    
+    <div class="controls">
+      <img [src]="getImage(data.image)">
+
+      <div class="actions">
+        <h3 class="action-title">Перегляд фото</h3>
+        <div class="photo-actions">
+          <button mat-icon-button color="primary">
+            <i class="icofont-reply"></i>
+          </button>
+          
+          <button mat-raised-button color="primary">180&#176;</button>
+
+          <button mat-icon-button color="primary" class="reverse">
+            <i class="icofont-reply"></i>
+          </button>
+        </div>
+        <h3 class="action-title">Протокол</h3>
+        <div class="protocol-actions">
+          <button mat-icon-button color="primary">
+            <i class="icofont-rounded-left"></i>
+          </button>
+
+          <button mat-raised-button class="bg-success">Зберегти</button>
+
+          <button mat-icon-button color="primary">
+            <i class="icofont-rounded-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="tests-block">
@@ -126,28 +155,28 @@
           <td>{{ test.name }}</td>
         </tr>
         <tr>
-          <td>{{ formatData(test.installedExes) }}</td>
+          <td>{{ test.installedExes | number:'1.1-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.assumedFault }}</td>
+          <td>{{ test.assumedFault | number:'1.1-2'}}</td>
         </tr>
         <tr>
-          <td>{{ test.etalonCapacity }}</td>
+          <td>{{ test.etalonCapacity | number:'1.1-2'}}</td>
         </tr>
         <tr>
-          <td>{{ test.initValue }}</td>
+          <td>{{ test.initValue | number:'1.1-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.finalValue }}</td>
+          <td>{{ test.finalValue | number:'1.1-2'}}</td>
         </tr>
         <tr>
-          <td>{{ formatData(test.counterCapacity) }}</td>
+          <td>{{ test.counterCapacity | number:'1.1-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.testDuration }}</td>
+          <td>{{ test.testDuration | number:'1.1-2'}}</td>
         </tr>
         <tr>
-          <td>{{ formatData(test.mediumExes) }}</td>
+          <td>{{ test.mediumExes | number:'1.1-2' }}</td>
         </tr>
         <tr>
           <td [ngClass]="{
@@ -158,7 +187,7 @@
           </td>
         </tr>
         <tr>
-          <td>{{ formatData(test.calculatedFault) }}</td>
+          <td>{{ test.calculatedFault | number:'1.1-2' }}</td>
         </tr>
         <tr>
           <td [ngClass]="{

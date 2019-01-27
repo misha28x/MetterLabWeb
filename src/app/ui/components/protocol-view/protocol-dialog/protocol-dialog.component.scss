@@ -1,23 +1,21 @@
 @import "../../../../../assets/sass/variables";
 
 :host {
-  display: flex;
-  flex-direction: column;
   height: 100%;
+  overflow-y: hidden;
 
   .content {
+    align-items: stretch;
     display: flex;
     flex-flow: row nowrap;
     flex: 1;
     max-height: 100%;
+    height: 100%;
   }
   
   .table {
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
-    77 0 8px 10px 1px rgba(0, 0, 0, .14),
-    0 3px 14px 2px rgba(0, 0, 0, .12);
     background-color: transparent;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
     max-width: 100%;
     width: 100%;
 
@@ -28,10 +26,11 @@
       td {
         border: 1px solid #dee2e6;
         border-radius: .25rem;
-        padding: .4rem;
+        padding: .3rem;
         vertical-align: top;
         font-weight: 700;
-        width: 200px;
+        font-size: .9em;
+        width: 260px;
       }
 
       td+td {
@@ -49,28 +48,71 @@
     @extend .table;
     
     &.first {
-      min-width: 260px;
+      min-width: 232px;
     }
     min-width: 200px;
-    width: 200px;
+    max-width: 330px;
   }
 
   .protocol-block {
     display: flex;
-    flex-direction: row;
-    min-width: 410px;
-    width: 410px;
+    flex-direction: column;
+    min-width: 450px;
     margin-right: $module-rem;
+    flex: 1;
+
+    .controls {
+      display: flex;
+
+      img {
+        cursor: pointer;
+        min-width: 260px;
+        width: 260px;
+      }
+      .actions {
+        flex: 1;
+        padding: $module-rem;
+        justify-content: center;
+        
+        .action-title {
+          font-size: 1.2em;
+          text-align: center;
+
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+        .reverse {
+          transform: scaleX(-1);
+        }
+        .photo-actions {
+          display: flex;
+          justify-content: center;
+          margin-top: $module-rem * 2;
+
+          i {
+            font-size: 1.6em;
+          }
+          >* {
+            margin: -($module-rem / 4) ($module-rem / 2);
+          }
+        }
+        .protocol-actions {
+          @extend .photo-actions;
+        }
+      }
+    }
   }
 
   .tests-block {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
-    width: 1400px;
-
+    overflow-y: hidden;
+    min-height: 100%;
 
     >* {
+      width: unset;
       flex: 1;
     }
   }
@@ -78,9 +120,12 @@
   .test-images {
     display: flex;
     flex-direction: column;
+    max-width: 330px;
+    width: 100%;
 
     img {
-      width: 200px;
+      cursor: pointer;
+      width:inherit;
     }
   }
   .success {
