@@ -1,43 +1,9 @@
-const express = require('express');
-const mysql = require('mysql');
 const xl = require('excel4node');
 
-const router = express.Router();
+// Генерування табилці Excel
+const generateExcelFile = (taskResult, stringName) => {
 
-const connection = require('../database/db');
-
-router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM station_tasks', (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    res.json(result);
-  });
-});
-
-router.get('/:id', (req, res, next) => {
-  let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id +
-    "' ORDER BY `positionInTask` DESC;";
-
-  connection.query(query, (err, rows) => {
-    if (err) {
-      console.log(err);
-      res.json({
-        err: err
-      });
-    }
-    res.json(rows);
-  });
-});
-
-router.get('/excel/:id', (req, res, next) => {
-  let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id +
-    "' ORDER BY `positionInTask` DESC;";
-
-  connection.query(query, (err, taskResult) => {
-    if (err) {
-      console.log(error);
-    }
+  return new Promise((resolve, reject) => {
     const wb = new xl.Workbook();
 
     // Стиль для заголовків
@@ -83,8 +49,8 @@ router.get('/excel/:id', (req, res, next) => {
     ws.column(8).setWidth(11);
     ws.column(9).setWidth(24);
     ws.column(10).setWidth(32);
-    ws.column(11).setWidth(14);
-    ws.column(12).setWidth(17);
+    ws.column(11).setWidth(12);
+    ws.column(12).setWidth(14);
     ws.column(13).setWidth(17);
     ws.column(14).setWidth(72);
     ws.column(15).setWidth(11);
@@ -107,11 +73,11 @@ router.get('/excel/:id', (req, res, next) => {
 
     let i = 2;
     taskResult.forEach(task => {
-// TODO: додане правильне представлення бажаного часу
-let taskDateArray = task.taskDate.split('-');
-let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
-
-      ws.cell(i, 1).string(task.addingDate).style(text);
+      console.log(task);
+      // TODO: додане правильне представлення бажаного часу
+      let taskDateArray = task.taskDate.split('.');
+      let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
+      ws.cell(i, 1).string(task.taskDate).style(text);
       ws.cell(i, 2).string(task.serviceProvider).style(text);
       ws.cell(i, 3).string(task.district).style(text);
       ws.cell(i, 4).string(task.street).style(text);
@@ -119,42 +85,21 @@ let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateAr
       ws.cell(i, 6).string(task.apartment).style(text);
       ws.cell(i, 7).string(task.entrance).style(text);
       ws.cell(i, 8).string(task.floor).style(text);
-      ws.cell(i, 9).string(task.counterQuantity).style(text);
+      ws.cell(i, 9).string(task.counterQuantity.toString()).style(text);
       ws.cell(i, 10).string(task.client).style(text);
       ws.cell(i, 11).string(task.phoneNumber).style(text);
       ws.cell(i, 12).string(visitDateTime).style(text);
       ws.cell(i, 13).string(task.applicationNumber).style(text);
       ws.cell(i, 14).string(task.note).style(text);
       ws.cell(i, 15).string(task.comment).style(text);
+
       i++;
     });
-
-		let finalFileName = taskResult[0].stationNumber + '-' + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(0, 4) + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(6);
-
-    wb.write(finalFileName + '.xlsx', res);
-  });
-});
-
-router.post('/position', (req, res, next) => {
-  req.body.forEach(ver => {
-    let query = "UPDATE `archive` SET `positionInTask`='" +
-      ver.position + "' WHERE `idForStation`='" + ver.stationId + "';";
-
-    connection.query(query, (err) => {
-      if (err) {
-        console.log(err);
-      }
+    wb.write('./backend/data/zzz.xlsx', () => {
+			console.log('Файл zzz.xlsx згенеровано ');
+			resolve('./backend/data/zzz.xlsx');
     });
   });
-  res.status(200);
-})
-// Видалення заявки з завдання і переміщення її в планування завдання
-router.get('/delete/:id', (req, res) => {
-	connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='"+ req.params.id +"';", (err) => {
-		if (err) {
-			console.log(err);			
-		}
-	});
-});
+}
 
-module.exports = router;
+module.exports.generateExcelFile = generateExcelFile;
