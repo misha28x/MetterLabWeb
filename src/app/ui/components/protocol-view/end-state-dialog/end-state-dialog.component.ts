@@ -2,8 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { TestService } from '../../../../services/test.service';
-
 @Component({
   selector: 'app-end-state-dialog',
   templateUrl: './end-state-dialog.component.html',
@@ -15,7 +13,6 @@ export class EndStateDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<EndStateDialogComponent>,
-    private testSv: TestService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -28,7 +25,6 @@ export class EndStateDialogComponent implements OnInit {
   }
 
   saveState(): void {
-    this.testSv.updateEndState(this.data.test, this.state.value);
-    this.dialogRef.close();
+    this.dialogRef.close(this.state.value);
   }
 }

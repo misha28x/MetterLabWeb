@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { EndStateDialogComponent } from '../end-state-dialog/end-state-dialog.component';
 import { StartStateDialogComponent } from '../start-state-dialog/start-state-dialog.component';
 import { CounterDialogDataComponent } from '../counter-dialog-data/counter-dialog-data.component';
-import { Protocol } from '../../../../interfaces/protocol';
+import { Protocol, Test } from '../../../../interfaces/protocol';
 import { DataService } from '../../../../services/data.service';
 
 @Component({
@@ -36,24 +36,36 @@ export class ProtocolDialogComponent implements OnInit {
     });
   }
 
-  changeStartState(base64Data: string, value: number, id: number): void {
-    this.dialog.open(StartStateDialogComponent, {
+  changeStartState(test: Test): void {
+    const startRef = this.dialog.open(StartStateDialogComponent, {
       data: {
-        base64Data: base64Data.toString(),
-        value: value,
-        test: id
+        base64Data: test.startStateImage,
+        value: test.initValue
       }
+    });
+
+    startRef.afterClosed().subscribe(val => {
+      test.initValue = val;
+      this.calculateExes(test);
     });
   }
 
-  changeEndState(base64Data: string, value: number, id: number): void {
-    this.dialog.open(EndStateDialogComponent, {
+  changeEndState(test: Test): void {
+    const endRef = this.dialog.open(EndStateDialogComponent, {
       data: {
-        base64Data: base64Data,
-        value: value,
-        test: id 
+        base64Data: test.endStateImage,
+        value: test.finalValue
       }
     });
+
+    endRef.afterClosed().subscribe(val => {
+      test.finalValue = val;
+      this.calculateExes(test);
+    });
+  }
+
+  calculateExes(test: Test): void {
+    // TODO: обчислення за формулою
   }
 
   getImage(base64Data: string): any {

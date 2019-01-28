@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-import { TestService } from '../../../../services/test.service';
 
 @Component({
   selector: 'app-start-state-dialog',
@@ -15,7 +14,6 @@ export class StartStateDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<StartStateDialogComponent>,
-    private testSv: TestService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
@@ -28,7 +26,6 @@ export class StartStateDialogComponent implements OnInit {
   }
 
   saveState(): void {
-    this.testSv.updateStartState(this.data.test, this.state.value);
-    this.dialogRef.close();
+    this.dialogRef.close(this.state.value);
   }
 }

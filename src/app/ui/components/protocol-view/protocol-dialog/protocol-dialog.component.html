@@ -76,7 +76,7 @@
     </table>
     
     <div class="controls">
-      <img [src]="getImage(data.image)">
+      <img [src]="getImage(data.image)" (click)="changeProtocolData(data)">
 
       <div class="actions">
         <h3 class="action-title">Перегляд фото</h3>
@@ -200,8 +200,8 @@
       </table>
 
       <div class="test-images">
-        <img (click)="changeStartState(test.startStateImage, test.initValue, test.id)" [src]="getImage(test.startStateImage)">
-        <img (click)="changeEndState(test.endStateImage, test.finalValue, test.id)" [src]="getImage(test.endStateImage)">
+        <img (click)="changeStartState(test)" [src]="getImage(test.startStateImage)">
+        <img (click)="changeEndState(test)" [src]="getImage(test.endStateImage)">
       </div>
     </div>
   </div>

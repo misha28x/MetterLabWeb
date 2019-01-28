@@ -1,14 +1,36 @@
 <h2 mat-dialog-title>Дані протоколу</h2>
-<mat-dialog-content class="content">
-  <img [src]="getImgSource()">
 
-  <form class="form">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Кінцеве значення лічильника" value="{{ data.value }}" [formControl]="state">
+<mat-dialog-content class="content">
+  <img class="protocol-img" [src]="getImgSource()">
+
+  <form class="form" [formGroup]="counterFormGroup">
+    <mat-form-field>
+      <input matInput placeholder="Номер лічильника" value="{{ data.counterNumber }}" formControlName="counterNumber">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Накопичений об'єм" value="{{ data.acumulatedVolume }}" formControlName="acumulatedVolume">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Типорозмір лічильника" value="{{ data.symbol }}" formControlName="symbol">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Призначення лічильника" value="{{ data.serviceType }}" formControlName="serviceType">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Тип лічильника" value="{{ data.type }}" formControlName="type">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Рік виробництва" value="{{ data.productionYear }}" formControlName="productionYear">
     </mat-form-field>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions>
-  <button mat-raised-button class="bg-success" (click)="saveState()">Зберегти</button>
+  <button mat-raised-button class="bg-success" (click)="saveProtocol()">Зберегти</button>
   <button mat-button mat-dialog-close>Скасувати</button>
 </mat-dialog-actions>
