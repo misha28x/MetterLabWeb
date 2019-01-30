@@ -1,21 +1,24 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Protocol } from '../../../../interfaces/protocol';
+import { PhotoOrientationService } from '../../../../services/photo-orientation.service';
 
 @Component({
   selector: 'app-counter-dialog-data',
   templateUrl: './counter-dialog-data.component.html',
   styleUrls: ['./counter-dialog-data.component.scss']
 })
-export class CounterDialogDataComponent implements OnInit {
+export class CounterDialogDataComponent implements OnInit, OnDestroy {
 
   counterFormGroup: FormGroup;
+  angle: number;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Protocol,
     private dialogRef: MatDialogRef<CounterDialogDataComponent>,
+    private photoSv: PhotoOrientationService,
     private fb: FormBuilder
   ) { }
 
@@ -28,6 +31,8 @@ export class CounterDialogDataComponent implements OnInit {
       type: this.data.type,
       productionYear: this.data.productionYear
     });
+
+    this.angle = this.photoSv.getAngle();  
   }
   
   saveProtocol(): void {

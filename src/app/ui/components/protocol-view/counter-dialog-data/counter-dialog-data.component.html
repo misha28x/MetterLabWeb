@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Дані протоколу</h2>
 
 <mat-dialog-content class="content">
-  <img class="protocol-img" [src]="getImgSource()">
+  <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" class="protocol-img" [src]="getImgSource()">
 
   <form class="form" [formGroup]="counterFormGroup">
     <mat-form-field>
