@@ -76,12 +76,12 @@
     </table>
     
     <div class="controls">
-      <img [src]="getImage(data.image)" (click)="changeProtocolData(data)">
+      <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" [src]="getImage(data.image)" (click)="changeProtocolData(data)">
 
       <div class="actions">
         <h3 class="action-title">Перегляд фото</h3>
         <div class="photo-actions">
-          <button mat-icon-button color="primary">
+          <button mat-icon-button color="primary" (click)="rotate(-90)">
             <i class="icofont-reply"></i>
           </button>
           
@@ -200,8 +200,8 @@
       </table>
 
       <div class="test-images">
-        <img (click)="changeStartState(test)" [src]="getImage(test.startStateImage)">
-        <img (click)="changeEndState(test)" [src]="getImage(test.endStateImage)">
+        <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" (click)="changeStartState(test)" [src]="getImage(test.startStateImage)">
+        <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" (click)="changeEndState(test)" [src]="getImage(test.endStateImage)">
       </div>
     </div>
   </div>

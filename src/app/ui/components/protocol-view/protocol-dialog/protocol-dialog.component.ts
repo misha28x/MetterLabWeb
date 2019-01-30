@@ -1,9 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 import { EndStateDialogComponent } from '../end-state-dialog/end-state-dialog.component';
 import { StartStateDialogComponent } from '../start-state-dialog/start-state-dialog.component';
 import { CounterDialogDataComponent } from '../counter-dialog-data/counter-dialog-data.component';
+import { PhotoOrientationService } from '../../../../services/photo-orientation.service';
 import { Protocol, Test } from '../../../../interfaces/protocol';
 import { DataService } from '../../../../services/data.service';
 
@@ -12,16 +14,26 @@ import { DataService } from '../../../../services/data.service';
   templateUrl: './protocol-dialog.component.html',
   styleUrls: ['./protocol-dialog.component.scss']
 })
-export class ProtocolDialogComponent implements OnInit {
+export class ProtocolDialogComponent implements OnInit, OnDestroy {
+
+  angle: number;
+  subscription: Subscription;
 
   constructor(
       private dialog: MatDialog,
       private dataSv: DataService,
+      private photoSv: PhotoOrientationService,
       @Inject(MAT_DIALOG_DATA) public data: Protocol
     ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.subscription = this.photoSv.getAngleObservable().subscribe(angle => this.angle = angle);
+  }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.photoSv.setAngle(0);
+  }
   formatData(data: string): string {
     return parseFloat(data).toFixed(2);
   }
@@ -62,6 +74,10 @@ export class ProtocolDialogComponent implements OnInit {
       test.finalValue = val;
       this.calculateExes(test);
     });
+  }
+
+  rotate(angle: number): void {
+    this.photoSv.rotate(angle);
   }
 
   calculateExes(test: Test): void {
