@@ -30,6 +30,48 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
+// TODO: виведення невиконаних заявок в завданні за номером для станції
+// !! перевірити правильність умов !!
+router.get('/unresolved/:id', (req, res, next) => {
+  connection.query("SELECT `addingDate`, `serviceProvider`, `client`, `district`, `street`, `house`,`apartment`,`entrance`,`floor`, `phoneNumber`, `taskTime`, `note` from archive WHERE `idForStation`='" + req.params.id + "' AND (status NOT LIKE 'Проведено%' AND status NOT LIKE 'Надіслано%' AND status NOT LIKE 'Повірено%') ORDER BY `positionInTask` DESC;", (err, rows) => {
+    if (err) {
+      console.log(err);
+      res.json({
+        err: err
+      });
+    }
+    res.json(rows);
+  });
+});
+
+// TODO: Видалити заявку з завдання `stations-task` get(:id)
+router.get('/delete/:id', (req, res) => {
+  connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+});
+
+// TODO: Вивести завдання в яких є невиконані заявки
+router.get('/unresolved/', (req, res) => {
+	// В цьому масиві зберігатимуться примітиви з id недовиконаних завдань
+	let unresolvedTaskIds = [];
+	// вибираємо унікальні номери завдань, які мають свій ідентифікатор
+	connection.query("SELECT DISTINCT idForStation FROM archive WHERE idForStation != '0';", (err, taskIds) => {
+		// для кожного завдання виконуємо наступне
+		taskIds.forEach(stationTask => {
+			// отримуємо значення заявок зі статусами і всіх заявок де idForStation
+			connection.query("SELECT (SELECT COUNT(*) FROM `archive` WHERE idForStation='" + stationTask.idForStation + "' AND (status LIKE 'Проведено%' OR status LIKE 'Надіслано%' OR status LIKE 'Повірено%')) AS resolved_counter, (SELECT COUNT(*) FROM `archive` WHERE idForStation='" + stationTask.idForStation + "') AS all_counter FROM dual;", (err, counters) => {
+				// якщо виконаних заявок менше ніж всіх для завданнях, то її idForStation заносимо в масив
+				if (counters[0].resolved_counter < counters[0].all_counter) {
+					unresolvedTaskIds.push(stationTask.idForStation);
+				}
+			});
+		});
+	});
+});
+
 router.get('/excel/:id', (req, res, next) => {
   let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id +
     "' ORDER BY `positionInTask` DESC;";
@@ -107,9 +149,9 @@ router.get('/excel/:id', (req, res, next) => {
 
     let i = 2;
     taskResult.forEach(task => {
-// TODO: додане правильне представлення бажаного часу
-let taskDateArray = task.taskDate.split('-');
-let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
+      // TODO: додане правильне представлення бажаного часу
+      let taskDateArray = task.taskDate.split('-');
+      let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
 
       ws.cell(i, 1).string(task.addingDate).style(text);
       ws.cell(i, 2).string(task.serviceProvider).style(text);
@@ -129,7 +171,7 @@ let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateAr
       i++;
     });
 
-		let finalFileName = taskResult[0].stationNumber + '-' + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(0, 4) + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(6);
+    let finalFileName = taskResult[0].stationNumber + '-' + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(0, 4) + taskResult[0].taskDate.replace(new RegExp('-', 'g'), '').substring(6);
 
     wb.write(finalFileName + '.xlsx', res);
   });
@@ -148,13 +190,5 @@ router.post('/position', (req, res, next) => {
   });
   res.status(200);
 })
-// Видалення заявки з завдання і переміщення її в планування завдання
-router.get('/delete/:id', (req, res) => {
-	connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='"+ req.params.id +"';", (err) => {
-		if (err) {
-			console.log(err);			
-		}
-	});
-});
 
 module.exports = router;
