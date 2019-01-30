@@ -114,7 +114,7 @@ function getResultsFromDatabase(byteArray) {
     result.push(test.getAsObject());
   }
 
-  const date = result[0].Date.split(' ')[0].replace(".", "-");
+  const date = '' + result[0].Date.split(' ')[0].replace(".", "-");
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
       console.log(err);
@@ -128,7 +128,7 @@ function getResultsFromDatabase(byteArray) {
     }
 
     for (const row of result) {
-      connection.query("SELECT `applicationNumber` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
+      connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
         let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
         let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
@@ -152,7 +152,7 @@ function getResultsFromDatabase(byteArray) {
               if (appNum.length == 0) {
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-                let formatedData = varData.format(date, row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */ row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
+                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */ row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
                 let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
                 connection.query(varResult, (err) => {
                   if (err) {
@@ -165,6 +165,8 @@ function getResultsFromDatabase(byteArray) {
                   if (err) {
                     console.log(err);
                   }
+                  // TODO: Метод, який вибирає лічильники і якщо числа рівні то Update station task where id set status
+                  setTaskStatusDone(appNum[0].idForStation);
                 });
                 console.log('Відсутні помилки в запиті на оновлення: ' + applicationNumber);
               }
@@ -184,6 +186,24 @@ function getResultsFromDatabase(byteArray) {
           }
         });
 
+      });
+    }
+	});
+	console.log("Завантаження завершено");	
+}
+
+// Функція, що перевіряє, чи виконане завдання порівнюючи кількості виконаних заявок до всіх
+function setTaskStatusDone(idForStation) {
+  connection.query("SELECT (SELECT COUNT(*) FROM `archive` WHERE idForStation='" + idForStation + "' AND (status LIKE 'Проведено%' OR status LIKE 'Надіслано%' OR status LIKE 'Повірено%')) AS resolved_counter, (SELECT COUNT(*) FROM `archive` WHERE idForStation='" + idForStation + "') AS all_counter FROM dual;", (err, counters) => {
+    if (err) {
+      console.log(err);
+    }
+    // якщо виконаних заявок менше ніж всіх для завданнях, то її idForStation заносимо в масив
+    if (counters[0].resolved_counter = counters[0].all_counter) {
+      connection.query("UPDATE `station_tasks` SET `task_status`='Виконано' WHERE `id_task`='" + idForStation + "';", (err) => {
+        if (err) {
+          console.log(err);
+        }
       });
     }
   });
@@ -533,7 +553,7 @@ function addProtocol(protocol) {
     } else {
       console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
       io.getIo().emit('success', {
-      	msg: 'Файл додано: ' + protocol.bbiFileName
+        msg: 'Файл додано: ' + protocol.bbiFileName
       });
       protocol.tests.forEach(test => {
         varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
@@ -568,7 +588,9 @@ router.post('', upload.single('file'), (req, res, next) => {
     });
   });
   res.status(201);
-  res.json({result: 'success'});
+  res.json({
+    result: 'success'
+  });
 })
 // Отримання всіх протоколів
 router.get('', (req, res, next) => {

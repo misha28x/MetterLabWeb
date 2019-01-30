@@ -50,7 +50,7 @@ const generateExcelFile = (taskResult, stringName) => {
     ws.column(9).setWidth(24);
     ws.column(10).setWidth(32);
     ws.column(11).setWidth(12);
-    ws.column(12).setWidth(14);
+    ws.column(12).setWidth(17);
     ws.column(13).setWidth(17);
     ws.column(14).setWidth(72);
     ws.column(15).setWidth(11);
@@ -73,10 +73,9 @@ const generateExcelFile = (taskResult, stringName) => {
 
     let i = 2;
     taskResult.forEach(task => {
-      console.log(task);
       // TODO: додане правильне представлення бажаного часу
       let taskDateArray = task.taskDate.split('.');
-      let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
+      let visitDateTime = taskDateArray[0] + " " + task.taskTime;
       ws.cell(i, 1).string(task.taskDate).style(text);
       ws.cell(i, 2).string(task.serviceProvider).style(text);
       ws.cell(i, 3).string(task.district).style(text);
@@ -95,9 +94,9 @@ const generateExcelFile = (taskResult, stringName) => {
 
       i++;
     });
-    wb.write('./backend/data/zzz.xlsx', () => {
-			console.log('Файл zzz.xlsx згенеровано ');
-			resolve('./backend/data/zzz.xlsx');
+    wb.write('./backend/data/' + stringName + '.xlsx', () => {
+      console.log('Файл ' + stringName + '.xlsx згенеровано ');
+      resolve('./backend/data/' + stringName + '.xlsx');
     });
   });
 }

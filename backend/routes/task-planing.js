@@ -63,19 +63,18 @@ router.post('/station-task', (req, res, next) => {
         if (err) {
           console.log(err);
         }
-        let id = 0;
+        let id = rows[0].id_task;
         console.log(rows);
         if (rows.length > 0) {
           id = rows[0].id_task;
         }
-        let position = 1;
+        let position = 0;
 
         // Переміщення заявок в архів з додаванням id завдання
         req.body.verifications.forEach(applicationNumber => {
           // 1. Оновлення заявки зі зміною статусу на "В роботі" inprogress
           // TODO: протестувати Update
-          // 2019-01-24T22:00:00.000Z
-          
+          // 2019-01-24T22:00:00.000Z          
 
           let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "', `taskDate`='" + formatDate(req.body.taskDate) + "', `stationNumber`='" + req.body.stationNumber + "' WHERE `applicationNumber`='" + applicationNumber + "';";
           connection.query(inProgressResult, (err) => {
