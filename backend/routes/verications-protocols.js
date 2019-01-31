@@ -15,12 +15,39 @@ router.get('', (req, res, next) => {
 
 // TODO: роутер для виведення заявок для метрології
 router.get('/metrology', (req, res, next) => {
-	connection.query("SELECT * FROM `archive` WHERE `status` = 'Передано повірнику';", (err, rows) => {
-		if (err) {
-			console.log(err);	
-		}
-		res.json(rows);
-	});	
+  connection.query("SELECT * FROM `archive` WHERE `status` = 'Передано повірнику';", (err, rows) => {
+    if (err) {
+      console.log(err);
+    }
+    res.json(rows);
+  });
+});
+
+router.post('/metrology/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `status`='Передано повірнику' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
+    if (err) {
+      res.json(err);
+    }
+  });
+  res.json('metrology id success');
+});
+
+router.post('/metrology/rejected/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `status`='Повірено. Непридатний' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
+    if (err) {
+      res.json(err);
+    }
+  });
+  res.json('metrology rejected success');
+});
+
+router.post('/metrology/accepted/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `status`='Повірено. Придатний' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
+    if (err) {
+      res.json(err);
+    }
+  });
+  res.json('metrology accepted success');
 });
 
 router.get('/:id', (req, res, next) => {
@@ -111,14 +138,18 @@ router.put('/:id', (req, res, next) => {
 
 // TODO: редагування тестів
 router.put('/test/init/:id', (req, res, next) => {
-  console.log({body:  req.body});
+  console.log({
+    body: req.body
+  });
   connection.query("UPDATE tests SET `initValue`='" + req.body.initValue + "' WHERE id = '" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
     }
   });
-  
-  res.json({ msg: 'success' });
+
+  res.json({
+    msg: 'success'
+  });
 });
 
 // TODO: редагування тестів
@@ -129,7 +160,9 @@ router.put('/test/final/:id', (req, res, next) => {
     }
   });
 
-  res.json({ msg: 'success' });
+  res.json({
+    msg: 'success'
+  });
 });
 
 module.exports = router;
