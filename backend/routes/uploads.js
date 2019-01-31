@@ -204,8 +204,9 @@ function getResultsFromDatabase(byteArray) {
 }
 // Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
 function rightAppNumberString(applicationNumber) {
-	datePart = applicationNumber.substring(0,6);
-	numberPart = (parseInt(applicationNumber.substring(applicationNumber.length - 8)) + 1). toString();
+	const numberString = applicationNumber.toString();
+	const datePart = numberString.substr(0, 6);
+	const numberPart = (parseInt(numberString.substr(numberString.length - 8)) + 1).toString();
 	return ('' + datePart + numberPart);
 }
 
