@@ -32,9 +32,23 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-// TODO: виведення невиконаних заявок в завданні за номером для станції
-// !! перевірити правильність умов !!
+// "SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'"
+
+router.get('/failed/:id', (req, res, next) => {
+  console.log('resolved');
+  connection.query("SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'", (err, rows) => {
+    if (err) {
+      console.log(err);
+      res.json({
+        err: err
+      });
+    }
+    res.json(rows);
+  });
+});
+
 router.get('/unresolved/:id', (req, res, next) => {
+  console.log('resolved');
   connection.query("SELECT `addingDate`, `serviceProvider`, `client`, `district`, `street`, `house`,`apartment`,`entrance`,`floor`, `phoneNumber`, `taskTime`, `note` from archive WHERE `idForStation`='" + req.params.id + "' AND (status NOT LIKE 'Проведено%' AND status NOT LIKE 'Надіслано%' AND status NOT LIKE 'Повірено%') ORDER BY `positionInTask` DESC;", (err, rows) => {
     if (err) {
       console.log(err);
@@ -51,18 +65,10 @@ router.get('/delete/:id', (req, res) => {
   connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
+      res.json({m : err });
     }
+    res.json({m: 'success'});
   });
-});
-
-// TODO: Вивести завдання в яких є невиконані заявки
-router.get('/unresolved', (req, res, next) => {
-	connection.query("SELECT * FROM `station_tasks` WHERE `task_status`!='Виконано'", (err, unresTasks) => {
-			if (err) {
-				console.log(err);				
-			}
-	});
-	res.json(unresTasks);
 });
 
 // TODO: винесено generateExcel
