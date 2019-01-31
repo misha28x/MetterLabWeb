@@ -58,7 +58,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
 
     startRef.afterClosed().subscribe(val => {
       if (val) {
-        test.finalValue = val;
+        test.initValue = val;
         this.calculateExes(test);
       }
     });
@@ -95,6 +95,12 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
         if (Math.abs(test.calculatedFault) > test.assumedFault) {
           test.result = 'Не годен';
           this.data.result = 'Не годен';
+        } else {
+          test.result = 'Годен';
+          const passed = this.data.tests.filter((currentTest: Test) => currentTest.result === 'Годен' || 'Не обработан').length;
+          if (passed === this.data.tests.length) {
+            this.data.result = 'Годен';
+          }
         }
       }
     });

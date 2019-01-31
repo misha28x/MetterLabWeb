@@ -48,16 +48,18 @@
       <tr>
         <td>Статус витрат</td>
         <td [ngClass]="{
-            'success': data.isInZone == 'В зоні',
-            'error': data.isInZone != 'В зоні'
+            'success': data.isInZone === 'В зоні',
+            'error': data.isInZone === 'Не в зоні',
+            'unresolved': data.isInZone == 'Не обработан'
           }">
           {{ data.isInZone }}</td>
       </tr>
       <tr>
         <td>Результат</td>
         <td [ngClass]="{
-            'success': data.result == 'Годен',
-            'error': data.isInZone != 'Годен'
+            'success': data.result === 'Годен',
+            'error': data.result === 'Не годен',
+            'unresolved': data.result === 'Не обработан'
         }">
           {{ data.result }}</td>
       </tr>
@@ -180,8 +182,8 @@
         </tr>
         <tr>
           <td [ngClass]="{
-            'success': data.isInZone == 'В зоні',
-            'error': data.isInZone != 'В зоні'
+            'success': test.isInZone == 'В зоні',
+            'error': test.isInZone != 'В зоні'
           }">
             {{ test.isInZone }}
           </td>
@@ -191,8 +193,9 @@
         </tr>
         <tr>
           <td [ngClass]="{
-            'success': data.result == 'Годен',
-            'error': data.isInZone != 'Годен'
+            'success': test.result == 'Годен',
+            'error': test.result === 'Не годен',
+            'unresolved': test.result === 'Не обработан'
           }">
             {{ test.result }}
           </td>
