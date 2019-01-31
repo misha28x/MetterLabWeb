@@ -85,9 +85,9 @@
             <i class="icofont-reply"></i>
           </button>
           
-          <button mat-raised-button color="primary">180&#176;</button>
+          <button mat-raised-button color="primary" (click)="rotate(180)">180&#176;</button>
 
-          <button mat-icon-button color="primary" class="reverse">
+          <button mat-icon-button color="primary" (click)="rotate(90)" class="reverse">
             <i class="icofont-reply"></i>
           </button>
         </div>
@@ -155,28 +155,28 @@
           <td>{{ test.name }}</td>
         </tr>
         <tr>
-          <td>{{ test.installedExes | number:'1.1-2' }}</td>
+          <td>{{ test.installedExes | number:'1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.assumedFault | number:'1.1-2'}}</td>
+          <td>{{ test.assumedFault | number:'1.0-2'}}</td>
         </tr>
         <tr>
-          <td>{{ test.etalonCapacity | number:'1.1-2'}}</td>
+          <td>{{ test.etalonCapacity | number:'1.0-2'}}</td>
         </tr>
         <tr>
-          <td>{{ test.initValue | number:'1.1-2' }}</td>
+          <td>{{ test.initValue | number:'1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.finalValue | number:'1.1-2'}}</td>
+          <td>{{ test.finalValue | number:'1.0-2'}}</td>
         </tr>
         <tr>
-          <td>{{ test.counterCapacity | number:'1.1-2' }}</td>
+          <td>{{ test.counterCapacity | number:'1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.testDuration | number:'1.1-2'}}</td>
+          <td>{{ test.testDuration | number:'1.0-2'}}</td>
         </tr>
         <tr>
-          <td>{{ test.mediumExes | number:'1.1-2' }}</td>
+          <td>{{ test.mediumExes | number:'1.0-2' }}</td>
         </tr>
         <tr>
           <td [ngClass]="{
@@ -187,7 +187,7 @@
           </td>
         </tr>
         <tr>
-          <td>{{ test.calculatedFault | number:'1.1-2' }}</td>
+          <td>{{ test.calculatedFault | number:'1.0-2' }}</td>
         </tr>
         <tr>
           <td [ngClass]="{

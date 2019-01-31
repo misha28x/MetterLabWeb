@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
@@ -10,7 +10,7 @@ import { PhotoOrientationService } from '../../../../services/photo-orientation.
   templateUrl: './counter-dialog-data.component.html',
   styleUrls: ['./counter-dialog-data.component.scss']
 })
-export class CounterDialogDataComponent implements OnInit, OnDestroy {
+export class CounterDialogDataComponent implements OnInit {
 
   counterFormGroup: FormGroup;
   angle: number;

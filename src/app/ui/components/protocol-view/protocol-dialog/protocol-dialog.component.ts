@@ -57,8 +57,10 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     });
 
     startRef.afterClosed().subscribe(val => {
-      test.initValue = val;
-      this.calculateExes(test);
+      if (val) {
+        test.finalValue = val;
+        this.calculateExes(test);
+      }
     });
   }
 
@@ -71,8 +73,10 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     });
 
     endRef.afterClosed().subscribe(val => {
-      test.finalValue = val;
-      this.calculateExes(test);
+      if (val) {
+        test.finalValue = val;
+        this.calculateExes(test);
+      }
     });
   }
 
@@ -80,8 +84,20 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     this.photoSv.rotate(angle);
   }
 
-  calculateExes(test: Test): void {
-    // TODO: обчислення за формулою
+  calculateExes(selectedTest: Test): void {
+    selectedTest.counterCapacity = selectedTest.finalValue - selectedTest.initValue;
+    const differ = selectedTest.counterCapacity - selectedTest.etalonCapacity;
+    const calculatedFault = (differ * 100 / selectedTest.etalonCapacity);
+    
+    this.data.tests.map((test: Test) => {
+      if (test.id === selectedTest.id) {
+        test.calculatedFault = calculatedFault;
+        if (Math.abs(test.calculatedFault) > test.assumedFault) {
+          test.result = 'Не годен';
+          this.data.result = 'Не годен';
+        }
+      }
+    });
   }
 
   getImage(base64Data: string): any {
