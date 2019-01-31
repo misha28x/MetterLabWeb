@@ -33,7 +33,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // "SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'"
-
+// TODO: додати перевірку за датою, щоб не виводило завдання, які ніяк не могли бути виконані
 router.get('/failed/:id', (req, res, next) => {
   console.log('resolved');
   connection.query("SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'", (err, rows) => {
@@ -46,6 +46,7 @@ router.get('/failed/:id', (req, res, next) => {
     res.json(rows);
   });
 });
+
 
 router.get('/unresolved/:id', (req, res, next) => {
   console.log('resolved');
