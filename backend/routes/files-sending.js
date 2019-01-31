@@ -28,7 +28,7 @@ router.post('/:id', (req, res, next) => {
 
           configOb.stationNumber = stationRows[0].stationNumber;
           configOb.taskDate = stationRows[0].taskDate;
-          configOb.contactEmail = emails[0].contactEmail;
+          configOb.contactEmail = 'lutsk10131ap@gmail.com'; //emails[0].contactEmail;
           configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
           generateFiles(result);
           // TODO: зміна статусу на В роботі після надсилання завдання
@@ -186,7 +186,7 @@ function generateExcelFile(taskResult) {
   ws.column(9).setWidth(24);
   ws.column(10).setWidth(32);
   ws.column(11).setWidth(12);
-  ws.column(12).setWidth(14);
+  ws.column(12).setWidth(17);
   ws.column(13).setWidth(17);
   ws.column(14).setWidth(72);
   ws.column(15).setWidth(11);
@@ -211,7 +211,7 @@ function generateExcelFile(taskResult) {
   taskResult.forEach(task => {
     console.log(task);
     // TODO: додане правильне представлення бажаного часу
-    let taskDateArray = task.taskDate.split('.');
+    let taskDateArray = task.taskDate.split('-');
     let visitDateTime = taskDateArray[0] + "." + taskDateArray[1] + "." + taskDateArray[2] + " " + task.taskTime;
     ws.cell(i, 1).string(task.taskDate).style(text);
     ws.cell(i, 2).string(task.serviceProvider).style(text);
