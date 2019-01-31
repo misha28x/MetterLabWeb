@@ -1,24 +1,23 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SocketService implements OnInit {
 
-  errors = this.socket.fromEvent<any>('error');
+  files = this.socket.fromEvent<any>('upload');
 
   constructor(private socket: Socket) { }
 
-  ngOnInit(): void {
-    this.errors.subscribe(next => console.log(next.err));
-  }
+  ngOnInit(): void { }
 
   updateCounters(): void {
     this.socket.emit('change', 'something');
   }
 
-  getErrors(): any {
-    return this.errors;
+  getFiles(): Observable<any> {
+    return this.files;
   } 
 }

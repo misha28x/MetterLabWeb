@@ -35,7 +35,6 @@ router.get('/:id', (req, res, next) => {
 // "SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'"
 
 router.get('/failed/:id', (req, res, next) => {
-  console.log('resolved');
   connection.query("SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'", (err, rows) => {
     if (err) {
       console.log(err);

@@ -1,0 +1,78 @@
+<mat-card>
+  <mat-card-header>Список протоколів</mat-card-header>
+  <mat-card-content>
+    <div class="actions">
+      <div class="task-actions">
+        <button mat-raised-button class="bg-success"><i class="icofont-send-mail"></i> Надіслати</button>
+      </div>
+    </div>
+
+    <app-table [hovered]="true" [bordered]="true" [tableData]="protocols" [pagination]="true">
+      <app-column [width]="30">
+        <ng-template #headerBodyTemplate>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+        </ng-template>
+        <ng-template #tableBodyTemplate>
+          <mat-checkbox></mat-checkbox>
+        </ng-template>
+      </app-column>
+
+      <app-column [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
+        [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="125" [columnTitle]="'Номер установки'" [columnName]="'deviceNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="125" [columnTitle]="'Номер протоколу'" [columnName]="'protocolNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="100" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="200" [columnTitle]="'Статус'" [columnName]="'status'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="125" [columnTitle]="'Номер лічильника'" [columnName]="'counterNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="115" [columnTitle]="'Номер пломби'" [columnName]="'sealNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="125" [columnTitle]="'Населений пункт'" [columnName]="'settlement'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="35" [columnTitle]="'Буд.'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="35" [columnTitle]="'Кв.'" [columnName]="'apartment'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Коментар'" [columnName]="'comment'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Дії'">
+        <ng-template #tableBodyTemplate let-row="row">
+          <div class="actions-row">
+            <button mat-icon-button>
+              <i class="icofont-info color-info" matTooltip="Інформація про заявку"></i>
+            </button>
+
+            <button mat-icon-button>
+              <i class="icofont-info-circle color-info" matTooltip="Інформація про протокол"></i>
+            </button>
+
+            <button mat-icon-button (click)="displayProtocol(row['protocolNumber'])">
+              <i class="icofont-edit color-info" matTooltip="Переглянути протокол"></i>
+            </button>
+          </div>
+        </ng-template>
+      </app-column>
+    </app-table>
+  </mat-card-content>
+</mat-card>
+
+<app-protocol-view></app-protocol-view>

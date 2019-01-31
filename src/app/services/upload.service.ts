@@ -17,7 +17,7 @@ export class UploadService {
 
     files.forEach(file => {
       fileData.append('file', file);
-      this.http.post(url, fileData).subscribe(res => console.log(res));
+      this.http.post(url, fileData).subscribe();
     });
   }
 }

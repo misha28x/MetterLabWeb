@@ -3,45 +3,45 @@ const debug = require('debug')('node-angular');
 const http = require('http');
 
 const normalizePort = val => {
-	const port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
-	if (isNaN(port)) {
-	// named pipe
-		return val;
-	}
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
 
-	if (port >= 0) {
-	// port number
-		return port;
-	}
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-	return false;
+  return false;
 };
 
 const onError = error => {
-	if (error.syscall !== 'listen') {
-		throw error;
-	}
-	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + port;
-	switch (error.code) {
-	case 'EACCES':
-		console.error(bind + ' requires elevated privileges');
-		process.exit(1);
-		break;
-	case 'EADDRINUSE':
-		console.error(bind + ' is already in use');
-		process.exit(1);
-		break;
-	default:
-		throw error;
-	}
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + port;
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
 };
 
 const onListening = () => {
-	const addr = server.address();
-	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + port;
-	debug('Listening on ' + bind);
-	console.log('Server Started' + port);
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + port;
+  debug('Listening on ' + bind);
+  console.log('Server Started' + port);
 };
 
 const port = normalizePort(process.env.PORT || '3000');
@@ -53,11 +53,8 @@ const io = require('./backend/socket/socket');
 io.init(server);
 io.getIo().on('connection', (socket) => {
   console.log('connected');
-
-  io.getIo().on('change', (data)=> {
-    console.log('changed');
-  });
 });
+
 
 
 

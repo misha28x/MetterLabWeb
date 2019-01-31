@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { first } from 'rxjs/operators';
 
 import { UploadService } from '../../../../services/upload.service';
 import { SocketService } from '../../../../services/socket.service';
-import { first } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-upload-dialog',
@@ -54,7 +54,7 @@ export class UploadDialogComponent implements OnInit {
     this.title = 'Іде завантаження';
 		this.uploadService.upload(this.files);
     
-    const firstFile = this.socketSv.errors.pipe(first());
+    const firstFile = this.socketSv.files.pipe(first());
 
     firstFile.subscribe(() => {
       this.title = 'Завантаження завершено';
@@ -63,7 +63,7 @@ export class UploadDialogComponent implements OnInit {
       this.dialogRef.updateSize('60%', '80%');
     });
 
-    this.socketSv.errors.subscribe((next: any) => {
+    this.socketSv.files.subscribe((next: any) => {
       if (next.hasOwnProperty('err')) {
         this.errorList.push(next.err);
       } else {
