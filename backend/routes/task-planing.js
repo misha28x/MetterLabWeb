@@ -96,7 +96,7 @@ function formatDate(taskDate) {
   let fullTaskDate = '' + taskDate;
   let splitedTaskDate = fullTaskDate.split('T')[0];
   let formatedTasskDate = splitedTaskDate.split('-')[2] + '-' + splitedTaskDate.split('-')[1] + '-' + splitedTaskDate.split('-')[0];
-  return formatedTasskDate;
+  return splitedTaskDate;
 }
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected

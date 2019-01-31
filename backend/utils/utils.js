@@ -49,7 +49,7 @@ const generateExcelFile = (taskResult, stringName) => {
     ws.column(8).setWidth(11);
     ws.column(9).setWidth(24);
     ws.column(10).setWidth(32);
-    ws.column(11).setWidth(12);
+    ws.column(11).setWidth(14);
     ws.column(12).setWidth(17);
     ws.column(13).setWidth(17);
     ws.column(14).setWidth(72);
@@ -74,9 +74,9 @@ const generateExcelFile = (taskResult, stringName) => {
     let i = 2;
     taskResult.forEach(task => {
       // TODO: додане правильне представлення бажаного часу
-      let taskDateArray = task.taskDate.split('.');
-      let visitDateTime = taskDateArray[0] + " " + task.taskTime;
-      ws.cell(i, 1).string(task.taskDate).style(text);
+      let taskDateArray = task.taskDate.split('-');
+      let visitDateTime = taskDateArray[2] + "." + taskDateArray[1] + "." + taskDateArray[0] + " " + task.taskTime;
+      ws.cell(i, 1).string(taskDateArray[2] + "-" + taskDateArray[1] + "-" + taskDateArray[0]).style(text);
       ws.cell(i, 2).string(task.serviceProvider).style(text);
       ws.cell(i, 3).string(task.district).style(text);
       ws.cell(i, 4).string(task.street).style(text);

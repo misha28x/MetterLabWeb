@@ -13,6 +13,16 @@ router.get('', (req, res, next) => {
   });
 });
 
+// TODO: роутер для виведення заявок для метрології
+router.get('/metrology', (req, res, next) => {
+	connection.query("SELECT * FROM `archive` WHERE `status` = 'Передано повірнику';", (err, rows) => {
+		if (err) {
+			console.log(err);	
+		}
+		res.json(rows);
+	});	
+});
+
 router.get('/:id', (req, res, next) => {
   let selectionOne = "SELECT protocols.bbiFileName, archive.applicationNumber, protocols.date, protocols.deviceNumber, protocols.counterNumber, protocols.symbol,protocols.type, archive.serviceType, protocols.temperature, protocols.productionYear, archive.acumulatedVolume, protocols.latitude, protocols.longitude, protocols.status, protocols.result, protocols.protocolStatus, protocols.image FROM protocols INNER JOIN archive ON protocols.bbiFileName = archive.protocolNumber WHERE protocols.bbiFileName = '" + req.params.id + "';";
 

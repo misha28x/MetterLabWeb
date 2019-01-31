@@ -112,9 +112,10 @@ function getResultsFromDatabase(byteArray) {
   let result;
   for (result = []; test.step();) {
     result.push(test.getAsObject());
-  }
-
-  const date = '' + result[0].Date.split(' ')[0].replace(".", "-");
+	}
+	// TODO: перевірити коректність дат
+	const unformatedDate = result[0].Date.split(' ')[0].split('.');
+  const date = unformatedDate[2] + '-' + unformatedDate[1] + '-' + unformatedDate[0];
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
       console.log(err);
@@ -127,7 +128,9 @@ function getResultsFromDatabase(byteArray) {
         true: applicationNumber
       });
     } else {
-      applicationNumber = createApplicationNumber(applicationNumber, date);
+			// TODO: перевірити коректність createApplicationNumber, для правильного створення new Date()
+			const oldDateFormat = date.split('-')[2] + '-' + date.split('-')[1] + '-' + date.split('-')[0];
+      applicationNumber = createApplicationNumber(applicationNumber, oldDateFormat);
       console.log({
         false: applicationNumber
       });
@@ -158,7 +161,7 @@ function getResultsFromDatabase(byteArray) {
               if (appNum.length == 0) {
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, /** TODO: dev */ row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
+                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, /* TODO: */ row.Date, row.FileNumber, null, null, null, null, null);
                 let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
                 connection.query(varResult, (err) => {
                   if (err) {
@@ -201,8 +204,9 @@ function getResultsFromDatabase(byteArray) {
 }
 // Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
 function rightAppNumberString(applicationNumber) {
-	datePart = applicationNumber.substring(0,6);
-	numberPart = (parseInt(applicationNumber.substring(applicationNumber.length - 8)) + 1). toString();
+	const numberString = applicationNumber.toString();
+	const datePart = numberString.substr(0, 6);
+	const numberPart = (parseInt(numberString.substr(numberString.length - 8)) + 1).toString();
 	return ('' + datePart + numberPart);
 }
 

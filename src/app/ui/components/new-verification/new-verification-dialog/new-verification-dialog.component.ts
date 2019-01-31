@@ -109,7 +109,7 @@ export class NewVerificationDialogComponent implements OnInit {
 		return {
 			client: fullName,
 			phoneNumber: this.generalDataForm.get('phone').value,
-			addingDate: new Date().getUTCFullYear() + '.' + new Date().getUTCMonth() + 1 + '.' + new Date().getUTCDate(),
+			addingDate: new Date().getUTCFullYear() + '-' + new Date().getUTCMonth() + 1 + '-' + new Date().getUTCDate(),
 			region: this.locationForm.get('region').value.replace(/'/g, /\'/),
 			district: this.locationForm.get('district').value.replace(/'/g, /\'/),
 			settlement: this.locationForm.get('settlement').value.replace(/'/g, /\'/),
