@@ -15,7 +15,7 @@ import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: { reconnect: true } };
 
 @NgModule({
 	declarations: [
@@ -23,11 +23,11 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 	],
 	imports: [
 		BrowserModule,
+    SocketIoModule.forRoot(config),
 		RouterModule.forRoot(ROUTES, { useHash: true }),
 		BrowserAnimationsModule,
 		HttpClientModule,
 		UiModule,
-    SocketIoModule.forRoot(config),
 		StoreModule.forRoot({
 			menuState: MenuReducer
 		}),

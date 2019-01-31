@@ -554,31 +554,28 @@ function addProtocol(protocol) {
   // TODO: додати count для кількості дублікатів
   connection.query(varPart + formatedData, function (err, rows) {
     if (err) {
-
       if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
         console.log('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
-        io.getIo().emit('error', {
+        io.getIo().emit('upload', {
           err: protocol.bbiFileName + ': Уже додано'
         });
         return;
       } else {
         console.log('Інша помилка при перевірці на дублікати:');
-        io.getIo().emit('error', {
+        io.getIo().emit('upload', {
           err: protocol.bbiFileName + ': Помилка читання файлу'
         });
         console.log(err);
         return;
       }
     } else {
-      //console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
-      io.getIo().emit('success', {
+      io.getIo().emit('upload', {
         msg: 'Файл додано: ' + protocol.bbiFileName
       });
       protocol.tests.forEach(test => {
         varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
         varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
         formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
-
         connection.query(varPart + formatedData);
       });
     }
@@ -587,9 +584,6 @@ function addProtocol(protocol) {
 }
 
 router.post('', upload.single('file'), (req, res, next) => {
-  let zip = new JSZip();
-  let db;
-
   fs.readFile('./backend/temp/tempo.zip', function (err, data) {
     if (err) throw err;
     JSZip.loadAsync(data).then(function (zip) {

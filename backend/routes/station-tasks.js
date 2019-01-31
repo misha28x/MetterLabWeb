@@ -35,7 +35,6 @@ router.get('/:id', (req, res, next) => {
 // "SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'"
 // TODO: додати перевірку за датою, щоб не виводило завдання, які ніяк не могли бути виконані
 router.get('/failed/:id', (req, res, next) => {
-	console.log('resolved');
 	const currentDate = '' + new Date().getFullYear + '-' + (new Date().getMonth + 1) + '-' + new Date().getDay;
   connection.query("SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано' AND `taskDate` < '" + currentDate + "';", (err, rows) => {
     if (err) {
