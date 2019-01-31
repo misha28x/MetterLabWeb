@@ -123,8 +123,14 @@ function getResultsFromDatabase(byteArray) {
     let applicationNumber = '';
     if (lastNumber.length > 0 && lastNumber[0]) {
       applicationNumber = lastNumber[0].applicationNumber;
+      console.log({
+        true: applicationNumber
+      });
     } else {
       applicationNumber = createApplicationNumber(applicationNumber, date);
+      console.log({
+        false: applicationNumber
+      });
     }
 
     for (const row of result) {
@@ -168,11 +174,15 @@ function getResultsFromDatabase(byteArray) {
                   // TODO: Метод, який вибирає лічильники і якщо числа рівні то Update station task where id set status
                   setTaskStatusDone(appNum[0].idForStation);
                 });
-                console.log('Відсутні помилки в запиті на оновлення: ' + applicationNumber);
+                console.log('Відсутні помилки в запиті на оновлення: ' + row.Id_pc);
               }
             } else {
               const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
               const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
+              console.log({
+                insert_into_archive: applicationNumber
+              });
+              applicationNumber = rightAppNumberString(applicationNumber);
               let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
               let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
               connection.query(varResult, (err) => {
@@ -180,7 +190,6 @@ function getResultsFromDatabase(byteArray) {
                   console.log(err);
                 }
               });
-              applicationNumber = (parseInt(applicationNumber) + 1).toString();
               console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber);
             }
           }
@@ -188,8 +197,13 @@ function getResultsFromDatabase(byteArray) {
 
       });
     }
-	});
-	console.log("Завантаження завершено");	
+  });
+}
+// Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
+function rightAppNumberString(applicationNumber) {
+	datePart = applicationNumber.substring(0,6);
+	numberPart = (parseInt(applicationNumber.substring(applicationNumber.length - 8)) + 1). toString();
+	return ('' + datePart + numberPart);
 }
 
 // Функція, що перевіряє, чи виконане завдання порівнюючи кількості виконаних заявок до всіх
@@ -210,6 +224,7 @@ function setTaskStatusDone(idForStation) {
 }
 
 // ApplicationNumber creation
+// TODO: проблема з парсом дати
 function createApplicationNumber(lastApplicationNumber, addingDate) {
   let cutDate = "00000000";
 
@@ -551,7 +566,7 @@ function addProtocol(protocol) {
         return;
       }
     } else {
-      console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
+      //console.log('Відсутні помилки в тестах на додавання: ' + protocol.bbiFileName);
       io.getIo().emit('success', {
         msg: 'Файл додано: ' + protocol.bbiFileName
       });

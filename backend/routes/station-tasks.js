@@ -56,30 +56,13 @@ router.get('/delete/:id', (req, res) => {
 });
 
 // TODO: Вивести завдання в яких є невиконані заявки
-router.get('/unresolved/', (req, res, next) => {
-  console.log('unresolved');
-  // В цьому масиві зберігатимуться примітиви з id недовиконаних завдань
-  let unresolvedTaskIds = [];
-  // вибираємо унікальні номери завдань, які мають свій ідентифікатор
-  connection.query("SELECT DISTINCT idForStation FROM archive WHERE idForStation != 0;", (err, taskIds) => {
-    if (err) {
-      console.log(err);
-    }
-    // для кожного завдання виконуємо наступне
-    taskIds.forEach(stationTask => {
-      // отримуємо значення заявок зі статусами і всіх заявок де idForStation
-      connection.query("SELECT (SELECT COUNT(*) FROM `archive` WHERE idForStation='" + stationTask.idForStation + "' AND (status LIKE 'Проведено%' OR status LIKE 'Надіслано%' OR status LIKE 'Повірено%')) AS resolved_counter, (SELECT COUNT(*) FROM `archive` WHERE idForStation='" + stationTask.idForStation + "') AS all_counter FROM dual;", (err, counters) => {
-        if (err) {
-          console.log(err);
-        }
-        // якщо виконаних заявок менше ніж всіх для завданнях, то її idForStation заносимо в масив
-        if (counters[0].resolved_counter < counters[0].all_counter) {
-          unresolvedTaskIds.push(stationTask.idForStation);
-        }
-      });
-    });
-    res.json(unresolvedTaskIds);
-  });
+router.get('/unresolved', (req, res, next) => {
+	connection.query("SELECT * FROM `station_tasks` WHERE `task_status`!='Виконано'", (err, unresTasks) => {
+			if (err) {
+				console.log(err);				
+			}
+	});
+	res.json(unresTasks);
 });
 
 // TODO: винесено generateExcel
