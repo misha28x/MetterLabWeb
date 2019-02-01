@@ -87,6 +87,11 @@ function getAdminMenu() {
       routing: 'verications-protocols'
     },
     {
+      title: 'Електроні протоколи',
+      icon: '',
+      routing: 'metrology'
+    },
+    {
       title: 'Відхилені Протоколи',
       icon: 'icofont-file-powerpoint',
       routing: 'rejected-protocols'

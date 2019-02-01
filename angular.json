@@ -28,7 +28,8 @@
             ],
             "styles": [
 							"src/assets/sass/styles.scss",
-							"src/assets/css/icofont.min.css"
+              "src/assets/css/icofont.min.css",
+              "./node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": []
           },
@@ -85,7 +86,8 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": [
               "src/assets/sass/styles.scss",
-              "src/assets/css/icofont.min.css"
+              "src/assets/css/icofont.min.css",
+              "./node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [],
             "assets": [

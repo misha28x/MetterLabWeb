@@ -15,6 +15,7 @@ import { PageProviderRequestsComponent } from '../pages/provider-requests';
 import { PageVerificationsProtocolsComponent } from '../pages/verifications-protocols';
 import { PageTaskPlaningComponent } from '../pages/task-planing';
 import { AuthorizationPageComponent } from '../pages/authorization-page';
+import { MetrologyProtocolsComponent } from '../pages/metrology-protocols';
 import { ExtraComponent } from '../layout/extra/extra.component';
 
 export const DEFAULT_ROUTES = [
@@ -30,7 +31,8 @@ export const DEFAULT_ROUTES = [
 	{ path: 'rejected-verification', component: PageRejectedProtocolsComponent, data: { title: 'Відхилені Повірки' } },
 	{ path: 'verifications-archive', component: PageVerificationsArchiveComponent, data: { title: 'Архів Повірок' } },
 	{ path: 'reports', component: PageReportsComponent, data: { title: 'Звіти' } },
-	{ path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } }
+  { path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } },
+  { path: 'metrology', component: MetrologyProtocolsComponent }
 ];
 
 export const EXTRA_ROUTES = [
