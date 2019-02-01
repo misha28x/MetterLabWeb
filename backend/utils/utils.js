@@ -1,5 +1,14 @@
 const xl = require('excel4node');
 
+// Перехід від загального формату дати // 2019-01-24T22:00:00.000Z до 2019-01-24
+function formatDate(taskDate) {
+  let fullTaskDate = '' + taskDate;
+  let splitedTaskDate = fullTaskDate.split('T')[0];
+  return splitedTaskDate;
+}
+
+module.exports.formatDate = formatDate;
+
 // Генерування табилці Excel
 const generateExcelFile = (taskResult, stringName) => {
 

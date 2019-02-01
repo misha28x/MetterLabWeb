@@ -112,9 +112,9 @@ function getResultsFromDatabase(byteArray) {
   let result;
   for (result = []; test.step();) {
     result.push(test.getAsObject());
-	}
-	// TODO: перевірити коректність дат
-	const unformatedDate = result[0].Date.split(' ')[0].split('.');
+  }
+  // TODO: перевірити коректність дат
+  const unformatedDate = result[0].Date.split(' ')[0].split('.');
   const date = unformatedDate[2] + '-' + unformatedDate[1] + '-' + unformatedDate[0];
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
@@ -128,8 +128,8 @@ function getResultsFromDatabase(byteArray) {
         true: applicationNumber
       });
     } else {
-			// TODO: перевірити коректність createApplicationNumber, для правильного створення new Date()
-			const oldDateFormat = date.split('-')[2] + '-' + date.split('-')[1] + '-' + date.split('-')[0];
+      // TODO: перевірити коректність createApplicationNumber, для правильного створення new Date()
+      const oldDateFormat = date.split('-')[2] + '-' + date.split('-')[1] + '-' + date.split('-')[0];
       applicationNumber = createApplicationNumber(applicationNumber, oldDateFormat);
       console.log({
         false: applicationNumber
@@ -204,10 +204,10 @@ function getResultsFromDatabase(byteArray) {
 }
 // Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
 function rightAppNumberString(applicationNumber) {
-	const numberString = applicationNumber.toString();
-	const datePart = numberString.substr(0, 6);
-	const numberPart = (parseInt(numberString.substr(numberString.length - 8)) + 1).toString();
-	return ('' + datePart + numberPart);
+  const numberString = applicationNumber.toString();
+  const datePart = numberString.substr(0, 6);
+  const numberPart = (parseInt(numberString.substr(numberString.length - 8)) + 1).toString();
+  return ('' + datePart + numberPart);
 }
 
 // Функція, що перевіряє, чи виконане завдання порівнюючи кількості виконаних заявок до всіх
@@ -587,6 +587,16 @@ router.post('', upload.single('file'), (req, res, next) => {
   fs.readFile('./backend/temp/tempo.zip', function (err, data) {
     if (err) throw err;
     JSZip.loadAsync(data).then(function (zip) {
+      let counterValue = 0;
+      zip.forEach(async function (relativePath, zipEntry) {
+        counterValue++;
+      });
+      if (counterValue <= 2) {
+        io.getIo().emit('upload', {
+          err: 'Не знайдено файлів протоколів'
+        });
+        return;
+      }
       zip.forEach(async function (relativePath, zipEntry) {
         if (zipEntry.name.includes('.bbi')) {
           zip.file(zipEntry.name).async("uint8array").then(async (byteArray) => {

@@ -2,6 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const format = require('string-format-js');
 
+const formatDate = require('../utils/utils').formatDate;
+
 const router = express.Router();
 
 const connection = require('../database/db');
@@ -68,18 +70,6 @@ router.post('', (req, res, next) => {
     g: 'good'
   });
 });
-// TODO: винести в utils TODO: datapicker
-function formatDate(taskDate) {
-  let fullTaskDate = taskDate;
-  let splitedTaskDate = fullTaskDate.split('T')[0];
-  let formatedTasskDate = splitedTaskDate.split('-')[2] + '-' + splitedTaskDate.split('-')[1] + '-' + splitedTaskDate.split('-')[0];
- console.log({
-	 full: fullTaskDate,
-	 formated: formatedTasskDate		
- });
- 
-	return splitedTaskDate;
-}
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
 // TODO: пофіксити Update
