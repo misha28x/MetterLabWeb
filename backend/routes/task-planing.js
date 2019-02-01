@@ -3,6 +3,8 @@ const mysql = require('mysql');
 
 const router = express.Router();
 
+const formatDate = require('../utils/utils').formatDate;
+
 const connection = require('../database/db');
 
 router.get('', (req, res, next) => {
@@ -91,13 +93,6 @@ router.post('/station-task', (req, res, next) => {
     message: 'success'
   });
 });
-
-function formatDate(taskDate) {
-  let fullTaskDate = '' + taskDate;
-  let splitedTaskDate = fullTaskDate.split('T')[0];
-  let formatedTasskDate = splitedTaskDate.split('-')[2] + '-' + splitedTaskDate.split('-')[1] + '-' + splitedTaskDate.split('-')[0];
-  return splitedTaskDate;
-}
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
 // TODO: протестувати Update
