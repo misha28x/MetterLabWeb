@@ -101,7 +101,7 @@ function getAdminMenu() {
       counter: counters.task_planing
     },
     {
-      title: 'Не виконанні завдання',
+      title: 'Невиконанні завдання',
       icon: 'far fa-calendar-times',
       routing: 'failed-tasks'
     },

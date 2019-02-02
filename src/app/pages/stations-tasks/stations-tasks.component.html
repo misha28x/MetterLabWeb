@@ -40,7 +40,7 @@
       <app-column [width]="115" [columnTitle]="'Кількість заявок'" [columnName]="'verifCount'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
       <!-- matTooltip="Додати відповідальну особу" Редагувати завдання, переглянути завдання, ексель, вибрати станцію-->
-      <app-column [columnTitle]="'Дії'" [width]="185">
+      <app-column [width]="185">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button (click)="editList(row['id_task'])">
@@ -48,7 +48,7 @@
             </button>
 
             <button mat-icon-button (click)="viewList(row['id_task'])">
-              <i class="icofont-table color-info" matTooltip="Переглянути завдання"></i>
+              <i class="fas fa-table color-info" matTooltip="Переглянути завдання"></i>
             </button>
 
             <button mat-icon-button (click)="downloadExcel(row['id_task'])">

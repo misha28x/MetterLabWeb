@@ -140,6 +140,26 @@ mat-card-header {
   }
 }
 
+.table {
+   margin: -($module-rem);
+   padding: $module-rem;
+   margin-top: -($module-rem * 2);
+   margin-bottom: -($module-rem * 2);
+
+  &-success {
+    @extend .table;
+    background: rgba($success-color, 0.4);
+  }
+  &-error {
+    @extend .table;
+    background: rgba($error-color, 0.4);
+  }
+}
+
+.unresolved {
+  background: rgba($info-color, 0.4);
+}
+
 .actions {
   align-items: center;
   display: flex;

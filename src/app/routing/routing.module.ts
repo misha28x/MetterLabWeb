@@ -34,8 +34,8 @@ export const DEFAULT_ROUTES = [
 	{ path: 'verifications-archive', component: PageVerificationsArchiveComponent, data: { title: 'Архів Повірок' } },
 	{ path: 'reports', component: PageReportsComponent, data: { title: 'Звіти' } },
   { path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } },
-  { path: 'metrology', component: MetrologyProtocolsComponent },
-  { path: 'failed-tasks', component: FailedTasksComponent }
+  { path: 'metrology', component: MetrologyProtocolsComponent, data: { title: 'Список протоколів' } },
+  { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } }
 ];
 
 export const EXTRA_ROUTES = [

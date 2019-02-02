@@ -50,13 +50,14 @@ router.get('/failed/:id', (req, res, next) => {
 
 router.get('/unresolved/:id', (req, res, next) => {
   console.log('resolved');
-  connection.query("SELECT `addingDate`, `serviceProvider`, `client`, `district`, `street`, `house`,`apartment`,`entrance`,`floor`, `phoneNumber`, `taskTime`, `note` from archive WHERE `idForStation`='" + req.params.id + "' AND (status NOT LIKE 'Проведено%' AND status NOT LIKE 'Надіслано%' AND status NOT LIKE 'Повірено%') ORDER BY `positionInTask` DESC;", (err, rows) => {
+  connection.query("SELECT * from archive WHERE `idForStation`=" + parseInt(req.params.id) + " AND status = 'В роботі' ORDER BY `positionInTask` DESC", (err, rows) => {
     if (err) {
       console.log(err);
       res.json({
         err: err
       });
     }
+    console.log(rows);
     res.json(rows);
   });
 });
