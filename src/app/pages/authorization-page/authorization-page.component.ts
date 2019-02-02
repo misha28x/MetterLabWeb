@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
+import * as PermissionAction from '../../store/actions/permission.action';
 
 import { DataService } from '../../services/data.service';
 import { MenuService } from '../../services/menu.service';
@@ -15,8 +18,7 @@ const authUrl = 'http://localhost:3000/api/authorization';
 export class AuthorizationPageComponent implements OnInit {
 
 	emailFormControl = new FormControl('', [
-		Validators.required,
-		Validators.email
+		Validators.required
 	]);
 
 	passwordFormControl = new FormControl('', [
@@ -24,6 +26,7 @@ export class AuthorizationPageComponent implements OnInit {
 	]);
 
 	constructor(
+      private store: Store<string>,
       private dataSv: DataService,
       private menuSv: MenuService,
       private router: Router
@@ -45,13 +48,29 @@ export class AuthorizationPageComponent implements OnInit {
 				return;
 			}
       
-      this.redirectHome();
-      
-      setTimeout(() => {
-        this.menuSv.setMenu(res.menu);
-      }, 10);
+      if (res.permission > 0) {
+        this.redirectHome();
+      }
+
+      this.store.dispatch(this.getPermission(res.permission));
 		});
-	}
+  }
+  
+  getPermission(permission: number): PermissionAction.ALL {
+    if (permission === 3) {
+      return new PermissionAction.Admin();
+    } 
+
+    if (permission === 2) {
+      return new PermissionAction.Metrology();
+    }
+
+    if (permission === 1) {
+      return new PermissionAction.User();
+    }
+    
+    return new PermissionAction.Unauthorized();
+  }
 
   redirectHome(): void {
     setTimeout(() => {

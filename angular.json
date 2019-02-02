@@ -29,7 +29,7 @@
             "styles": [
 							"src/assets/sass/styles.scss",
               "src/assets/css/icofont.min.css",
-              "./node_modules/font-awesome/css/font-awesome.css"
+              "src/assets/css/all.min.css"
             ],
             "scripts": []
           },
@@ -87,7 +87,7 @@
             "styles": [
               "src/assets/sass/styles.scss",
               "src/assets/css/icofont.min.css",
-              "./node_modules/font-awesome/css/font-awesome.css"
+              "src/assets/css/all.min.css"
             ],
             "scripts": [],
             "assets": [

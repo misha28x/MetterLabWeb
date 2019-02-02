@@ -16,6 +16,8 @@ import { PageVerificationsProtocolsComponent } from '../pages/verifications-prot
 import { PageTaskPlaningComponent } from '../pages/task-planing';
 import { AuthorizationPageComponent } from '../pages/authorization-page';
 import { MetrologyProtocolsComponent } from '../pages/metrology-protocols';
+import { FailedTasksComponent } from '../pages/failed-tasks';
+
 import { ExtraComponent } from '../layout/extra/extra.component';
 
 export const DEFAULT_ROUTES = [
@@ -32,7 +34,8 @@ export const DEFAULT_ROUTES = [
 	{ path: 'verifications-archive', component: PageVerificationsArchiveComponent, data: { title: 'Архів Повірок' } },
 	{ path: 'reports', component: PageReportsComponent, data: { title: 'Звіти' } },
   { path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } },
-  { path: 'metrology', component: MetrologyProtocolsComponent }
+  { path: 'metrology', component: MetrologyProtocolsComponent },
+  { path: 'failed-tasks', component: FailedTasksComponent }
 ];
 
 export const EXTRA_ROUTES = [

@@ -9,9 +9,6 @@
 
       <mat-form-field class="full-width">
         <input matInput placeholder="Email" [formControl]="emailFormControl">
-        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-          Введіть коректний email
-        </mat-error>
         <mat-error *ngIf="emailFormControl.hasError('required')">
           Будь ласка, <strong>введіть</strong> email
         </mat-error>
