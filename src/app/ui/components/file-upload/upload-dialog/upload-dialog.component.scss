@@ -42,11 +42,11 @@
         .main-text {
           font-size: 2em;
 
-          &.success {
+          &.upload-success {
             color: $success-color;
           }
 
-          &.error {
+          &.upload-error {
             color: $error-color;
           }
 
