@@ -137,6 +137,10 @@ function getResultsFromDatabase(byteArray) {
     }
 
     for (const row of result) {
+			if (row.CounterNumber.length < 4 | row.CounterNumber == '-' | row.FileNumber == '00000000.bbi') {
+				continue;
+			}
+
       connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
         let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
@@ -509,14 +513,7 @@ function parseProtocol(byteArray, fileName) {
 
     test.startStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 1));
     test.endStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 2));
-    // Протокол "Не обработан" чи "Годен" чи "Не Годен"
-    if (test.result === 'Не обработан') {
-      protocol.result = 'Не обработан';
-    } else if (test.result === 'Годен') {
-      protocol.result = 'Годен';
-    } else if (test.result === 'Не годен') {
-      protocol.result = 'Не годен';
-    }
+
     // Протокол "В зоні" чи "Не в зоні"
     if (test.isInZone === 'В зоне') {
       protocol.status = 'Разблокирован';
@@ -535,8 +532,38 @@ function parseProtocol(byteArray, fileName) {
 
     protocol.tests.push(test);
   }
+  let denyNumberCounter = 0;
+  let validNumberCounter = 0;
+  let isNotInZoneCounter = 0;
+  protocol.tests.forEach(test => {
+    if (test.result === 'Не годен') {
+      denyNumberCounter++;
+    } else if (test.result === 'Годен') {
+      validNumberCounter++;
+    }
+    if (test.isInZone === 'Не в зоне') {
+      isNotInZoneCounter++;
+    }
+  });
 
-  addProtocol(protocol);
+  if (validNumberCounter >= 3) {
+    protocol.result = 'Годен';
+  } else if (denyNumberCounter > 0) {
+    protocol.result = 'Не годен';
+  } else {
+    protocol.result = 'Не обработан';
+  }
+
+  if (isNotInZoneCounter > 0) {
+    protocol.status = 'Не в зоне';
+  } else {
+    protocol.status = 'В зоне';
+  }
+  if (protocol.counterNumber.length < 4 || protocol.bbiFileName == '00000000.bbi') {
+
+  } else {
+    addProtocol(protocol);
+  }
 }
 
 function uintToString(bytes) {
@@ -589,9 +616,11 @@ router.post('', upload.single('file'), (req, res, next) => {
     JSZip.loadAsync(data).then(function (zip) {
       let counterValue = 0;
       zip.forEach(async function (relativePath, zipEntry) {
-        counterValue++;
+				if (zipEntry.name.includes('.bbi')) {
+				  counterValue++;
+				}
       });
-      if (counterValue <= 2) {
+      if (counterValue == 0) {
         io.getIo().emit('upload', {
           err: 'Не знайдено файлів протоколів'
         });
