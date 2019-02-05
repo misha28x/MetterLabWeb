@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { DataService } from 'src/app/services/data.service';
 import { Verification } from 'src/app/interfaces/verifications';
@@ -26,7 +26,8 @@ export class NewVerificationDialogComponent implements OnInit {
 
 	constructor(
 		private verificationSv: VerificationService,
-		private dataSv: DataService,
+    private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
+    private dataSv: DataService,
 		private fb: FormBuilder,
 		@Inject(MAT_DIALOG_DATA) public data: any
 	) { }
@@ -91,10 +92,22 @@ export class NewVerificationDialogComponent implements OnInit {
 	}
 
 	sendData(): void {
-		this.dataSv.sendData(url, this.setVerification())
-			.subscribe(next => console.log);
+		this.dataSv.sendData(url, this.setVerification()).subscribe();
+    this.dialogRef.close();
 	}
-	// TODO: Переробити на адресу
+  
+  saveByPattern(): void {
+    this.dataSv.sendData(url, this.setVerification()).subscribe();
+
+    this.step = 0;
+    
+    this.locationForm.patchValue({
+      counterQuantity: 0,
+      serviceType: '',
+      serviceProvider: ''
+    });
+  }
+
 	checkForDupliacates(): void {
 		this.verificationSv.addVerification(this.setVerification());
 	}
@@ -138,10 +151,4 @@ export class NewVerificationDialogComponent implements OnInit {
 			entrance: this.additionalDataForm.get('entrance').value
 		};
 	}
-
-  // saveByPattern() {
-  //   this.locationForm.patchValue(
-
-  //   );
-  // }
 }

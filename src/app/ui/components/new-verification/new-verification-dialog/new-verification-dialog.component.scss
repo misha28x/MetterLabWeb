@@ -53,10 +53,10 @@
   .buttons {
     display: flex;
     justify-content: flex-end;
-    margin-top: $module-rem;
+    margin:(-$module-rem);
 
-    :first-child {
-      margin-right: $module-rem / 2; 
+    >* {
+      margin: ($module-rem * 2) ($module-rem);
     }
   }
 }

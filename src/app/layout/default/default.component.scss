@@ -14,9 +14,14 @@
 			margin: $navbar-height 0 0 $sidebar-width;
       transition: margin 0.3s $animation;
 
-      .page-title {
-        font-size: 1.5em;
+      .page-title-box {
         margin: 0 0 ($module-rem * 2) 0;
+
+        .page-title {
+          font-size: 1.5em;
+          margin: 0;
+          padding: 0;
+        }
       }
 			
 			@media #{min991} {
