@@ -35,7 +35,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { reconn
 		}),
 		LayoutModule,
 		RoutingModule,
-		PagesModule
+    PagesModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

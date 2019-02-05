@@ -1,4 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as MenuActions from '../../store/actions/menu.actions';
@@ -8,16 +10,26 @@ import * as MenuActions from '../../store/actions/menu.actions';
 	templateUrl: './default.component.html',
 	styleUrls: ['./default.component.scss']
 })
-export class DefaultLayoutComponent implements OnInit{
-	minMenu: Boolean;
+export class DefaultLayoutComponent implements OnInit {
+  minMenu: Boolean;
+  pageTitle: string;
 
-	constructor(private store: Store<Boolean>) { }
+  public scrollbarOptions = { axis: 'y', theme: 'minimal-dark' };
+  public contentOptions = { axis: 'y', theme: 'minimal-dark', scrollInertia: 200, autoHideScrollbar: true };
+  
+	constructor(
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private store: Store<Boolean>
+  ) { }
 
 	ngOnInit(): void {
 		this.onResize();
 		this.store.select('menuState').subscribe((menuState: Boolean) => {
 			this.minMenu = !menuState;
-		});
+    });
+    this.pageTitle = this.activeRoute.firstChild.data['value']['title'];
+    this.getPageTitle();
 	}
 
 	@HostListener('window:resize', ['$event'])
@@ -27,6 +39,25 @@ export class DefaultLayoutComponent implements OnInit{
 		} else {
 			this.store.dispatch(new MenuActions.Open());
 		}
-
-	}
+  }
+  
+  getPageTitle(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => {
+        let child = this.activeRoute.firstChild;
+        while (child) {
+          if (child.firstChild) {
+            child = child.firstChild;
+          } else if (child.snapshot && child.snapshot.data['title']) {
+            return child.snapshot.data['title'];
+          } else {
+            return null;
+          }
+        }
+      })
+    ).subscribe((pageTitle: any) => {
+      this.pageTitle = pageTitle;
+    });
+  }
 }

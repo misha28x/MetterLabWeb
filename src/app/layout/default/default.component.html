@@ -1,9 +1,11 @@
-<div class="content">
-	<app-navbar></app-navbar>
+<app-navbar></app-navbar>
 
-	<app-sidebar [min]="minMenu"></app-sidebar>
+<div class="content" malihu-scrollbar [scrollbarOptions]="contentOptions">
 
-	<main class="main-content" [ngClass]="{'min': minMenu}">
-		<router-outlet></router-outlet>
-	</main>
+  <app-sidebar malihu-scrollbar [scrollbarOptions]="scrollbarOptions" [min]="minMenu"></app-sidebar>
+
+  <main class="main-content" [ngClass]="{'min': minMenu}">
+    <div class="page-title">{{ pageTitle }}</div>
+    <router-outlet></router-outlet>
+  </main>
 </div>

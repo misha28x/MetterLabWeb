@@ -1,26 +1,30 @@
 @import "../../../../assets/sass/variables";
 
-$item-color: #0051a8;
+$item-color: #bdc9db;
 
 :host {
+  display: block;
 	height: 100%;
-	width: 100%;
+  padding: ($module-rem * 2) 0;
+  width: 100%;
 
 	.main-menu {
 	  list-style-type: none;
-		padding: 0;
-		font-size: .9em;
-		font-weight: 600;
+    padding: 0;
+    font-size: 0.9;
+    font-weight: 300;
 		
 		.main-item {
-			border-bottom: 1px solid rgba(#000, .1);
-			height: 4 * $module-rem;
-			color: $item-color;
+      align-items: center;
+			height: 5 * $module-rem;
+			display: flex;
 
 			.item-link {
-				align-items: center;
+        align-items: center;
+        color: $item-color;
 				cursor: pointer;
-				padding: 0 $module-rem 0 ($module-rem * 2);
+        padding: 0 ($module-rem * 2);
+        position: relative;
 				display: flex;
 				height: 100%;
 				text-decoration: none;
@@ -31,22 +35,28 @@ $item-color: #0051a8;
 
 				&:hover,
 				&.active {
-				  color: lighten($color: $item-color, $amount: 15);
-				  background: rgba(#000, .1);
+				  color: lighten($color: $item-color, $amount: 25);
+				  background: rgba(#000, .15);
 				}
 				.item-icon {
-				  font-size: 2em;
+				  font-size: 1.4em;
 				  margin-bottom: 2px;
-				  margin-right: $module-rem / 2;
+				  margin-right: $module-rem * 1.5;
 				}
 				.item-text {
 					transition: visibility 0s, width .2s;
 					transition-delay: .2s ;
-				}
+        }
+        .item-badge {
+          margin-left: auto;
+          font-size: 0.9em;
+        }
 			}
 		}
 	}
 	&.min {
+    width: $min-sidebar-width;
+    
 		.main-item {
 			.item-link {
 				.item-text {

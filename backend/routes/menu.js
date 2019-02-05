@@ -74,13 +74,13 @@ function getAdminMenu() {
       counter: counters.new_verifications
     },
     {
-      title: 'Заявки Вимірювальної Лабораторії',
+      title: 'Заявки Лабораторії',
       icon: 'fas fa-flask',
       routing: 'lab-requests',
       counter: counters.lab_requests
     },
     {
-      title: 'Електроні Протоколи Повірок',
+      title: 'Протоколи',
       icon: 'icofont-file-powerpoint',
       routing: 'verications-protocols'
     },
@@ -125,11 +125,11 @@ function getAdminMenu() {
       icon: 'icofont-file-excel',
       routing: 'reports'
     },
-    {
-      title: 'Інструкція Користувача',
-      icon: 'icofont-question-circle',
-      routing: 'user-guide'
-    }
+    // {
+    //   title: 'Інструкція',
+    //   icon: 'icofont-question-circle',
+    //   routing: 'user-guide'
+    // }
   ];
 }
 

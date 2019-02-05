@@ -26,18 +26,13 @@ mat-card {
 
 mat-card-header {
   align-items: center;
-  background: main-palette(500);
-  color: rgba(#fff, 0.95);
   display: flex;
-  font-size: 1.2em;
-  font-family: "Roboto";
-  padding: 8px 16px !important;
-  margin: -16px !important;
-  margin-bottom: 16px !important;
-
+  font-size: 1.1em;
+  font-family: 'Roboto Slab', serif;
+  
   .icon {
-    font-size: 1.2em;
-    margin-right: $module-rem;
+    font-size: 1.1em;
+    margin-right: ($module-rem * 2);
   }
 
   .mat-card-header-text {
@@ -156,6 +151,14 @@ mat-card-header {
   }
 }
 
+.success {
+  background: rgba($success-color, 0.4);
+}
+
+.error {
+  background: rgba($error-color, 0.4);
+}
+
 .unresolved {
   background: rgba($info-color, 0.4);
 }
@@ -167,6 +170,6 @@ mat-card-header {
   margin-bottom: $module-rem * 2;
 
   i {
-    font-size: 2.2em;
+    font-size: 2em;
   }
 }
