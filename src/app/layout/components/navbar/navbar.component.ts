@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, map } from 'rxjs/operators';
@@ -11,6 +11,8 @@ import * as MenuActions from '../../../store/actions/menu.actions';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @HostBinding('class.header') true;
+  
 	pageTitle: String;
 	menuState: Boolean;
 

@@ -12,7 +12,12 @@
 		.main-content {
 			padding: $module-rem * 2;
 			margin: $navbar-height 0 0 $sidebar-width;
-			transition: margin 0.3s $animation;
+      transition: margin 0.3s $animation;
+
+      .page-title {
+        font-size: 1.5em;
+        margin: 0 0 ($module-rem * 2) 0;
+      }
 			
 			@media #{min991} {
 			  margin: $navbar-height 0 0 (2 * $module-rem) !important;

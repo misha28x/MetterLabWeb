@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { MenuReducer } from './store/reducers/menu.reducer';
+import { permissionReducer } from './store/reducers/permission.reducer';
 
 import { LayoutModule } from './layout/layout.module';
 import { RoutingModule, ROUTES } from './routing/routing.module';
@@ -29,11 +30,12 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: { reconn
 		HttpClientModule,
 		UiModule,
 		StoreModule.forRoot({
-			menuState: MenuReducer
+      menuState: MenuReducer,
+      permission: permissionReducer
 		}),
 		LayoutModule,
 		RoutingModule,
-		PagesModule
+    PagesModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

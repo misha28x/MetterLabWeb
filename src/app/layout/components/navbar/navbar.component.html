@@ -1,15 +1,14 @@
 <div class="navbar-wraper">
-	<div 
-		class="nav-button" 
-		(click)="onButtonClick()"
-		[ngClass]="{'min': !menuState}"
-	>
-		<span class="bar"></span>
-		<span class="bar"></span>
-		<span class="bar"></span>
-	</div>
+  <div class="logo">
+    <img src="../../../../assets/content/logo.png" alt="" class="logo-img">
+  </div>
+  
+  <div class="nav-button" (click)="onButtonClick()" [ngClass]="{'min': !menuState}">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </div>
 
-	<span class="page-title">{{ pageTitle }}</span>
 
   <div class="upload">
     <app-file-upload></app-file-upload>

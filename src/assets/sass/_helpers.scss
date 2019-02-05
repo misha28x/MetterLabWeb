@@ -3,84 +3,97 @@
 .mb-0 {
   margin-bottom: 0 !important;
 }
+
 .mt-0 {
   margin-top: 0 !important;
 }
+
 .ml-0 {
   margin-left: 0 !important;
 }
+
 .mr-0 {
   margin-right: 0 !important;
 }
+
 .nowrap {
   white-space: nowrap !important;
 }
-mat-card {
-	overflow: hidden;
-}
-mat-card-header {
-	align-items: center;
-	background: main-palette(500);
-	color: rgba(#fff, 0.95);
-	display: flex;
-	font-size: 1.2em;
-	font-family: "Roboto";
-	padding: 8px  16px !important;
-	margin: -16px !important;
-	margin-bottom: 16px !important;
 
-	.icon {
-		font-size: 1.2em;
-		margin-right: $module-rem;
-	}
-	.mat-card-header-text {
-		margin: 0;
-	}
+mat-card {
+  overflow: hidden;
 }
+
+mat-card-header {
+  align-items: center;
+  display: flex;
+  font-size: 1.1em;
+  font-family: 'Roboto Slab', serif;
+  
+  .icon {
+    font-size: 1.1em;
+    margin-right: ($module-rem * 2);
+  }
+
+  .mat-card-header-text {
+    margin: 0;
+  }
+}
+
 .bg {
-	&-success {
-		background: $success-color !important;
+  &-success {
+    background: $success-color !important;
     color: $success-contrast;
-	}
-	&-warning{ 
-		background: $warning-color !important;
+  }
+
+  &-warning {
+    background: $warning-color !important;
     color: $warning-contrast;
-	}
-	&-error{ 
-		background: $error-color !important;
+  }
+
+  &-error {
+    background: $error-color !important;
     color: $error-contrast;
-	}
+  }
+
   &-info {
     background: $info-color !important;
     color: $info-contrast;
   }
 }
+
 .color {
-	&-success {
-		color: $success-color !important;
-	}
-	&-warning{ 
-		color: $warning-color !important;
-	}
-	&-error{ 
-		color: $error-color !important;
-	}
+  &-success {
+    color: $success-color !important;
+  }
+
+  &-warning {
+    color: $warning-color !important;
+  }
+
+  &-error {
+    color: $error-color !important;
+  }
+
   &-info {
     color: $info-color !important;
   }
 }
-.chart {
-	width: 100%;
-	overflow: hidden;
 
-	&.h-300 {
-		min-height: 300px;
-	}
+.chart {
+  width: 100%;
+  overflow: hidden;
+
+  &.h-300 {
+    min-height: 300px;
+  }
 }
+
 .full-screen-modal {
   max-width: none !important;
   overflow: hidden;
 }
+
 .chart-container {
   height: 200px !important;
   position: relative;
@@ -89,17 +102,74 @@ mat-card-header {
   &.container-h-100 {
     height: 100px !important;
   }
+
   &.container-h-50 {
     height: 50px !important;
   }
+
   &.container-h-300 {
     height: 300px !important;
   }
+
   &.negative-indents {
     margin-top: -$module-rem * 2;
     margin-bottom: -$module-rem * 2;
   }
 }
+
 .dialog-container {
   transition: height .6s;
+}
+
+.far,
+.fas {
+  margin-left: 2px;
+}
+
+.actions-row {
+  display: flex;
+  flex-flow: row wrap;
+
+  >* {
+    font-size: 1.6em !important;
+  }
+}
+
+.table {
+   margin: -($module-rem);
+   padding: $module-rem;
+   margin-top: -($module-rem * 2);
+   margin-bottom: -($module-rem * 2);
+
+  &-success {
+    @extend .table;
+    background: rgba($success-color, 0.4);
+  }
+  &-error {
+    @extend .table;
+    background: rgba($error-color, 0.4);
+  }
+}
+
+.success {
+  background: rgba($success-color, 0.4);
+}
+
+.error {
+  background: rgba($error-color, 0.4);
+}
+
+.unresolved {
+  background: rgba($info-color, 0.4);
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $module-rem * 2;
+
+  i {
+    font-size: 2em;
+  }
 }

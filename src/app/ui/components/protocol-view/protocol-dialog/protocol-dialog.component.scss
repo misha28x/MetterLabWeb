@@ -70,7 +70,7 @@
         min-width: 280px;
         width: 280px;
       }
-      .actions {
+      .protocol-actions {
         flex: 1;
         padding: $module-rem;
         justify-content: center;
@@ -129,14 +129,5 @@
       cursor: pointer;
       width:inherit;
     }
-  }
-  .success {
-    background: rgba($success-color, 0.4);
-  }
-  .error {
-    background: rgba($error-color, 0.4);
-  }
-  .unresolved {
-    background: rgba($info-color, 0.4);
   }
 }

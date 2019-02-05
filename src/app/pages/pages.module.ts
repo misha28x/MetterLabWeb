@@ -19,6 +19,8 @@ import { PageVerificationsArchiveComponent } from './verifications-archive';
 import { PageReportsComponent } from './reports';
 import { PageUserGuideComponent } from './user-guide';
 import { AuthorizationPageComponent } from './authorization-page';
+import { MetrologyProtocolsComponent } from './metrology-protocols';
+import { FailedTasksComponent } from './failed-tasks';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule],
@@ -40,7 +42,9 @@ import { AuthorizationPageComponent } from './authorization-page';
     TaskSendingComponent,
     TaslListViewDialogComponent,
     TaskListEditDialogComponent,
-    AuthorizationPageComponent
+    AuthorizationPageComponent,
+    MetrologyProtocolsComponent,
+    FailedTasksComponent
   ],
   entryComponents: [EmployeeDialogComponent, TaskSendingComponent, TaslListViewDialogComponent, TaskListEditDialogComponent]
 })

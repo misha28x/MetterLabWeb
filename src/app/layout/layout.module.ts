@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MalihuScrollbarModule } from 'ngx-malihu-scrollbar';
 
 import { MaterialModule } from '../material/material.module';
 
@@ -20,7 +21,8 @@ import { ExtraComponent } from './extra';
 		ExtraComponent
 	],
 	imports: [
-		CommonModule,
+    CommonModule,
+    MalihuScrollbarModule.forRoot(),
 		RouterModule,
 		MaterialModule,
     UiModule

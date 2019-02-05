@@ -23,9 +23,23 @@
   <app-column [columnTitle]="'Пов.'" [columnName]="'floor'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
   <app-column [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-	<!-- TODO: встановити час -->
-  <app-column [columnTitle]="'Бажаний час'" [columnName]="'taskTime'" [width]="100" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+  <app-column [columnTitle]="'Бажаний час'" [columnName]="'taskTime'" [width]="100" [enableSorting]="true"
+    [enableFiltering]="true"></app-column>
 
   <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
+  <app-column [columnTitle]="''" [width]="100">
+    <ng-template #tableBodyTemplate let-row="row">
+      <div class="actions-row">
+        <button mat-icon-button (click)="cancelTask(row['applicationNumber'])">
+          <i class="fas fa-reply color-info" matTooltip="Повернути до планування"></i>
+        </button>
+
+        <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
+          <i class="fas fa-minus-circle color-error" matTooltip="Відхилити повірку"></i>
+        </button>
+      </div>
+    </ng-template>
+  </app-column>
 </app-table>

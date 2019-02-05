@@ -28,9 +28,14 @@
             ],
             "styles": [
 							"src/assets/sass/styles.scss",
-							"src/assets/css/icofont.min.css"
+              "src/assets/css/icofont.min.css",
+              "src/assets/css/all.min.css",
+              "./node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -85,7 +90,8 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": [
               "src/assets/sass/styles.scss",
-              "src/assets/css/icofont.min.css"
+              "src/assets/css/icofont.min.css",
+              "src/assets/css/all.min.css"
             ],
             "scripts": [],
             "assets": [
