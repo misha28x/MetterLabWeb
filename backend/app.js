@@ -20,6 +20,7 @@ const menuRoutes = require('./routes/menu');
 const fileSendingRoutes = require('./routes/files-sending');
 const reportFormationRoutes = require('./routes/report-formation');
 const autorizationRoutes = require('./routes/authorization');
+const serviceProvidersRoutes = require('./routes/service-providers');
 
 app.use(cors());
 
@@ -57,5 +58,6 @@ app.use('/api/user-guide', userGuideRoutes);
 app.use('/api/file-sending', fileSendingRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/authorization', autorizationRoutes);
+app.use('/api/service-providers', serviceProvidersRoutes);
 
 module.exports = app;
