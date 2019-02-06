@@ -59,23 +59,31 @@
 
       <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Дії'" [width]="185">
+      <app-column [columnTitle]="'Дії'" [width]="125">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <button mat-icon-button>
-              <i class="icofont-ui-user"></i>
+            <button mat-icon-button (click)="detailView(row['applicationNumber'])">
+              <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
             </button>
 
-            <button mat-icon-button>
-              <i class="icofont-ui-user color-success"></i>
+            <button mat-icon-button (click)="addEmployee(row['applicationNumber'])">
+              <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
             </button>
 
-            <button mat-icon-button>
-              <i class="icofont-ui-delete color-warning"></i>
+            <button mat-icon-button (click)="cancelEmployee(row['applicationNumber'])">
+              <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
             </button>
 
-            <button mat-icon-button>
-              <i class="icofont-info-circle color-info"></i>
+            <button mat-icon-button (click)="checkForDuplicate()">
+              <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
+            </button>
+
+            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
+              <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
+            </button>
+
+            <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
+              <i class="fas fa-ban color-error" matTooltip="Відхилити заявку"></i>
             </button>
           </div>
         </ng-template>

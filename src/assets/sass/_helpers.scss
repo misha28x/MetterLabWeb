@@ -129,9 +129,11 @@ mat-card-header {
 .actions-row {
   display: flex;
   flex-flow: row wrap;
+  margin: -$module-rem;
 
   >* {
-    font-size: 1.6em !important;
+    font-size: 1.4em !important;
+    margin: $module-rem;
   }
 }
 

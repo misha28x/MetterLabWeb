@@ -40,17 +40,17 @@ router.get('', (req, res, next) => {
 // 1. Додавання нової повірки в Archive з усіма даними і статусом "Визначено відповідальну особу"
 // TODO: Встановити PrimaryKey/Qniquef
 router.post('', (req, res, next) => {
-  // Знаходимо номер останньої створеної заявки
-  console.log('Adding new ver');
-
   connection.query("SELECT `applicationNumber` FROM `archive` ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     let applicationNumber = '';
+
     if (lastNumber.length > 0 && lastNumber[0]) {
       applicationNumber = lastNumber[0].applicationNumber;
     } else {
       applicationNumber = createApplicationNumber(applicationNumber);
     }
+
     let status = "Не визначено відповідальну особу";
+
     if (req.body.employeeName.length > 0) {
       status = "Визначено відповідальну особу";
     }
@@ -73,7 +73,7 @@ router.post('', (req, res, next) => {
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
 // TODO: пофіксити Update
-router.put('/rejected/:id', (req, res, next) => {
+router.get('/rejected/:id', (req, res, next) => {
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
     res.status(200);
@@ -130,7 +130,6 @@ function createApplicationNumber(lastApplicationNumber) {
   if (dateLike == cutDate) {
     return parseInt(lastApplicationNumber) + 1;
   }
-
 
   return parseInt(dateLike) * 1000000 + 1;
 }
