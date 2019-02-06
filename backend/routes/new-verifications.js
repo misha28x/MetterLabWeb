@@ -131,6 +131,7 @@ function createApplicationNumber(lastApplicationNumber) {
     return parseInt(lastApplicationNumber) + 1;
   }
 
+  console.log( lastApplicationNumber );
   return parseInt(dateLike) * 1000000 + 1;
 }
 

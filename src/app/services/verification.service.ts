@@ -26,11 +26,11 @@ export class VerificationService {
     return this.verificationAdded$;
   }
 
-  public rejectVerification(id: number): Observable<any> {
+  public rejectVerification(id: any): Observable<any> {
     return this.http.get(rejectUrl + id);
   }
 
-  public deleteVerification(id: number): Observable<any> {
+  public deleteVerification(id: any): Observable<any> {
     return this.http.delete(deleteUrl + id);
   }
 
@@ -38,7 +38,7 @@ export class VerificationService {
     return this.http.post(duplicateUrl, address);
   }
 
-  public cancellEmployee(id: number): Observable<any> {
+  public cancellEmployee(id: any): Observable<any> {
     return this.http.get(employeeCancelUrl + id);
   }
 }

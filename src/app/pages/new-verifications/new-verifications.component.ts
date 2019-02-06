@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
+import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 import { EmployeeDialogComponent } from './employee-dialog/employee-dialog.component';
@@ -50,6 +51,23 @@ export class PageNewVerificationsComponent implements OnInit {
           .subscribe(() => this.updateData());
       }
     );
+  }
+
+  addEmployeeToSelected(): void {
+    const dialogRef = this.dialog.open(EmployeeDialogComponent);
+
+    dialogRef.afterClosed().subscribe(
+      employee => {
+        forkJoin(this.selectedData.map((ver: Verification) => 
+          this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
+        ).subscribe(() => this.updateData());
+      }
+    );
+  }
+
+  cancellEmployeeToSelected(): void {
+    forkJoin(this.selectedData.map((ver: Verification) => 
+      this.verificationSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
   }
 
   deleteVerification(id: number): void {
