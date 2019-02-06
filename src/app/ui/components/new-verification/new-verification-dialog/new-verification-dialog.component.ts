@@ -46,7 +46,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 	}
 
   ngAfterContentInit(): void {
-    this.showForm = true;
+    setTimeout(() => this.showForm = true , 150);
   }
 
 	ngOnInit(): void {
