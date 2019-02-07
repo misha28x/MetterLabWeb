@@ -41,29 +41,31 @@ router.get('', (req, res, next) => {
 // TODO: Встановити PrimaryKey/Qniquef
 router.post('', (req, res, next) => {
   // Знаходимо номер останньої створеної заявки
-  console.log('Adding new ver');
-
-  connection.query("SELECT `applicationNumber` FROM `archive` ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
-    let applicationNumber = '';
-    if (lastNumber.length > 0 && lastNumber[0]) {
-      applicationNumber = lastNumber[0].applicationNumber;
-    } else {
-      applicationNumber = createApplicationNumber(applicationNumber);
+  connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate` = '2019-11-7' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
+    if (err) {
+      console.log(err);
     }
+    let applicationNumber = '';
+
+    if (typeof lastNumber[0] !== 'undefined') {
+      applicationNumber = createApplicationNumber(lastNumber[0].applicationNumber);
+    } else {
+      applicationNumber = generateDateString() + '000000';
+    }
+
     let status = "Не визначено відповідальну особу";
     if (req.body.employeeName.length > 0) {
       status = "Визначено відповідальну особу";
     }
 
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(req.body.addingDate, createApplicationNumber(applicationNumber), req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate), req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo), req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate), req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
+    let formatedData = varData.format(req.body.addingDate, applicationNumber, req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate), req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo), req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate), req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
     let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`, `status`)" + formatedData);
     connection.query(varResult, (err, result) => {
       if (err) {
         console.log(err);
       }
-
-      console.log('Нова повірка створена. Визначено відповідальну особу ' + createApplicationNumber(applicationNumber));
+      console.log('Нова повірка створена. ' + status + '. Номер заявки: ' + applicationNumber);
     });
   });
   res.json({
@@ -118,21 +120,23 @@ router.post('/duplicate', (req, res, next) => {
     });
 });
 
-function createApplicationNumber(lastApplicationNumber) {
-  let cutDate = "00000000";
+// Запит, що знімає відповідальну особу з заявки
+router.get('/cancel/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `employeeName`='' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
+    if (err) {
+      console.log(err);
+    }
+	});
+	res.status(201).send({
+	  msg: 'знято відповідальну особу'
+	});
+});
 
-  if (typeof lastApplicationNumber !== 'undefined' && lastApplicationNumber.length >= 8) {
-    cutDate = lastApplicationNumber.substr(0, 8);
-  }
-
-  let dateLike = generateDateString();
-
-  if (dateLike == cutDate) {
-    return parseInt(lastApplicationNumber) + 1;
-  }
-
-
-  return parseInt(dateLike) * 1000000 + 1;
+function createApplicationNumber(lastApplicationObject) {
+  let lastApplicationNumber = lastApplicationObject.toString();
+  let firstPart = lastApplicationNumber.substr(0, 4);
+  let secondPart = parseInt(lastApplicationNumber.substr(4, 13)) + 1;
+  return firstPart + secondPart;
 }
 
 function generateDateString() {

@@ -260,7 +260,7 @@ function generateDateString(addingDate) {
   if (month < 10) {
     month = "0" + month;
   }
-
+	
   return day.toString() + month.toString() + year.toString();
 }
 
@@ -515,9 +515,9 @@ function parseProtocol(byteArray, fileName) {
     test.endStateImage = coder.encode(bytesToImage(bbiFile, index * 2 + 2));
 
     // Протокол "В зоні" чи "Не в зоні"
-    if (test.isInZone === 'В зоне') {
+    if (test.isInZone === 'В зоні') {
       protocol.status = 'Разблокирован';
-    } else if (test.isInZone === 'Не в зоне') {
+    } else if (test.isInZone === 'Не в зоні') {
       protocol.status = 'Заблокирован';
     }
     // Встановлення імені тесту
@@ -541,7 +541,7 @@ function parseProtocol(byteArray, fileName) {
     } else if (test.result === 'Годен') {
       validNumberCounter++;
     }
-    if (test.isInZone === 'Не в зоне') {
+    if (test.isInZone === 'Не в зоні') {
       isNotInZoneCounter++;
     }
   });
@@ -555,9 +555,9 @@ function parseProtocol(byteArray, fileName) {
   }
 
   if (isNotInZoneCounter > 0) {
-    protocol.status = 'Не в зоне';
+    protocol.status = 'Не в зоні';
   } else {
-    protocol.status = 'В зоне';
+    protocol.status = 'В зоні';
   }
   if (protocol.counterNumber.length < 4 || protocol.bbiFileName == '00000000.bbi') {
 
