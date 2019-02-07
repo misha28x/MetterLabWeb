@@ -15,7 +15,7 @@
         <button mat-raised-button color="warn"><i class="icofont-minus"></i>Відхилити Повірку</button>
       </div>
     </div>
-    <app-table [hovered]="true" [bordered]="true" [tableData]="tableData" [pagination]="true">
+    <app-table [hovered]="true" [bordered]="true" [tableData]="(tableData | async)" [pagination]="true">
       <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>

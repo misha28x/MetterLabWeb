@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { Observable, forkJoin } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
+import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
@@ -16,17 +17,20 @@ const url = 'http://localhost:3000/api/new-verifications';
   styleUrls: ['./new-verifications.component.scss']
 })
 export class PageNewVerificationsComponent implements OnInit {
-	newVerifications: Observable<any[]>;
+  newVerifications: Observable<any[]>;
   employee: string;
 
   selectedData: any[];
-	
+
   constructor(
-    private dataSv: DataService,
     private dialog: MatDialog,
+    private dataSv: DataService,
+    private sourceSv: SourceService,
     private detailSv: DetailViewService,
     private verificationSv: VerificationService
-    ) { }
+  ) {
+    this.newVerifications = this.sourceSv.getNewVerifications();
+  }
 
   ngOnInit(): void {
     this.selectedData = [];
@@ -35,14 +39,14 @@ export class PageNewVerificationsComponent implements OnInit {
   }
 
   updateData(): void {
-    this.newVerifications = this.dataSv.getData(url);
+    this.sourceSv.fetchNewVerifications();
   }
 
   detailView(id: number): void {
     this.detailSv.addVerification(id);
   }
 
-  addEmployee(id: number ): void {
+  addEmployee(id: number): void {
     const dialogRef = this.dialog.open(EmployeeDialogComponent);
 
     dialogRef.afterClosed().subscribe(
@@ -58,7 +62,7 @@ export class PageNewVerificationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       employee => {
-        forkJoin(this.selectedData.map((ver: Verification) => 
+        forkJoin(this.selectedData.map((ver: Verification) =>
           this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
         ).subscribe(() => this.updateData());
       }
@@ -66,7 +70,7 @@ export class PageNewVerificationsComponent implements OnInit {
   }
 
   cancellEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) => 
+    forkJoin(this.selectedData.map((ver: Verification) =>
       this.verificationSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
   }
 
