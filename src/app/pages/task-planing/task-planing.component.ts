@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
+import { SourceService } from '../../services/source.service';
 import { DataService } from '../../services/data.service';
-import { TaskSendingComponent } from './task-sending/task-sending.component';
 import { Task } from '../../interfaces/taskData';
+
+import { TaskSendingComponent } from './task-sending/task-sending.component';
 
 @Component({
   selector: 'app-task-planing',
@@ -18,9 +20,15 @@ export class PageTaskPlaningComponent implements OnInit {
 
   selectedData: any[];
 
-  constructor(private dataSv: DataService, private dialog: MatDialog) { }
+  constructor(
+    private sourceSv: SourceService,
+    private dataSv: DataService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
+    this.sourceSv.fetchTaskPlaning();
+
 		this.config = {
 			sorting: { columns: this.columns },
 			filtering: {
@@ -30,7 +38,7 @@ export class PageTaskPlaningComponent implements OnInit {
 
     this.selectedData = [];
 
-		this.tableData = this.dataSv.getData('http://localhost:3000/api/task-planing');
+		this.tableData = this.sourceSv.getTaskPlaning();
   }
 
   sendData(): void {
@@ -69,7 +77,7 @@ export class PageTaskPlaningComponent implements OnInit {
         const url = 'http://localhost:3000/api/task-planing/station-task';
         
         this.dataSv.sendData(url, taskData)
-          .subscribe(() => console.log('success'));
+          .subscribe(() => this.sourceSv.fetchTaskPlaning());
       }
     );
   }
