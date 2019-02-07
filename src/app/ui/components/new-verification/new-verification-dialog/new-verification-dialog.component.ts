@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
@@ -13,7 +13,7 @@ const url = 'http://localhost:3000/api/new-verifications';
 	templateUrl: './new-verification-dialog.component.html',
 	styleUrls: ['./new-verification-dialog.component.scss']
 })
-export class NewVerificationDialogComponent implements OnInit {
+export class NewVerificationDialogComponent implements OnInit, AfterContentInit {
 	step: number;
 	verification: Verification;
 
@@ -21,8 +21,9 @@ export class NewVerificationDialogComponent implements OnInit {
 	locationForm: FormGroup;
 	counterForm: FormGroup;
 	additionalDataForm: FormGroup;
+  showForm: boolean;
 
-	private url: string;
+  private url: string;
 
 	constructor(
 		private verificationSv: VerificationService,
@@ -43,6 +44,10 @@ export class NewVerificationDialogComponent implements OnInit {
 	prevStep(): void {
 		this.step--;
 	}
+
+  ngAfterContentInit(): void {
+    setTimeout(() => this.showForm = true , 150);
+  }
 
 	ngOnInit(): void {
 		this.generalDataForm = this.fb.group({

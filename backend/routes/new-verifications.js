@@ -41,7 +41,7 @@ router.get('', (req, res, next) => {
 // TODO: Встановити PrimaryKey/Qniquef
 router.post('', (req, res, next) => {
   // Знаходимо номер останньої створеної заявки
-  connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate` = '2019-11-7' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
+  connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate` = '" + getCurrentDate() + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
       console.log(err);
     }
@@ -54,12 +54,13 @@ router.post('', (req, res, next) => {
     }
 
     let status = "Не визначено відповідальну особу";
+
     if (req.body.employeeName.length > 0) {
       status = "Визначено відповідальну особу";
     }
 
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(req.body.addingDate, applicationNumber, req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate), req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo), req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate), req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
+    let formatedData = varData.format(getCurrentDate(), applicationNumber, req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate), req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo), req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate), req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
     let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`, `status`)" + formatedData);
     connection.query(varResult, (err, result) => {
       if (err) {
@@ -75,7 +76,7 @@ router.post('', (req, res, next) => {
 
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
 // TODO: пофіксити Update
-router.put('/rejected/:id', (req, res, next) => {
+router.get('/rejected/:id', (req, res, next) => {
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
     res.status(200);
@@ -154,4 +155,17 @@ function generateDateString() {
   return day.toString() + month.toString() + year.toString();
 }
 
+function getCurrentDate() {
+	const date = new Date();
+	let day = date.getUTCDate();
+	let month = date.getUTCMonth() + 1;
+	let year = date.getUTCFullYear();
+	if (day < 10) {
+	  day = "0" + day;
+	}
+	if (month < 10) {
+	  month = "0" + month;
+	}
+	return year.toString() + '-' + month.toString() + '-' + day.toString();
+}
 module.exports = router;
