@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { SourceService } from '../../services/source.service';
 
 @Component({
   selector: 'app-rejected-verification',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageRejectedVerificationComponent implements OnInit {
 
-  constructor() { }
+  rejectedVerifications: Observable<any>;
+  constructor(private sourceSv: SourceService) { 
+    this.sourceSv.fetchRejectedVerif();
+    this.rejectedVerifications = this.sourceSv.getRejectedVerifications();
+  }
 
   ngOnInit(): void {
   }

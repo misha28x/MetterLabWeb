@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
+import { SourceService } from '../../services/source.service';
 import { DataService } from '../../services/data.service';
 import { TaskListEditDialogComponent } from '../stations-tasks/task-list-edit-dialog/task-list-edit-dialog.component';
 import { TaslListViewDialogComponent } from '../stations-tasks/tasl-list-view-dialog/tasl-list-view-dialog.component';
@@ -20,13 +21,16 @@ export class FailedTasksComponent implements OnInit {
   selectedData: any[];
 
   constructor(
+    private sourceSv: SourceService,
     private snackBar: MatSnackBar,
     private dataSv: DataService,
     private dialog: MatDialog
-  ) { }
+  ) { 
+    this.sourceSv.fetchFailedTasks();
+    this.stationsTasks = this.sourceSv.getFailedTasks();
+  }
 
   ngOnInit(): void {
-    this.stationsTasks = this.dataSv.getData(url);
     this.selectedData = [];
   }
 

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
-
-const url = 'http://localhost:3000/api/verifications-archive';
+import { SourceService } from '../../services/source.service';
 
 @Component({
   selector: 'app-verifications-archive',
@@ -14,9 +13,10 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
 	verificationsArchive: Observable<any[]>;
 
-	constructor(private dataSv: DataService) { }
-
-  ngOnInit(): void {
-		this.verificationsArchive = this.dataSv.getData(url);
+	constructor(private dataSv: DataService, private sourceSv: SourceService) { 
+    this.sourceSv.fetchArchive();
+    this.verificationsArchive = this.sourceSv.getArchive();
   }
+
+  ngOnInit(): void { }
 }

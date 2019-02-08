@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
-
-const url = 'http://localhost:3000/api/rejected-protocols';
+import { SourceService } from '../../services/source.service';
 
 @Component({
   selector: 'app-rejected-protocols',
@@ -14,9 +13,10 @@ export class PageRejectedProtocolsComponent implements OnInit {
 
 	rejectedProtocols: Observable<any[]>;
 
-	constructor(private dataSv: DataService) { }
-
-  ngOnInit(): void {
-		this.rejectedProtocols = this.dataSv.getData(url);
+	constructor(private dataSv: DataService, private sourceSv: SourceService) { 
+    this.sourceSv.fetchRejectedProtocols();
+    this.rejectedProtocols = this.sourceSv.getRejectedProtocols();
   }
+
+  ngOnInit(): void { }
 }

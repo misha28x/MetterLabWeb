@@ -47,7 +47,7 @@ export class SourceService {
     this.http.get(ptocolsUrl).subscribe((res: any) => this.protocolsSource$.next(res));
   }
 
-  fetchmetrologyProtocols(): void {
+  fetchMetrologyProtocols(): void {
     this.http.get(metrologyProtocolsUrl).subscribe((res: any) => this.metrologyProtocolsSource$.next(res));
   }
 
@@ -95,7 +95,7 @@ export class SourceService {
     return this.rejectedVerifSource$.asObservable();
   }
 
-  getRejectedPrtocols(): Observable<any> {
+  getRejectedProtocols(): Observable<any> {
     return this.rejectedProtocolsSource$.asObservable();
   }
 
