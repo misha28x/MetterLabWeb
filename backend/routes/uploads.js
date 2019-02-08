@@ -9,6 +9,8 @@ const coder = require('base64-arraybuffer');
 const connection = require('../database/db');
 const io = require('../socket/socket');
 
+const bytesToImage = require('../utils/utils').bytesToImage;
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'backend/temp');
@@ -35,76 +37,7 @@ function bytesToInt(bytes) {
   return new Uint32Array(u32bytes)[0];
 }
 
-function bytesToImage(bbiFile, id) {
-  let imgNum = 0;
-  let imgLength = 0;
-
-  switch (id) {
-    case 0:
-      imgNum = 4098;
-      imgLength = (bbiFile[4098] & 255) << 8 | bbiFile[4099] & 255;
-      break;
-    case 1:
-      imgNum = 20482;
-      imgLength = (bbiFile[20482] & 255) << 8 | bbiFile[20483] & 255;
-      break;
-    case 2:
-      imgNum = 36866;
-      imgLength = (bbiFile[36866] & 255) << 8 | bbiFile[36867] & 255;
-      break;
-    case 3:
-      imgNum = 53250;
-      imgLength = (bbiFile[53250] & 255) << 8 | bbiFile[53251] & 255;
-      break;
-    case 4:
-      imgNum = 69634;
-      imgLength = (bbiFile[69634] & 255) << 8 | bbiFile[69635] & 255;
-      break;
-    case 5:
-      imgNum = 86018;
-      imgLength = (bbiFile[86018] & 255) << 8 | bbiFile[86019] & 255;
-      break;
-    case 6:
-      imgNum = 102402;
-      imgLength = (bbiFile[102402] & 255) << 8 | bbiFile[102403] & 255;
-      break;
-    case 7:
-      imgNum = 118786;
-      imgLength = (bbiFile[118786] & 255) << 8 | bbiFile[118787] & 255;
-      break;
-    case 8:
-      imgNum = 135170;
-      imgLength = (bbiFile[135170] & 255) << 8 | bbiFile[135171] & 255;
-      break;
-    case 9:
-      imgNum = 151554;
-      imgLength = (bbiFile[151554] & 255) << 8 | bbiFile[151555] & 255;
-      break;
-    case 10:
-      imgNum = 167938;
-      imgLength = (bbiFile[167938] & 255) << 8 | bbiFile[167939] & 255;
-      break;
-    case 11:
-      imgNum = 184322;
-      imgLength = (bbiFile[184322] & 255) << 8 | bbiFile[184323] & 255;
-      break;
-    case 12:
-      imgNum = 200706;
-      imgLength = (bbiFile[200706] & 255) << 8 | bbiFile[200707] & 255;
-      break;
-
-    default:
-      break;
-  }
-  const imageBytes = bbiFile.slice(imgNum + 2, imgNum + 2 + imgLength);
-
-  return imageBytes;
-}
-
-// Images Bytes to Base64
-
 function getResultsFromDatabase(byteArray) {
-
   const db = new SQL.Database(byteArray);
 
   // Формуємо результат у масив об'єктів
@@ -132,7 +65,7 @@ function getResultsFromDatabase(byteArray) {
       const oldDateFormat = date.split('-')[2] + '-' + date.split('-')[1] + '-' + date.split('-')[0];
       applicationNumber = createApplicationNumber(applicationNumber, oldDateFormat);
       console.log({
-        false: applicationNumber
+        "Перший запис за день": applicationNumber
       });
     }
 
@@ -187,7 +120,7 @@ function getResultsFromDatabase(byteArray) {
               const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
               const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
               console.log({
-                insert_into_archive: applicationNumber
+                "Кумовська заявка": applicationNumber
               });
               applicationNumber = rightAppNumberString(applicationNumber);
               let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
@@ -201,7 +134,6 @@ function getResultsFromDatabase(byteArray) {
             }
           }
         });
-
       });
     }
   });
@@ -209,8 +141,8 @@ function getResultsFromDatabase(byteArray) {
 // Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
 function rightAppNumberString(applicationNumber) {
   const numberString = applicationNumber.toString();
-  const datePart = numberString.substr(0, 6);
-  const numberPart = (parseInt(numberString.substr(numberString.length - 8)) + 1).toString();
+  const datePart = numberString.substr(0, 4);
+  const numberPart = (parseInt(numberString.substr(4, 13)) + 1).toString();
   return ('' + datePart + numberPart);
 }
 
@@ -243,10 +175,12 @@ function createApplicationNumber(lastApplicationNumber, addingDate) {
   let dateLike = generateDateString(addingDate);
 
   if (dateLike == cutDate) {
-    return parseInt(lastApplicationNumber) + 1;
+		let firstPart = lastApplicationNumber.substr(0, 4);
+		let secondPart = parseInt(lastApplicationNumber.substr(4, 13)) + 1;
+    return firstPart + secondPart;
   }
 
-  return parseInt(dateLike) * 1000000 + 1;
+  return dateLike + "000000";
 }
 
 function generateDateString(addingDate) {
