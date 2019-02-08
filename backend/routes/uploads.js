@@ -10,6 +10,7 @@ const connection = require('../database/db');
 const io = require('../socket/socket');
 
 const bytesToImage = require('../utils/utils').bytesToImage;
+const createNextApplicationNumber = require('../utils/utils').createNextApplicationNumber;
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -46,9 +47,13 @@ function getResultsFromDatabase(byteArray) {
   for (result = []; test.step();) {
     result.push(test.getAsObject());
   }
-  // TODO: перевірити коректність дат
+
   const unformatedDate = result[0].Date.split(' ')[0].split('.');
   const date = unformatedDate[2] + '-' + unformatedDate[1] + '-' + unformatedDate[0];
+  console.log({
+    'Uploading. Task date': date
+  });
+
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
       console.log(err);
@@ -57,11 +62,7 @@ function getResultsFromDatabase(byteArray) {
     let applicationNumber = '';
     if (lastNumber.length > 0 && lastNumber[0]) {
       applicationNumber = lastNumber[0].applicationNumber;
-      console.log({
-        true: applicationNumber
-      });
     } else {
-      // TODO: перевірити коректність createApplicationNumber, для правильного створення new Date()
       const oldDateFormat = date.split('-')[2] + '-' + date.split('-')[1] + '-' + date.split('-')[0];
       applicationNumber = createApplicationNumber(applicationNumber, oldDateFormat);
       console.log({
@@ -70,9 +71,9 @@ function getResultsFromDatabase(byteArray) {
     }
 
     for (const row of result) {
-			if (row.CounterNumber.length < 4 | row.CounterNumber == '-' | row.FileNumber == '00000000.bbi') {
-				continue;
-			}
+      if (row.CounterNumber.length < 4 | row.CounterNumber == '-' | row.FileNumber == '00000000.bbi') {
+        continue;
+      }
 
       connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
@@ -119,10 +120,9 @@ function getResultsFromDatabase(byteArray) {
             } else {
               const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
               const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-              console.log({
-                "Кумовська заявка": applicationNumber
-              });
-              applicationNumber = rightAppNumberString(applicationNumber);
+
+							applicationNumber = createNextApplicationNumber(applicationNumber);
+
               let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
               let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
               connection.query(varResult, (err) => {
@@ -130,20 +130,13 @@ function getResultsFromDatabase(byteArray) {
                   console.log(err);
                 }
               });
-              console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber);
+              console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber + ' K');
             }
           }
         });
       });
     }
   });
-}
-// Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
-function rightAppNumberString(applicationNumber) {
-  const numberString = applicationNumber.toString();
-  const datePart = numberString.substr(0, 4);
-  const numberPart = (parseInt(numberString.substr(4, 13)) + 1).toString();
-  return ('' + datePart + numberPart);
 }
 
 // Функція, що перевіряє, чи виконане завдання порівнюючи кількості виконаних заявок до всіх
@@ -172,30 +165,14 @@ function createApplicationNumber(lastApplicationNumber, addingDate) {
     cutDate = lastApplicationNumber.substr(0, 8);
   }
 
-  let dateLike = generateDateString(addingDate);
+	let dateArray = addingDate.split('-');
+	let dateLike = dateArray[0] + dateArray[1] + dateArray[2];
 
   if (dateLike == cutDate) {
-		let firstPart = lastApplicationNumber.substr(0, 4);
-		let secondPart = parseInt(lastApplicationNumber.substr(4, 13)) + 1;
-    return firstPart + secondPart;
+    return createNextApplicationNumber(lastApplicationNumber);
   }
 
   return dateLike + "000000";
-}
-
-function generateDateString(addingDate) {
-  const date = new Date(addingDate);
-  let day = date.getUTCDate();
-  let month = date.getUTCMonth() + 1;
-  let year = date.getUTCFullYear();
-  if (day < 10) {
-    day = "0" + day;
-  }
-  if (month < 10) {
-    month = "0" + month;
-  }
-	
-  return day.toString() + month.toString() + year.toString();
 }
 
 function generateFormatedDateString(addingDate) {
@@ -550,9 +527,9 @@ router.post('', upload.single('file'), (req, res, next) => {
     JSZip.loadAsync(data).then(function (zip) {
       let counterValue = 0;
       zip.forEach(async function (relativePath, zipEntry) {
-				if (zipEntry.name.includes('.bbi')) {
-				  counterValue++;
-				}
+        if (zipEntry.name.includes('.bbi')) {
+          counterValue++;
+        }
       });
       if (counterValue == 0) {
         io.getIo().emit('upload', {
