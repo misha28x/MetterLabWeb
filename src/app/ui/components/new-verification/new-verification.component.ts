@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { concat } from 'rxjs';
 
-import { NewVerificationDialogComponent } from './new-verification-dialog/new-verification-dialog.component';
 import { DataService } from '../../../services/data.service';
+import { SourceService } from '../../../services/source.service';
 import { SocketService } from '../../../services/socket.service';
+
+import { NewVerificationDialogComponent } from './new-verification-dialog/new-verification-dialog.component';
 
 const employeeUrl = 'http://localhost:3000/api/new-verifications/employee';
 const typeUrl = 'http://localhost:3000/api/new-verifications/device';
@@ -18,22 +20,23 @@ const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
 export class NewVerificationComponent implements OnInit {
 
   constructor(
-      private matDialog: MatDialog,
-      private dataSv: DataService,
-      private socket: SocketService
+    private matDialog: MatDialog,
+    private dataSv: DataService,
+    private socket: SocketService,
+    private sourceSv: SourceService
     ) { }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
 	openDialog(dialogData: any): void {
-		this.matDialog.open(NewVerificationDialogComponent, {
+		const dialogRef = this.matDialog.open(NewVerificationDialogComponent, {
 			width: '85%',
 			height: '98%',
       maxWidth: 1100,
       data: dialogData
-		});
+    });
+    
+    dialogRef.afterClosed().subscribe(() => this.sourceSv.fetchNewVerifications());
 	}
 
   getData(): void {

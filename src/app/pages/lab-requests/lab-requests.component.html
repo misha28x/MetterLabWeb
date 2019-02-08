@@ -10,7 +10,7 @@
       </button>
     </div>
 
-    <app-table [tableData]="labRequests" [pagination]="true">
+    <app-table [tableData]="(labRequests | async)" [pagination]="true">
       <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox></mat-checkbox>

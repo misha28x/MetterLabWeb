@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <app-table [hovered]="true" [bordered]="true" [tableData]="protocols" [pagination]="true">
+    <app-table [hovered]="true" [bordered]="true" [tableData]="(protocols | async)" [pagination]="true">
       <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>

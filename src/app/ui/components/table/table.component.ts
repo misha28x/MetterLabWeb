@@ -1,6 +1,5 @@
-import { Component, Input, HostBinding, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 import { PageEvent } from '@angular/material';
-import { Observable } from 'rxjs';
 
 import { ColumnComponent } from './column/column.component';
 import { ITableConfig } from '../../interfaces/tableConfig';
@@ -10,7 +9,7 @@ import { ITableConfig } from '../../interfaces/tableConfig';
   templateUrl: './table.component.html',
 	styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements  OnInit  {
+export class TableComponent implements  OnInit, OnChanges {
 	@HostBinding('class.tc-table') true;
 
 	@Input() pagination: boolean;
@@ -20,7 +19,7 @@ export class TableComponent implements  OnInit  {
 	@Input() search: boolean;
 
 	@Input() config: ITableConfig;
-	@Input() tableData: Observable<any>;
+	@Input() tableData: any;
 	@Input() itemsPerPage: number;
 
   @Output() rowSelected: EventEmitter<any>;
@@ -55,22 +54,17 @@ export class TableComponent implements  OnInit  {
 
 	ngOnInit(): void {
 		this.getColumns();
-		this.subscribeToData();
+		this.setData(this.data);
 
     this.rowSelected = new EventEmitter<any>();
-	}
-
-	subscribeToData(): void {
-		const observer = {
-			next: x => this.setData(x),
-			error: err => console.log(err)
-		};
-
-		this.tableData.subscribe(observer);
-	}
+  }
+  
+  ngOnChanges(): void {
+    this.setData(this.tableData);
+  }
 
 	setData(data: any[]): void {
-		if (data && data.length > 0) {
+		if (data) {
 			this.data = [].concat(data);
 			this.rows = [].concat(data);
 			this.initData();
