@@ -81,7 +81,6 @@ module.exports.bytesToImage = bytesToImage;
 
 // Перехід від загального формату дати // 2019-01-24T22:00:00.000Z до 2019-01-24
 function formatDate(taskDate) {
-  console.log(taskDate);
   let fullTaskDate = '' + taskDate;
   let splitedTaskDate = fullTaskDate.split('T')[0];
   return splitedTaskDate;

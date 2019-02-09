@@ -15,7 +15,7 @@ const counters = {
 };
 
 router.get("/:id", (req, res, next) => {
-  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology;";
+  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='Не визначено відповідальну особу' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology;";
   connection.query(queryString, (err, result) => {
     if (err) {
       console.log({

@@ -42,6 +42,7 @@ router.get('', (req, res, next) => {
 // TODO: Встановити PrimaryKey/Qniquef
 router.post('', (req, res, next) => {
   // Знаходимо номер останньої створеної заявки
+  console.log( { favorTime: req.body.favorTime } );
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate` = '" + getCurrentDate() + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
       console.log(err);
