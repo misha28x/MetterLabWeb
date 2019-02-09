@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const format = require('string-format-js');
+const io = require('../socket/socket');
 
 const formatDate = require('../utils/utils').formatDate;
 const createNextApplicationNumber = require('../utils/utils').createNextApplicationNumber;
@@ -67,10 +68,11 @@ router.post('', (req, res, next) => {
     connection.query(varResult, (err, result) => {
       if (err) {
         console.log(err);
-      }
+			}
+			io.getIo().emit('upload');
       console.log('Нова повірка створена. ' + status + '. Номер заявки: ' + applicationNumber);
     });
-  });
+	});	
   res.json({
     g: 'good'
   });
@@ -82,6 +84,7 @@ router.get('/rejected/:id', (req, res, next) => {
   console.log('rejected');
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
+		io.getIo().emit('upload');
     res.status(200).json({ m: 'rejected'});
   });
 });
@@ -91,14 +94,13 @@ router.post('/employee/:id', (req, res, next) => {
   connection.query("UPDATE `archive` SET `status`='Визначено відповідальну особу', `employeeName`='" + req.body.employee + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
-    }
+		}
+		io.getIo().emit('upload');
     res.status(201).send({
       msg: 'success'
     });
     console.log('Призначено відповідальну особу.');
   });
-  // req.params.id - це номер заявки
-  // req.body.employee - ПІБ
 });
 
 // 4) Видалення повірки delete
@@ -106,6 +108,7 @@ router.delete('/:id', (req, res, next) => {
   let query = "DELETE FROM `archive` WHERE `applicationNumber`='" + req.params.id + "';";
   
   connection.query(query, () => {
+		io.getIo().emit('upload');
     res.status(200).json({m: 'success'});
   });
 });
