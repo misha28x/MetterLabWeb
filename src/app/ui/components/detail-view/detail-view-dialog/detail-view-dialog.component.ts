@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
+import { VerificationService } from '../../../../services/verification.service';
 import { Verification } from '../../../../interfaces/verifications';
 import { DataService } from '../../../../services/data.service';
 
@@ -26,6 +27,7 @@ export class DetailViewDialogComponent implements OnInit {
   constructor(
     private dataSv: DataService,
     private fb: FormBuilder,
+    private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<DetailViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
@@ -84,9 +86,9 @@ export class DetailViewDialogComponent implements OnInit {
   }
 
   sendData(): void {
-    this.dataSv.sendData(url, this.setVerification());
-    
+    this.verificationSv.updateVerification(this.data.verification[0].applicationNumber, this.setVerification());
   }
+
   setVerification(): Verification {
     const name = this.generalDataForm.get('name').value.replace(/'/g, /\'/);
     const surname = this.generalDataForm.get('surname').value.replace(/'/g, /\'/);
@@ -97,7 +99,7 @@ export class DetailViewDialogComponent implements OnInit {
     return {
       client: fullName,
       phoneNumber: this.generalDataForm.get('phone').value,
-			addingDate: new Date().getUTCFullYear() + '-' + new Date().getUTCMonth() + 1 + '-' + new Date().getUTCDate(),
+      addingDate: new Date().getUTCFullYear() + '-' + new Date().getUTCMonth() + 1 + '-' + new Date().getUTCDate(),
       region: this.locationForm.get('region').value.replace(/'/g, /\'/),
       district: this.locationForm.get('district').value.replace(/'/g, /\'/),
       settlement: this.locationForm.get('settlement').value.replace(/'/g, /\'/),
@@ -114,8 +116,8 @@ export class DetailViewDialogComponent implements OnInit {
       counterType: this.counterForm.get('counterType').value,
       productionYear: this.counterForm.get('productionYear').value,
       acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
-      favorDate: this.additionalDataForm.get('favorDate').value,
-      favorTime: this.additionalDataForm.get('favorTime').value,
+      favorDate: this.additionalDataForm.get('favorDate').value.toISOString(),
+      favorTime: this.additionalDataForm.get('favorTime').value.toString(),
       sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
       waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
       note: this.additionalDataForm.get('note').value,
