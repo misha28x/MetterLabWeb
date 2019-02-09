@@ -19,7 +19,7 @@ router.get('', (req, res, next) => {
 router.put('/rejected/:id', (req, res, next) => {
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
-		io.getIo().emit('upload');
+		io.getIo().emit('update');
     res.status(200);
   });
 });
