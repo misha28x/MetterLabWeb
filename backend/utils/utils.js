@@ -1,5 +1,15 @@
 const xl = require('excel4node');
 
+// Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
+function createNextApplicationNumber(applicationNumber) {
+  let lastApplicationNumber = applicationNumber.toString();
+  let firstPart = lastApplicationNumber.substr(0, 4);
+  let secondPart = parseInt(lastApplicationNumber.substr(4, 13)) + 1;
+  return firstPart + secondPart;
+}
+
+module.exports.createNextApplicationNumber = createNextApplicationNumber;
+
 // Операції виділення зображень з бінарного файлу
 function bytesToImage(bbiFile, id) {
   let imgNum = 0;

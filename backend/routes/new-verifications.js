@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const format = require('string-format-js');
 
 const formatDate = require('../utils/utils').formatDate;
+const createNextApplicationNumber = require('../utils/utils').createNextApplicationNumber;
 
 const router = express.Router();
 
@@ -48,7 +49,7 @@ router.post('', (req, res, next) => {
     let applicationNumber = '';
 
     if (typeof lastNumber[0] !== 'undefined') {
-      applicationNumber = createApplicationNumber(lastNumber[0].applicationNumber);
+      applicationNumber = createNextApplicationNumber(lastNumber[0].applicationNumber);
     } else {
       applicationNumber = generateDateString() + '000000';
     }
@@ -132,13 +133,6 @@ router.get('/cancel/:id', (req, res, next) => {
 	  msg: 'знято відповідальну особу'
 	});
 });
-
-function createApplicationNumber(lastApplicationObject) {
-  let lastApplicationNumber = lastApplicationObject.toString();
-  let firstPart = lastApplicationNumber.substr(0, 4);
-  let secondPart = parseInt(lastApplicationNumber.substr(4, 13)) + 1;
-  return firstPart + secondPart;
-}
 
 function generateDateString() {
   const date = new Date();
