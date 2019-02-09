@@ -17,8 +17,6 @@ router.get('', (req, res, next) => {
 });
 
 
-// TODO: перевірити UPDATE
-// 
 router.get('/employee/:id', (req, res, next) => {
   connection.query("UPDATE `archive` SET `status`='', `employeeName`='' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
@@ -39,7 +37,7 @@ router.post('/station-task', (req, res, next) => {
     data: req.body
   });
 
-  connection.query("SELECT * FROM stations WHERE stationNumber='"+ req.body.stationNumber +"';", (err, station) => {
+  connection.query("SELECT * FROM stations WHERE stationNumber='" + req.body.stationNumber + "';", (err, station) => {
     const stNumber = station[0].stationNumber;
     const emName = station[0].employeeName;
     const phNumber = station[0].phoneNumber;
@@ -89,6 +87,7 @@ router.post('/station-task', (req, res, next) => {
       })
     })
   });
+  io.getIo().emit('upload');
   res.send({
     message: 'success'
   });
@@ -99,6 +98,7 @@ router.post('/station-task', (req, res, next) => {
 router.put('/rejected/:id', (req, res, next) => {
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
+    io.getIo().emit('upload');
     res.send(200);
   });
 });
