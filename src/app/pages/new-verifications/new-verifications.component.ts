@@ -86,8 +86,8 @@ export class PageNewVerificationsComponent implements OnInit {
     this.verificationSv.cancellEmployee(id).subscribe(() => this.updateData());
   }
 
-  checkForDuplicate(): void {
-    this.verificationSv.checkForDuplicate({}).subscribe();
+  checkForDuplicate(verification: Verification): void {
+    this.verificationSv.addVerification(verification);
   }
 
   onChange(data: any, state: boolean): void {

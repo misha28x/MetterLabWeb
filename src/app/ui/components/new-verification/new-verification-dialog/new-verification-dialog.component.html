@@ -218,8 +218,9 @@
         <div class="full-width">
           <span>Тип Лічильника</span>
           <mat-form-field class="input-field">
-            <input type="text" placeholder="Типорозмір лічильника" formControlName="counterType" matInput [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" >
+            <input type="text" placeholder="Типорозмір лічильника" formControlName="counterType" matInput
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let type of data.Device" [value]="type">{{ type }}</mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -286,11 +287,24 @@
 
         <div class="full-width">
           <span>Бажана дата проведення повірки</span>
-          <mat-form-field class="input-field">
-            <input matInput [matDatepicker]="favorableDatePicker" placeholder="Бажана дата повірки" formControlName="favorDate">
-            <mat-datepicker-toggle matSuffix [for]="favorableDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #favorableDatePicker></mat-datepicker>
-          </mat-form-field>
+          <div class="input-field form-group">
+            <input 
+              type="text"
+              class="form-control"
+              #dp="bsDatepicker"
+              bsDatepicker
+              formControlName="favorDate"
+              [bsValue]="additionalDataForm.get('favorDate').value"
+              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+            >
+          </div>
+        </div>
+
+        <div class="full-width">
+          <span>Бажаний час проведення повірки</span>
+          <div class="input-field form-group">
+            <timepicker  formControlName="favorTime" [showMeridian]="false"></timepicker>
+          </div>
         </div>
 
         <div class="full-width inline">
@@ -329,6 +343,6 @@
 
 <div class="buttons">
   <button mat-raised-button color="primary" (click)="sendData()">Надіслати</button>
-<button mat-raised-button color="primary" (click)="saveByPattern()">Зберегти за шаблоном</button>
-  <button mat-raised-button color="warn" (click)="prevStep()">Очистити</button>
+  <button mat-raised-button color="primary" (click)="saveByPattern()">Зберегти за шаблоном</button>
+  <button mat-raised-button color="warn" (click)="clearForm()">Очистити</button>
 </div>

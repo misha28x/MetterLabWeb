@@ -6,12 +6,12 @@ const metrologyProtocolsUrl = 'http://localhost:3000/api/verications-protocols/m
 const rejectedProtocolsUrl = 'http://localhost:3000/api/rejected-protocols';
 const failedTasksUrl = 'http://localhost:3000/api/stations-tasks/failed/1';
 const newVerificationUrl = 'http://localhost:3000/api/new-verifications';
+const rejectedVerif = 'http://localhost:3000/api/rejected-verification';
 const ptocolsUrl = 'http://localhost:3000/api/verications-protocols';
 const archiveUrl = 'http://localhost:3000/api/verifications-archive';
 const stationTasksUrl = 'http://localhost:3000/api/stations-tasks';
 const taskPlaningUrl = 'http://localhost:3000/api/task-planing';
 const labUrl = 'http://localhost:3000/api/lab-requests';
-
 // TODO:Rejected Verif
 
 @Injectable({
@@ -52,7 +52,7 @@ export class SourceService {
   }
 
   fetchRejectedVerif(): void {
-    this.http.get(labUrl).subscribe((res: any) => this.labSource$.next(res));
+    this.http.get(rejectedVerif).subscribe((res: any) => this.rejectedVerifSource$.next(res));
   }
 
   fetchFailedTasks(): void {

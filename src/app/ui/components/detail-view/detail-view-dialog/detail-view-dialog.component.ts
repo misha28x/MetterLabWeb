@@ -72,18 +72,20 @@ export class DetailViewDialogComponent implements OnInit {
     });
 
     this.additionalDataForm = this.fb.group({
-      entrance: '',
-      doorCode: '',
-      floor: '',
-      favorDate: '',
-      sanitaryWellFare: '',
-      waterAbsentTo: '',
+      entrance: this.data.verification[0].entrance,
+      doorCode: this.data.verification[0].doorCode,
+      floor: this.data.verification[0].floor,
+      favorDate: this.data.verification[0].favorDate,
+      favorTime: this.data.verification[0].favorTime,
+      sanitaryWellFare: this.data.verification[0].sanitaryWellFare,
+      waterAbsentTo: this.data.verification[0].waterAbsentTo,
       note: this.data.verification[0].note
     });
   }
 
   sendData(): void {
-    this.data.verificationSv.sendData(url, this.setVerification());
+    this.dataSv.sendData(url, this.setVerification());
+    
   }
   setVerification(): Verification {
     const name = this.generalDataForm.get('name').value.replace(/'/g, /\'/);
@@ -113,6 +115,7 @@ export class DetailViewDialogComponent implements OnInit {
       productionYear: this.counterForm.get('productionYear').value,
       acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
       favorDate: this.additionalDataForm.get('favorDate').value,
+      favorTime: this.additionalDataForm.get('favorTime').value,
       sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
       waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
       note: this.additionalDataForm.get('note').value,

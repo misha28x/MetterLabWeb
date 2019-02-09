@@ -28,7 +28,6 @@
         <div class="full-width">
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
-            <span matPrefix>+380 &nbsp;</span>
             <input matInput placeholder="Телефон" formControlName="phone">
           </mat-form-field>
         </div>
@@ -243,11 +242,17 @@
 
         <div class="full-width">
           <span>Бажана дата проведення повірки</span>
-          <mat-form-field class="input-field">
-            <input matInput [matDatepicker]="favorableDatePicker" placeholder="Бажана дата повірки" formControlName="favorDate">
-            <mat-datepicker-toggle matSuffix [for]="favorableDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #favorableDatePicker></mat-datepicker>
-          </mat-form-field>
+          <div class="input-field form-group">
+            <input type="text" class="form-control" bsDatepicker formControlName="favorDate"
+              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+          </div>
+        </div>
+
+        <div class="full-width">
+          <span>Бажаний час проведення повірки</span>
+          <div class="input-field form-group">
+            <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
+          </div>
         </div>
 
         <div class="full-width inline">
@@ -260,7 +265,7 @@
         <div class="full-width">
           <span>Вода відсутня до</span>
           <mat-form-field class="input-field">
-            <input matInput [matDatepicker]="waterDatePicker" placeholder="Бажана дата повірки" formControlName="waterAbsentTo">
+            <input matInput [matDatepicker]="waterDatePicker" placeholder="Вода відсутня до" formControlName="waterAbsentTo">
             <mat-datepicker-toggle matSuffix [for]="waterDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #waterDatePicker></mat-datepicker>
           </mat-form-field>

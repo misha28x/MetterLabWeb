@@ -89,7 +89,8 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 			entrance: '',
 			doorCode: '',
 			floor: '',
-			favorDate: '',
+      favorDate: new Date(),
+      favorTime: new Date(),
 			sanitaryWellFare: '',
 			waterAbsentTo: '',
 			note: ''
@@ -99,7 +100,15 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 	sendData(): void {
 		this.dataSv.sendData(url, this.setVerification()).subscribe();
     this.dialogRef.close();
-	}
+  }
+  
+  clearForm(): void {
+    this.additionalDataForm.reset();
+    this.generalDataForm.reset();
+    this.locationForm.reset();
+    this.counterForm.reset();
+    this.step = 0;
+  }
   
   saveByPattern(): void {
     this.dataSv.sendData(url, this.setVerification()).subscribe();
@@ -144,7 +153,8 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 			counterType: this.counterForm.get('counterType').value,
 			productionYear: this.counterForm.get('productionYear').value,
 			acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
-			favorDate: this.additionalDataForm.get('favorDate').value,
+      favorDate: this.additionalDataForm.get('favorDate').value.toISOString(),
+      favorTime: this.additionalDataForm.get('favorTime').value.toISOString(),
 			sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
 			waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
 			note: this.additionalDataForm.get('note').value,

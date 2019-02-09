@@ -78,9 +78,10 @@ router.post('', (req, res, next) => {
 // 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
 // TODO: пофіксити Update
 router.get('/rejected/:id', (req, res, next) => {
+  console.log('rejected');
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
-    res.status(200);
+    res.status(200).json({ m: 'rejected'});
   });
 });
 
@@ -102,19 +103,15 @@ router.post('/employee/:id', (req, res, next) => {
 // 4) Видалення повірки delete
 router.delete('/:id', (req, res, next) => {
   let query = "DELETE FROM `archive` WHERE `applicationNumber`='" + req.params.id + "';";
-
+  
   connection.query(query, () => {
-    res.status(200);
+    res.status(200).json({m: 'success'});
   });
 });
 
 // Перевірка на дублі по адресі клієнта (район, вулиця, будинок, квартира)
 router.post('/duplicate', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE " +
-    "(`district`='" + req.body.district +
-    "', `street`= '" + req.body.street +
-    "', `house`= '" + req.body.house +
-    "', `apartment` = '" + req.body.flat + "');", (err, result) => {
+  connection.query( "SELECT * FROM `archive` WHERE  +`district`='" + req.body.district + "' AND `street`= '" + req.body.street + "' AND `house`= '" + req.body.house + "'AND `apartment` = '" + req.body.flat + "';", ( err, result ) => {
       if (err) {
         console.log(err);
       }

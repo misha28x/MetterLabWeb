@@ -6,7 +6,7 @@ export interface Verification {
 	client: string; 						// Клієнт + 												\\
 	phoneNumber: string;				// Номер телефону + 								\\
 	employeeName: string; 			// ПІБ_Працівника 									\\
-	index: string;							// Індекс + 	TODO: cityIndex				\\
+	index: string;							// Індекс + 	              				\\
   settlement: string;					// Населений пункт + 								\\
   region: string;             // Область 													\\
 	district: string;						// Район 														\\
@@ -28,8 +28,9 @@ export interface Verification {
 	comment: string;					  // Коментар +												\\
 	note: string; 							// Примітка +												\\
 	taskDate?: string; 					// Дата_завдання +									\\
-	stationNumber?: string; 			// Номер_установки +						  \\
-  favorDate: string;          // Бажана дата повірки              \\
+	stationNumber?: string; 		// Номер_установки +						    \\
+  favorDate: any;             // Бажана дата повірки              \\
+  favorTime: any;             // Бажана дата повірки              \\
   sanitaryWellfare: string;   // Справність сантехніки            \\
   waterAbsentTo: string;      // Вода відсутня до...              \\
   entrance: string;           // Під'їзд                          \\

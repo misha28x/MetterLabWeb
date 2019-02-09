@@ -6,8 +6,9 @@ import { Verification } from '../interfaces/verifications';
 
 const employeeCancelUrl = 'http://localhost:3000/api/new-verifications/cancel-employee/';
 const duplicateUrl = 'http://localhost:3000/api/new-verifications/duplicate';
-const rejectUrl = 'http://localhost:3000/api/new-verifications/reject/';
-const deleteUrl = 'http://localhost:3000/api/new-verifications/delete/';
+const rejectUrl = 'http://localhost:3000/api/new-verifications/rejected/';
+const editUrl = 'http://localhost:3000/api/verifications-archive/edit/';
+const deleteUrl = 'http://localhost:3000/api/new-verifications/';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,9 @@ export class VerificationService {
 
   public cancellEmployee(id: any): Observable<any> {
     return this.http.get(employeeCancelUrl + id);
+  }
+
+  public updateVerification(id: any, verification: Verification): Observable<any> {
+    return this.http.put(editUrl + id, verification);
   }
 }

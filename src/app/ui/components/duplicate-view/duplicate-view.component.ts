@@ -31,7 +31,7 @@ export class DuplicateViewComponent implements OnInit, OnDestroy {
   openDialog(verification: Verification): void {
     this.dialog.open(DuplicatViewDialogComponent, {
       data: verification,
-      height: '50%',
+      height: '90%',
       width: '98vw',
       panelClass: 'full-screen-modal'
     });

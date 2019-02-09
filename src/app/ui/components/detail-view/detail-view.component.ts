@@ -43,7 +43,7 @@ export class DetailViewComponent implements OnInit, OnDestroy {
   openDialog(dialogData: any): void {
     this.dialog.open(DetailViewDialogComponent, {
       height: '90%',
-      width: '600px',
+      width: '800px',
       data: {
         additionalData: dialogData,
         verification: this.verification

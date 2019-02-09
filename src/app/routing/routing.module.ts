@@ -16,6 +16,7 @@ import { PageVerificationsProtocolsComponent } from '../pages/verifications-prot
 import { PageTaskPlaningComponent } from '../pages/task-planing';
 import { AuthorizationPageComponent } from '../pages/authorization-page';
 import { MetrologyProtocolsComponent } from '../pages/metrology-protocols';
+import { PageRejectedVerificationComponent } from '../pages/rejected-verification';
 import { FailedTasksComponent } from '../pages/failed-tasks';
 
 import { ExtraComponent } from '../layout/extra/extra.component';
@@ -30,7 +31,7 @@ export const DEFAULT_ROUTES = [
 	{ path: 'tasks-planing', component: PageTaskPlaningComponent, data: { title: 'Планування Завдання' } },
 	{ path: 'station-tasks', component: PageStationsTasksComponent, data: { title: 'Завдання Для Станцій' } },
 	{ path: 'brigade-tasks', component: PageBrigadeTasksComponent, data: { title: 'Завдання Для Бригад' } },
-	{ path: 'rejected-verification', component: PageRejectedProtocolsComponent, data: { title: 'Відхилені Повірки' } },
+  { path: 'rejected-verification', component: PageRejectedVerificationComponent, data: { title: 'Відхилені Повірки' } },
 	{ path: 'verifications-archive', component: PageVerificationsArchiveComponent, data: { title: 'Архів Повірок' } },
 	{ path: 'reports', component: PageReportsComponent, data: { title: 'Звіти' } },
   { path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } },

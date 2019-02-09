@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+
 import { MaterialModule } from './../material/material.module';
 
 import { TableComponent } from './components/table';
@@ -25,10 +28,18 @@ import {
   CounterDialogDataComponent,
   EndStateDialogComponent,
   StartStateDialogComponent
-  } from './components/protocol-view';
+} from './components/protocol-view';
 
 @NgModule({
-	imports: [MaterialModule, CommonModule, BrowserModule, FormsModule, ReactiveFormsModule],
+	imports: [
+    MaterialModule,
+    CommonModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TimepickerModule.forRoot(),
+    BsDatepickerModule.forRoot()
+  ],
 	exports: [
 		SortTableDirective,
 		FilterTableDirective,

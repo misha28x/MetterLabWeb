@@ -16,6 +16,7 @@ import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
 
+
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: { reconnect: true } };
 
 @NgModule({
