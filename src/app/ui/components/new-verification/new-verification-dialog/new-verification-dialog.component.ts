@@ -98,7 +98,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 	}
 
 	sendData(): void {
-    console.log(this.additionalDataForm.get('favorTime').value.toString());
 		this.dataSv.sendData(url, this.setVerification()).subscribe();
     this.dialogRef.close();
   }

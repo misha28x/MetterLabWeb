@@ -4,9 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { VerificationService } from '../../../../services/verification.service';
 import { Verification } from '../../../../interfaces/verifications';
-import { DataService } from '../../../../services/data.service';
-
-const url = 'http://localhost:3000/api/new-verifications';
+import { SourceService } from '../../../../services/source.service';
 
 @Component({
   selector: 'app-detail-view-dialog',
@@ -25,8 +23,8 @@ export class DetailViewDialogComponent implements OnInit {
   private url: string;
 
   constructor(
-    private dataSv: DataService,
     private fb: FormBuilder,
+    private sourceSv: SourceService,
     private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<DetailViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -77,8 +75,8 @@ export class DetailViewDialogComponent implements OnInit {
       entrance: this.data.verification[0].entrance,
       doorCode: this.data.verification[0].doorCode,
       floor: this.data.verification[0].floor,
-      favorDate: this.data.verification[0].favorDate,
-      favorTime: this.data.verification[0].favorTime,
+      favorDate: new Date(this.data.verification[0].favorDate),
+      favorTime: new Date(this.data.verification[0].favorTime),
       sanitaryWellFare: this.data.verification[0].sanitaryWellFare,
       waterAbsentTo: this.data.verification[0].waterAbsentTo,
       note: this.data.verification[0].note
@@ -86,7 +84,16 @@ export class DetailViewDialogComponent implements OnInit {
   }
 
   sendData(): void {
-    this.verificationSv.updateVerification(this.data.verification[0].applicationNumber, this.setVerification());
+    this.verificationSv
+      .updateVerification(this.data.verification[0].applicationNumber, this.setVerification()).subscribe(
+        () =>  {
+          this.sourceSv.fetchNewVerifications();
+          this.sourceSv.fetchTaskPlaning();
+          this.sourceSv.fetchLabRequest();
+        }
+      );
+      
+    this.dialogRef.close();
   }
 
   setVerification(): Verification {
