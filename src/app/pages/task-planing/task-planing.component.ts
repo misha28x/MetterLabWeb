@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Observable, forkJoin } from 'rxjs';
 
-import { SourceService } from '../../services/source.service';
-import { DataService } from '../../services/data.service';
 import { Task } from '../../interfaces/taskData';
+import { DataService } from '../../services/data.service';
+import { SourceService } from '../../services/source.service';
+import { Verification } from '../../interfaces/verifications';
+import { DetailViewService } from '../../services/detail-view.service';
+import { VerificationService } from '../../services/verification.service';
+import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
 import { TaskSendingComponent } from './task-sending/task-sending.component';
+
+const verificationUrl = 'http://localhost:3000/api/new-verifications';
 
 @Component({
   selector: 'app-task-planing',
@@ -19,11 +26,15 @@ export class PageTaskPlaningComponent implements OnInit {
 	tableData: any;
 
   selectedData: any[];
+  labRequests: Observable<any[]>;
+  employee: string;
 
   constructor(
-    private sourceSv: SourceService,
+    private dialog: MatDialog,
     private dataSv: DataService,
-    private dialog: MatDialog
+    private sourceSv: SourceService,
+    private detailSv: DetailViewService,
+    private verificationSv: VerificationService
   ) { }
 
   ngOnInit(): void {
@@ -92,5 +103,57 @@ export class PageTaskPlaningComponent implements OnInit {
         }
       );
     }
+  }
+
+  updateData(): void {
+    this.sourceSv.fetchLabRequest();
+  }
+
+  detailView(id: number): void {
+    this.detailSv.addVerification(id);
+  }
+
+  addEmployee(id: number): void {
+    const dialogRef = this.dialog.open(EmployeeDialogComponent);
+
+    dialogRef.afterClosed().subscribe(
+      employee => {
+        this.dataSv.sendData(verificationUrl + '/employee/' + id, { employee: employee || this.employee })
+          .subscribe(() => this.updateData());
+      }
+    );
+  }
+
+  addEmployeeToSelected(): void {
+    const dialogRef = this.dialog.open(EmployeeDialogComponent);
+
+    dialogRef.afterClosed().subscribe(
+      employee => {
+        forkJoin(this.selectedData.map((ver: Verification) =>
+          this.dataSv.sendData(verificationUrl + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
+        ).subscribe(() => this.updateData());
+      }
+    );
+  }
+
+  cancellEmployeeToSelected(): void {
+    forkJoin(this.selectedData.map((ver: Verification) =>
+      this.verificationSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
+  }
+
+  deleteVerification(id: number): void {
+    this.verificationSv.deleteVerification(id).subscribe(() => this.updateData());
+  }
+
+  rejectVerification(id: number): void {
+    this.verificationSv.rejectVerification(id).subscribe(() => this.updateData());
+  }
+
+  cancellEmployee(id: number): void {
+    this.verificationSv.cancellEmployee(id).subscribe(() => this.updateData());
+  }
+
+  checkForDuplicate(verification: Verification): void {
+    this.verificationSv.addVerification(verification);
   }
 }

@@ -27,12 +27,12 @@ export class MenuService {
     });
 
     this.menuUpdate.subscribe(() => {
-      console.log('update');
       this.setMenu(this.permission);
     });
   }
 
   public setMenu(permission: string): void {
+    console.log(permission);
     this.http.get(menuUrl + permission).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
   }
 

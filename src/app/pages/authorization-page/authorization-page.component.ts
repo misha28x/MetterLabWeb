@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 
-import * as PermissionAction from '../../store/actions/permission.action';
+import { Admin, Metrology, ServiceProvider, User, Unauthorized } from '../../store/actions/permission.action';
 
 import { DataService } from '../../services/data.service';
 import { MenuService } from '../../services/menu.service';
@@ -56,20 +56,24 @@ export class AuthorizationPageComponent implements OnInit {
 		});
   }
   
-  getPermission(permission: number): PermissionAction.ALL {
+  getPermission(permission: number): Action {
+    if (permission === 4) {
+      return new Admin();
+    } 
+
     if (permission === 3) {
-      return new PermissionAction.Admin();
+      return new ServiceProvider();
     } 
 
     if (permission === 2) {
-      return new PermissionAction.Metrology();
+      return new Metrology();
     }
 
     if (permission === 1) {
-      return new PermissionAction.User();
+      return new User();
     }
     
-    return new PermissionAction.Unauthorized();
+    return new Unauthorized;
   }
 
   redirectHome(): void {

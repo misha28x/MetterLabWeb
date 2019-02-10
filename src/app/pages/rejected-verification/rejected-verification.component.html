@@ -40,69 +40,33 @@
       <app-column [width]="75" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Статус'" [columnName]="'status'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Уповноважена повірочна лабораторія'" [columnName]="'laboratory'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер протоколу'" [columnName]="'protocolNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Дата підпису протоколу'" [columnName]="'protocolSignDate'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Умовне позначення'" [columnName]="'symbol'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер лічильника'" [columnName]="'counterNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Рік випуску лічильника'" [columnName]="'productionYear'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Лічильник демонтовано'" [columnName]="'isDismantled'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер пломби'" [columnName]="'sealNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Придатний до'" [columnName]="'suitableFor'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
       <app-column [width]="75" [columnTitle]="'Надавач послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Тип послуги'" [columnName]="'serviceType'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Дата видачі документу'" [columnName]="'documentPrintDate'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Дії'" [width]="125">
+        <ng-template #tableBodyTemplate let-row="row">
+          <div class="actions-row">
+            <button mat-icon-button (click)="detailView(row['applicationNumber'])">
+              <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
+            </button>
 
-      <app-column [width]="75" [columnTitle]="'Коментар'" [columnName]="'comment'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+            <button mat-icon-button (click)="checkForDuplicate(row)">
+              <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
+            </button>
 
-      <app-column [width]="75" [columnTitle]="'Дата монтажу лічильника'" [columnName]="'montageDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
+              <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
+            </button>
 
-      <app-column [width]="75" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Назва бригади'" [columnName]="'Назва_бригади'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [columnTitle]="'Дії'">
-
+          </div>
+        </ng-template>
       </app-column>
     </app-table>
   </mat-card-content>
 </mat-card>
+
+<app-detail-view></app-detail-view>
+<app-duplicate-view></app-duplicate-view>

@@ -106,7 +106,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  getImage(base64Data: string): any {
+  getImage(base64Data: String): any {
     return 'data:image/png;base64,' + base64Data.toString();
   }
 }

@@ -1,21 +1,29 @@
-import * as permissionAction from '../actions/permission.action';
+import { Action } from '@ngrx/store';
 
-export type Action = permissionAction.ALL;
+import { PermissionTypes } from '../actions/permission.action';
 
-const DEFAULT_STATE: number = 3;
+const DEFAULT_STATE: number = 0;
 
 export function permissionReducer(state: number = DEFAULT_STATE, action: Action): number {
   switch (action.type) {
-    case permissionAction.USER: {
+    case PermissionTypes.Unauthorized: {
+      state = 0;
+      return state;
+    }
+    case PermissionTypes.User: {
       state = 1; 
       return state;
     }
-    case permissionAction.METROLOGY: {
+    case PermissionTypes.ServiceProvider: {
       state = 2; 
       return state;
     }
-    case permissionAction.ADMIN: {
-      state = 3;
+    case PermissionTypes.Metrology: {
+      state = 3; 
+      return state;
+    }
+    case PermissionTypes.Admin: {
+      state = 4;
       return state;
     }
     default: {

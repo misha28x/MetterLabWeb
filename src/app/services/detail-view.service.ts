@@ -23,7 +23,6 @@ export class DetailViewService {
   }
 
   getVerification(): Observable<Verification> {
-    console.log('subscribing');
     return this.verificationAdded$;
   }
 }

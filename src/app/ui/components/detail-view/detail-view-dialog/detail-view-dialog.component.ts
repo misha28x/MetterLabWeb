@@ -1,10 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { concat } from 'rxjs';
 
 import { VerificationService } from '../../../../services/verification.service';
 import { Verification } from '../../../../interfaces/verifications';
 import { SourceService } from '../../../../services/source.service';
+import { DataService } from '../../../../services/data.service';
+
+const employeeUrl = 'http://localhost:3000/api/new-verifications/employee';
+const typeUrl = 'http://localhost:3000/api/new-verifications/device';
+const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
 
 @Component({
   selector: 'app-detail-view-dialog',
@@ -14,7 +20,7 @@ import { SourceService } from '../../../../services/source.service';
 export class DetailViewDialogComponent implements OnInit {
 
   verification: Verification;
-
+  additionalData: any;
   generalDataForm: FormGroup;
   locationForm: FormGroup;
   counterForm: FormGroup;
@@ -24,6 +30,7 @@ export class DetailViewDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private dataSv: DataService,
     private sourceSv: SourceService,
     private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<DetailViewDialogComponent>,
@@ -31,6 +38,21 @@ export class DetailViewDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const $employeeObservable = this.dataSv.getData(employeeUrl);
+    const $symbolObservable = this.dataSv.getData(symbolUrl);
+    const $typeObservable = this.dataSv.getData(typeUrl);
+
+    const dataObservable = concat($employeeObservable, $symbolObservable, $typeObservable);
+
+    this.additionalData = {};
+    dataObservable.subscribe((next: [any]) => {
+      const key = Object.keys(next[0])[0];
+
+      this.additionalData[key] = next.map(val => {
+        return val[key];
+      });
+    });
+
     const nameArr = this.data.verification[0].client.split(' ');
     const surname = nameArr[0];
     const name = nameArr[1];
@@ -60,7 +82,7 @@ export class DetailViewDialogComponent implements OnInit {
 
     this.counterForm = this.fb.group({
       isDismantled: false,
-      montageDate: this.data.verification[0].montageDate,
+      montageDate: new Date(this.data.verification[0].montageDate) || null,
       employeeName: this.data.verification[0].employeeName,
       comment: this.data.verification[0].comment,
       counterNumber: this.data.verification[0].counterNumber,
@@ -71,12 +93,16 @@ export class DetailViewDialogComponent implements OnInit {
       acumulatedVolume: this.data.verification[0].acumulatedVolume
     });
 
+    const date = new Date();
+    date.setMinutes(0);
+    date.setHours(0);
+
     this.additionalDataForm = this.fb.group({
       entrance: this.data.verification[0].entrance,
       doorCode: this.data.verification[0].doorCode,
       floor: this.data.verification[0].floor,
       favorDate: new Date(this.data.verification[0].favorDate),
-      favorTime: new Date(this.data.verification[0].favorTime),
+      favorTime: new Date(this.data.verification[0].favorTime || date),
       sanitaryWellFare: this.data.verification[0].sanitaryWellFare,
       waterAbsentTo: this.data.verification[0].waterAbsentTo,
       note: this.data.verification[0].note
@@ -86,13 +112,13 @@ export class DetailViewDialogComponent implements OnInit {
   sendData(): void {
     this.verificationSv
       .updateVerification(this.data.verification[0].applicationNumber, this.setVerification()).subscribe(
-        () =>  {
+        () => {
           this.sourceSv.fetchNewVerifications();
           this.sourceSv.fetchTaskPlaning();
           this.sourceSv.fetchLabRequest();
         }
       );
-      
+
     this.dialogRef.close();
   }
 
@@ -115,7 +141,7 @@ export class DetailViewDialogComponent implements OnInit {
       house: this.locationForm.get('house').value,
       apartment: this.locationForm.get('apartment').value,
       isDismantled: this.locationForm.get('isDismantled').value,
-      montageDate: this.counterForm.get('montageDate').value,
+      montageDate: this.counterForm.get('montageDate').value.toISOString(),
       employeeName: this.counterForm.get('employeeName').value.replace(/'/g, /\'/),
       comment: this.counterForm.get('comment').value.replace(/'/g, /\'/),
       counterNumber: this.counterForm.get('counterNumber').value,
@@ -126,7 +152,7 @@ export class DetailViewDialogComponent implements OnInit {
       favorDate: this.additionalDataForm.get('favorDate').value.toISOString(),
       favorTime: this.additionalDataForm.get('favorTime').value.toString(),
       sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
-      waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value,
+      waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value.toISOString(),
       note: this.additionalDataForm.get('note').value,
       serviceProvider: this.locationForm.get('serviceProvider').value,
       serviceType: this.locationForm.get('serviceType').value,

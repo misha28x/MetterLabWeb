@@ -1,9 +1,9 @@
-const express = require('express');
-const mysql = require('mysql');
+const express = require( 'express' );
+const mysql = require( 'mysql' );
 const router = express.Router();
 
-const connection = require('../database/db');
-const io = require('../socket/socket');
+const connection = require( '../database/db' );
+const io = require( '../socket/socket' );
 
 let socket;
 
@@ -14,55 +14,59 @@ const counters = {
   metrology: 0
 };
 
-router.get("/:id", (req, res, next) => {
+router.get( "/:id", ( req, res, next ) => {
   const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='Не визначено відповідальну особу' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology;";
-  connection.query(queryString, (err, result) => {
-    if (err) {
-      console.log({
+  connection.query( queryString, ( err, result ) => {
+    if ( err ) {
+      console.log( {
         menuErr: err
-      });
+      } );
     }
 
-    counters.new_verifications = result[0].new_verifications;
-    counters.task_planing = result[0].task_planing;
-    counters.lab_requests = result[0].lab_requests;
-    counters.metrology = result[0].metrology;
+    counters.new_verifications = result[ 0 ].new_verifications;
+    counters.task_planing = result[ 0 ].task_planing;
+    counters.lab_requests = result[ 0 ].lab_requests;
+    counters.metrology = result[ 0 ].metrology;
 
-    if (parseInt(req.params.id) > 0) {
+    if ( parseInt( req.params.id ) > 0 ) {
 
       let menuObj = {};
 
-      switch (req.params.id) {
+      switch ( req.params.id ) {
         case '1':
-        menuObj = getUserMenu()
-        break;
-        
+          menuObj = getUserMenu();
+          break;
+
         case '2':
-        menuObj = getMetrologyMenu()
-        break;
-        
+          menuObj = getMetrologyMenu();
+          break;
+
         case '3':
-          menuObj = getAdminMenu()
+          menuObj = getServiceProviderMenu();
+          break;
+
+        case '4':
+          menuObj = getAdminMenu();
           break;
 
         default:
           break;
       }
 
-      res.json({
+      res.json( {
         menu: menuObj,
-      });
+      } );
     } else {
-      res.json({
+      res.json( {
         error: 'Немає такого користувача'
-      });
+      } );
     }
-  });
-});
+  } );
+} );
 
 
 function getAdminMenu() {
-  return [{
+  return [ {
       title: 'Головна Панель',
       icon: 'icofont-ui-home',
       routing: 'home'
@@ -124,17 +128,29 @@ function getAdminMenu() {
       title: 'Звіти',
       icon: 'icofont-file-excel',
       routing: 'reports'
+    }
+  ];
+}
+
+function getServiceProviderMenu() {
+  return [ {
+      title: 'Нові Повірки',
+      icon: 'far fa-calendar-plus',
+      routing: 'new-verifications',
+      counter: counters.new_verifications
     },
-    // {
-    //   title: 'Інструкція',
-    //   icon: 'icofont-question-circle',
-    //   routing: 'user-guide'
-    // }
+    {
+      title: 'Завершені Повірки',
+      icon: 'far fa-calendar-check',
+      routing: 'new-verifications',
+      counter: counters.new_verifications
+    },
+
   ];
 }
 
 function getMetrologyMenu() {
-  return [{
+  return [ {
       title: 'Головна Панель',
       icon: 'icofont-ui-home',
       routing: 'home'
@@ -160,17 +176,12 @@ function getMetrologyMenu() {
       title: 'Звіти',
       icon: 'icofont-file-excel',
       routing: 'reports'
-    },
-    {
-      title: 'Інструкція Користувача',
-      icon: 'icofont-question-circle',
-      routing: 'user-guide'
     }
   ];
 }
 
 function getUserMenu() {
-  return [{
+  return [ {
       title: 'Головна Панель',
       icon: 'icofont-ui-home',
       routing: 'home'
@@ -222,11 +233,6 @@ function getUserMenu() {
       title: 'Звіти',
       icon: 'icofont-file-excel',
       routing: 'reports'
-    },
-    {
-      title: 'Інструкція Користувача',
-      icon: 'icofont-question-circle',
-      routing: 'user-guide'
     }
   ];
 }

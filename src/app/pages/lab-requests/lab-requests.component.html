@@ -70,11 +70,11 @@
               <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
             </button>
 
-            <button mat-icon-button (click)="cancelEmployee(row['applicationNumber'])">
+            <button mat-icon-button (click)="cancellEmployee(row['applicationNumber'])">
               <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
             </button>
 
-            <button mat-icon-button (click)="checkForDuplicate()">
+            <button mat-icon-button (click)="checkForDuplicate(row)">
               <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
             </button>
 
@@ -91,3 +91,6 @@
     </app-table>
   </mat-card-content>
 </mat-card>
+
+<app-detail-view></app-detail-view>
+<app-duplicate-view></app-duplicate-view>

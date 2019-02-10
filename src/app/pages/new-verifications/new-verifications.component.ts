@@ -53,6 +53,9 @@ export class PageNewVerificationsComponent implements OnInit {
       employee => {
         this.dataSv.sendData(url + '/employee/' + id, { employee: employee || this.employee })
           .subscribe(() => this.updateData());
+      },
+      () => {
+        this.selectedData.length = 0;
       }
     );
   }
@@ -65,6 +68,9 @@ export class PageNewVerificationsComponent implements OnInit {
         forkJoin(this.selectedData.map((ver: Verification) =>
           this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
         ).subscribe(() => this.updateData());
+      },
+      () => {
+        this.selectedData.length = 0;
       }
     );
   }

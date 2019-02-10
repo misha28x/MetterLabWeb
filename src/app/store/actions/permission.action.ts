@@ -1,24 +1,29 @@
 import { Action } from '@ngrx/store';
 
-export const UNAUTHORIZED = '[User] Unauthorized';
-export const METROLOGY = '[User] Metrology';
-export const ADMIN = '[User] Admin';
-export const USER = '[User] User';
+export enum PermissionTypes {
+  ServiceProvider = '[Login] SeviceProvider',
+  Unauthorized = '[Login] Unauthorized',
+  Metrology = '[Login] Metrology',
+  Admin = '[Login] Admin',
+  User = '[Login] User '
+}
 
 export class Admin implements Action {
-  readonly type = ADMIN;
+  readonly type = PermissionTypes.Admin;
 }
 
 export class Metrology implements Action {
-  readonly type = METROLOGY;
+  readonly type = PermissionTypes.Metrology;
 }
 
 export class User implements Action {
-  readonly type = USER;
+  readonly type = PermissionTypes.User;
 }
 
 export class Unauthorized implements Action {
-  readonly type = UNAUTHORIZED;
+  readonly type = PermissionTypes.Unauthorized;
 }
 
-export type ALL = Admin | Metrology | User | Unauthorized;
+export class ServiceProvider implements Action {
+  readonly type = PermissionTypes.ServiceProvider;
+}

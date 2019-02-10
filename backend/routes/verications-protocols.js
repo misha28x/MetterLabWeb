@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const router = express.Router();
 
 const connection = require('../database/db');
+
 router.get('', (req, res, next) => {
   connection.query("SELECT archive.protocolDate, archive.protocolNumber, archive.applicationNumber, archive.status, archive.counterNumber, archive.sealNumber, archive.settlement, archive.district, archive.street, archive.house, archive.apartment, archive.comment, protocols.deviceNumber FROM archive LEFT JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.status LIKE 'Проведено повірку%';", (err, result) => {
     if (err) {
@@ -24,6 +25,7 @@ router.get('/metrology', (req, res, next) => {
 });
 
 router.post('/metrology/:id', (req, res, next) => {
+  console.log('передано повірнику ' + req.params.id);
   connection.query("UPDATE `archive` SET `status`='Передано повірнику' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
     if (err) {
       res.json(err);

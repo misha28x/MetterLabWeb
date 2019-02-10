@@ -2,7 +2,7 @@
   <mat-card-content>
     <div class="actions">
       <div class="task-actions">
-        <button mat-raised-button class="bg-success"><i class="icofont-send-mail"></i> Надіслати</button>
+        <button (click)="sendProtocols()" mat-raised-button class="bg-success"><i class="icofont-send-mail"></i> Надіслати</button>
       </div>
     </div>
 
@@ -11,8 +11,8 @@
         <ng-template #headerBodyTemplate>
           <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
         </ng-template>
-        <ng-template #tableBodyTemplate>
-          <mat-checkbox></mat-checkbox>
+        <ng-template #tableBodyTemplate let-row="row">
+          <mat-checkbox (change)="onChange(row['applicationNumber'], $event.checked)"></mat-checkbox>
         </ng-template>
       </app-column>
 

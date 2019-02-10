@@ -18,9 +18,8 @@ router.get('', (req, res, next) => {
 
 // 3) Редагуваня повірки put
 router.put('/edit/:id', (req, res, next) => {
-  console.log({verification: req.body});
   let varData = "`addingDate`='%s',`client`='%s',`employeeName`='%s',`district`='%s',`street`='%s',`house`='%s',`apartment`='%s',`entrance`='%s',`floor`='%s',`favorDate`='%s',`favorTime`='%s',`sanitaryWellfare`='%s',`waterAbsentTo`='%s',`isDismantled`='%s',`symbol`='%s',`counterNumber`='%s',`serviceType`='%s',`productionYear`='%s',`status`='%s',`serviceProvider`='%s',`comment`='%s',`note`='%s',`taskDate`='%s',`stationNumber`='%s'";
-  let formatedData = varData.format(req.body.addingDate, req.body.client, req.body.employee, req.body.district, req.body.street, req.body.house, req.body.flat, req.body.entrance, req.body.floor, formatDate(req.body.favorDate)[0], formatDate(req.body.favorTime)[1], req.body.sanitaryWellfare, req.body.waterAbsentTo, req.body.isRemoved, req.body.symbol, req.body.counterNumber, req.body.type, req.body.productionYear, req.body.status, req.body.serviceProvider, req.body.comment, req.body.note, req.body.taskDate, /* TODO: taskTime */ req.body.taskTime, req.body.stationNumber);
+  let formatedData = varData.format( req.body.addingDate, req.body.client, req.body.employee, req.body.district, req.body.street, req.body.house, req.body.flat, req.body.entrance, req.body.floor, formatDate( req.body.favorDate )[ 0 ], formatDate( req.body.favorTime )[ 1 ], req.body.sanitaryWellfare, formatDate( req.body.waterAbsentTo ), req.body.isRemoved, req.body.symbol, req.body.counterNumber, req.body.type, req.body.productionYear, req.body.status, req.body.serviceProvider, req.body.comment, req.body.note, formatDate( req.body.taskDate ), /* TODO: taskTime */ req.body.taskTime, req.body.stationNumber );
   let varResult = "UPDATE archive SET " + formatedData + " WHERE applicationNumber = '" + req.params.id + "';";;
 
   connection.query(varResult, (err, rows) => {

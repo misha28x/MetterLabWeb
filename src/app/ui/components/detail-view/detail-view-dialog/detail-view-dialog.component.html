@@ -155,7 +155,7 @@
           <span>ПІБ працівника</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Працівник" formControlName="employeeName">
-              <mat-option *ngFor="let employee of data.additionalData.name" [value]="employee">{{ employee }}</mat-option>
+              <mat-option *ngFor="let employee of additionalData.name" [value]="employee">{{ employee }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -187,7 +187,7 @@
           <span>Тип Лічильника</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Типорозмір лічильника" formControlName="counterType">
-              <mat-option *ngFor="let type of data.additionalData.Device" [value]="type">{{ type }}</mat-option>
+              <mat-option *ngFor="let type of additionalData.Device" [value]="type">{{ type }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -196,7 +196,7 @@
           <span>Символ</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Символ" formControlName="symbol">
-              <mat-option *ngFor="let symbol of data.additionalData.DN" [value]="symbol">{{ symbol }}</mat-option>
+              <mat-option *ngFor="let symbol of additionalData.DN" [value]="symbol">{{ symbol }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -285,6 +285,6 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button>Скасувати</button>
+  <button mat-button mat-dialog-close>Скасувати</button>
   <button mat-raised-button color="primary" (click)="sendData()">Зберегти</button>
 </div>
