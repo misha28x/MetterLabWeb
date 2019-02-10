@@ -38,11 +38,11 @@ router.get( "/:id", ( req, res, next ) => {
           break;
 
         case '2':
-          menuObj = getMetrologyMenu();
+          menuObj = getServiceProviderMenu();
           break;
 
         case '3':
-          menuObj = getServiceProviderMenu();
+          menuObj = getMetrologyMenu();
           break;
 
         case '4':
@@ -136,14 +136,14 @@ function getServiceProviderMenu() {
   return [ {
       title: 'Нові Повірки',
       icon: 'far fa-calendar-plus',
-      routing: 'new-verifications',
+      routing: 'verifications',
       counter: counters.new_verifications
     },
     {
       title: 'Завершені Повірки',
       icon: 'far fa-calendar-check',
-      routing: 'new-verifications',
-      counter: counters.new_verifications
+      routing: 'finished-verifications',
+      counter: counters.lab_requests
     },
 
   ];

@@ -31,9 +31,9 @@ export class NewVerificationComponent implements OnInit {
 	openDialog(dialogData: any): void {
 		const dialogRef = this.matDialog.open(NewVerificationDialogComponent, {
 			width: '85%',
-			height: '98%',
       maxWidth: 1100,
-      data: dialogData
+      data: dialogData,
+      panelClass: 'full-height-modal'
     });
     
     dialogRef.afterClosed().subscribe(() => this.sourceSv.fetchNewVerifications());

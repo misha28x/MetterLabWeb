@@ -1,0 +1,56 @@
+<mat-card>
+  <mat-card-content>
+    <app-table [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
+      <app-column [width]="30">
+        <ng-template #headerBodyTemplate>
+          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
+        </ng-template>
+        <ng-template #tableBodyTemplate let-row="row">
+          <mat-checkbox (change)="onChange(row['applicationNumber'], $event.checked)"></mat-checkbox>
+        </ng-template>
+      </app-column>
+
+      <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+      <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
+
+      <app-column [columnTitle]="''" [width]="40">
+        <ng-template #tableBodyTemplate let-row="row">
+          <div class="actions-row">
+
+            <!-- TODO: ПЕРЕРОБИТИ ПЕРЕВІРКУ НА ДУБЛІ -->
+
+            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
+              <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
+            </button>
+
+            <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
+              <i class="far fa-file-pdf color-info" matTooltip="Отримати скан документів"></i>
+            </button>
+          </div>
+        </ng-template>
+      </app-column>
+    </app-table>
+  </mat-card-content>
+</mat-card>

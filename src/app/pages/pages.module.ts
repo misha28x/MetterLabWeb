@@ -23,6 +23,8 @@ import { PageUserGuideComponent } from './user-guide';
 import { AuthorizationPageComponent } from './authorization-page';
 import { MetrologyProtocolsComponent } from './metrology-protocols';
 import { FailedTasksComponent } from './failed-tasks';
+import { ProvidersPageComponent } from './providers-page';
+import { FinishedVerificationsComponent } from './finished-verifications';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
@@ -46,7 +48,9 @@ import { FailedTasksComponent } from './failed-tasks';
     TaskListEditDialogComponent,
     AuthorizationPageComponent,
     MetrologyProtocolsComponent,
-    FailedTasksComponent
+    FailedTasksComponent,
+    ProvidersPageComponent,
+    FinishedVerificationsComponent
   ],
   entryComponents: [EmployeeDialogComponent, TaskSendingComponent, TaslListViewDialogComponent, TaskListEditDialogComponent]
 })

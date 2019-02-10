@@ -141,7 +141,8 @@ export class DetailViewDialogComponent implements OnInit {
       house: this.locationForm.get('house').value,
       apartment: this.locationForm.get('apartment').value,
       isDismantled: this.locationForm.get('isDismantled').value,
-      montageDate: this.counterForm.get('montageDate').value.toISOString(),
+      montageDate: this.counterForm.get('montageDate').value
+        ? this.counterForm.get('montageDate').value.toISOString() : '',
       employeeName: this.counterForm.get('employeeName').value.replace(/'/g, /\'/),
       comment: this.counterForm.get('comment').value.replace(/'/g, /\'/),
       counterNumber: this.counterForm.get('counterNumber').value,
@@ -149,10 +150,13 @@ export class DetailViewDialogComponent implements OnInit {
       counterType: this.counterForm.get('counterType').value,
       productionYear: this.counterForm.get('productionYear').value,
       acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
-      favorDate: this.additionalDataForm.get('favorDate').value.toISOString(),
+      favorDate: this.additionalDataForm.get('favorDate').value
+        ? this.additionalDataForm.get('favorDate').value.toISOString()
+        : '',
       favorTime: this.additionalDataForm.get('favorTime').value.toString(),
       sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
-      waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value.toISOString(),
+      waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value
+        ? this.additionalDataForm.get('waterAbsentTo').value.toISOString() : '',
       note: this.additionalDataForm.get('note').value,
       serviceProvider: this.locationForm.get('serviceProvider').value,
       serviceType: this.locationForm.get('serviceType').value,

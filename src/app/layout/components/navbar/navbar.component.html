@@ -2,7 +2,7 @@
   <div class="logo">
     <img src="../../../../assets/content/logo.png" alt="" class="logo-img">
   </div>
-  
+
   <div class="nav-button" (click)="onButtonClick()" [ngClass]="{'min': !menuState}">
     <span class="bar"></span>
     <span class="bar"></span>
@@ -11,6 +11,7 @@
 
 
   <div class="upload">
-    <app-file-upload></app-file-upload>
+    <app-new-verification *ngIf="permission == 2"></app-new-verification>
+    <app-file-upload *ngIf="permission != 2"></app-file-upload>
   </div>
 </div>

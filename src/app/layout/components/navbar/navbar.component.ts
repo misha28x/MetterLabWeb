@@ -14,7 +14,8 @@ export class NavbarComponent implements OnInit {
   @HostBinding('class.header') true;
   
 	pageTitle: String;
-	menuState: Boolean;
+  menuState: Boolean;
+  permission: number;
 
 	constructor(
 			private router: Router,
@@ -24,7 +25,12 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
 		this.store.select('menuState').subscribe((menuState: Boolean) => {
 			this.menuState = menuState;
-		});
+    });
+    
+    this.store.select('permission').subscribe(permission => {
+      this.permission = permission;
+    });
+
 		this.pageTitle = this.activeRoute.firstChild.data['value']['title'];
 		this.getPageTitle();
 	}

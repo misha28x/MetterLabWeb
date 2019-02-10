@@ -89,6 +89,10 @@ mat-card-header {
   }
 }
 
+.full-height-modal {
+  max-height: 95vh;
+  overflow: auto;
+}
 .full-screen-modal {
   max-width: none !important;
   overflow: hidden;

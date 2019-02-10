@@ -31,7 +31,6 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phone">
-            <mat-hint align="start"><strong>Don't disclose personal info</strong> </mat-hint>
             <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
           </mat-form-field>
         </div>
@@ -141,7 +140,9 @@
         <div class="full-width inline">
           <div class="d-flex justify-content-between align-items-center">
             <span>Провести повірку з демонтажом</span>
-            <mat-checkbox formControlName="isDismantled"></mat-checkbox>
+            <div class="input-field">
+              <mat-checkbox formControlName="isDismantled"></mat-checkbox>
+            </div>
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -167,20 +168,19 @@
 
     <ng-template matExpansionPanelContent>
       <form [formGroup]="counterForm">
-        <div class="full-width inline">
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Лічильник демонтовано</span>
+        <div class="full-width">
+          <span>Лічильник демонтовано</span>
+          <div class="input-field">
             <mat-checkbox formControlName="isDismantled"></mat-checkbox>
           </div>
         </div>
 
         <div class="full-width">
           <span>Дата монтажу лічильника</span>
-          <mat-form-field class="input-field">
-            <input matInput [matDatepicker]="montageDate" placeholder="Дата монтажу лічильника" formControlName="montageDate">
-            <mat-datepicker-toggle matSuffix [for]="montageDate"></mat-datepicker-toggle>
-            <mat-datepicker #montageDate></mat-datepicker>
-          </mat-form-field>
+          <div class="input-field form-group">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="montageDate"
+              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+          </div>
         </div>
 
         <div class="full-width">
@@ -208,9 +208,9 @@
           </mat-form-field>
         </div>
 
-        <div class="full-width inline">
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Наявність пломби</span>
+        <div class="full-width">
+          <span>Наявність пломби</span>
+          <div class="input-field">
             <mat-checkbox formControlName="haveSeal"></mat-checkbox>
           </div>
         </div>
@@ -288,39 +288,31 @@
         <div class="full-width">
           <span>Бажана дата проведення повірки</span>
           <div class="input-field form-group">
-            <input 
-              type="text"
-              class="form-control"
-              #dp="bsDatepicker"
-              bsDatepicker
-              formControlName="favorDate"
-              [bsValue]="additionalDataForm.get('favorDate').value"
-              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-            >
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="favorDate"
+              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
           </div>
         </div>
 
         <div class="full-width">
           <span>Бажаний час проведення повірки</span>
           <div class="input-field form-group">
-            <timepicker  formControlName="favorTime" [showMeridian]="false"></timepicker>
+            <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
           </div>
         </div>
 
-        <div class="full-width inline">
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Справність сантехніки</span>
+        <div class="full-width">
+          <span>Справність сантехніки</span>
+          <div class="input-field">
             <mat-checkbox formControlName="sanitaryWellFare"></mat-checkbox>
           </div>
         </div>
 
         <div class="full-width">
           <span>Вода відсутня до</span>
-          <mat-form-field class="input-field">
-            <input matInput [matDatepicker]="waterDatePicker" placeholder="Бажана дата повірки" formControlName="waterAbsentTo">
-            <mat-datepicker-toggle matSuffix [for]="waterDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #waterDatePicker></mat-datepicker>
-          </mat-form-field>
+          <div class="input-field form-group">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="waterAbsentTo"
+              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+          </div>
         </div>
 
         <div class="full-width">

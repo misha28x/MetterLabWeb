@@ -6,7 +6,7 @@ const connection = require('../database/db');
 const router = express.Router();
 
 router.get('/provider/:id', (req, res, next) => {
-	connection.query("SELECT * FROM `archive` WHERE `userId`='" + req.params.id + "' AND (`status`='Визначено відповідальну особу' OR `status`='');", (err, result) => {
+	connection.query("SELECT * FROM `archive` WHERE `userId`='" + req.params.id + "' AND (`status`='Не визначено відповідальну особу' OR `status`='');", (err, result) => {
 		if (err) {
 			res.json(err);
 		}

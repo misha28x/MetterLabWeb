@@ -18,6 +18,8 @@ import { AuthorizationPageComponent } from '../pages/authorization-page';
 import { MetrologyProtocolsComponent } from '../pages/metrology-protocols';
 import { PageRejectedVerificationComponent } from '../pages/rejected-verification';
 import { FailedTasksComponent } from '../pages/failed-tasks';
+import { ProvidersPageComponent } from '../pages/providers-page';
+import { FinishedVerificationsComponent } from '../pages/finished-verifications';
 
 import { ExtraComponent } from '../layout/extra/extra.component';
 
@@ -36,7 +38,10 @@ export const DEFAULT_ROUTES = [
 	{ path: 'reports', component: PageReportsComponent, data: { title: 'Звіти' } },
   { path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } },
   { path: 'metrology', component: MetrologyProtocolsComponent, data: { title: 'Список протоколів' } },
-  { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } }
+  { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } },
+  { path: 'verifications', component: ProvidersPageComponent, data: { title: 'Нові повірки' } },
+  { path: 'finished-verifications', component: FinishedVerificationsComponent, data: { title: 'Завершені повірки' } }
+
 ];
 
 export const EXTRA_ROUTES = [
