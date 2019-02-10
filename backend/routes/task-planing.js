@@ -1,14 +1,13 @@
 const express = require('express');
 const mysql = require('mysql');
+const io = require('../socket/socket');
+const formatDate = require('../utils/utils').formatDate;
+const connection = require('../database/db');
 
 const router = express.Router();
 
-const formatDate = require('../utils/utils').formatDate;
-
-const connection = require('../database/db');
-
 router.get('', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE  `status` = 'Визначено відповідальну особу';", (err, result) => {
+  connection.query( "SELECT * FROM `archive` WHERE  `status` = 'Визначено відповідальну особу';", ( err, result ) => {
     if (err) {
       console.log(err);
     }

@@ -7,9 +7,9 @@ const generateExcel = require('../utils/utils').generateExcelFile;
 const router = express.Router();
 
 // Звіт: `заявки в роботі` (по даті додання зі статусом `Визначено відповідальну особу`)
-router.get("/in-progress/single/", (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `addingDate` = '" + req.body.Date + "' AND `status` = 'Визначено відповідальну особу';", (err, result) => {
-    const stringName = "Заявки в роботі " + req.body.Date;
+router.get("/in-progress/single/:date", (req, res, next) => {
+  connection.query( "SELECT * FROM `archive` WHERE `addingDate` = '" + req.params.date + "' AND `status` = 'Визначено відповідальну особу' OR `status` = 'В роботі';", ( err, result ) => {
+    const stringName = "Заявки в роботі " + req.params.date;
     generateExcel(result, stringName).then(name => {
       res.download(name);
     });
@@ -17,9 +17,9 @@ router.get("/in-progress/single/", (req, res, next) => {
 });
 
 // Звіт: `заявки в роботі` для діапазону (по даті додання зі статусом `Визначено відповідальну особу`)
-router.post("/in-progress/range/", (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE (`addingDate` BETWEEN '" + req.body.startDate + "' AND '" + req.body.endDate + "') AND `status` = 'Визначено відповідальну особу';", (err) => {
-    const stringName = "Заявки в роботі з " + req.body.startDate + "-" + req.body.endDate;
+router.get("/in-progress/range/:date", (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE (`addingDate` BETWEEN '" + req.params.date.split('-')[0] + "' AND '" + req.params.date.split('-')[1] + "') AND `status` = 'Визначено відповідальну особу';", (err, result) => {
+    const stringName = "Заявки в роботі з " + req.params.date.split('-')[0] + "-" + req.params.date.split('-')[1];
     generateExcel(result, stringName).then(name => {
       res.download(name);
     });
@@ -27,9 +27,9 @@ router.post("/in-progress/range/", (req, res, next) => {
 });
 
 // Звіт: `по виконаних завданнях` (по `task_date` зі статусом like `Проведено повірку%`)
-router.post("/completed/single", (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `taskDate` = '" + req.body.Date + "' AND `status` LIKE 'Проведено повірку%';", (err) => {
-    const stringName = "Виконані заявки " + req.body.Date;
+router.get("/completed/single/:date", (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `taskDate` = '" + req.params.date + "' AND `status` LIKE 'Проведено повірку%';", (err, result) => {
+    const stringName = "Виконані заявки " + req.params.date;
     generateExcel(result, stringName).then(name => {
       res.download(name);
     });
@@ -37,9 +37,9 @@ router.post("/completed/single", (req, res, next) => {
 });
 
 // Звіт: `по виконаних завданнях` для діапазону дат (по `task_date` зі статусом like `Проведено повірку%`)
-router.post("/completed/range/", (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE (`taskDate` BETWEEN '" + req.body.startDate + "' AND '" + req.body.endDate + "') AND `status` LIKE 'Проведено повірку%';", (err) => {
-    const stringName = "Виконані заявки з " + req.body.startDate + "-" + req.body.endDate;
+router.get("/completed/range/:date", (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE (`taskDate` BETWEEN '" + req.params.date.split('-')[0] + "' AND '" + req.params.date.split('-')[1] + "') AND `status` LIKE 'Проведено повірку%';", (err, result) => {
+    const stringName = "Виконані заявки з " + req.params.date.split('-')[0] + "-" + req.params.date.split('-')[1];
     generateExcel(result, stringName).then(name => {
       res.download(name);
     });
@@ -47,9 +47,9 @@ router.post("/completed/range/", (req, res, next) => {
 });
 
 // Звіт: конверт (все в діапазоні `Дата додання`)
-router.post("/convert/", (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `addingDate` BETWEEN '" + req.body.startDate + "' AND '" + req.body.endDate + "';", (err) => {
-		    const stringName = "Конверт з " + req.body.startDate + "-" + req.body.endDate;
+router.get("/convert", (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `addingDate` BETWEEN '" + req.params.date.split('-')[0] + "' AND '" + req.params.date.split('-')[1] + "';", (err, result) => {
+		    const stringName = "Конверт з " + req.params.date.split('-')[0] + "-" + req.params.date.split('-')[1];
 		    generateExcel(result, stringName).then(name => {
 		      res.download(name);
 		    });

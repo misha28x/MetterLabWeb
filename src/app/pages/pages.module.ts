@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 import { MaterialModule } from '../material/material.module';
 import { UiModule } from './../ui/ui.module';
 
@@ -23,7 +25,7 @@ import { MetrologyProtocolsComponent } from './metrology-protocols';
 import { FailedTasksComponent } from './failed-tasks';
 
 @NgModule({
-  imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule],
+  imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
   declarations: [
     PageHomePageComponent,
     PageNewVerificationsComponent,
