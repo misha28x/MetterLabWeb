@@ -46,6 +46,26 @@ router.get("/completed/range/:date", (req, res, next) => {
   });
 });
 
+// Звіт: `по відхиленим повіркам` (по `task_date` зі статусом like `%ідхилено%`)
+router.get("/rejected/single/:date", (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `taskDate` = '" + req.params.date + "' AND `status` LIKE '%ідхилено%';", (err, result) => {
+    const stringName = "Відхилені повірки " + req.params.date;
+    generateExcel(result, stringName).then(name => {
+      res.download(name);
+    });
+  });
+});
+
+// Звіт: `по відхиленим повіркам` для діапазону дат (по `task_date` зі статусом like `%ідхилено%`)
+router.get("/rejected/range/:date", (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE (`taskDate` BETWEEN '" + req.params.date.split('-')[0] + "' AND '" + req.params.date.split('-')[1] + "') AND `status` LIKE '%ідхилено%';", (err, result) => {
+    const stringName = "Відхилені повірки " + req.params.date.split('-')[0] + "-" + req.params.date.split('-')[1];
+    generateExcel(result, stringName).then(name => {
+      res.download(name);
+    });
+  });
+});
+
 // Звіт: конверт (все в діапазоні `Дата додання`)
 router.get("/convert", (req, res, next) => {
   connection.query("SELECT * FROM `archive` WHERE `addingDate` BETWEEN '" + req.params.date.split('-')[0] + "' AND '" + req.params.date.split('-')[1] + "';", (err, result) => {
@@ -55,4 +75,5 @@ router.get("/convert", (req, res, next) => {
 		    });
   });
 });
+
 module.exports = router;

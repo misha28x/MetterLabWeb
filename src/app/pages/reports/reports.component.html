@@ -2,26 +2,7 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Звіт заявки в роботі
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="row">
-      <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
-        <input #inProgressSingle (onHidden)="downloadInProgress(inProgressSingle.value)" class="form-control mb-3"
-          placeholder="За день" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" />
-      </div>
-
-      <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
-        <input #inProgressRange (onHidden)="downloadInProgress(inProgressRange.value)" class="form-control mb-3"
-          placeholder="За проміжок" bsDaterangepicker [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
-      </div>
-    </div>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Звіт виконанні завдання
+        Звіт по результатам повірки лічильників
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="row">
@@ -37,22 +18,60 @@
     </div>
   </mat-expansion-panel>
 
+<mat-expansion-panel>
+	<mat-expansion-panel-header>
+		<mat-panel-title>
+			Звіт по відхиленим повіркам
+		</mat-panel-title>
+	</mat-expansion-panel-header>
+	<div class="row">
+		<div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+			<input #RejectedSingle (onHidden)="downloadRejected(RejectedSingle.value)" class="form-control mb-3"
+				placeholder="За день" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" />
+		</div>
+
+		<div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+			<input #RejectedRange (onHidden)="downloadRejected(RejectedRange.value)" class="form-control mb-3"
+				placeholder="За проміжок" bsDaterangepicker [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
+		</div>
+	</div>
+</mat-expansion-panel>
+	
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Звіт конверт
+        Звіт (конверти)
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="row">
       <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
-        <input #ConvertSingle (onHidden)="downloadConvert(ConvertSingle.value)" class="form-control mb-3"
-          placeholder="За день" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" />
+        <input #ConvertSingle (onHidden)="downloadConvert(ConvertSingle.value)" class="form-control mb-3" placeholder="За день"
+          bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" />
       </div>
 
       <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
-        <input #ConvertRange (onHidden)="downloadConvert(ConvertRange.value)" class="form-control mb-3"
-          placeholder="За проміжок" bsDaterangepicker [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
+        <input #ConvertRange (onHidden)="downloadConvert(ConvertRange.value)" class="form-control mb-3" placeholder="За проміжок"
+          bsDaterangepicker [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
       </div>
     </div>
   </mat-expansion-panel>
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Звіт "Заявки в роботі"
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="row">
+    <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+      <input #inProgressSingle (onHidden)="downloadInProgress(inProgressSingle.value)" class="form-control mb-3"
+        placeholder="За день" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }" />
+    </div>
+
+    <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+      <input #inProgressRange (onHidden)="downloadInProgress(inProgressRange.value)" class="form-control mb-3"
+        placeholder="За проміжок" bsDaterangepicker [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
+    </div>
+  </div>
+</mat-expansion-panel>
 </mat-accordion>

@@ -157,7 +157,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       favorDate: this.additionalDataForm.get('favorDate').value 
         ? this.additionalDataForm.get('favorDate').value.toISOString()
         : '',
-      favorTime: this.additionalDataForm.get('favorTime').value ? this.additionalDataForm.get('favorTime').value.toString() : '',
+			favorTime: this.additionalDataForm.get('favorTime').value ? this.additionalDataForm.get('favorTime').value.toISOString() : '',
 			sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
       waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value 
         ? this.additionalDataForm.get('waterAbsentTo').value.toISOString() : '',

@@ -11,7 +11,8 @@ enum DateType  {
 enum ReportType {
   InProgress = 'in-progress/',
   Completed = 'completed/',
-  Convert = 'convert/'
+	Convert = 'convert/',
+	Rejected = 'rejected/'
 }
 
 const Url = 'http://localhost:3000/api/reports/';
