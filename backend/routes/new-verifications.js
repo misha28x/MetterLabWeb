@@ -43,7 +43,9 @@ router.get('', (req, res, next) => {
 // TODO: Встановити PrimaryKey/Qniquef
 router.post('', (req, res, next) => {
   // Знаходимо номер останньої створеної заявки
-  console.log( { 'Номер ост заявки': req.body.favorTime } );
+  console.log({
+    'Номер ост заявки': req.body.favorTime
+  });
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate` = '" + getCurrentDate() + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
       console.log(err);
@@ -68,11 +70,11 @@ router.post('', (req, res, next) => {
     connection.query(varResult, (err, result) => {
       if (err) {
         console.log(err);
-			}
-			io.getIo().emit('update');
+      }
+      io.getIo().emit('update');
       console.log('Нова повірка створена. ' + status + '. Номер заявки: ' + applicationNumber);
     });
-	});	
+  });
   res.json({
     g: 'good'
   });
@@ -84,8 +86,10 @@ router.get('/rejected/:id', (req, res, next) => {
   console.log('rejected');
   let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
-		io.getIo().emit('update');
-    res.status(200).json({ m: 'rejected'});
+    io.getIo().emit('update');
+    res.status(200).json({
+      m: 'rejected'
+    });
   });
 });
 
@@ -94,8 +98,8 @@ router.post('/employee/:id', (req, res, next) => {
   connection.query("UPDATE `archive` SET `status`='Визначено відповідальну особу', `employeeName`='" + req.body.employee + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
-		}
-		io.getIo().emit('update');
+    }
+    io.getIo().emit('update');
     res.status(201).send({
       msg: 'success'
     });
@@ -106,21 +110,23 @@ router.post('/employee/:id', (req, res, next) => {
 // 4) Видалення повірки delete
 router.delete('/:id', (req, res, next) => {
   let query = "DELETE FROM `archive` WHERE `applicationNumber`='" + req.params.id + "';";
-  
+
   connection.query(query, () => {
-		io.getIo().emit('update');
-    res.status(200).json({m: 'success'});
+    io.getIo().emit('update');
+    res.status(200).json({
+      m: 'success'
+    });
   });
 });
 
 // Перевірка на дублі по адресі клієнта (район, вулиця, будинок, квартира)
 router.post('/duplicate', (req, res, next) => {
-  connection.query( "SELECT * FROM `archive` WHERE  +`district`='" + req.body.district + "' AND `street`= '" + req.body.street + "' AND `house`= '" + req.body.house + "'AND `apartment` = '" + req.body.flat + "';", ( err, result ) => {
-      if (err) {
-        console.log(err);
-      }
-      res.status(200).json(result);
-    });
+  connection.query("SELECT * FROM `archive` WHERE  +`district`='" + req.body.district + "' AND `street`= '" + req.body.street + "' AND `house`= '" + req.body.house + "'AND `apartment` = '" + req.body.flat + "';", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json(result);
+  });
 });
 
 // Запит, що знімає відповідальну особу з заявки
@@ -129,10 +135,20 @@ router.get('/cancel/:id', (req, res, next) => {
     if (err) {
       console.log(err);
     }
-	});
-	res.status(201).send({
-	  msg: 'знято відповідальну особу'
-	});
+  });
+  res.status(201).send({
+    msg: 'знято відповідальну особу'
+  });
+});
+
+// Роутер для отримання всіх можливих населених пунктів і адрес
+router.get('/address/', (req, res, next) => {
+  connection.query("SELECT * FROM `address`", (err, address) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json(address);
+  });
 });
 
 function generateDateString() {
@@ -151,16 +167,16 @@ function generateDateString() {
 }
 
 function getCurrentDate() {
-	const date = new Date();
-	let day = date.getUTCDate();
-	let month = date.getUTCMonth() + 1;
-	let year = date.getUTCFullYear();
-	if (day < 10) {
-	  day = "0" + day;
-	}
-	if (month < 10) {
-	  month = "0" + month;
-	}
-	return year.toString() + '-' + month.toString() + '-' + day.toString();
+  const date = new Date();
+  let day = date.getUTCDate();
+  let month = date.getUTCMonth() + 1;
+  let year = date.getUTCFullYear();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  if (month < 10) {
+    month = "0" + month;
+  }
+  return year.toString() + '-' + month.toString() + '-' + day.toString();
 }
 module.exports = router;
