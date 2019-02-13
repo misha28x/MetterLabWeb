@@ -149,6 +149,15 @@
             </tr>
           </table>
         </div>
+        
+        <div class="full-width">
+          <span>Коментар</span>
+          <mat-form-field class="input-field">
+            <mat-label>Коментар</mat-label>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="10" formControlName="comment"></textarea>
+          </mat-form-field>
+        </div>
 
         <div class="full-width inline" *ngIf="permission !== 2">
           <div class="d-flex justify-content-between align-items-center">
@@ -251,81 +260,6 @@
           </mat-form-field>
         </div>
       </form>
-      </ng-template>
-
-      <mat-action-row>
-        <button mat-button color="warn" (click)="prevStep()">Назад</button>
-        <button mat-button color="primary" (click)="nextStep()">Далі</button>
-      </mat-action-row>
-      </mat-expansion-panel>
-
-      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
-        <mat-expansion-panel-header>
-          Додаткова інформація
-        </mat-expansion-panel-header>
-
-        <ng-template matExpansionPanelContent>
-          <form [formGroup]="additionalDataForm">
-            <div class="full-width">
-              <span>Під'їзд</span>
-              <mat-form-field class="input-field">
-                <input matInput placeholder="Під'їзд" formControlName="entrance">
-              </mat-form-field>
-            </div>
-
-            <div class="full-width">
-              <span>Код на дверях</span>
-              <mat-form-field class="input-field">
-                <input matInput placeholder="Код на дверях" formControlName="doorCode">
-              </mat-form-field>
-            </div>
-
-            <div class="full-width">
-              <span>Поверх</span>
-              <mat-form-field class="input-field">
-                <input matInput placeholder="Поверх" formControlName="floor">
-              </mat-form-field>
-            </div>
-
-            <div *ngIf="permission !== 2" class="full-width">
-              <span>Бажана дата проведення повірки</span>
-              <div class="input-field form-group">
-                <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="favorDate"
-                  [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
-              </div>
-            </div>
-
-            <div *ngIf="permission !== 2" class="full-width">
-              <span>Бажаний час проведення повірки</span>
-              <div class="input-field form-group">
-                <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
-              </div>
-            </div>
-
-            <div class="full-width">
-              <span>Справність сантехніки</span>
-              <div class="input-field">
-                <mat-checkbox formControlName="sanitaryWellFare"></mat-checkbox>
-              </div>
-            </div>
-
-            <div class="full-width">
-              <span>Вода відсутня до</span>
-              <div class="input-field form-group">
-                <input type="text" placement="top" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="waterAbsentTo"
-                  [bsValue]="additionalDataForm.get('waterAbsentTo').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
-              </div>
-            </div>
-
-            <div class="full-width">
-              <span>Примітка</span>
-              <mat-form-field class="input-field">
-                <mat-label>Примітка</mat-label>
-                <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-                  cdkAutosizeMaxRows="10"></textarea>
-              </mat-form-field>
-            </div>
-          </form>
     </mat-tab>
 
     <mat-tab [label]="'Додаткова інформація'">
@@ -351,35 +285,34 @@
           </mat-form-field>
         </div>
 
-        <div class="full-width">
+        <div *ngIf="permission !== 2" class="full-width">
           <span>Бажана дата проведення повірки</span>
           <div class="input-field form-group">
-            <input type="text" class="form-control" bsDatepicker formControlName="favorDate" [bsValue]="additionalDataForm.get('favorDate').value"
-              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="favorDate"
+              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
           </div>
         </div>
 
-        <div class="full-width">
+        <div *ngIf="permission !== 2" class="full-width">
           <span>Бажаний час проведення повірки</span>
           <div class="input-field form-group">
             <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
           </div>
         </div>
 
-        <div class="full-width inline">
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Справність сантехніки</span>
+        <div class="full-width">
+          <span>Справність сантехніки</span>
+          <div class="input-field">
             <mat-checkbox formControlName="sanitaryWellFare"></mat-checkbox>
           </div>
         </div>
 
         <div class="full-width">
           <span>Вода відсутня до</span>
-          <mat-form-field class="input-field">
-            <input matInput [matDatepicker]="waterDatePicker" placeholder="Вода відсутня до" formControlName="waterAbsentTo">
-            <mat-datepicker-toggle matSuffix [for]="waterDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #waterDatePicker></mat-datepicker>
-          </mat-form-field>
+          <div class="input-field form-group">
+            <input type="text" placement="top" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="waterAbsentTo"
+              [bsValue]="additionalDataForm.get('waterAbsentTo').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+          </div>
         </div>
 
         <div class="full-width">

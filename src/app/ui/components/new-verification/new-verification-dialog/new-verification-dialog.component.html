@@ -30,14 +30,9 @@
         <div class="full-width">
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
-<<<<<<< HEAD
             <span matPrefix>+1 &nbsp;</span>
             <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phone">
             <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
-=======
-            <input matInput #phone placeholder="Телефон" maxlength="13" formControlName="phone">
-            <mat-hint align="end">{{phone.value.length}} / 13</mat-hint>
->>>>>>> e5b11d9cb82869efd336baecc8f4eb3b469fabbc
           </mat-form-field>
         </div>
 
@@ -167,6 +162,15 @@
           </table>
         </div>
 
+        <div class="full-width">
+          <span>Коментар</span>
+          <mat-form-field class="input-field">
+            <mat-label>Коментар</mat-label>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="10" formControlName="comment"></textarea>
+          </mat-form-field>
+        </div>
+
         <div class="full-width inline" *ngIf="permission !== 2">
           <div class="d-flex justify-content-between align-items-center">
             <span>Провести повірку з демонтажом</span>
@@ -180,15 +184,6 @@
             <button mat-raised-button color="primary" matTooltip="Перевірити на дублі" (click)="checkForDupliacates()">
               <i class="icofont-copy"></i>
             </button>
-          </div>
-
-          <div class="full-width">
-            <span>Коментар</span>
-            <mat-form-field class="input-field">
-              <mat-label>Коментар</mat-label>
-              <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-                cdkAutosizeMaxRows="10" formControlName="comment"></textarea>
-            </mat-form-field>
           </div>
         </div>
       </form>
@@ -217,7 +212,8 @@
         <div class="full-width">
           <span>Дата монтажу лічильника</span>
           <div class="input-field form-group">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="montageDate" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="montageDate"
+              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
           </div>
         </div>
 

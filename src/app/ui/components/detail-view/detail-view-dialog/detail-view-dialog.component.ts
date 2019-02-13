@@ -86,7 +86,7 @@ export class DetailViewDialogComponent implements OnInit {
       counterQuantity: this.data.verification[0].counterQuantity,
       serviceType: this.data.verification[0].serviceType,
       serviceProvider: this.data.verification[0].serviceProvider,
-      comment: this.data.verification[0].comment,
+      comment: this.data.verification[0].comment
     });
 
     this.counterForm = this.fb.group({
@@ -128,6 +128,10 @@ export class DetailViewDialogComponent implements OnInit {
       );
 
     this.dialogRef.close();
+  }
+
+  checkForDupliacates(): void {
+    this.verificationSv.addVerification(this.setVerification());
   }
 
   setVerification(): Verification {
