@@ -43,7 +43,7 @@ router.post('/station-task', (req, res, next) => {
     const eMail = station[0].contactEmail;
 
     let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s', '%s');";
-    let taskAddingFormat = taskAdding.format(formatDate(req.body.taskDate), "Переносна установка *", stNumber, emName, phNumber, eMail, req.body.verifications.length);
+    let taskAddingFormat = taskAdding.format(formatDate(req.body.taskDate)[0], "Переносна установка *", stNumber, emName, phNumber, eMail, req.body.verifications.length);
     let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
 
     let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC LIMIT 1;";
@@ -75,7 +75,7 @@ router.post('/station-task', (req, res, next) => {
           // TODO: протестувати Update
           // 2019-01-24T22:00:00.000Z          
 
-          let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "', `taskDate`='" + formatDate(req.body.taskDate) + "', `stationNumber`='" + req.body.stationNumber + "' WHERE `applicationNumber`='" + applicationNumber + "';";
+          let inProgressResult = "UPDATE `archive` SET `status`='В роботі', `idForStation`='" + id + "', `positionInTask`='" + position + "', `taskDate`='" + formatDate(req.body.taskDate)[0] + "', `stationNumber`='" + req.body.stationNumber + "' WHERE `applicationNumber`='" + applicationNumber + "';";
           connection.query(inProgressResult, (err) => {
             if (err) {
               console.log(err);

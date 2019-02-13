@@ -29,7 +29,12 @@ export class PageReportsComponent {
   downloadConvert(date: string): void {
     const type = 'convert/';
     this.downloadReport(type, date);
-  }
+	}
+	
+	downloadRejected(date: string): void {
+		const type = 'rejected/';
+		this.downloadReport(type, date);
+	}
 
   downloadReport(type: string, date: string): void {
     let dateArr = [date];
