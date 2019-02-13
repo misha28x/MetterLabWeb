@@ -30,8 +30,32 @@
         <div class="full-width">
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
+            <span matPrefix>+1 &nbsp;</span>
             <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phone">
             <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>E-mail</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="E-mail" formControlName="mail">
+          </mat-form-field>
+        </div>
+
+        <div class="full-width inline">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Юридична особа</span>
+            <div class="input-field">
+              <mat-checkbox #isEntity></mat-checkbox>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isEntity.checked" class="full-width">
+          <span>ІПН</span>
+          <mat-form-field class="input-field">
+            <input matInput placeholder="Індивідуальний податковий номер" formControlName="ipn">
           </mat-form-field>
         </div>
       </form>
@@ -129,7 +153,8 @@
                 <mat-form-field>
                   <mat-select formControlName="serviceProvider">
                     <!-- TODO: Добавити табличку виробників -->
-                    <mat-option [value]="'ЛУЦЬКВОДОКАНАЛ'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
+                    <mat-option [value]="'КП ЛУЦЬКВОДОКАНАЛ'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
+                    <mat-option [value]="'ДКП ЛУЦЬКТЕПЛО'">ДКП "ЛУЦЬКТЕПЛО"</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -137,7 +162,7 @@
           </table>
         </div>
 
-        <div class="full-width inline">
+        <div class="full-width inline" *ngIf="permission !== 2">
           <div class="d-flex justify-content-between align-items-center">
             <span>Провести повірку з демонтажом</span>
             <div class="input-field">
@@ -151,6 +176,15 @@
               <i class="icofont-copy"></i>
             </button>
           </div>
+
+          <div class="full-width">
+            <span>Коментар</span>
+            <mat-form-field class="input-field">
+              <mat-label>Коментар</mat-label>
+              <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="10" formControlName="comment"></textarea>
+            </mat-form-field>
+          </div>
         </div>
       </form>
     </ng-template>
@@ -161,7 +195,7 @@
     </mat-action-row>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
+  <mat-expansion-panel *ngIf="permission !== 2" [expanded]="step === 2" (opened)="setStep(2)">
     <mat-expansion-panel-header>
       Лічильник
     </mat-expansion-panel-header>
@@ -178,8 +212,7 @@
         <div class="full-width">
           <span>Дата монтажу лічильника</span>
           <div class="input-field form-group">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="montageDate"
-              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="montageDate" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
           </div>
         </div>
 
@@ -189,15 +222,6 @@
             <mat-select placeholder="Працівник" formControlName="employeeName">
               <mat-option *ngFor="let employee of data.name" [value]="employee">{{ employee }}</mat-option>
             </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Коментар</span>
-          <mat-form-field class="input-field">
-            <mat-label>Коментар</mat-label>
-            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-              cdkAutosizeMaxRows="10" formControlName="comment"></textarea>
           </mat-form-field>
         </div>
 
@@ -285,7 +309,7 @@
           </mat-form-field>
         </div>
 
-        <div class="full-width">
+        <div *ngIf="permission !== 2" class="full-width">
           <span>Бажана дата проведення повірки</span>
           <div class="input-field form-group">
             <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="favorDate"
@@ -293,7 +317,7 @@
           </div>
         </div>
 
-        <div class="full-width">
+        <div *ngIf="permission !== 2" class="full-width">
           <span>Бажаний час проведення повірки</span>
           <div class="input-field form-group">
             <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
@@ -310,8 +334,8 @@
         <div class="full-width">
           <span>Вода відсутня до</span>
           <div class="input-field form-group">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="waterAbsentTo"
-              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            <input type="text" placement="top" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="waterAbsentTo"
+              [bsValue]="additionalDataForm.get('waterAbsentTo').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, forkJoin } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
@@ -21,10 +22,12 @@ export class PageNewVerificationsComponent implements OnInit {
   employee: string;
 
   selectedData: any[];
+  permission: number;
 
   constructor(
     private dialog: MatDialog,
     private dataSv: DataService,
+    private store: Store<number>,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
     private verificationSv: VerificationService
@@ -33,6 +36,8 @@ export class PageNewVerificationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.pipe(select('permission')).subscribe(per => this.permission = per);
+
     this.selectedData = [];
     this.employee = 'Віталій Кришталюк';
     this.updateData();
