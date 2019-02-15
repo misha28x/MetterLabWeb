@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 import { concat } from 'rxjs';
 
 import { VerificationService } from '../../../../services/verification.service';
@@ -26,11 +27,14 @@ export class DetailViewDialogComponent implements OnInit {
   counterForm: FormGroup;
   additionalDataForm: FormGroup;
 
+  permission: number;
+
   private url: string;
 
   constructor(
     private fb: FormBuilder,
     private dataSv: DataService,
+    private store: Store<number>,
     private sourceSv: SourceService,
     private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<DetailViewDialogComponent>,
@@ -38,6 +42,8 @@ export class DetailViewDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.store.pipe(select('permission')).subscribe(perm => this.permission = perm) ;
+
     const $employeeObservable = this.dataSv.getData(employeeUrl);
     const $symbolObservable = this.dataSv.getData(symbolUrl);
     const $typeObservable = this.dataSv.getData(typeUrl);
@@ -62,7 +68,9 @@ export class DetailViewDialogComponent implements OnInit {
       surname: surname,
       name: name,
       middlename: middlename,
-      phone: this.data.verification[0].phoneNumber
+      phone: this.data.verification[0].phoneNumber,
+      mail: this.data.verification[0].mail || '',
+      ipn: this.data.verification[0].ipn || ''
     });
 
     this.locationForm = this.fb.group({
@@ -77,14 +85,14 @@ export class DetailViewDialogComponent implements OnInit {
       isUnique: false,
       counterQuantity: this.data.verification[0].counterQuantity,
       serviceType: this.data.verification[0].serviceType,
-      serviceProvider: this.data.verification[0].serviceProvider
+      serviceProvider: this.data.verification[0].serviceProvider,
+      comment: this.data.verification[0].comment
     });
 
     this.counterForm = this.fb.group({
       isDismantled: false,
       montageDate: new Date(this.data.verification[0].montageDate) || null,
       employeeName: this.data.verification[0].employeeName,
-      comment: this.data.verification[0].comment,
       counterNumber: this.data.verification[0].counterNumber,
       haveSeal: this.data.verification[0].haveSeal,
       counterType: this.data.verification[0].counterType,
@@ -120,6 +128,10 @@ export class DetailViewDialogComponent implements OnInit {
       );
 
     this.dialogRef.close();
+  }
+
+  checkForDupliacates(): void {
+    this.verificationSv.addVerification(this.setVerification());
   }
 
   setVerification(): Verification {

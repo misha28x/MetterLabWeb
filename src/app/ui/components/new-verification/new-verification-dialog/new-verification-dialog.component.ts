@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 
 import { DataService } from 'src/app/services/data.service';
 import { Verification } from 'src/app/interfaces/verifications';
@@ -23,13 +24,14 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 	additionalDataForm: FormGroup;
   showForm: boolean;
 
-  private url: string;
+  permission: number;
 
 	constructor(
+    private fb: FormBuilder,
+    private dataSv: DataService,
+    private store: Store<number>,
 		private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
-    private dataSv: DataService,
-		private fb: FormBuilder,
 		@Inject(MAT_DIALOG_DATA) public data: any
 	) { }
 
@@ -50,11 +52,17 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
 	ngOnInit(): void {
+    this.store.pipe(select('permission')).subscribe(per => {
+      this.permission = per;
+    });
+
 		this.generalDataForm = this.fb.group({
 			surname: '',
 			name: '',
 			middlename: '',
-			phone: '+380'
+      phone: '380',
+      mail: '',
+      ipn: ''
 		});
 
 		this.locationForm = this.fb.group({
@@ -69,14 +77,14 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 			isUnique: false,
 			counterQuantity: 0,
 			serviceType: '',
-			serviceProvider: ''
+			serviceProvider: '',
+      comment: ''
 		});
-
+    
 		this.counterForm = this.fb.group({
 			isDismantled: false,
 			montageDate: '',
 			employeeName: '',
-			comment: '',
 			counterNumber: '',
 			haveSeal: '',
 			counterType: '',
