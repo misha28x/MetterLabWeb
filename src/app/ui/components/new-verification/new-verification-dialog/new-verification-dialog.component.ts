@@ -52,8 +52,8 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
 	ngOnInit(): void {
-    this.store.pipe(select('permission')).subscribe(per => {
-      this.permission = per;
+    this.store.pipe(select('permission')).subscribe(user => {
+      this.permission = user.permission;
     });
 
 		this.generalDataForm = this.fb.group({
@@ -84,7 +84,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 		this.counterForm = this.fb.group({
 			isDismantled: false,
 			montageDate: '',
-			employeeName: '',
 			counterNumber: '',
 			haveSeal: '',
 			counterType: '',
@@ -154,9 +153,10 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 			apartment: this.locationForm.get('apartment').value,
 			isDismantled: this.locationForm.get('isDismantled').value,
       montageDate: this.counterForm.get('montageDate').value 
-        ? this.counterForm.get('montageDate').value.toISOString() : '',
-			employeeName: this.counterForm.get('employeeName').value.replace(/'/g, /\'/),
-			comment: this.counterForm.get('comment').value.replace(/'/g, /\'/),
+        ? this.counterForm.get('montageDate').value.toISOString()
+        : '',
+      employeeName: '',
+			comment: this.locationForm.get('comment').value.replace(/'/g, /\'/),
 			counterNumber: this.counterForm.get('counterNumber').value,
 			haveSeal: this.counterForm.get('haveSeal').value,
 			counterType: this.counterForm.get('counterType').value,
@@ -165,10 +165,13 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       favorDate: this.additionalDataForm.get('favorDate').value 
         ? this.additionalDataForm.get('favorDate').value.toISOString()
         : '',
-			favorTime: this.additionalDataForm.get('favorTime').value ? this.additionalDataForm.get('favorTime').value.toISOString() : '',
+      favorTime: this.additionalDataForm.get('favorTime').value
+        ? this.additionalDataForm.get('favorTime').value.toISOString()
+        : '',
 			sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
       waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value 
-        ? this.additionalDataForm.get('waterAbsentTo').value.toISOString() : '',
+        ? this.additionalDataForm.get('waterAbsentTo').value.toISOString()
+        : '',
 			note: this.additionalDataForm.get('note').value,
 			serviceProvider: this.locationForm.get('serviceProvider').value,
 			serviceType: this.locationForm.get('serviceType').value,

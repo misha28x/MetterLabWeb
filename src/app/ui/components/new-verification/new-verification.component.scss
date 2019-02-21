@@ -1,5 +1,11 @@
+@import '../../../../assets/sass/variables';
+
 :host {
 	.no-padding {
 		padding: 0 !important;
-	}
+  }
+  .icon {
+    margin-right: $module-rem;
+    font-size: 1em;
+  }
 }

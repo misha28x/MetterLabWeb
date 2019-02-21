@@ -1,11 +1,14 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
-import { EndStateDialogComponent } from '../end-state-dialog/end-state-dialog.component';
-import { StartStateDialogComponent } from '../start-state-dialog/start-state-dialog.component';
 import { CounterDialogDataComponent } from '../counter-dialog-data/counter-dialog-data.component';
+import { StartStateDialogComponent } from '../start-state-dialog/start-state-dialog.component';
+import { EndStateDialogComponent } from '../end-state-dialog/end-state-dialog.component';
 import { PhotoOrientationService } from '../../../../services/photo-orientation.service';
+import { ProtocolService } from '../../../../services/protocol.service';
+import { SourceService } from '../../../../services/source.service';
 import { Protocol, Test } from '../../../../interfaces/protocol';
 import { DataService } from '../../../../services/data.service';
 
@@ -16,31 +19,51 @@ import { DataService } from '../../../../services/data.service';
 })
 export class ProtocolDialogComponent implements OnInit, OnDestroy {
 
-  angle: number;
   subscription: Subscription;
+  permission: number;
+  checked: boolean;
+  angle: number;
 
   constructor(
       private dialog: MatDialog,
       private dataSv: DataService,
+      private store: Store<number>,
+      private sourceSv: SourceService,
+      private protocolSv: ProtocolService,
       private photoSv: PhotoOrientationService,
-      @Inject(MAT_DIALOG_DATA) public data: Protocol
+      @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
 
   ngOnInit(): void {
+    this.checked = false;
     this.subscription = this.photoSv.getAngleObservable().subscribe(angle => this.angle = angle);
+    this.store.pipe(select('permission')).subscribe(user => this.permission = user.permission);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.photoSv.setAngle(0);
   }
+
   formatData(data: string): string {
     return parseFloat(data).toFixed(2);
   }
 
-  saveProtocol(): void { }
+  saveProtocol(): void { 
+    this.protocolSv.upladteProtocol(this.data.protocolNumber, this.data);
+  }
 
-  saveTests(): void { }
+  acceptProtocol(): void {
+    this.sourceSv.fetchMetrologyProtocols();
+    this.protocolSv.acceptProtocol(this.data.applicationNumber).subscribe();
+    this.checked = true;
+  }
+
+  rejectProtocol(): void {
+    this.sourceSv.fetchMetrologyProtocols();
+    this.protocolSv.rejectProtocol(this.data.applicationNumber).subscribe();
+    this.checked = true;
+  }
 
   changeProtocolData(protocolData: Protocol): void { 
     this.dialog.open(CounterDialogDataComponent, {
@@ -104,6 +127,10 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  downloadDoc(): void {
+    window.open('http://localhost:3000/api/report-formation/doc/' + this.data.protocolNumber);
   }
 
   getImage(base64Data: String): any {

@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import { User } from '../../interfaces/user';
 
 export enum PermissionTypes {
   ServiceProvider = '[Login] SeviceProvider',
@@ -8,22 +8,26 @@ export enum PermissionTypes {
   User = '[Login] User '
 }
 
-export class Admin implements Action {
-  readonly type = PermissionTypes.Admin;
-}
+export const login = (info: User) => ({
+  type: getType(info.permission),
+  payload: { username: info.username, serviceProvider: info.serviceProvider }
+});
 
-export class Metrology implements Action {
-  readonly type = PermissionTypes.Metrology;
-}
+const getType = (permission: number) => {
+  switch (permission) {
+    case 4: 
+      return PermissionTypes.Admin;
+    
+    case 2: 
+      return PermissionTypes.ServiceProvider;
 
-export class User implements Action {
-  readonly type = PermissionTypes.User;
-}
+    case 3:
+      return PermissionTypes.Metrology;
 
-export class Unauthorized implements Action {
-  readonly type = PermissionTypes.Unauthorized;
-}
+    case 4: 
+      return PermissionTypes.User;
 
-export class ServiceProvider implements Action {
-  readonly type = PermissionTypes.ServiceProvider;
-}
+    default: 
+      return PermissionTypes.Unauthorized;
+  }
+};

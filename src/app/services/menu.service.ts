@@ -21,9 +21,9 @@ export class MenuService {
     private store: Store<string>,
     private socket: Socket
     ) { 
-    this.store.select('permission').subscribe(permission => {
-      this.permission = permission;
-      this.setMenu(permission);
+    this.store.select('permission').subscribe(user => {
+      this.permission = user.permission;
+      this.setMenu(this.permission);
     });
 
     this.menuUpdate.subscribe(() => {
@@ -32,7 +32,6 @@ export class MenuService {
   }
 
   public setMenu(permission: string): void {
-    console.log(permission);
     this.http.get(menuUrl + permission).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
   }
 

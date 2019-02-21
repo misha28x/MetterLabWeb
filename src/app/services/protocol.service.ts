@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { Protocol } from '../interfaces/protocol';
 
-const protocolUrl = 'http//localhost:3000/api/verications-protocols/';
+const protocolUrl = 'http://localhost:3000/api/verications-protocols/';
+const rejectUrl = 'http://localhost:3000/api/verications-protocols/reject/';
+const acceptUrl = 'http://localhost:3000/api/verications-protocols/accept/';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,15 @@ export class ProtocolService {
     return this.protocolAdded$;
   } 
 
-  public upladteProtocol(id: number, data: Protocol): Observable<any> {
+  public upladteProtocol(id: any, data: Protocol): Observable<any> {
     return this.http.post(protocolUrl + id, { protocol: data });
+  }
+
+  public acceptProtocol(id: any): Observable<any> {
+    return this.http.get(acceptUrl + id);
+  }
+
+  public rejectProtocol(id: any): Observable<any> {
+    return this.http.get(rejectUrl + id);
   }
 }

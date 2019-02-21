@@ -42,7 +42,7 @@ export class DetailViewDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.pipe(select('permission')).subscribe(perm => this.permission = perm) ;
+    this.store.pipe(select('permission')).subscribe(user => this.permission = user.permission) ;
 
     const $employeeObservable = this.dataSv.getData(employeeUrl);
     const $symbolObservable = this.dataSv.getData(symbolUrl);

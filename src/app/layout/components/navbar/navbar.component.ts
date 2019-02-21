@@ -27,8 +27,8 @@ export class NavbarComponent implements OnInit {
 			this.menuState = menuState;
     });
     
-    this.store.select('permission').subscribe(permission => {
-      this.permission = permission;
+    this.store.select('permission').subscribe(user => {
+      this.permission = user.permission;
     });
 
 		this.pageTitle = this.activeRoute.firstChild.data['value']['title'];

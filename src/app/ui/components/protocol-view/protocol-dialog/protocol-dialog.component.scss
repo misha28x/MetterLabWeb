@@ -12,7 +12,7 @@
     max-height: 100%;
     height: 100%;
   }
-  
+
   .table {
     background-color: transparent;
     margin-bottom: .5rem;
@@ -30,7 +30,7 @@
         vertical-align: top;
         font-weight: 700;
         font-size: .9em;
-        width: 280px;
+        width: 260px;
       }
 
       td+td {
@@ -46,10 +46,11 @@
 
   .test-table {
     @extend .table;
-    
+
     &.first {
       min-width: 232px;
     }
+
     min-width: 200px;
     max-width: 330px;
   }
@@ -65,39 +66,58 @@
       display: flex;
       overflow: hidden;
 
-      img {
-        cursor: pointer;
-        min-width: 280px;
-        width: 280px;
+      .img {
+        display: flex;
+        flex-direction: column;
+
+        img {
+          cursor: pointer;
+          min-width: 260px;
+          width: 260px;
+        }
       }
+
+      .metrology-actions {
+        display: flex;
+        margin: 0 (-$module-rem);
+
+        >* {
+          margin: ($module-rem);
+        }
+      }
+
       .protocol-actions {
         flex: 1;
-        padding: $module-rem;
+        padding: 0 $module-rem;
         justify-content: center;
-        
+
         .action-title {
           font-size: 1.2em;
           text-align: center;
+          margin: 0 $module-rem 0 0;
 
           &:first-child {
             margin-top: 0;
           }
         }
+
         .reverse {
           transform: scaleX(-1);
         }
+
         .photo-actions {
           display: flex;
           justify-content: center;
-          margin-top: $module-rem * 2;
 
           i {
             font-size: 1.6em;
           }
+
           >* {
-            margin: -($module-rem / 4) ($module-rem / 2);
+            margin: ($module-rem);
           }
         }
+
         .protocol-actions {
           @extend .photo-actions;
         }
@@ -127,7 +147,7 @@
 
     img {
       cursor: pointer;
-      width:inherit;
+      width: inherit;
     }
   }
 }

@@ -24,6 +24,15 @@ router.get('/metrology', (req, res, next) => {
   });
 });
 
+router.get( '/rejected', ( req, res, next ) => {
+  connection.query( "SELECT * FROM `archive` WHERE `status` = 'Повірено. Непридатний';", ( err, rows ) => {
+    if ( err ) {
+      console.log( err );
+    }
+    res.json( rows );
+  } );
+} );
+
 router.post('/metrology/:id', (req, res, next) => {
   console.log('передано повірнику ' + req.params.id);
   connection.query("UPDATE `archive` SET `status`='Передано повірнику' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
@@ -34,8 +43,8 @@ router.post('/metrology/:id', (req, res, next) => {
   res.json('metrology id success');
 });
 
-router.post('/metrology/rejected/:id', (req, res, next) => {
-  connection.query("UPDATE `archive` SET `status`='Повірено. Непридатний' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
+router.get('/reject/:id', (req, res, next) => {
+  connection.query( "UPDATE `archive` SET `status`='Повірено. Непридатний' WHERE `applicationNumber` ='" + req.params.id + "';", ( err ) => {
     if (err) {
       res.json(err);
     }
@@ -43,8 +52,9 @@ router.post('/metrology/rejected/:id', (req, res, next) => {
   res.json('metrology rejected success');
 });
 
-router.post('/metrology/accepted/:id', (req, res, next) => {
-  connection.query("UPDATE `archive` SET `status`='Повірено. Придатний' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
+router.get('/accept/:id', (req, res, next) => {
+  console.log(req.params.id);
+  connection.query( "UPDATE `archive` SET `status`='Повірено. Придатний' WHERE `applicationNumber` ='" + req.params.id + "';", ( err ) => {
     if (err) {
       res.json(err);
     }

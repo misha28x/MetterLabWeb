@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, forkJoin } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
+import { User } from '../../interfaces/user';
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
-import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
 const url = 'http://localhost:3000/api/new-verifications';
 
@@ -22,8 +23,12 @@ export class ProvidersPageComponent implements OnInit {
 
   selectedData: any[];
 
+  permission: number;
+  user: User;
+
   constructor(
     private dialog: MatDialog,
+    private store: Store<User>,
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
@@ -35,6 +40,11 @@ export class ProvidersPageComponent implements OnInit {
   ngOnInit(): void {
     this.selectedData = [];
     this.employee = 'Віталій Кришталюк';
+
+    this.store.pipe(select('permission')).subscribe(user => {
+      this.user = user;
+      this.permission = user.permission;
+    });
     this.updateData();
   }
 
@@ -47,32 +57,14 @@ export class ProvidersPageComponent implements OnInit {
   }
 
   addEmployee(id: number): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        this.dataSv.sendData(url + '/employee/' + id, { employee: employee || this.employee })
-          .subscribe(() => this.updateData());
-      },
-      () => {
-        this.selectedData.length = 0;
-      }
-    );
+    this.dataSv.sendData(url + '/employee/' + id, { employee: this.user.username })
+      .subscribe(() => this.updateData());
   }
 
   addEmployeeToSelected(): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        forkJoin(this.selectedData.map((ver: Verification) =>
-          this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
-        ).subscribe(() => this.updateData());
-      },
-      () => {
-        this.selectedData.length = 0;
-      }
-    );
+    forkJoin(this.selectedData.map((ver: Verification) =>
+      this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: this.user.username }))
+    ).subscribe(() => this.updateData());
   }
 
   cancellEmployeeToSelected(): void {

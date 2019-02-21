@@ -8,7 +8,11 @@ export class AuthService {
 
   constructor(private store: Store<string>) { }
 
-  setpermission(): void {
-    
+  logIn(): void {
+
+  }
+
+  logOut(): void {
+
   }
 }

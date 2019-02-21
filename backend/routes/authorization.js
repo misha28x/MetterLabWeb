@@ -14,7 +14,7 @@ const counters = {
 
 // Авторизація
 router.post("", (req, res, next) => {
-  connection.query("SELECT user_permissions FROM users WHERE 	user_name ='" + req.body.email + "' AND user_password='" + req.body.pass + "';", (err, user) => {
+  connection.query("SELECT * FROM users WHERE 	user_name ='" + req.body.email + "' AND user_password='" + req.body.pass + "';", (err, user) => {
     if (err) {
       console.log(err);
       res.json({
@@ -24,7 +24,9 @@ router.post("", (req, res, next) => {
 
     if (user.length > 0) {
       res.json({
-        permission: user[0].user_permissions
+        permission: user[0].user_permissions,
+        username: user[0].user_full_name,
+        serviceProvider: user[0].service_provider,
       });
     } else {
       res.json({
