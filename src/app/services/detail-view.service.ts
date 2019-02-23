@@ -15,7 +15,7 @@ export class DetailViewService {
 
   constructor(private http: HttpClient) { }
 
-  addVerification(id: number): void {
+  addVerification(id: any): void {
     this.http.get(verUrl + id)
     .subscribe((ver: Verification) => {
       this.verificationSource$.next(ver);

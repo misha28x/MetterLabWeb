@@ -24,8 +24,8 @@ $_border-style: solid;
 $_border-width: 1px;
 $_fs: 1rem;
 $_lh: $module-rem * 2 / $_fs;
-$_padding-h: $module-rem;
-$_padding-v: ($module-rem / 2);
+$_padding-h: $module-rem / 4;
+$_padding-v: ($module-rem / 4);
 $_shape: 3px;
 $_animation: $animation;
 

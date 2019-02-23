@@ -21,28 +21,7 @@
   </ng-container>
 
   <ng-container *ngIf="uploadedSuccesfully">
-    <ul class="counters">
-      <li class="counter">
-        <span class="main-text info">{{ downloaded + errorList.length}}</span>
-        <span class="sub-text">Усього</span>
-      </li>
-
-      <li class="counter">
-        <span class="main-text upload-success">{{ downloaded }}</span>
-        <span class="sub-text">Успішно </span>
-      </li>
-
-      <li class="counter">
-        <span class="main-text upload-error">{{ errorList.length }}</span>
-        <span class="sub-text">Помилок </span>
-      </li>
-    </ul>
-
-    <mat-list class="err-list">
-      <mat-list-item class="item" *ngFor="let err of errorList">
-        <span mat-line>{{ err }}</span>
-      </mat-list-item>
-    </mat-list>
+    <h5>Успішно завантажено</h5>
   </ng-container>
 
 </mat-dialog-content>

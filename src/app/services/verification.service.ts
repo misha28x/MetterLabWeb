@@ -46,4 +46,8 @@ export class VerificationService {
   public updateVerification(id: any, verification: Verification): Observable<any> {
     return this.http.put(editUrl + id, verification);
   }
+
+  public changeProvider(id: any, provider: string, service: string): Observable<any> {
+    return this.http()
+  }
 }

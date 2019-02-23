@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
+import { UploadService } from '../../services/upload.service';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
-import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
-
-const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
   selector: 'app-finished-verifications',
@@ -25,6 +22,7 @@ export class FinishedVerificationsComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private dataSv: DataService,
+    private uploadSv: UploadService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
     private verificationSv: VerificationService
@@ -47,38 +45,8 @@ export class FinishedVerificationsComponent implements OnInit {
     this.detailSv.addVerification(id);
   }
 
-  addEmployee(id: number): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        this.dataSv.sendData(url + '/employee/' + id, { employee: employee || this.employee })
-          .subscribe(() => this.updateData());
-      },
-      () => {
-        this.selectedData.length = 0;
-      }
-    );
-  }
-
-  addEmployeeToSelected(): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        forkJoin(this.selectedData.map((ver: Verification) =>
-          this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
-        ).subscribe(() => this.updateData());
-      },
-      () => {
-        this.selectedData.length = 0;
-      }
-    );
-  }
-
-  cancellEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) =>
-      this.verificationSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
+  getScan(id: string): void {
+    this.uploadSv.getScan(id);
   }
 
   deleteVerification(id: number): void {
@@ -91,10 +59,6 @@ export class FinishedVerificationsComponent implements OnInit {
 
   cancellEmployee(id: number): void {
     this.verificationSv.cancellEmployee(id).subscribe(() => this.updateData());
-  }
-
-  checkForDuplicate(verification: Verification): void {
-    this.verificationSv.addVerification(verification);
   }
 
   onChange(data: any, state: boolean): void {

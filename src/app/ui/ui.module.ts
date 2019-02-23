@@ -29,6 +29,8 @@ import {
   EndStateDialogComponent,
   StartStateDialogComponent
 } from './components/protocol-view';
+import { ScanUploadComponent } from './components/scan-upload/scan-upload.component';
+import { SelectDialogComponent } from './components/select-dialog/select-dialog.component';
 
 @NgModule({
 	imports: [
@@ -77,7 +79,9 @@ import {
     BadgeComponent,
     CounterDialogDataComponent,
     EndStateDialogComponent,
-    StartStateDialogComponent
+    StartStateDialogComponent,
+    ScanUploadComponent,
+    SelectDialogComponent
 	],
   entryComponents: [
     UploadDialogComponent,

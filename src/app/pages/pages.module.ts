@@ -26,6 +26,8 @@ import { FailedTasksComponent } from './failed-tasks';
 import { ProvidersPageComponent } from './providers-page';
 import { FinishedVerificationsComponent } from './finished-verifications';
 
+import { ScanUploadComponent } from '../ui/components/scan-upload';
+
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
   declarations: [
@@ -52,6 +54,12 @@ import { FinishedVerificationsComponent } from './finished-verifications';
     ProvidersPageComponent,
     FinishedVerificationsComponent
   ],
-  entryComponents: [EmployeeDialogComponent, TaskSendingComponent, TaslListViewDialogComponent, TaskListEditDialogComponent]
+  entryComponents: [
+    EmployeeDialogComponent,
+    TaskSendingComponent,
+    TaslListViewDialogComponent,
+    TaskListEditDialogComponent,
+    ScanUploadComponent
+  ]
 })
 export class PagesModule { }
