@@ -1,5 +1,24 @@
 const xl = require('excel4node');
 
+function currentDate() {
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1;
+  let yyyy = today.getFullYear();
+
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+
+  return mm + '-' + dd + '-' + yyyy;
+}
+
+module.exports.currentDate = currentDate;
+
 // Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
 function createNextApplicationNumber(applicationNumber) {
   let lastApplicationNumber = applicationNumber.toString();
@@ -81,14 +100,16 @@ module.exports.bytesToImage = bytesToImage;
 
 // Перехід від загального формату дати // 2019-01-24T22:00:00.000Z до 2019-01-24
 function formatDate(taskDate) {
-	console.log({формат_дати:taskDate});
-	if (taskDate == '' || taskDate == null) {
-		return ['', ''];
-	}
+  console.log({
+    формат_дати: taskDate
+  });
+  if (taskDate == '' || taskDate == null) {
+    return ['', ''];
+  }
   let fullTaskDate = '' + taskDate;
-	let splitedTaskDate = fullTaskDate.split('T')[0];
-	let splitedTaskTime = '' + fullTaskDate.split('T')[1];
-  return [splitedTaskDate, splitedTaskTime.substr(0,5)];
+  let splitedTaskDate = fullTaskDate.split('T')[0];
+  let splitedTaskTime = '' + fullTaskDate.split('T')[1];
+  return [splitedTaskDate, splitedTaskTime.substr(0, 5)];
 }
 
 module.exports.formatDate = formatDate;
