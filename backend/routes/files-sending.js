@@ -24,12 +24,14 @@ router.post('/:id', (req, res, next) => {
         connection.query("SELECT `contactEmail` FROM `stations` WHERE `stationNumber`='" + stationRows[0].stationNumber + "';", (err, emails) => {
           if (err) {
             console.log(err);
-          }
+					}
+					
+					const dateForName = stationRows[0].taskDate.split('-');
 
           configOb.stationNumber = stationRows[0].stationNumber;
           configOb.taskDate = stationRows[0].taskDate;
           configOb.contactEmail = 'lutsk10131ap@gmail.com'; //emails[0].contactEmail;
-          configOb.filesName = configOb.stationNumber + "-" + configOb.taskDate.replace(new RegExp('-', 'g'), '');
+          configOb.filesName = configOb.stationNumber + "-" + dateForName[2] + dateForName[1] + dateForName[0];
           generateFiles(result);
           // TODO: зміна статусу на В роботі після надсилання завдання
           connection.query("UPDATE `station_tasks` SET `task_status`='В роботі' WHERE `id_task`='" + req.params.id + "';", (err) => {
@@ -61,7 +63,8 @@ function generateFiles(taskResult) {
   taskResult.forEach(task => {
     let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
     // TODO: додане правильне представлення бажаного часу
-    let taskDateArray = task.taskDate.split('-');
+		let taskDateArray = task.taskDate.split('-');
+		if (task.taskTime == null || task.taskTime == '' || task.taskTime == 'undefined') task.taskTime = '00:00'
     let visitDateTime = taskDateArray[2] + "." + taskDateArray[1] + "." + taskDateArray[0] + " " + task.taskTime;
     let formatedData = varData.format(task.applicationNumber,
       task.client.split(' ')[0], task.client.split(' ')[1], task.client.split(' ')[2],
