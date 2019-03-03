@@ -75,9 +75,21 @@ function getResultsFromDatabase(byteArray) {
         continue;
       }
 
+      row.Street = row.Street.replace(/'/g, "''");
+      row.Surname = row.Surname.replace(/'/g, "''");
+      row.Name = row.Name.replace(/'/g, "''");
+      row.Middlename = row.Middlename.replace(/'/g, "''");
+      row.City = row.City.replace(/'/g, "''");
+
+      console.log({
+        street: row.Street,
+        customer: row.Customer
+      });
+
+
       connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
-        let varData = (" VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
+        let varData = (" VALUES ('%s','%s', '%s','%s','%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
         let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
         let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
           " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
@@ -121,7 +133,7 @@ function getResultsFromDatabase(byteArray) {
               const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
               const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
 
-							applicationNumber = createNextApplicationNumber(applicationNumber);
+              applicationNumber = createNextApplicationNumber(applicationNumber);
 
               let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
               let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
@@ -165,8 +177,8 @@ function createApplicationNumber(lastApplicationNumber, addingDate) {
     cutDate = lastApplicationNumber.substr(0, 8);
   }
 
-	let dateArray = addingDate.split('-');
-	let dateLike = dateArray[0] + dateArray[1] + dateArray[2];
+  let dateArray = addingDate.split('-');
+  let dateLike = dateArray[0] + dateArray[1] + dateArray[2];
 
   if (dateLike == cutDate) {
     return createNextApplicationNumber(lastApplicationNumber);
@@ -257,13 +269,15 @@ function parseProtocol(byteArray, fileName) {
         countSymbol[i] = 75;
       }
     }
-  }
+	}
+	
+	//TODO: TODO: TODO:
   // Типорозмір_лічильника
   protocol.type = uintToString(countType);
 
   // Умовне_позначення
-  protocol.symbol = uintToString(countSymbol);
-
+	protocol.symbol = uintToString(countSymbol);
+	
   // Рік виробництва
   const year = bbiFile.slice(124, 128);
   protocol.productionYear = bytesToInt(year);
