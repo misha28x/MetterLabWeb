@@ -29,7 +29,7 @@
             <button mat-menu-item [matMenuTriggerFor]="ver">
               <span>Повірка</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item [matMenuTriggerFor]="protocol">
               <span>Протокол</span>
             </button>
           </mat-menu>
@@ -45,17 +45,21 @@
               Інформація про клієнта
             </button> -->
 
-            <button mat-menu-item>
+            <button (click)="editSeal(row['applicationNumber'])" mat-menu-item>
               <mat-icon>edit</mat-icon>
               Редагувати номер пломби
             </button>
 
-            <button mat-menu-item>
+            <button (click)="editProvider(
+              row['applicationNumber'],
+              row['serviceProvider'],
+              row['serviceType']
+            )" mat-menu-item>
               <mat-icon>edit</mat-icon>
               Змінити надавача послуг
             </button>
-
-            <button mat-menu-item>
+            
+            <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
               <mat-icon>file_copy</mat-icon>
               Завантажити документ
             </button>
@@ -63,6 +67,18 @@
             <button (click)="addScan(row['applicationNumber'])" mat-menu-item>
               <mat-icon>attach_file</mat-icon>
               Прикріпити скан документів
+            </button>
+          </mat-menu>
+
+          <mat-menu #protocol="matMenu">
+            <button (click)="displayProtocol(row['protocolNumber'])" mat-menu-item>
+              <mat-icon>more</mat-icon>
+              Детальніше
+            </button>
+
+            <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
+              <mat-icon>save_alt</mat-icon>
+              Завантажити свідоцтво
             </button>
           </mat-menu>
         </ng-template>

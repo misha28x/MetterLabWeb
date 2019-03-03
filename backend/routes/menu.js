@@ -16,7 +16,7 @@ const counters = {
 
 // Роут, що повертає json з counters для конкретного permission користувача
 router.get("/counters/:permission", (req, res, next) => {
-  let countersQuery = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='Не визначено відповідальну особу' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology;";
+  let countersQuery = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='Не визначено відповідальну особу' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці' AND scanFile IS NOT NULL) AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology;";
   connection.query(countersQuery, (err, rezz) => {
     if (err) {
       console.log({

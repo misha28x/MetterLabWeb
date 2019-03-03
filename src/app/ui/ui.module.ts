@@ -31,6 +31,7 @@ import {
 } from './components/protocol-view';
 import { ScanUploadComponent } from './components/scan-upload/scan-upload.component';
 import { SelectDialogComponent } from './components/select-dialog/select-dialog.component';
+import { SealEditComponent } from './components/seal-edit/seal-edit.component';
 
 @NgModule({
 	imports: [
@@ -81,7 +82,8 @@ import { SelectDialogComponent } from './components/select-dialog/select-dialog.
     EndStateDialogComponent,
     StartStateDialogComponent,
     ScanUploadComponent,
-    SelectDialogComponent
+    SelectDialogComponent,
+    SealEditComponent
 	],
   entryComponents: [
     UploadDialogComponent,
@@ -91,7 +93,8 @@ import { SelectDialogComponent } from './components/select-dialog/select-dialog.
     DetailViewDialogComponent,
     CounterDialogDataComponent,
     EndStateDialogComponent,
-    StartStateDialogComponent
+    StartStateDialogComponent,
+    SealEditComponent
   ]
 })
 export class UiModule { }

@@ -30,7 +30,7 @@ export class ScanUploadComponent implements OnInit {
   ngOnInit(): void {
     this.uploading = false;
     this.uploadedSuccesfully = false;
-    this.title = 'Завантаження архіву';
+    this.title = 'Завантаження скану документу';
     this.errorList = [];
     this.downloaded = 0;
   }

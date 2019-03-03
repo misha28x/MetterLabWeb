@@ -21,6 +21,17 @@ const upload = multer( {
   storage: storage
 } );
 
+// POST запит для заміни service-provider заявки з номером req.params.id на переданий у req.body.provider
+router.post('/service-provider/:id', (req, res, next) => {
+	connection.query("UPDATE `archive` SET `serviceProvider`='" + req.body.provider + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
+    if (err) {
+      console.log(err);
+    }
+
+    res.json({ m: 'Provider changed' })
+  });
+});
+
 // Post запит на завантаження сканованого файлу
 router.get( '/scan/:id', ( req, res, next ) => {
   connection.query( `SELECT scanFile FROM archive WHERE applicationNumber = '${req.params.id}'`, ( err, result ) => {

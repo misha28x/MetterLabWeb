@@ -27,6 +27,7 @@ import { ProvidersPageComponent } from './providers-page';
 import { FinishedVerificationsComponent } from './finished-verifications';
 
 import { ScanUploadComponent } from '../ui/components/scan-upload';
+import { SelectDialogComponent } from '../ui/components/select-dialog';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
@@ -59,7 +60,8 @@ import { ScanUploadComponent } from '../ui/components/scan-upload';
     TaskSendingComponent,
     TaslListViewDialogComponent,
     TaskListEditDialogComponent,
-    ScanUploadComponent
+    ScanUploadComponent,
+    SelectDialogComponent
   ]
 })
 export class PagesModule { }

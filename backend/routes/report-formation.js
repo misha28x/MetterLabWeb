@@ -10,6 +10,7 @@ const pdfMake = require( 'pdfmake' );
 const connection = require( '../database/db' );
 
 router.get( '/doc/:id', ( req, res, next ) => {
+  console.log(req.params.id)
   let protocolNumber = "";
   let selection = "SELECT `id`, `applicationNumber`, `bbiFileName`, `date`, `counterNumber`, `deviceNumber`, `symbol`," +
     " `type`, `temperature`, `productionYear`, `capacity`, `status`, " +

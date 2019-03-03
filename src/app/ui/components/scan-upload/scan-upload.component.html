@@ -1,11 +1,11 @@
-<input type="file" #file style="display: none" (change)="onFilesAdded()" multiple />
+<input type="file" accept=".pdf" #file style="display: none" (change)="onFilesAdded()" multiple />
 
 <h1 mat-dialog-title>{{ title }}</h1>
 <mat-dialog-content class="content">
   <ng-container *ngIf="!uploading && !uploadedSuccesfully">
     <div>
       <button [disabled]="files.size > 0" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles($event)">
-        Вибрати архів
+        Вибрати скан
       </button>
     </div>
 

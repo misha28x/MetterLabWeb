@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { Observable, forkJoin } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
+import { User } from '../../interfaces/user';
 import { DataService } from '../../services/data.service';
+import { SourceService } from '../../services/source.service';
+import { Verification } from '../../interfaces/verifications';
+import { DetailViewService } from '../../services/detail-view.service';
+import { VerificationService } from '../../services/verification.service';
+
+const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
 	selector: 'app-home-page',
@@ -8,51 +18,43 @@ import { DataService } from '../../services/data.service';
 	styleUrls: ['./home-page.component.scss']
 })
 export class PageHomePageComponent implements OnInit {
-	single: any[];
-	multi: any[];
-	colorScheme: any;
-	config: any;
-	rows: any[];
-	posts: any;
+  newVerifications: Observable<any[]>;
+  employee: string;
 
-	constructor(private dataSv: DataService) { }
+  selectedData: any[];
+  permission: number;
 
-	ngOnInit(): void {
-		this.single = [{
-			'name': 'Germany',
-			'value': 8940000
-		},
-		{
-			'name': 'USA',
-			'value': 5000000
-		},
-		{
-			'name': 'France',
-			'value': 7200000
-		}];
+  user: User;
 
-		this.colorScheme = {
-			domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-		};
+  constructor(
+    private dialog: MatDialog,
+    private dataSv: DataService,
+    private store: Store<User>,
+    private sourceSv: SourceService,
+    private detailSv: DetailViewService,
+    private verificationSv: VerificationService
+  ) {
+    this.updateData();
+    this.newVerifications = this.sourceSv.getNewVerifications();
+  }
 
-		this.rows = [];
+  ngOnInit(): void {
+    this.store.pipe(select('permission')).subscribe(user => {
+      this.user = user;
+      this.permission = user.permission;
+    });
 
-		this.config = {
-			sorting: {},
-			filtering: {
-				filterString: ''
-			}
-		};
+    this.selectedData = [];
+    this.employee = 'Віталій Кришталюк';
+    this.updateData();
+  }
 
-		this.getData();
-	}
+  updateData(): void {
+    this.sourceSv.fetchNewVerifications();
+  }
 
-	getData(): void {
-		// const url = 'http://localhost:3000/api/posts';
-
-		// this.posts = this.dataSv.getData(url)
-		// .subscribe((postData) => {
-		// 	this.posts = postData.posts;
-		// });
-	}
+  addEmployee(id: number): void {
+    this.dataSv.sendData(url + '/employee/' + id, { employee: this.user.username })
+      .subscribe(() => this.updateData());
+  }
 }

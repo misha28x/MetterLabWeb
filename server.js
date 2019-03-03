@@ -55,9 +55,6 @@ io.getIo().on('connection', (socket) => {
   console.log('connected');
 });
 
-
-
-
 server.on('error', onError);
 server.on('listening', onListening);
 server.listen(port);
