@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, forkJoin } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
+import { SelectDialogComponent } from '../../ui/components/select-dialog';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
 const url = 'http://localhost:3000/api/new-verifications';
@@ -22,6 +24,7 @@ export class PageLabRequestsComponent implements OnInit {
   employee: string;
 
   constructor(
+    private http: HttpClient,
     private dialog: MatDialog,
     private dataSv: DataService,
     private sourceSv: SourceService,
@@ -64,6 +67,30 @@ export class PageLabRequestsComponent implements OnInit {
         ).subscribe(() => this.updateData());
       }
     );
+  }
+
+  editProvider(id: string, provider: string, type: string): void {
+    const ref = this.dialog.open(SelectDialogComponent, {
+      data: {
+        provider: provider,
+        type: type
+      }
+    });
+
+    ref.afterClosed().subscribe(data => {
+
+      if (data) {
+        const providerUrl = 'http://localhost:3000/api/verifications-archive/service-provider/' + id;
+
+        this.http.post(
+          providerUrl, { provider: data.provider, type: data.type })
+          .subscribe(() => this.update());
+      }
+    });
+  }
+
+  update(): void {
+    this.sourceSv.fetchLabRequest();
   }
 
   cancellEmployeeToSelected(): void {

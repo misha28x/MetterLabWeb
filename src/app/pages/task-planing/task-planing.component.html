@@ -72,24 +72,12 @@
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
             </button>
 
-            <button mat-icon-button (click)="addEmployee(row['applicationNumber'])">
-              <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
-            </button>
-
             <button mat-icon-button (click)="cancellEmployee(row['applicationNumber'])">
               <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
             </button>
 
             <button mat-icon-button (click)="checkForDuplicate(row)">
               <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
-            </button>
-
-            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
-              <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
-            </button>
-
-            <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
-              <i class="fas fa-ban color-error" matTooltip="Відхилити заявку"></i>
             </button>
           </div>
         </ng-template>

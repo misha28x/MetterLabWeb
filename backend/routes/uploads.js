@@ -12,6 +12,8 @@ const io = require('../socket/socket');
 const bytesToImage = require('../utils/utils').bytesToImage;
 const createNextApplicationNumber = require('../utils/utils').createNextApplicationNumber;
 
+const TextDecoder = require( 'util' ).TextDecoder;
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'backend/temp');
@@ -492,9 +494,14 @@ function parseProtocol(byteArray, fileName) {
 }
 
 function uintToString(bytes) {
-  const encodedString = String.fromCharCode.apply(null, bytes),
-    decodedString = decodeURIComponent(escape(encodedString));
-  return decodedString;
+  let win1251decoder = new TextDecoder( 'windows-1251' );
+
+  let string = new TextDecoder( "windows-1251" ).decode(bytes);
+
+  // console.log( win1251decoder.decode( bytes ) );
+  // const encodedString = String.fromCharCode.apply(null, bytes),
+  //   decodedString = decodeURIComponent(escape(atob(encodedString)));
+  return string;
 }
 
 function addProtocol(protocol) {

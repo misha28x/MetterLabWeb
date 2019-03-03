@@ -29,6 +29,9 @@ import {
   EndStateDialogComponent,
   StartStateDialogComponent
 } from './components/protocol-view';
+import { ScanUploadComponent } from './components/scan-upload/scan-upload.component';
+import { SelectDialogComponent } from './components/select-dialog/select-dialog.component';
+import { SealEditComponent } from './components/seal-edit/seal-edit.component';
 
 @NgModule({
 	imports: [
@@ -77,7 +80,10 @@ import {
     BadgeComponent,
     CounterDialogDataComponent,
     EndStateDialogComponent,
-    StartStateDialogComponent
+    StartStateDialogComponent,
+    ScanUploadComponent,
+    SelectDialogComponent,
+    SealEditComponent
 	],
   entryComponents: [
     UploadDialogComponent,
@@ -87,7 +93,8 @@ import {
     DetailViewDialogComponent,
     CounterDialogDataComponent,
     EndStateDialogComponent,
-    StartStateDialogComponent
+    StartStateDialogComponent,
+    SealEditComponent
   ]
 })
 export class UiModule { }

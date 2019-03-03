@@ -2,11 +2,11 @@
   <mat-card-content>
     <div class="actions">
       <button mat-raised-button color="primary" class="bg-warning">
-        <i class="icofont-delete"></i> Скасувати Дійову Особу
+        <mat-icon>mail</mat-icon> Надіслаи
       </button>
 
-      <button mat-raised-button color="warn">
-        <i class="icofont-minus"></i>Відхилити Повірку
+      <button mat-raised-button color="primary" class="bg-warning">
+        <i class="icofont-delete"></i> Скасувати Дійову Особу
       </button>
     </div>
 
@@ -31,10 +31,10 @@
       <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Район'" [columnName]="'district'" [width]="50" [enableSorting]="true"
+      <app-column [width]="130" [columnTitle]="'Район'" [columnName]="'district'" [width]="50" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [width]="50" [enableSorting]="true"
+      <app-column [width]="120" [columnTitle]="'Вулиця'" [columnName]="'street'" [width]="50" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Будинок'" [columnName]="'house'" [width]="50" [enableSorting]="true"
@@ -66,8 +66,8 @@
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
             </button>
 
-            <button mat-icon-button (click)="addEmployee(row['applicationNumber'])">
-              <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
+            <button mat-icon-button (click)="editProvider(row['applicationNumber'], row['serviceProvider'], row['serviceType'])">
+              <i class="icofont-edit-alt color-success" matTooltip="Змінити надавача послуг"></i>
             </button>
 
             <button mat-icon-button (click)="cancellEmployee(row['applicationNumber'])">

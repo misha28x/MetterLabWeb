@@ -1,11 +1,11 @@
-<input type="file" #file style="display: none" (change)="onFilesAdded()" multiple />
+<input type="file" accept=".pdf" #file style="display: none" (change)="onFilesAdded()" multiple />
 
 <h1 mat-dialog-title>{{ title }}</h1>
 <mat-dialog-content class="content">
   <ng-container *ngIf="!uploading && !uploadedSuccesfully">
     <div>
       <button [disabled]="files.size > 0" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles($event)">
-        Вибрати архів
+        Вибрати скан
       </button>
     </div>
 
@@ -21,28 +21,7 @@
   </ng-container>
 
   <ng-container *ngIf="uploadedSuccesfully">
-    <ul class="counters">
-      <li class="counter">
-        <span class="main-text info">{{ downloaded + errorList.length}}</span>
-        <span class="sub-text">Усього</span>
-      </li>
-
-      <li class="counter">
-        <span class="main-text upload-success">{{ downloaded }}</span>
-        <span class="sub-text">Успішно </span>
-      </li>
-
-      <li class="counter">
-        <span class="main-text upload-error">{{ errorList.length }}</span>
-        <span class="sub-text">Помилок </span>
-      </li>
-    </ul>
-
-    <mat-list class="err-list">
-      <mat-list-item class="item" *ngFor="let err of errorList">
-        <span mat-line>{{ err }}</span>
-      </mat-list-item>
-    </mat-list>
+    <h5>Успішно завантажено</h5>
   </ng-container>
 
 </mat-dialog-content>

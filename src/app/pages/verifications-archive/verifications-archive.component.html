@@ -19,19 +19,84 @@
       <app-column [width]="75" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true"
+      <app-column [width]="50" [columnTitle]="''">
+        <ng-template #tableBodyTemplate let-row="row">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>build</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="ver">
+              <span>Повірка</span>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="protocol">
+              <span>Протокол</span>
+            </button>
+          </mat-menu>
+
+          <mat-menu #ver="matMenu">
+            <button (click)="detailView(row['applicationNumber'])" mat-menu-item>
+              <mat-icon>info</mat-icon>
+              Детальніше
+            </button>
+
+            <!-- <button mat-menu-item>
+              <mat-icon>person</mat-icon>
+              Інформація про клієнта
+            </button> -->
+
+            <button (click)="editSeal(row['applicationNumber'])" mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              Редагувати номер пломби
+            </button>
+
+            <button (click)="editProvider(
+              row['applicationNumber'],
+              row['serviceProvider'],
+              row['serviceType']
+            )" mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              Змінити надавача послуг
+            </button>
+            
+            <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
+              <mat-icon>file_copy</mat-icon>
+              Завантажити документ
+            </button>
+
+            <button (click)="addScan(row['applicationNumber'])" mat-menu-item>
+              <mat-icon>attach_file</mat-icon>
+              Прикріпити скан документів
+            </button>
+          </mat-menu>
+
+          <mat-menu #protocol="matMenu">
+            <button (click)="displayProtocol(row['protocolNumber'])" mat-menu-item>
+              <mat-icon>more</mat-icon>
+              Детальніше
+            </button>
+
+            <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
+              <mat-icon>save_alt</mat-icon>
+              Завантажити свідоцтво
+            </button>
+          </mat-menu>
+        </ng-template>
+      </app-column>
+
+      <app-column [width]="180" [columnTitle]="'ПІБ Клієнта'" [columnName]="'client'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Населений пункт'" [columnName]="'settlement'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Вулиця клієнта'" [columnName]="'street'" [enableSorting]="true"
+      <app-column [width]="150" [columnTitle]="'Вулиця клієнта'" [columnName]="'street'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
+      <app-column [width]="50" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
+      <app-column [width]="50" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Індекс'" [columnName]="'cityIndex'" [enableSorting]="true"
@@ -40,11 +105,11 @@
       <app-column [width]="75" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Статус'" [columnName]="'status'" [enableSorting]="true"
+      <app-column [width]="150" [columnTitle]="'Статус'" [columnName]="'status'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Уповноважена повірочна лабораторія'" [columnName]="'laboratory'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="75" [columnTitle]="'Уповноважена лабораторія'" [columnName]="'laboratory'" [enableSorting]="true"
+        [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
@@ -100,9 +165,6 @@
       <app-column [width]="75" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Дії'">
-
-      </app-column>
     </app-table>
   </mat-card-content>
 </mat-card>

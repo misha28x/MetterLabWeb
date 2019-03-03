@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6">
+  <!-- <div class="col-md-6">
     <mat-card class="example-card">
       <mat-card-header>
         <i class="icon icofont-chart-bar-graph"></i>
@@ -16,15 +16,43 @@
         </div>
       </mat-card-content>
     </mat-card>
-  </div>
+  </div> -->
 
-  <div class="col-md-6">
+  <div class="col-md-12">
     <mat-card class="example-card">
       <mat-card-header>
         <i class="icon icofont-listing-box"></i>
         Непризначені заявки
       </mat-card-header>
       <mat-card-content>
+        <app-table [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
+
+          <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
+            [enableFiltering]="true"></app-column>
+
+          <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+          <!-- <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
+            [enableFiltering]="true"></app-column> -->
+
+          <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true"
+            [enableFiltering]="true"></app-column>
+
+          <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+
+          <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
+            [enableFiltering]="true"></app-column>
+
+          <app-column [columnTitle]="'Дії'" [width]="40">
+            <ng-template #tableBodyTemplate let-row="row">
+              <div class="actions-row">
+                <button mat-icon-button (click)="addEmployee(row['applicationNumber'])">
+                  <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
+                </button>
+              </div>
+            </ng-template>
+          </app-column>
+        </app-table>
       </mat-card-content>
     </mat-card>
   </div>

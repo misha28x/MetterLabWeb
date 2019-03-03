@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ContentChild, TemplateRef, Output } from '@angular/core';
+import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
 
 import { TableComponent } from '../';
 

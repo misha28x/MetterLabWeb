@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Змінити надавача послуг</h2>
+
+<mat-dialog-content class="content">
+  <mat-form-field>
+    <mat-select [value]="selectedProvider" [placeholder]="'Надавач послуг'" [(ngModel)]="selectedProvider">
+      <mat-option [value]="'КП ЛУЦЬКВОДОКАНАЛ'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
+      <mat-option [value]="'ДКП ЛУЦЬКТЕПЛО'">ДКП "ЛУЦЬКТЕПЛО"</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [placeholder]="'Надавач послуг'" [(ngModel)]="selectedType">
+      <mat-option [value]="'1'">Холодна вода</mat-option>
+      <mat-option [value]="'2'">Гаряча вода</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Скасувати</button>
+  <button class="bg-success" mat-raised-button (click)="save()">Зберегти</button>
+</mat-dialog-actions>
