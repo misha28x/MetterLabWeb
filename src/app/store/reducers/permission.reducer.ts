@@ -51,8 +51,7 @@ export function permissionReducer(
       return state;
     }
     default: {
-      state = state;
-      return state;
+      return { ...state };
     }
   }
 }
