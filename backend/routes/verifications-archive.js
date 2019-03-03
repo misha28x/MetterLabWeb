@@ -6,12 +6,8 @@ const router = express.Router();
 
 const connection = require( '../database/db' );
 
-<<<<<<< HEAD
-const formatDate = require( '../utils/utils' ).formatDate;
-=======
 const formatDate = require('../utils/utils').formatDate;
 const currentDate = require('../utils/utils').currentDate;
->>>>>>> 37f4fd0a88f089626cb234a49818681a67b88830
 
 const storage = multer.diskStorage( {
   destination: ( req, file, cb ) => {
