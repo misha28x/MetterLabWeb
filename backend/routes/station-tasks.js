@@ -79,8 +79,9 @@ router.get('/excel/:id', (req, res, next) => {
   connection.query(query, (err, taskResult) => {
     if (err) {
       console.log(error);
-    }
-    const stringName = "Default zzz";
+		}
+		const taskDate = taskResult[0].taskDate.split('-')[2] + taskResult[0].taskDate.split('-')[1] + taskResult[0].taskDate.split('-')[0];
+    const stringName = taskResult[0].stationNumber + "-" + taskDate;
     generateExcel(taskResult, stringName).then(name => {
       res.download(name);
     });

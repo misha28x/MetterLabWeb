@@ -6,7 +6,12 @@ const router = express.Router();
 
 const connection = require( '../database/db' );
 
+<<<<<<< HEAD
 const formatDate = require( '../utils/utils' ).formatDate;
+=======
+const formatDate = require('../utils/utils').formatDate;
+const currentDate = require('../utils/utils').currentDate;
+>>>>>>> 37f4fd0a88f089626cb234a49818681a67b88830
 
 const storage = multer.diskStorage( {
   destination: ( req, file, cb ) => {
@@ -21,9 +26,44 @@ const upload = multer( {
   storage: storage
 } );
 
+// Недозвон
+router.get('/ndz/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `note`='НДЗ " + currentDate() + "' WHERE `applicationNumber`=" + req.params.id + ";", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.json();
+  });
+});
+
+// Зміна номеру пломби
+router.post('/seal/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `sealNumber`='" + req.body.number + "',`montageDate`='" + req.body.date + "', `note`='" + req.body.comment + "'  WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
+    if (err) {
+      res.json(err);
+    }
+  });
+  res.json({
+    application: req.params.id,
+    sealNumber: req.body.number,
+    montageDate: req.body.date,
+    note: req.body.comment
+  });
+});
+
+// Отримання інформації про клієнта
+router.get('/client/:id', (req, res, next) => {
+  connection.query("SELECT client, email, phoneNumber, secondNumber, region, district, settlement, cityIndex, street, house, apartment FROM archive WHERE applicationNumber='" + req.params.id + "';", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.json(result);
+  });
+});
+
 // POST запит для заміни service-provider заявки з номером req.params.id на переданий у req.body.provider
 router.post('/service-provider/:id', (req, res, next) => {
-	connection.query("UPDATE `archive` SET `serviceProvider`='" + req.body.provider + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
+  connection.query("UPDATE `archive` SET `serviceProvider`='" + req.body.provider + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
     }

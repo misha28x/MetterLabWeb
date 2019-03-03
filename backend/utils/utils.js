@@ -1,5 +1,24 @@
 const xl = require('excel4node');
 
+function currentDate() {
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1;
+  let yyyy = today.getFullYear();
+
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+
+  return mm + '-' + dd + '-' + yyyy;
+}
+
+module.exports.currentDate = currentDate;
+
 // Функція, що передбачає нулі на початку чи в номері заявки. В Int гарантовано переводиться число
 function createNextApplicationNumber(applicationNumber) {
   let lastApplicationNumber = applicationNumber.toString();
@@ -81,14 +100,16 @@ module.exports.bytesToImage = bytesToImage;
 
 // Перехід від загального формату дати // 2019-01-24T22:00:00.000Z до 2019-01-24
 function formatDate(taskDate) {
-	console.log({формат_дати:taskDate});
-	if (taskDate == '' || taskDate == null) {
-		return ['', ''];
-	}
+  console.log({
+    формат_дати: taskDate
+  });
+  if (taskDate == '' || taskDate == null) {
+    return ['', ''];
+  }
   let fullTaskDate = '' + taskDate;
-	let splitedTaskDate = fullTaskDate.split('T')[0];
-	let splitedTaskTime = '' + fullTaskDate.split('T')[1];
-  return [splitedTaskDate, splitedTaskTime.substr(0,5)];
+  let splitedTaskDate = fullTaskDate.split('T')[0];
+  let splitedTaskTime = '' + fullTaskDate.split('T')[1];
+  return [splitedTaskDate, splitedTaskTime.substr(0, 5)];
 }
 
 module.exports.formatDate = formatDate;
@@ -132,21 +153,21 @@ const generateExcelFile = (taskResult, stringName) => {
     let ws = wb.addWorksheet('Завдання');
 
     // Ширина для колонок
-    ws.column(1).setWidth(16);
-    ws.column(2).setWidth(22);
-    ws.column(3).setWidth(10);
-    ws.column(4).setWidth(21);
-    ws.column(5).setWidth(11);
-    ws.column(6).setWidth(11);
-    ws.column(7).setWidth(11);
-    ws.column(8).setWidth(11);
-    ws.column(9).setWidth(24);
+    ws.column(1).setWidth(14);
+    ws.column(2).setWidth(23);
+    ws.column(3).setWidth(12);
+    ws.column(4).setWidth(23);
+    ws.column(5).setWidth(9);
+    ws.column(6).setWidth(9);
+    ws.column(7).setWidth(7);
+    ws.column(8).setWidth(7);
+    ws.column(9).setWidth(20);
     ws.column(10).setWidth(32);
     ws.column(11).setWidth(14);
     ws.column(12).setWidth(17);
     ws.column(13).setWidth(17);
-    ws.column(14).setWidth(72);
-    ws.column(15).setWidth(11);
+    ws.column(14).setWidth(68);
+    ws.column(15).setWidth(20);
 
     ws.cell(1, 1).string('Дата завдання').style(headers);
     ws.cell(1, 2).string('Надавач послуг').style(headers);
@@ -167,7 +188,8 @@ const generateExcelFile = (taskResult, stringName) => {
     let i = 2;
     taskResult.forEach(task => {
       // TODO: додане правильне представлення бажаного часу
-      let taskDateArray = task.taskDate.split('-');
+			let taskDateArray = task.taskDate.split('-');
+			if (task.taskTime == null || task.taskTime == '') task.taskTime = "00:00"
       let visitDateTime = taskDateArray[2] + "." + taskDateArray[1] + "." + taskDateArray[0] + " " + task.taskTime;
       ws.cell(i, 1).string(taskDateArray[2] + "-" + taskDateArray[1] + "-" + taskDateArray[0]).style(text);
       ws.cell(i, 2).string(task.serviceProvider).style(text);

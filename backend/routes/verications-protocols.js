@@ -14,6 +14,23 @@ router.get('', (req, res, next) => {
   });
 });
 
+// Видалення протоколу і тестів за назвою протоколу
+router.get('/delete/:id', (req, res, next) => {
+  connection.query("DELETE FROM `protocols` WHERE `bbiFileName` = '" + req.params.id + "' ;", (err2) => {
+    if (err2) {
+      console.log(err2);
+    }
+    connection.query("DELETE FROM `tests` WHERE `bbiFileName` = '" + req.params.id + "' ;", (err3) => {
+      if (err3) {
+        console.log(err3);
+      }
+      res.json({
+        result: req.params.id + ' deleted'
+      });
+    });
+  });
+});
+
 // TODO: роутер для виведення заявок для метрології
 router.get('/metrology', (req, res, next) => {
   connection.query("SELECT * FROM `archive` WHERE `status` = 'Передано повірнику';", (err, rows) => {
@@ -24,14 +41,14 @@ router.get('/metrology', (req, res, next) => {
   });
 });
 
-router.get( '/rejected', ( req, res, next ) => {
-  connection.query( "SELECT * FROM `archive` WHERE `status` = 'Повірено. Непридатний';", ( err, rows ) => {
-    if ( err ) {
-      console.log( err );
+router.get('/rejected', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `status` = 'Повірено. Непридатний';", (err, rows) => {
+    if (err) {
+      console.log(err);
     }
-    res.json( rows );
-  } );
-} );
+    res.json(rows);
+  });
+});
 
 router.post('/metrology/:id', (req, res, next) => {
   console.log('передано повірнику ' + req.params.id);
@@ -44,7 +61,7 @@ router.post('/metrology/:id', (req, res, next) => {
 });
 
 router.get('/reject/:id', (req, res, next) => {
-  connection.query( "UPDATE `archive` SET `status`='Повірено. Непридатний' WHERE `applicationNumber` ='" + req.params.id + "';", ( err ) => {
+  connection.query("UPDATE `archive` SET `status`='Повірено. Непридатний' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
     if (err) {
       res.json(err);
     }
@@ -54,7 +71,7 @@ router.get('/reject/:id', (req, res, next) => {
 
 router.get('/accept/:id', (req, res, next) => {
   console.log(req.params.id);
-  connection.query( "UPDATE `archive` SET `status`='Повірено. Придатний' WHERE `applicationNumber` ='" + req.params.id + "';", ( err ) => {
+  connection.query("UPDATE `archive` SET `status`='Повірено. Придатний' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
     if (err) {
       res.json(err);
     }
