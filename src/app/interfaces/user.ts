@@ -1,5 +1,5 @@
 export interface User {
   username?: string;
-  permission: number;
+  permission?: number;
   serviceProvider?: string;
 }
