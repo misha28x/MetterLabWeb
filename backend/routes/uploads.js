@@ -12,7 +12,7 @@ const io = require('../socket/socket');
 const bytesToImage = require('../utils/utils').bytesToImage;
 const createNextApplicationNumber = require('../utils/utils').createNextApplicationNumber;
 
-const TextDecoder = require( 'util' ).TextDecoder;
+const TextDecoder = require('util').TextDecoder;
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -262,24 +262,14 @@ function parseProtocol(byteArray, fileName) {
   protocol.capacity = '' + bytesToInt(liter);
   // Тип лічильника
   const countType = bbiFile.slice(104, 110);
-  const countSymbol = bbiFile.slice(110, 116);
+  const countSymbol = bbiFile.slice(110, 120);
 
-  for (let i = 0; i < countSymbol.length; i++) {
-    if (countSymbol[i] > 127) {
-      countSymbol[i] -= 128;
-      if (countSymbol[i] === 74) {
-        countSymbol[i] = 75;
-      }
-    }
-	}
-	
-	//TODO: TODO: TODO:
   // Типорозмір_лічильника
   protocol.type = uintToString(countType);
 
   // Умовне_позначення
 	protocol.symbol = uintToString(countSymbol);
-	
+
   // Рік виробництва
   const year = bbiFile.slice(124, 128);
   protocol.productionYear = bytesToInt(year);
@@ -494,9 +484,9 @@ function parseProtocol(byteArray, fileName) {
 }
 
 function uintToString(bytes) {
-  let win1251decoder = new TextDecoder( 'windows-1251' );
+  let win1251decoder = new TextDecoder('windows-1251');
 
-  let string = new TextDecoder( "windows-1251" ).decode(bytes);
+  let string = new TextDecoder("windows-1251").decode(bytes);
 
   // console.log( win1251decoder.decode( bytes ) );
   // const encodedString = String.fromCharCode.apply(null, bytes),
