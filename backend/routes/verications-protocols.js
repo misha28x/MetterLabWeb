@@ -51,7 +51,7 @@ router.get('/rejected', (req, res, next) => {
 });
 
 router.post('/metrology/:id', (req, res, next) => {
-  console.log('передано повірнику ' + req.params.id);
+  console.log('Передано повірнику ' + req.params.id);
   connection.query("UPDATE `archive` SET `status`='Передано повірнику' WHERE `applicationNumber` ='" + req.params.id + "';", (err) => {
     if (err) {
       res.json(err);

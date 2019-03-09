@@ -96,7 +96,7 @@ router.post( '/scan/:id', upload.single( 'scan' ), ( req, res, next ) => {
 } );
 
 router.get( '', ( req, res, next ) => {
-  connection.query( 'SELECT * FROM archive', ( err, result ) => {
+  connection.query("SELECT * FROM archive WHERE `status` LIKE 'Повірено%' OR 'Передано %'", (err, result) => {
     if ( err ) {
       console.log( err );
     }
