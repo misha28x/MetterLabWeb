@@ -39,6 +39,17 @@ router.get('', (req, res, next) => {
   });
 });
 
+router.get( '/cancel-employee/:id', ( req, res, next ) => {
+  connection.query( "UPDATE `archive` SET `employeeName`='', status='' WHERE `applicationNumber`='" + req.params.id + "';", ( err ) => {
+    if ( err ) {
+      console.log( err );
+    }
+  } );
+  res.status( 200 ).send( {
+    msg: 'знято відповідальну особу'
+  } );
+} );
+
 // 1. Додавання нової повірки в Archive з усіма даними і статусом "Визначено відповідальну особу"
 // TODO: Встановити PrimaryKey/Qniquef
 router.post('', (req, res, next) => {
@@ -130,17 +141,7 @@ router.post('/duplicate', (req, res, next) => {
   });
 });
 
-// Запит, що знімає відповідальну особу з заявки
-router.get('/cancel/:id', (req, res, next) => {
-  connection.query("UPDATE `archive` SET `employeeName`='' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-  res.status(201).send({
-    msg: 'знято відповідальну особу'
-  });
-});
+
 
 // Роутер для отримання всіх можливих населених пунктів і адрес
 router.get('/address/', (req, res, next) => {

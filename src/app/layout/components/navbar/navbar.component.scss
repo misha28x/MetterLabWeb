@@ -77,9 +77,19 @@
         }
       }
     }
+    .back-btn {
+      margin-left: $module-rem * 3;
 
+      .icon {
+        font-size: 1.5em;
+      }
+    }
     .upload {
       margin-left: auto;
     }
-  }
+    .visit-name {
+      margin-left: 3 * $module-rem;
+      font-size: 1.2em;
+    }
+  }  
 }

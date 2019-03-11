@@ -13,6 +13,7 @@ const menuUrl = 'http://localhost:3000/api/menu/';
 })
 export class MenuService {
   private menuSource$ = new BehaviorSubject<IMenuItem[]>([]);
+  private isVisiting$ = new BehaviorSubject<{ state: boolean, name?: string }>({ state: false });
   private menuUpdate = this.socket.fromEvent<any>('update');
   private permission: any;
 
@@ -37,5 +38,17 @@ export class MenuService {
 
   public getMenu(): Observable<IMenuItem[]> {
      return this.menuSource$.asObservable();
+  }
+
+  public getVisitState(): Observable<any> {
+    return this.isVisiting$.asObservable();
+  }
+
+  public setVisitState(visit: any): void {
+    this.isVisiting$.next(visit);
+
+    if (!visit.state) {
+      this.setMenu(this.permission);
+    }
   }
 }

@@ -136,7 +136,8 @@ mat-card-header {
   margin: -$module-rem;
 
   >* {
-    font-size: 1.4em !important;
+    font-size: 1.2em !important;
+    font-weight: 300;
     margin: $module-rem;
   }
 }
@@ -176,6 +177,14 @@ mat-card-header {
   margin-bottom: $module-rem * 2;
 
   i {
-    font-size: 2em;
+    font-size: 1.5em;
   }
+}
+
+.mat-list-item-content {
+  width: 100%;
+}
+
+.mat-list-text {
+  flex: 1;
 }

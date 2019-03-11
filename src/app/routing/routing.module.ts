@@ -20,6 +20,7 @@ import { PageRejectedVerificationComponent } from '../pages/rejected-verificatio
 import { FailedTasksComponent } from '../pages/failed-tasks';
 import { ProvidersPageComponent } from '../pages/providers-page';
 import { FinishedVerificationsComponent } from '../pages/finished-verifications';
+import { PageEmployeesComponent } from '../pages/employees';
 
 import { ExtraComponent } from '../layout/extra/extra.component';
 
@@ -40,9 +41,9 @@ export const DEFAULT_ROUTES = [
   { path: 'metrology', component: MetrologyProtocolsComponent, data: { title: 'Список протоколів' } },
   { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } },
   { path: 'verifications', component: ProvidersPageComponent, data: { title: 'Нові повірки' } },
-  { path: 'finished-verifications', component: FinishedVerificationsComponent, data: { title: 'Завершені повірки' } }
-
-];
+  { path: 'finished-verifications', component: FinishedVerificationsComponent, data: { title: 'Завершені повірки' } },
+  { path: 'employees', component: PageEmployeesComponent, data : { title: 'Працівники та підрядники' } }
+]; 
 
 export const EXTRA_ROUTES = [
   { path: 'auth', component: AuthorizationPageComponent }

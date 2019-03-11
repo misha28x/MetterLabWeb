@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Додати працівника</h2>
+
+<form [formGroup]="employeeForm">
+  <div class="full-width">
+    <span>ПІБ</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="ПІБ" formControlName="name">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Номер телефону</span>
+    <mat-form-field class="input-field">
+      <span matPrefix>+ &nbsp;</span>
+      <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber">
+      <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>E-mail</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="E-mail" formControlName="email">
+    </mat-form-field>
+  </div>
+</form>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Скасувати</button>
+  <button mat-button color="primary" (click)="saveEmployee()">Зберегти</button>
+</mat-dialog-actions>

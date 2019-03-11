@@ -32,6 +32,8 @@ import {
 import { ScanUploadComponent } from './components/scan-upload/scan-upload.component';
 import { SelectDialogComponent } from './components/select-dialog/select-dialog.component';
 import { SealEditComponent } from './components/seal-edit/seal-edit.component';
+import { UserInfoComponent } from './components/user-info/user-info.component';
+import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
 
 @NgModule({
 	imports: [
@@ -83,7 +85,9 @@ import { SealEditComponent } from './components/seal-edit/seal-edit.component';
     StartStateDialogComponent,
     ScanUploadComponent,
     SelectDialogComponent,
-    SealEditComponent
+    SealEditComponent,
+    UserInfoComponent,
+    AddEmployeeComponent
 	],
   entryComponents: [
     UploadDialogComponent,
@@ -94,7 +98,9 @@ import { SealEditComponent } from './components/seal-edit/seal-edit.component';
     CounterDialogDataComponent,
     EndStateDialogComponent,
     StartStateDialogComponent,
-    SealEditComponent
+    AddEmployeeComponent,
+    SealEditComponent,
+    UserInfoComponent
   ]
 })
 export class UiModule { }

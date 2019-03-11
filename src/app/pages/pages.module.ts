@@ -28,6 +28,7 @@ import { FinishedVerificationsComponent } from './finished-verifications';
 
 import { ScanUploadComponent } from '../ui/components/scan-upload';
 import { SelectDialogComponent } from '../ui/components/select-dialog';
+import { PageEmployeesComponent } from './employees/employees.component';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
@@ -53,7 +54,8 @@ import { SelectDialogComponent } from '../ui/components/select-dialog';
     MetrologyProtocolsComponent,
     FailedTasksComponent,
     ProvidersPageComponent,
-    FinishedVerificationsComponent
+    FinishedVerificationsComponent,
+    PageEmployeesComponent
   ],
   entryComponents: [
     EmployeeDialogComponent,

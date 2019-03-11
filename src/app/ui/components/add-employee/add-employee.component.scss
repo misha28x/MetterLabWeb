@@ -1,0 +1,45 @@
+@import "../../../../assets/sass/variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .content {
+    flex: 1;
+    max-height: unset !important;
+  }
+
+  form {
+    padding-top: ($module-rem / 2);
+    min-width: 150px;
+    width: 100%;
+  }
+
+  .full-width {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    &.inline {
+      >* {
+        width: 36%;
+      }
+    }
+
+    .input-field {
+      width: 50%;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: $module-rem;
+
+    :first-child {
+      margin-right: $module-rem / 2;
+    }
+  }
+}

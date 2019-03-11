@@ -77,7 +77,7 @@ export class DetailViewDialogComponent implements OnInit {
       region: this.data.verification[0].region,
       district: this.data.verification[0].district,
       settlement: this.data.verification[0].settlement,
-      index: this.data.verification[0].index,
+      index: this.data.verification[0].cityIndex,
       street: this.data.verification[0].street,
       house: this.data.verification[0].house,
       apartment: this.data.verification[0].apartment,
@@ -109,10 +109,10 @@ export class DetailViewDialogComponent implements OnInit {
       entrance: this.data.verification[0].entrance,
       doorCode: this.data.verification[0].doorCode,
       floor: this.data.verification[0].floor,
-      favorDate: new Date(this.data.verification[0].favorDate),
+      favorDate: new Date(this.data.verification[0].favorDate) || '',
       favorTime: new Date(this.data.verification[0].favorTime || date),
       sanitaryWellFare: this.data.verification[0].sanitaryWellFare,
-      waterAbsentTo: this.data.verification[0].waterAbsentTo,
+      waterAbsentTo: new Date(this.data.verification[0].waterAbsentTo) || '',
       note: this.data.verification[0].note
     });
   }
@@ -156,7 +156,7 @@ export class DetailViewDialogComponent implements OnInit {
       montageDate: this.counterForm.get('montageDate').value
         ? this.counterForm.get('montageDate').value.toISOString() : '',
       employeeName: this.counterForm.get('employeeName').value.replace(/'/g, /\'/),
-      comment: this.counterForm.get('comment').value.replace(/'/g, /\'/),
+      comment: this.locationForm.get('comment').value.replace(/'/g, /\'/),
       counterNumber: this.counterForm.get('counterNumber').value,
       haveSeal: this.counterForm.get('haveSeal').value,
       counterType: this.counterForm.get('counterType').value,

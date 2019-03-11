@@ -78,11 +78,11 @@
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
             </button>
 
-            <button mat-icon-button (click)="addEmployee(row['applicationNumber'])">
+            <button *ngIf="!row['employeeName'].length" mat-icon-button (click)="addEmployee(row['applicationNumber'])">
               <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
             </button>
 
-            <button mat-icon-button (click)="cancellEmployee(row['applicationNumber'])">
+            <button *ngIf="row['employeeName'].length" mat-icon-button (click)="cancellEmployee(row['applicationNumber'])">
               <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
             </button>
 
@@ -96,6 +96,10 @@
 
             <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
               <i class="fas fa-ban color-error" matTooltip="Відхилити заявку"></i>
+            </button>
+
+            <button mat-icon-button (click)="showClientInfo(row['applicationNumber'])">
+              <i class="icofont-info color-info" matTooltip="Інформація про клієнта"></i>
             </button>
           </div>
         </ng-template>

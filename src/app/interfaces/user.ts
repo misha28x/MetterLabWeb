@@ -3,3 +3,17 @@ export interface User {
   permission?: number;
   serviceProvider?: string;
 }
+
+export interface ClientInfo {
+  client?: string;
+  email?: string;
+  phoneNumber?: string;
+  secondNumber?: string;
+  region?: string;
+  district?: string;
+  settlement?: string;
+  cityIndex?: string;
+  street?: string;
+  house?: string;
+  apartment?: string;
+}

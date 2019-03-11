@@ -10,6 +10,8 @@ import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 
+import { UserInfoComponent } from '../../ui/components/user-info';
+
 const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
@@ -86,6 +88,15 @@ export class PageNewVerificationsComponent implements OnInit {
 
   checkForDuplicate(verification: Verification): void {
     this.verificationSv.addVerification(verification);
+  }
+
+  showClientInfo(id: any): void {
+    
+    this.dialog.open(UserInfoComponent, { 
+      height: '90%',
+      minWidth: '70%',
+      data: id 
+    });
   }
 
   onChange(data: any, state: boolean): void {

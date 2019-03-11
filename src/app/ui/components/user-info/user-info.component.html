@@ -1,0 +1,106 @@
+<form [formGroup]="clientForm">
+  <div class="full-width">
+    <span>Прізвище</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Прізвище" formControlName="surName">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Ім'я</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Ім'я" formControlName="name">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>По-батькові</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="По-батькові" formControlName="middlename">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Номер телефону</span>
+    <mat-form-field class="input-field">
+      <span matPrefix>+ &nbsp;</span>
+      <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber">
+      <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>E-mail</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="E-mail" formControlName="email">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Номер телефону</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Номер телефону" formControlName="phoneNumber">
+    </mat-form-field>
+  </div>
+  
+  <div class="full-width">
+    <span>Додатковий номер</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Додатковий номер" formControlName="secondNumber">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Область</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Область" formControlName="region">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Район</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Район" formControlName="district">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Населений пункт</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Населений пункт" formControlName="settlement">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Індекс</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Індекс" formControlName="cityIndex">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Вулиця</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Вулиця" formControlName="street">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Будинок</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Будинок" formControlName="house">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Квартира</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Квартира" formControlName="apartment">
+    </mat-form-field>
+  </div>
+</form>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Скасувати</button>
+  <button mat-button color="primary" (click)="saveClientInfo()" >Зберегти</button>
+</mat-dialog-actions>

@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-sm-12 col-md-6">
+    <mat-card>
+      <mat-card-title>Працівники</mat-card-title>
+
+      <mat-list>
+        <h3 mat-subheader>Працівники</h3>
+        <mat-list-item class="item" *ngFor="let employee of employees">
+          <mat-icon mat-list-icon>account_box</mat-icon>
+          <p mat-line class="text"> {{ employee }} </p>
+
+          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-list-item>
+        <button class="mb-2" (click)="addEmployee()" mat-button color="primary">Додати</button>
+
+        <mat-divider></mat-divider>
+
+        <h3 mat-subheader>Переносні станції</h3>
+
+        <mat-list-item class="item" *ngFor="let station of stations">
+          <mat-icon mat-list-icon>next_week</mat-icon>
+          <p mat-line class="text"> {{ station }} </p>
+
+          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-list-item>
+
+        <button class="mb-2" mat-button color="primary">Додати</button>
+      </mat-list>
+    </mat-card>
+  </div>
+
+  <div class="col-sm-12 col-md-6">
+    <mat-card>
+      <mat-card-title>Підрядники</mat-card-title>
+
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Луцьк
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <button mat-list-item (click)="getMenu('3','Волиньстандартметрологія')">ДП "Волиньстандартметрологія"</button>
+            <button mat-list-item (click)="getMenu('2', 'ЛУЦЬКВОДОКАНАЛ')">КП "ЛУЦЬКВОДОКАНАЛ"</button>
+            <button mat-list-item (click)="getMenu('2', 'ЛУЦЬКТЕПЛО')">КП "ЛУЦЬКТЕПЛО"</button>
+          </mat-action-list>
+
+          <mat-action-row>
+            <button mat-button color="warn"></button>
+            <button mat-button color="primary">Додати</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+</div>

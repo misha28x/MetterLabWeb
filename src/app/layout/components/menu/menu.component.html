@@ -3,7 +3,7 @@
     <a [routerLink]="[item.routing]" [routerLinkActive]="'active'" class="item-link">
       <span class="item-icon" [ngClass]="item.icon"></span>
       <span class="item-text">{{ item.title }}</span>
-      <app-badge class="item-badge" *ngIf="item.counter || item.counter >= 0">{{ item.counter }}</app-badge>
+      <app-badge class="item-badge" *ngIf="item.counter || item.counter > 0">{{ item.counter }}</app-badge>
     </a>
   </li>
 </ul>
