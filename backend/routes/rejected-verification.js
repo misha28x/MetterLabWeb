@@ -6,7 +6,7 @@ const router = express.Router();
 const connection = require('../database/db');
 
 router.get('', (req, res, next) => {
-  connection.query("SELECT * FROM archive WHERE `status`='Відхилено'", (err, result) => {
+  connection.query("SELECT * FROM archive WHERE `status` LIKE 'Відхилен%'", (err, result) => {
     if (err) {
       console.log(err);
     }

@@ -31,7 +31,7 @@ router.get('/device', (req, res, next) => {
 // Запит для отримання усіх повірок get
 router.get('', (req, res, next) => {
 
-  connection.query("SELECT * FROM archive WHERE `status`='' OR `status` IS NULL OR `status`='Не визначено відповідальну особу' AND `employeeName`='' OR `employeeName` IS NULL", (err, result) => {
+  connection.query("SELECT * FROM archive WHERE `status` NOT LIKE 'Відхилено%' OR 'Передано повірнику' OR 'Повірено%';", (err, result) => {
     if (err) {
       console.log(err);
     }

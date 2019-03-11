@@ -124,22 +124,24 @@ const generateExcelFile = (taskResult, stringName) => {
     let headers = wb.createStyle({
       font: {
         bold: true,
+        name: 'Arial',
+        size: 10
       },
       border: {
         left: {
-          style: 'medium',
+          style: 'thin',
           color: '#000000',
         },
         right: {
-          style: 'medium',
+          style: 'thin',
           color: '#000000',
         },
         top: {
-          style: 'medium',
+          style: 'thin',
           color: '#000000',
         },
         bottom: {
-          style: 'medium',
+          style: 'thin',
           color: '#000000',
         },
       }
@@ -147,7 +149,28 @@ const generateExcelFile = (taskResult, stringName) => {
 
     // Стиль для тексту
     let text = wb.createStyle({
-
+      font: {
+        size: 10,
+        name: 'Arial'
+      },
+      border: {
+        left: {
+          style: 'thin',
+          color: '#000000',
+        },
+        right: {
+          style: 'thin',
+          color: '#000000',
+        },
+        top: {
+          style: 'thin',
+          color: '#000000',
+        },
+        bottom: {
+          style: 'thin',
+          color: '#000000',
+        },
+      }
     });
 
     let ws = wb.addWorksheet('Завдання');
@@ -188,8 +211,8 @@ const generateExcelFile = (taskResult, stringName) => {
     let i = 2;
     taskResult.forEach(task => {
       // TODO: додане правильне представлення бажаного часу
-			let taskDateArray = task.taskDate.split('-');
-			if (task.taskTime == null || task.taskTime == '') task.taskTime = "00:00"
+      let taskDateArray = task.taskDate.split('-');
+      if (task.taskTime == null || task.taskTime == '') task.taskTime = "00:00"
       let visitDateTime = taskDateArray[2] + "." + taskDateArray[1] + "." + taskDateArray[0] + " " + task.taskTime;
       ws.cell(i, 1).string(taskDateArray[2] + "-" + taskDateArray[1] + "-" + taskDateArray[0]).style(text);
       ws.cell(i, 2).string(task.serviceProvider).style(text);
@@ -217,3 +240,201 @@ const generateExcelFile = (taskResult, stringName) => {
 }
 
 module.exports.generateExcelFile = generateExcelFile;
+
+// Генерування звітів
+const generateReportExcel = (reportResult, stringName) => {
+
+  return new Promise((resolve, reject) => {
+    const wb = new xl.Workbook();
+
+    // Стиль для заголовків
+    let headers = wb.createStyle({
+      font: {
+        bold: true,
+        size: 10,
+        name: 'Arial',
+      },
+      border: {
+        left: {
+          style: 'thin',
+          color: '#000000',
+        },
+        right: {
+          style: 'thin',
+          color: '#000000',
+        },
+        top: {
+          style: 'thin',
+          color: '#000000',
+        },
+        bottom: {
+          style: 'thin',
+          color: '#000000',
+        },
+      }
+    });
+
+    // Стиль для тексту
+    let text = wb.createStyle({
+      font:{
+				size: 10,
+				  name: 'Arial',
+			}, border: {
+			  left: {
+			    style: 'thin',
+			    color: '#000000',
+			  },
+			  right: {
+			    style: 'thin',
+			    color: '#000000',
+			  },
+			  top: {
+			    style: 'thin',
+			    color: '#000000',
+			  },
+			  bottom: {
+			    style: 'thin',
+			    color: '#000000',
+			  },
+			}
+    });
+
+    let ws = wb.addWorksheet('Завдання');
+
+    // Ширина для колонок 
+    ws.column(1).setWidth(23);
+    ws.column(2).setWidth(18);
+    ws.column(3).setWidth(16);
+    ws.column(4).setWidth(18);
+    ws.column(5).setWidth(13);
+    ws.column(6).setWidth(13);
+    ws.column(7).setWidth(16);
+    ws.column(8).setWidth(12);
+    ws.column(9).setWidth(15);
+    ws.column(10).setWidth(15);
+    ws.column(11).setWidth(7);
+    ws.column(12).setWidth(9);
+    ws.column(13).setWidth(10);
+    ws.column(14).setWidth(9);
+    ws.column(15).setWidth(9);
+    ws.column(16).setWidth(11);
+    ws.column(17).setWidth(11);
+    ws.column(18).setWidth(40);
+    ws.column(19).setWidth(13);
+    ws.column(20).setWidth(17);
+    ws.column(21).setWidth(17);
+    ws.column(22).setWidth(15);
+    ws.column(23).setWidth(12);
+    ws.column(24).setWidth(15);
+    ws.column(25).setWidth(24);
+    ws.column(26).setWidth(19);
+    ws.column(27).setWidth(10);
+    ws.column(28).setWidth(7);
+    ws.column(29).setWidth(14);
+    ws.column(30).setWidth(25);
+    ws.column(31).setWidth(15);
+    ws.column(32).setWidth(14);
+    ws.column(33).setWidth(15);
+    ws.column(34).setWidth(23);
+    ws.column(35).setWidth(16);
+    ws.column(36).setWidth(27);
+    ws.column(37).setWidth(27);
+    ws.column(38).setWidth(15);
+    ws.column(39).setWidth(15);
+
+    ws.cell(1, 1).string('Надавач послуг').style(headers);
+    ws.cell(1, 2).string('Дата вимірювання').style(headers);
+    ws.cell(1, 3).string('Дата документа').style(headers);
+    ws.cell(1, 4).string('№ документа').style(headers);
+    ws.cell(1, 5).string('№ установки').style(headers);
+    ws.cell(1, 6).string('№ протоколу').style(headers);
+    ws.cell(1, 7).string('Прізвище').style(headers);
+    ws.cell(1, 8).string('Імя').style(headers);
+    ws.cell(1, 9).string('По-батькові').style(headers);
+    ws.cell(1, 10).string('Місто').style(headers);
+    ws.cell(1, 11).string('Район').style(headers);
+    ws.cell(1, 12).string('Вулиця').style(headers);
+    ws.cell(1, 13).string('Будинок').style(headers);
+    ws.cell(1, 14).string('Квартира').style(headers);
+    ws.cell(1, 15).string('Телефон 1').style(headers);
+    ws.cell(1, 16).string('Телефон 2').style(headers);
+    ws.cell(1, 17).string('Номер пломби').style(headers);
+    ws.cell(1, 18).string('Примітка').style(headers);
+    ws.cell(1, 19).string('Дата надсилання').style(headers);
+    ws.cell(1, 20).string('Номер лічильника').style(headers);
+    ws.cell(1, 21).string('Тип лічильника').style(headers);
+    ws.cell(1, 22).string('Типорозмір').style(headers);
+    ws.cell(1, 23).string('Рік випуску лічильника').style(headers);
+    ws.cell(1, 24).string('Накопичений об\'єм').style(headers);
+    ws.cell(1, 25).string('Коментар').style(headers);
+    ws.cell(1, 26).string('t, °C').style(headers);
+    ws.cell(1, 27).string('Тип послуги').style(headers);
+    ws.cell(1, 28).string('№ заявки').style(headers);
+    ws.cell(1, 29).string('Статус').style(headers);
+    ws.cell(1, 30).string('Придатний до').style(headers);
+    ws.cell(1, 31).string('Дата видачі документу').style(headers);
+    ws.cell(1, 32).string('Дата демонтажу').style(headers);
+    ws.cell(1, 33).string('Назва демонтажної бригади').style(headers);
+    ws.cell(1, 34).string('ПІБ працівника (демонтаж)').style(headers);
+    ws.cell(1, 35).string('Дата монтажу').style(headers);
+    ws.cell(1, 36).string('ПІБ працівника (монтаж)').style(headers);
+    ws.cell(1, 37).string('Документ').style(headers);
+    ws.cell(1, 38).string('№ документа').style(headers);
+    ws.cell(1, 39).string('Дата документа').style(headers);
+
+    let i = 2;
+    reportResult.forEach(rep => {
+
+      let nameParts = rep.client.split(' ');
+
+      // TODO: додане правильне представлення бажаного часу
+      ws.cell(i, 1).string(rep.serviceProvider).style(text);
+      ws.cell(i, 2).string(rep.protocolDate.split(' ')[0]).style(text);
+      ws.cell(i, 3).string(rep.protocolSignDate).style(text);
+      ws.cell(i, 4).string().style(text); // Номер документа
+      ws.cell(i, 5).string(rep.stationNumber).style(text);
+      ws.cell(i, 6).string(rep.protocolNumber).style(text);
+      ws.cell(i, 7).string(nameParts[0]).style(text);
+      ws.cell(i, 8).string(nameParts[1]).style(text);
+      ws.cell(i, 9).string(nameParts[2]).style(text);
+      ws.cell(i, 10).string(rep.settlement).style(text);
+      ws.cell(i, 11).string(rep.district).style(text);
+      ws.cell(i, 12).string(rep.street).style(text);
+      ws.cell(i, 13).string(rep.house).style(text);
+      ws.cell(i, 14).string(rep.apartment).style(text);
+      ws.cell(i, 15).string(rep.phoneNumber).style(text);
+      ws.cell(i, 16).string(rep.secondNumber).style(text);
+      ws.cell(i, 17).string(rep.sealNumber).style(text);
+      ws.cell(i, 18).string(rep.note).style(text);
+      ws.cell(i, 19).string(rep.taskDate).style(text);
+      ws.cell(i, 20).string(rep.counterNumber).style(text);
+      ws.cell(i, 21).string(rep.symbol).style(text);
+      ws.cell(i, 22).string(rep.counterType).style(text);
+      ws.cell(i, 23).string(rep.productionYear).style(text);
+      ws.cell(i, 24).string(rep.acumulatedVolume).style(text);
+      ws.cell(i, 25).string(rep.comment).style(text);
+      ws.cell(i, 26).string().style(text); // Температура
+      ws.cell(i, 27).string(rep.serviceType).style(text);
+      ws.cell(i, 28).string(rep.applicationNumber).style(text);
+      ws.cell(i, 29).string(rep.status).style(text);
+      ws.cell(i, 30).string(rep.suitableFor).style(text);
+      ws.cell(i, 31).string(rep.documentPrintDate).style(text);
+      ws.cell(i, 32).string().style(text);
+      ws.cell(i, 33).string().style(text);
+      ws.cell(i, 34).string().style(text);
+      ws.cell(i, 35).string(rep.protocolDate.split(' ')[0]).style(text);
+      ws.cell(i, 36).string().style(text);
+      ws.cell(i, 37).string().style(text);
+      ws.cell(i, 38).string().style(text);
+      ws.cell(i, 39).string().style(text);
+
+      i++;
+    });
+    wb.write('./backend/data/' + stringName + '.xlsx', () => {
+      console.log('Звіт ' + stringName + '.xlsx згенеровано ');
+      resolve('./backend/data/' + stringName + '.xlsx');
+    });
+  });
+}
+
+module.exports.generateReportExcel = generateReportExcel;
