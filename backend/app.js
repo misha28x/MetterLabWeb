@@ -21,6 +21,7 @@ const fileSendingRoutes = require('./routes/files-sending');
 const reportFormationRoutes = require('./routes/report-formation');
 const autorizationRoutes = require('./routes/authorization');
 const serviceProvidersRoutes = require('./routes/service-providers');
+const employeesRoutes = require('./routes/employees');
 
 // app.use((req, res, next) => {
 //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -58,5 +59,6 @@ app.use('/api/file-sending', fileSendingRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/authorization', autorizationRoutes);
 app.use('/api/service-providers', serviceProvidersRoutes);
+app.use('/api/employees', employeesRoutes);
 
 module.exports = app;
