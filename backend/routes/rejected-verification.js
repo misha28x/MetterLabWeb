@@ -14,4 +14,13 @@ router.get('', (req, res, next) => {
   });
 });
 
+router.get('/rejections', (req, res, next) => {
+  connection.query("SELECT * FROM rejections_types;", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json(result);
+  });
+});
+
 module.exports = router;
