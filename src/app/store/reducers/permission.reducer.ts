@@ -8,6 +8,7 @@ const DEFAULT_STATE: User = {
 export function permissionReducer(
   state: User = DEFAULT_STATE,
   action: { payload: {username: string, serviceProvider: string}, type: PermissionTypes }): User {
+  console.log(action.payload);
   switch (action.type) {
     case PermissionTypes.Unauthorized: {
       state = { permission: 0 };
