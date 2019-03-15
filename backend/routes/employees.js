@@ -7,7 +7,7 @@ const router = express.Router();
 
 /**
  * Даний роут вибирає рядки з таблиці users за полем serviceProvider
- * @param req.body.serviceProvider - назва провайдера
+ * @param req.params.provider - назва провайдера
  * 
  * @returns result - результат вибірки за запитом
  */
@@ -30,7 +30,7 @@ router.get("/users/:id", (req, res, next) => {
     if (err) {
       console.log(err);
     }
-    
+
     res.json(result);
   });
 });
@@ -101,6 +101,89 @@ router.get("/stations", (req, res, next) => {
     if (err) {
       console.log(err);
     }
+    res.json(result);
+  });
+});
+
+/**
+ * Базові CRUD операції для роботи з stations
+ * @param req.params.number - номер станції в базі даних
+ */
+router.get("/stations/:number", (req, res, next) => {
+  connection.query("SELECT * FROM `stations` WHERE stationNumber = '" + req.params.number + "';", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    res.json(result);
+  });
+});
+
+/**
+ * Додавання нової станції
+ * @param req.body.number - Номер станції
+ * @param req.body.employee - Ім'я користувача
+ * @param req.body.phone - Номер телефону
+ * @param req.body.email - EMail
+ * @param req.body.provider - Назва організації
+ */
+router.post("/stations", (req, res, next) => {
+  connection.query("INSERT INTO `stations`(`stationNumber`, `employeeName`, `phoneNumber`, `contactEmail`, `serviceProvider`) " +
+    " VALUES ('" + req.body.number + "','" + req.body.employee + "','" + req.body.phone + "','" + req.body.email + "','" + req.body.provider + "');", (err) => {
+      if (err) {
+        console.log(err);
+      }
+      res.status(200).send({
+        msg: 'Додано нову станцію'
+      });
+    });
+});
+
+/**
+ * Оновлення інформації про користувача 
+ * @param req.body. - оновлені дані
+ * @param req.params.number - ідентифікатор оновлюваного користувача
+ */
+router.put("/stations/:number", (req, res, next) => {
+  let varData = "`stationNumber`='%s',`employeeName`='%s',`phoneNumber`='%s',`contactEmail`='%s',`serviceProvider`='%s'";
+  let formatedData = varData.format(req.body.number, req.body.employee, req.body.phone, req.body.email, req.body.provider);
+  let varResult = "UPDATE stations SET " + formatedData + " WHERE stationNumber = '" + req.params.number + "';";
+  connection.query("", (err) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(201).send({
+      msg: 'Дані про станцію були оновлені'
+    });
+  });
+});
+
+/**
+ * Видалення станції
+ * @param req.params.number - номер станції, яку потрібно видалити
+ */
+router.delete("/stations/:number", (req, res, next) => {
+  connection.query("DELETE FROM stations WHERE stationNumber='" + req.params.number + "';", (err) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json({
+      msg: 'Станцію видалено'
+    });
+  });
+});
+
+/**
+ * Отримання списку рівнів доступу
+ * 
+ * @returns список рівнів доступу id, value;
+ */
+router.get("SELECT * FROM permissions;", (req, res, next) => {
+  connection.query("", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
     res.json(result);
   });
 });
