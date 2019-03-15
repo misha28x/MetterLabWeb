@@ -11,11 +11,12 @@ const router = express.Router();
  * 
  * @returns result - результат вибірки за запитом
  */
-router.get("/users/service-provider", (req, res, next) => {
-  connection.query("SELECT * FROM `users` WHERE service_provider = '" + req.body.serviceProvider + "';", (err, result) => {
+router.get("/users/:provider", (req, res, next) => {
+  connection.query("SELECT * FROM `users` WHERE service_provider = '" + req.params.provider + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
+
     res.json(result);
   });
 });
@@ -24,11 +25,12 @@ router.get("/users/service-provider", (req, res, next) => {
  * Базові CRUD операції для роботи з users
  * @param req.params.id - ідентифікатор користувача в базі даних
  */
-router.get("/users/get/:id", (req, res, next) => {
+router.get("/users/:id", (req, res, next) => {
   connection.query("SELECT * FROM users WHERE id = '" + req.params.id + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
+    
     res.json(result);
   });
 });
@@ -41,7 +43,7 @@ router.get("/users/get/:id", (req, res, next) => {
  * @param req.body.full - ПІБ
  * @param req.body.provider - Назва організації
  */
-router.post("/users/add", (req, res, next) => {
+router.post("/users", (req, res, next) => {
   connection.query("INSERT INTO `users`(`user_name`, `user_password`, `user_permissions`, `user_full_name`, `service_provider`) " +
     " VALUES ('" + req.body.name + "','" + req.body.password + "','" + req.body.permissions + "','" + req.body.full + "','" + req.body.provider + "');", (err) => {
       if (err) {
@@ -58,7 +60,7 @@ router.post("/users/add", (req, res, next) => {
  * @param req.body. - оновлені дані
  * @param req.params.id - ідентифікатор оновлюваного користувача
  */
-router.post("/users/upd/:id", (req, res, next) => {
+router.put("/users/:id", (req, res, next) => {
   let varData = "`user_name`='%s',`user_password`='%s',`user_permissions`='%s',`user_full_name`='%s',`service_provider`='%s'";
   let formatedData = varData.format(req.body.name, req.body.password, req.body.permissions, req.body.full, req.body.provider);
   let varResult = "UPDATE users SET " + formatedData + " WHERE id = '" + req.params.id + "';";
@@ -76,7 +78,7 @@ router.post("/users/upd/:id", (req, res, next) => {
  * Видалення користувача
  * @param req.params.id - ідентифікатор користувача, якого потрібно видалити
  */
-router.get("/users/del/:id", (req, res, next) => {
+router.delete("/users/:id", (req, res, next) => {
   connection.query("DELETE FROM users WHERE id='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);

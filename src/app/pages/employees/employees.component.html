@@ -5,11 +5,11 @@
 
       <mat-list>
         <h3 mat-subheader>Працівники</h3>
-        <mat-list-item class="item" *ngFor="let employee of employees">
+        <mat-list-item class="item" *ngFor="let employee of (employees | async)">
           <mat-icon mat-list-icon>account_box</mat-icon>
-          <p mat-line class="text"> {{ employee }} </p>
+          <p mat-line class="text"> {{ employee.user_full_name }} <span class="role"> &mdash; {{ employee.user_permission }} </span> </p>
 
-          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника">
+          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника" (click)="editEmployee(employee)">
             <mat-icon>edit</mat-icon>
           </button>
         </mat-list-item>
