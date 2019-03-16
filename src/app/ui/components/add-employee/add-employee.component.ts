@@ -18,25 +18,22 @@ export class AddEmployeeComponent implements OnInit {
     private dialogRef: MatDialogRef<AddEmployeeComponent>,
     private employeeSv: EmployeeService,
     @Inject(MAT_DIALOG_DATA) public employee: any) {
-    this.employeeForm = new FormGroup({
-      name: new FormControl(''),
-      email: new FormControl(''),
-      phoneNumber: new FormControl(''),
-      password: new FormControl(''),
-      permissions: new FormControl('')
-    });
-
     if (employee) {
       this.title = 'Редагувати дані працівника';
       this.employeeForm = new FormGroup({
         name: new FormControl(this.employee.user_full_name),
         email: new FormControl(this.employee.user_name),
-        // phoneNumber: new FormControl(''),
         password: new FormControl(this.employee.user_password),
         permissions: new FormControl(this.employee.user_password)
       });
     } else {
       this.title = 'Додати працівника';
+      this.employeeForm = new FormGroup({
+        name: new FormControl(''),
+        email: new FormControl(''),
+        password: new FormControl(''),
+        permissions: new FormControl('')
+      });
     }
   }
 
