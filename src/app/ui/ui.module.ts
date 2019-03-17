@@ -29,11 +29,14 @@ import {
   EndStateDialogComponent,
   StartStateDialogComponent
 } from './components/protocol-view';
-import { ScanUploadComponent } from './components/scan-upload/scan-upload.component';
-import { SelectDialogComponent } from './components/select-dialog/select-dialog.component';
-import { SealEditComponent } from './components/seal-edit/seal-edit.component';
-import { UserInfoComponent } from './components/user-info/user-info.component';
-import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
+
+import { ScanUploadComponent } from './components/scan-upload';
+import { SelectDialogComponent } from './components/select-dialog';
+import { SealEditComponent } from './components/seal-edit';
+import { UserInfoComponent } from './components/user-info';
+import { AddEmployeeComponent } from './components/add-employee';
+import { AddStationComponent } from './components/add-station';
+import { DeleteDialogComponent } from './components/delete-dialog';
 
 @NgModule({
 	imports: [
@@ -87,7 +90,9 @@ import { AddEmployeeComponent } from './components/add-employee/add-employee.com
     SelectDialogComponent,
     SealEditComponent,
     UserInfoComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
+    AddStationComponent,
+    DeleteDialogComponent
 	],
   entryComponents: [
     UploadDialogComponent,
@@ -98,9 +103,11 @@ import { AddEmployeeComponent } from './components/add-employee/add-employee.com
     CounterDialogDataComponent,
     EndStateDialogComponent,
     StartStateDialogComponent,
+    DeleteDialogComponent,
     AddEmployeeComponent,
     SealEditComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    AddStationComponent
   ]
 })
 export class UiModule { }

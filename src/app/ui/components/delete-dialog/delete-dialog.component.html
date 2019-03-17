@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Видалення</h2>
+
+<div mat-dialog-content>
+  <h4>Ви дійсно хочете видалити {{ data }} ?</h4>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button color="warn" [mat-dialog-close]="'delete'" cdkFocusInitial>Так</button>
+  <button mat-button [mat-dialog-close]="'cancel'">Ні</button>
+</div>

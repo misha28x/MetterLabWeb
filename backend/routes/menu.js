@@ -131,11 +131,6 @@ function getAdminMenu() {
       counter: counters.lab_requests
     },
     {
-      title: 'Протоколи',
-      icon: 'icofont-file-powerpoint',
-      routing: 'verications-protocols'
-    },
-    {
       title: 'Електроні протоколи',
       icon: 'far fa-file-powerpoint',
       routing: 'verications-protocols'

@@ -7,10 +7,13 @@
         <h3 mat-subheader>Працівники</h3>
         <mat-list-item class="item" *ngFor="let employee of (employees | async)">
           <mat-icon mat-list-icon>account_box</mat-icon>
-          <p mat-line class="text"> {{ employee.user_full_name }} <span class="role"> &mdash; {{ employee.user_permission }} </span> </p>
+          <p mat-line class="text"> {{ employee.user_full_name }} <span *ngIf="permissions" class="role"> &mdash; {{ getUserPermission(employee.user_permissions) }} </span> </p>
 
           <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника" (click)="editEmployee(employee)">
             <mat-icon>edit</mat-icon>
+          </button>
+          <button class="delete-btn" mat-icon-button matTooltip="Видалити працівника" (click)="deleteEmployee(employee)">
+            <mat-icon>delete</mat-icon>
           </button>
         </mat-list-item>
         <button class="mb-2" (click)="addEmployee()" mat-button color="primary">Додати</button>
@@ -19,16 +22,19 @@
 
         <h3 mat-subheader>Переносні станції</h3>
 
-        <mat-list-item class="item" *ngFor="let station of stations">
+        <mat-list-item class="item" *ngFor="let station of (stations | async)">
           <mat-icon mat-list-icon>next_week</mat-icon>
-          <p mat-line class="text"> {{ station }} </p>
+          <p mat-line class="text"> {{ station.stationNumber }} </p>
 
-          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції">
+          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції" (click)="editStation(station)">
             <mat-icon>edit</mat-icon>
+          </button>
+          <button class="delete-btn" mat-icon-button matTooltip="Видалити станцію" (click)="deleteStation(station)">
+            <mat-icon>delete</mat-icon>
           </button>
         </mat-list-item>
 
-        <button class="mb-2" mat-button color="primary">Додати</button>
+        <button class="mb-2" mat-button color="primary" (click)="addStation()">Додати</button>
       </mat-list>
     </mat-card>
   </div>

@@ -25,7 +25,7 @@ router.get("/users/:provider", (req, res, next) => {
  * Базові CRUD операції для роботи з users
  * @param req.params.id - ідентифікатор користувача в базі даних
  */
-router.get("/users/:id", (req, res, next) => {
+router.get("/user/:id", (req, res, next) => {
   connection.query("SELECT * FROM users WHERE id = '" + req.params.id + "';", (err, result) => {
     if (err) {
       console.log(err);
@@ -41,11 +41,11 @@ router.get("/users/:id", (req, res, next) => {
  * @param req.body.password - Пароль користувача
  * @param req.body.permissions - Рівень доступу
  * @param req.body.full - ПІБ
- * @param req.body.provider - Назва організації
+ * @param req.body.serviceProvider - Назва організації
  */
 router.post("/users", (req, res, next) => {
   connection.query("INSERT INTO `users`(`user_name`, `user_password`, `user_permissions`, `user_full_name`, `service_provider`) " +
-    " VALUES ('" + req.body.name + "','" + req.body.password + "','" + req.body.permissions + "','" + req.body.full + "','" + req.body.provider + "');", (err) => {
+    " VALUES ('" + req.body.name + "','" + req.body.password + "','" + req.body.permissions + "','" + req.body.full + "','" + req.body.serviceProvider + "');", (err) => {
       if (err) {
         console.log(err);
       }
@@ -62,9 +62,9 @@ router.post("/users", (req, res, next) => {
  */
 router.put("/users/:id", (req, res, next) => {
   let varData = "`user_name`='%s',`user_password`='%s',`user_permissions`='%s',`user_full_name`='%s',`service_provider`='%s'";
-  let formatedData = varData.format(req.body.name, req.body.password, req.body.permissions, req.body.full, req.body.provider);
+  let formatedData = varData.format(req.body.name, req.body.password, req.body.permissions, req.body.full, req.body.serviceProvider);
   let varResult = "UPDATE users SET " + formatedData + " WHERE id = '" + req.params.id + "';";
-  connection.query("", (err) => {
+  connection.query( varResult, ( err ) => {
     if (err) {
       console.log(err);
     }
@@ -96,8 +96,8 @@ router.delete("/users/:id", (req, res, next) => {
  * @returns Вибірку даних за назвою:
  * stationNumber, employeeName, phoneNumber, contactEmail, serviceProvider
  */
-router.get("/stations", (req, res, next) => {
-  connection.query("SELECT * FROM `stations` WHERE serviceProvider ='" + req.body.serviceProvider + "';", (err, result) => {
+router.get("/stations/:serviceProvider", (req, res, next) => {
+  connection.query("SELECT * FROM `stations` WHERE serviceProvider ='" + req.params.serviceProvider + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -109,7 +109,7 @@ router.get("/stations", (req, res, next) => {
  * Базові CRUD операції для роботи з stations
  * @param req.params.number - номер станції в базі даних
  */
-router.get("/stations/:number", (req, res, next) => {
+router.get("/station/:number", (req, res, next) => {
   connection.query("SELECT * FROM `stations` WHERE stationNumber = '" + req.params.number + "';", (err, result) => {
     if (err) {
       console.log(err);
@@ -121,15 +121,15 @@ router.get("/stations/:number", (req, res, next) => {
 
 /**
  * Додавання нової станції
- * @param req.body.number - Номер станції
- * @param req.body.employee - Ім'я користувача
- * @param req.body.phone - Номер телефону
- * @param req.body.email - EMail
- * @param req.body.provider - Назва організації
+ * @param req.body.stationNumber - Номер станції
+ * @param req.body.employeeName - Ім'я користувача
+ * @param req.body.phoneNumber - Номер телефону
+ * @param req.body.contactEmail - EMail
+ * @param req.body.serviceProvider - Назва організації
  */
 router.post("/stations", (req, res, next) => {
   connection.query("INSERT INTO `stations`(`stationNumber`, `employeeName`, `phoneNumber`, `contactEmail`, `serviceProvider`) " +
-    " VALUES ('" + req.body.number + "','" + req.body.employee + "','" + req.body.phone + "','" + req.body.email + "','" + req.body.provider + "');", (err) => {
+    " VALUES ('" + req.body.stationNumber + "','" + req.body.employeeName + "','" + req.body.phoneNumber + "','" + req.body.contactEmail + "','" + req.body.serviceProvider + "');", (err) => {
       if (err) {
         console.log(err);
       }
@@ -146,9 +146,9 @@ router.post("/stations", (req, res, next) => {
  */
 router.put("/stations/:number", (req, res, next) => {
   let varData = "`stationNumber`='%s',`employeeName`='%s',`phoneNumber`='%s',`contactEmail`='%s',`serviceProvider`='%s'";
-  let formatedData = varData.format(req.body.number, req.body.employee, req.body.phone, req.body.email, req.body.provider);
+  let formatedData = varData.format(req.body.stationNumber, req.body.employeeName, req.body.phoneNumber, req.body.contactEmail, req.body.serviceProvider);
   let varResult = "UPDATE stations SET " + formatedData + " WHERE stationNumber = '" + req.params.number + "';";
-  connection.query("", (err) => {
+  connection.query( varResult, ( err ) => {
     if (err) {
       console.log(err);
     }
@@ -178,8 +178,8 @@ router.delete("/stations/:number", (req, res, next) => {
  * 
  * @returns список рівнів доступу id, value;
  */
-router.get("SELECT * FROM permissions;", (req, res, next) => {
-  connection.query("", (err, result) => {
+router.get("/permissions", (req, res, next) => {
+  connection.query( "SELECT * FROM permissions;", ( err, result ) => {
     if (err) {
       console.log(err);
     }

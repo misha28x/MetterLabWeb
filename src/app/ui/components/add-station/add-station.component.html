@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<form [formGroup]="stationForm">
+  <div class="full-width">
+    <span>Номер станції</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Номер станції" formControlName="stationNumber">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>ПІБ Працівника</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="ПІБ Працівника" formControlName="employeeName">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Email</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Email" formControlName="contactEmail">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Контактний телефон</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Контактний телефон" formControlName="phoneNumber">
+    </mat-form-field>
+  </div>
+</form>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Скасувати</button>
+  <button mat-button color="primary" (click)="saveStation()">Зберегти</button>
+</mat-dialog-actions>
