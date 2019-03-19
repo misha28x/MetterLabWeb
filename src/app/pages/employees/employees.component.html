@@ -7,7 +7,8 @@
         <h3 mat-subheader>Працівники</h3>
         <mat-list-item class="item" *ngFor="let employee of (employees | async)">
           <mat-icon mat-list-icon>account_box</mat-icon>
-          <p mat-line class="text"> {{ employee.user_full_name }} <span *ngIf="permissions" class="role"> &mdash; {{ getUserPermission(employee.user_permissions) }} </span> </p>
+          <p mat-line class="text"> {{ employee.user_full_name }} <span *ngIf="permissions" class="role"> &mdash; {{
+              getUserPermission(employee.user_permissions) }} </span> </p>
 
           <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника" (click)="editEmployee(employee)">
             <mat-icon>edit</mat-icon>
@@ -53,12 +54,23 @@
           <mat-action-list>
             <button mat-list-item (click)="getMenu('3','Волиньстандартметрологія')">ДП "Волиньстандартметрологія"</button>
             <button mat-list-item (click)="getMenu('2', 'ЛУЦЬКВОДОКАНАЛ')">КП "ЛУЦЬКВОДОКАНАЛ"</button>
-            <button mat-list-item (click)="getMenu('2', 'ЛУЦЬКТЕПЛО')">КП "ЛУЦЬКТЕПЛО"</button>
+            <button mat-list-item (click)="getMenu('2', 'ЛУЦЬКТЕПЛО')">
+              КП "ЛУЦЬКТЕПЛО"
+
+              <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції" (click)="addContractor($event)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </button>
           </mat-action-list>
 
-          <mat-action-row>
-            <button mat-button color="warn"></button>
-            <button mat-button color="primary">Додати</button>
+          <mat-action-row class="actions">
+            <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції" (click)="editStation(station)">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat-button color="warn">Видалити</button>
+
+            <button mat-button class="right" color="primary">Додати</button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>

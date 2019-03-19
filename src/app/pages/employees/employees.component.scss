@@ -18,4 +18,16 @@
       opacity: .6;
     }
   }
+  .header {
+    display: flex;
+    align-items: center;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+
+    .right {
+      margin-left: auto;
+    }
+  }
 }

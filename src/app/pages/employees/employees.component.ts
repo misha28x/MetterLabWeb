@@ -122,4 +122,20 @@ export class PageEmployeesComponent implements OnInit {
       }
     });
   }
+
+  addContractor(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    
+  }
+
+  editContractor(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  deleteContractor(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }

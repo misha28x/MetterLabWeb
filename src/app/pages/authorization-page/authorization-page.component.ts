@@ -52,9 +52,6 @@ export class AuthorizationPageComponent implements OnInit {
         this.redirectHome(res.permission);
       }
 
-      //TODO: REMOVE AFTER MENU REWORK
-      res.permission = 4;
-
       window.localStorage.setItem('user', JSON.stringify(res));
       window.localStorage.setItem('time', new Date().getTime().toString());
       this.store.dispatch(login(res));
