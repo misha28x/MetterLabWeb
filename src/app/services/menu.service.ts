@@ -16,6 +16,7 @@ export class MenuService {
   private isVisiting$ = new BehaviorSubject<{ state: boolean, name?: string }>({ state: false });
   private menuUpdate = this.socket.fromEvent<any>('update');
   private permission: any;
+  private home: any;
 
   constructor(
     private http: HttpClient,
@@ -46,9 +47,5 @@ export class MenuService {
 
   public setVisitState(visit: any): void {
     this.isVisiting$.next(visit);
-
-    if (!visit.state) {
-      this.setMenu(this.permission);
-    }
   }
 }

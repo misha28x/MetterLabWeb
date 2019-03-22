@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+<form [formGroup]="employeeForm">
+  <div class="full-width">
+    <span>Назва</span>
+    <mat-form-field class="input-field">
+      <input matInput placeholder="Назва" formControlName="name">
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Місто</span>
+    <mat-form-field class="input-field">
+      <mat-select placeholder="Місто" formControlName="city_id">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let permission of (permissions | async)" [value]="permission.id">
+          {{permission.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="full-width">
+    <span>Рівень доступу</span>
+    <mat-form-field class="input-field">
+      <mat-select placeholder="Рівень доступу" formControlName="type">
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let permission of (permissions | async)" [value]="permission.id">
+          {{permission.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Скасувати</button>
+  <button mat-button color="primary" (click)="saveContractor()">Зберегти</button>
+</mat-dialog-actions>

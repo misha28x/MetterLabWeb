@@ -70,10 +70,13 @@
 
             <button mat-button color="warn">Видалити</button>
 
-            <button mat-button class="right" color="primary">Додати</button>
+            <button mat-button class="right" (click)="addContractor($event, city.id)" color="primary">Додати</button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
+      <mat-card-actions class="actions">
+        <button mat-button color="primary" (click)="addCity()">Додати Місто</button>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

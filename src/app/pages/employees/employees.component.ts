@@ -6,13 +6,22 @@ import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
 import { Station } from '../../interfaces/station';
 import { Employee } from '../../interfaces/employee';
+import { CityService } from '../../services/city.service';
 import { MenuService } from '../../services/menu.service';
 import { EmployeeService } from '../../services/employee.service';
 import { StationsService } from '../../services/stations.service';
+import { ContractorService } from '../../services/contractor.service';
+import { login } from '../../store/actions/permission.action';
 
 import { AddEmployeeComponent } from '../../ui/components/add-employee';
 import { AddStationComponent } from '../../ui/components/add-station';
 import { DeleteDialogComponent } from '../../ui/components/delete-dialog';
+
+import { AddCityComponent } from '../../ui/components/add-city';
+import { AddContractorComponent } from '../../ui/components/add-contractor';
+
+import { City } from '../../interfaces/city';
+import { Contractor } from '../../interfaces/contractor';
 
 @Component({
   selector: 'app-employees',
@@ -27,13 +36,14 @@ export class PageEmployeesComponent implements OnInit {
   user: User;
 
   constructor(
+    private contractorSv: ContractorService,
     private employeeSv: EmployeeService,
     private stationsSv: StationsService,
+    private citySv: CityService,
     private menuSv: MenuService,
     private store: Store<User>,
-    private dialog: MatDialog) {
-
-    }
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe( _user => {
@@ -48,9 +58,8 @@ export class PageEmployeesComponent implements OnInit {
     this.stations = this.stationsSv.getStations();
   }
 
-  getMenu(permission: any, name: string): void {
-    this.menuSv.setMenu(permission);
-    this.menuSv.setVisitState({ state: true, name: name });
+  getMenu(user: User): void {
+    this.store.dispatch(login(user));
   }
 
   getUserPermission(id: string): string {
@@ -123,19 +132,66 @@ export class PageEmployeesComponent implements OnInit {
     });
   }
 
+  addCity(): void {
+    this.dialog.open(AddCityComponent, {
+      minWidth: '600px'
+    });
+  }
+
+  editCity(city: City): void {
+    this.dialog.open(AddCityComponent, {
+      minWidth: '600px',
+      data: city
+    });
+  }
+
+  deleteCity(city: City): void {
+    const ref = this.dialog.open(DeleteDialogComponent, {
+      minWidth: '600px',
+      data: 'місто'
+    });
+
+    ref.afterClosed().subscribe((result: string) => {
+      if (result === 'delete') {
+        this.citySv.deleteCity(city);
+      }
+    });
+  }
+
   addContractor(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    
+
+    this.dialog.open(AddContractorComponent, {
+      minWidth: '600px'
+    });
   }
 
-  editContractor(event: Event): void {
+  editContractor(event: Event, contractor: Contractor): void {
     event.preventDefault();
     event.stopPropagation();
+
+    const ref = this.dialog.open(AddContractorComponent, {
+      minWidth: '600px',
+      data: contractor
+    });
+
+    ref.afterClosed().subscribe(() =>  this.contractorSv.fetchContractors(this.user.serviceProvider));
   }
 
-  deleteContractor(event: Event): void {
+  deleteContractor(event: Event, contractor: Contractor): void {
     event.preventDefault();
     event.stopPropagation();
+
+    const ref = this.dialog.open(DeleteDialogComponent, {
+      minWidth: '600px',
+      data: 'підрядника'
+    });
+
+    ref.afterClosed().subscribe((result: string) => {
+      if (result === 'delete') {
+        this.citySv.deleteCity(contractor);
+      }
+    });
   }
 }

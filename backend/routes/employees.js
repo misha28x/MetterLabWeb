@@ -286,7 +286,7 @@ router.get("/contractors", (req, res, next) => {
  * Базові CRUD операції для роботи з contractors
  * @param req.params.id - id підприємства в базі даних
  */
-router.get("/city/:id", (req, res, next) => {
+router.get("/contractor/:id", (req, res, next) => {
   connection.query("SELECT * FROM `contractors` WHERE id = '" + req.params.id + "';", (err, result) => {
     if (err) {
       console.log(err);

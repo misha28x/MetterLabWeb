@@ -37,6 +37,8 @@ import { UserInfoComponent } from './components/user-info';
 import { AddEmployeeComponent } from './components/add-employee';
 import { AddStationComponent } from './components/add-station';
 import { DeleteDialogComponent } from './components/delete-dialog';
+import { AddCityComponent } from './components/add-city/add-city.component';
+import { AddContractorComponent } from './components/add-contractor/add-contractor.component';
 
 @NgModule({
 	imports: [
@@ -92,7 +94,9 @@ import { DeleteDialogComponent } from './components/delete-dialog';
     UserInfoComponent,
     AddEmployeeComponent,
     AddStationComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    AddCityComponent,
+    AddContractorComponent
 	],
   entryComponents: [
     UploadDialogComponent,
@@ -107,7 +111,9 @@ import { DeleteDialogComponent } from './components/delete-dialog';
     AddEmployeeComponent,
     SealEditComponent,
     UserInfoComponent,
-    AddStationComponent
+    AddStationComponent,
+    AddCityComponent,
+    AddContractorComponent
   ]
 })
 export class UiModule { }

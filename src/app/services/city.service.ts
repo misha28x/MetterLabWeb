@@ -4,41 +4,37 @@ import { HttpClient } from '@angular/common/http';
 
 import { City } from '../interfaces/city';
 
-const employeeUrl = 'http://localhost:3000/api/employees/users';
+const cityUrl = 'http://localhost:3000/api/employees/city';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CityService {
-  private employeeSource$ = new BehaviorSubject<Employee[]>([]);
+  private citySource$ = new BehaviorSubject<City[]>([]);
 
   constructor(private http: HttpClient) { }
 
-  fetchEmployees(serviceProvider: string): void {
-    this.http.get(`${employeeUrl}/${serviceProvider}`).subscribe( (res: any) => this.employeeSource$.next(res) );
+  fetchCities(serviceProvider: string): void {
+    this.http.get(`${cityUrl}/${serviceProvider}`).subscribe( (res: any) => this.citySource$.next(res) );
   }
 
-  getEmployees(): Observable<any> {
-    return this.employeeSource$.asObservable();
+  getCities(): Observable<any> {
+    return this.citySource$.asObservable();
   }
-
-  // getEmployee(employee: Employee): Observable<any> {
-  //   return this.http.post(`${employeeUrl}/${employee.id}`, employee);
-  // }
 
   getPermissions(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/employees/permissions');
+    return this.http.get('http://localhost:3000/api/cityes/permissions');
   }
 
-  addEmployee(employee: Employee): Observable<any> {
-    return this.http.post(employeeUrl, employee);
+  addCity(city: City): Observable<any> {
+    return this.http.post(cityUrl, city);
   }
 
-  editEmployee(employee: Employee): Observable<any> {
-    return this.http.put(`${employeeUrl}/${employee.id}`, employee);
+  editCity(city: City): Observable<any> {
+    return this.http.put(`${cityUrl}/${city.id}`, city);
   }
 
-  deleteEmployee(employee: Employee): Observable<any> {
-    return this.http.delete(`${employeeUrl}/${employee.id}`);
+  deleteCity(city: City): Observable<any> {
+    return this.http.delete(`${cityUrl}/${city.id}`);
   }
 }
