@@ -287,7 +287,7 @@ router.get("/contractors", (req, res, next) => {
  * Базові CRUD операції для роботи з contractors
  * @param req.params.id - id підприємства в базі даних
  */
-router.get("/contractor/:id", (req, res, next) => {
+router.get("/contractors/:id", (req, res, next) => {
   connection.query("SELECT * FROM `contractors` WHERE id = '" + req.params.id + "';", (err, result) => {
     if (err) {
       console.log(err);
@@ -301,11 +301,15 @@ router.get("/contractor/:id", (req, res, next) => {
  * Додавання нового підприємства
  * @param req.body.name - Назва міста
  * @param req.body.city_id - Ідентифікатор міста
- * @param req.body.type - Тип підприємства
+ * @param req.body.permission - Тип підприємства
  */
 router.post("/contractors", (req, res, next) => {
   connection.query("INSERT INTO `contractors`(`name`, `city_id`, `permission`) " +
+<<<<<<< HEAD
     " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", ( err ) => {
+=======
+    " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", (err) => {
+>>>>>>> d3d834f212907934dee07edd4095bc45e757b126
       if (err) {
         console.log(err);
       }
@@ -319,7 +323,7 @@ router.post("/contractors", (req, res, next) => {
  * Оновлення інформації про підприємство 
  * @param req.body.name - назва підприємства
  * @param req.body.city_id - Ідентифікатор міста 
- * @param req.body.type - Тип підприємства
+ * @param req.body.permission - Тип підприємства
  * @param req.params.id - ідентифікатор оновлюваного підприємства
  */
 router.put("/contractors/:id", (req, res, next) => {
