@@ -258,6 +258,7 @@ router.put("/city/:id", (req, res, next) => {
  */
 router.delete("/city/:id", (req, res, next) => {
   connection.query("DELETE FROM city WHERE id='" + req.params.id + "';", (err) => {
+    console.log(req.params.id);
     if (err) {
       console.log(err);
     }
@@ -303,8 +304,8 @@ router.get("/contractor/:id", (req, res, next) => {
  * @param req.body.type - Тип підприємства
  */
 router.post("/contractors", (req, res, next) => {
-  connection.query("INSERT INTO `contractors`(`name`, `city_id`, `type`) " +
-    " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.type + "');", (err) => {
+  connection.query("INSERT INTO `contractors`(`name`, `city_id`, `permission`) " +
+    " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", ( err ) => {
       if (err) {
         console.log(err);
       }
@@ -322,8 +323,8 @@ router.post("/contractors", (req, res, next) => {
  * @param req.params.id - ідентифікатор оновлюваного підприємства
  */
 router.put("/contractors/:id", (req, res, next) => {
-  let varData = "`name`='%s', `city_id`='%s', `type`='%s'";
-  let formatedData = varData.format(req.body.name, req.body.city_id, req.body.type);
+  let varData = "`name`='%s', `city_id`='%s', `permission`='%s'";
+  let formatedData = varData.format(req.body.name, req.body.city_id, req.body.permission);
   let varResult = "UPDATE contractors SET " + formatedData + " WHERE id = '" + req.params.id + "';";
   connection.query(varResult, (err) => {
     if (err) {

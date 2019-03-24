@@ -41,7 +41,6 @@ export class PageReportsComponent {
     if (date.split(' - ').length > 0) {
       dateArr = date.split(' - ');
     }
-    console.log({ dateArray: dateArr });
 
     this.reportsSv.getReport(type, dateArr);
   }

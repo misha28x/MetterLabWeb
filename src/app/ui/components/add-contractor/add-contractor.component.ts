@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 
 import { ContractorService } from '../../../services/contractor.service';
 import { CityService } from '../../../services/city.service';
+import { Contractor } from '../../../interfaces/contractor';
 import { User } from '../../../interfaces/user';
 
 @Component({
@@ -31,19 +32,19 @@ export class AddContractorComponent implements OnInit {
     this.store.pipe(select('permission')).subscribe((user: User) => {
       if (user.serviceProvider) {
         this.serviceProvider = user.serviceProvider;
-        this.citySv.fetchCities(this.serviceProvider);
+        this.citySv.fetchCities();
       }
     });
 
     this.cities = this.citySv.getCities();
 
-    if (typeof this.data === 'string') {
+    if (typeof this.data === 'number') {
       this.title = 'Додати підрядника';
 
       this.contractorForm = new FormGroup({
         name: new FormControl(''),
         city_id: new FormControl(this.data || ''),
-        type: new FormControl(''),
+        permission: new FormControl('')
       });
     } else {
       this.title = 'Редагувати дані підрядника';
@@ -51,7 +52,7 @@ export class AddContractorComponent implements OnInit {
       this.contractorForm = new FormGroup({
         name: new FormControl(this.data.name),
         city_id: new FormControl(this.data.city_id || ''),
-        type: new FormControl(this.data.type)
+        permission: new FormControl(this.data.permission)
       });
     }
 
@@ -61,20 +62,23 @@ export class AddContractorComponent implements OnInit {
   ngOnInit(): void { }
 
   saveContractor(): void {
-    if (typeof this.data !== 'string') {
+    if (typeof this.data !== 'number') {
+      console.log(this.data);
       const contractor = {
         ...this.data,
         ...this.contractorForm.value,
         provider: this.serviceProvider
       };
-      this.contractorSv.editContractor(contractor).subscribe();
+      this.contractorSv.editContractor(contractor).subscribe(() => this.contractorSv.fetchContractors);
     } else {
       const contractor = {
         ...this.contractorForm.value,
         provider: this.serviceProvider
       };
 
-      this.contractorSv.addContractor(contractor).subscribe();
+      console.log(contractor);
+
+      this.contractorSv.addContractor(contractor).subscribe(() => this.contractorSv.fetchContractors);
     }
     this.dialogRef.close();
   }

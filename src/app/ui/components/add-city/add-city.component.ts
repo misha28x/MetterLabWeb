@@ -35,7 +35,7 @@ export class AddCityComponent implements OnInit {
       this.title = 'Редагувати назву';
 
       this.cityForm = new FormGroup({
-        name: new FormControl(this.city.user_name),
+        name: new FormControl(this.city)
       });
     } else {
       this.title = 'Додати місто';

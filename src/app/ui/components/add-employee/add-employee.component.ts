@@ -17,6 +17,7 @@ export class AddEmployeeComponent implements OnInit {
 
   permissions: Observable<any[]>;
   serviceProvider: string;
+  user: User;
   title: string;
 
   constructor(
@@ -29,6 +30,8 @@ export class AddEmployeeComponent implements OnInit {
       if (user.serviceProvider) {
         this.serviceProvider = user.serviceProvider;
       }
+      
+      this.user = user;
     });
 
     if (employee) {
@@ -61,15 +64,15 @@ export class AddEmployeeComponent implements OnInit {
       const employee = {
         ...this.employee,
         ...this.employeeForm.value,
-        provider: this.serviceProvider
+        serviceProvider: this.serviceProvider
       };
       this.employeeSv.editEmployee(employee).subscribe();
     } else {
       const employee = {
         ...this.employeeForm.value,
-        provider: this.serviceProvider
+        serviceProvider: this.serviceProvider
       };
-
+      console.log(employee);
       this.employeeSv.addEmployee(employee).subscribe();
     }
     this.dialogRef.close();

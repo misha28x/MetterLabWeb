@@ -11,8 +11,10 @@
     .mat-list-item-content {
       width: 100%;
     }
-    .mat-list-text {
+    .mat-list-text,
+    .text {
       flex: 1;
+      text-align: left;
     }
     .role {
       opacity: .6;

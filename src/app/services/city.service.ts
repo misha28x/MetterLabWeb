@@ -14,8 +14,8 @@ export class CityService {
 
   constructor(private http: HttpClient) { }
 
-  fetchCities(serviceProvider: string): void {
-    this.http.get(`${cityUrl}/${serviceProvider}`).subscribe( (res: any) => this.citySource$.next(res) );
+  fetchCities(): void {
+    this.http.get(`${cityUrl}`).subscribe( (res: any) => this.citySource$.next(res) );
   }
 
   getCities(): Observable<any> {

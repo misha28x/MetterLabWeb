@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{ title }}</h2>
 
-<form [formGroup]="employeeForm">
+<form [formGroup]="contractorForm">
   <div class="full-width">
     <span>Назва</span>
     <mat-form-field class="input-field">
@@ -9,25 +9,13 @@
   </div>
 
   <div class="full-width">
-    <span>Місто</span>
-    <mat-form-field class="input-field">
-      <mat-select placeholder="Місто" formControlName="city_id">
-        <mat-option>--</mat-option>
-        <mat-option *ngFor="let permission of (permissions | async)" [value]="permission.id">
-          {{permission.value}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="full-width">
     <span>Рівень доступу</span>
     <mat-form-field class="input-field">
-      <mat-select placeholder="Рівень доступу" formControlName="type">
+      <mat-select placeholder="Рівень доступу" formControlName="permission">
         <mat-option>--</mat-option>
-        <mat-option *ngFor="let permission of (permissions | async)" [value]="permission.id">
-          {{permission.value}}
-        </mat-option>
+        <mat-option [value]="2">Адмін</mat-option>
+        <mat-option [value]="5">Метрологія</mat-option>
+        <mat-option [value]="6">Надавач послуг</mat-option>
       </mat-select>
     </mat-form-field>
   </div>

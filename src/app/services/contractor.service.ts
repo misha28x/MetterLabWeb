@@ -14,8 +14,12 @@ export class ContractorService {
 
   constructor(private http: HttpClient) { }
 
-  fetchContractors(serviceProvider: string): void {
-    this.http.get(`${contractorsUrl}/${serviceProvider}`).subscribe( (res: any) => this.contractorSource$.next(res) );
+  fetchContractors(): void {
+    this.http.get(contractorsUrl).subscribe( (res: any) => this.contractorSource$.next(res) );
+  }
+
+  getContractors(): Observable<Contractor[]> {
+    return this.contractorSource$.asObservable();
   }
 
   getPermissions(): Observable<any> {

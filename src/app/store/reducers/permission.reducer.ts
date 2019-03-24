@@ -41,8 +41,9 @@ export function permissionReducer(
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider
       };
+      return state;
     }
-
+    
     case PermissionTypes.Meneger: {
       state = { 
         permission: 4,

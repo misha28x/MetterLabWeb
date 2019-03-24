@@ -23,7 +23,6 @@ export class TaskSendingComponent implements OnInit {
 
   saveData(): void {
     const date = this.selectedDate;
-    console.log(date);
     const data: Task = {
       stationNumber: this.selectedStation,
       serviceType: this.selectedService,
