@@ -31,7 +31,6 @@ export class NavbarComponent implements OnInit {
     });
 
     this.menuSv.getVisitState().subscribe(state => {
-      console.log(state);
       this.visit = state;
     });
 	}
@@ -44,6 +43,6 @@ export class NavbarComponent implements OnInit {
   }
 
   cancelVisit(): void {
-    this.menuSv.setVisitState(false);
+    this.menuSv.cancelVisit();
   }
 }

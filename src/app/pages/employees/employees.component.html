@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-12 col-md-6">
+  <div class="col-md-12 col-lg-6">
     <mat-card>
       <mat-card-title>Працівники</mat-card-title>
 
@@ -7,13 +7,18 @@
         <h3 mat-subheader>Працівники</h3>
         <mat-list-item class="item" *ngFor="let employee of (employees | async)">
           <mat-icon mat-list-icon>account_box</mat-icon>
-          <p mat-line class="text"> {{ employee.user_full_name }} <span *ngIf="permissions" class="role"> &mdash; {{
-              getUserPermission(employee.user_permissions) }} </span> </p>
+          <p mat-line class="text"> {{ employee.user_full_name }}
+            <span *ngIf="permissions" class="role">
+              &mdash; {{ getUserPermission(employee.user_permissions) }}
+            </span>
+          </p>
 
-          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника" (click)="editEmployee(employee)">
+          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника"
+            (click)="editEmployee(employee)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button class="delete-btn" mat-icon-button matTooltip="Видалити працівника" (click)="deleteEmployee(employee)">
+          <button class="delete-btn" mat-icon-button matTooltip="Видалити працівника"
+            (click)="deleteEmployee(employee)">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-list-item>
@@ -40,37 +45,50 @@
     </mat-card>
   </div>
 
-  <div class="col-sm-12 col-md-6">
+  <div class="col-md-12 col-lg-6">
     <mat-card>
       <mat-card-title>Підрядники</mat-card-title>
 
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngFor="let city of (cities | async); let i = index" [expanded]="i === step" (opened)="step = i">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Луцьк
+              {{ city.name }}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <button mat-list-item (click)="getMenu('3','Волиньстандартметрологія')">ДП "Волиньстандартметрологія"</button>
-            <button mat-list-item (click)="getMenu('2', 'ЛУЦЬКВОДОКАНАЛ')">КП "ЛУЦЬКВОДОКАНАЛ"</button>
-            <button mat-list-item (click)="getMenu('2', 'ЛУЦЬКТЕПЛО')">
-              КП "ЛУЦЬКТЕПЛО"
+            <ng-container *ngFor="let contractor of (contractors | async)">
+              <button mat-list-item class="item" *ngIf="contractor.city_id === city.id" (click)="getMenu(contractor)">
+                <div class="text">
+                  {{ contractor.name }}
+                  <span *ngIf="permissions" class="role">
+                    &mdash; {{ getContractorType(contractor.permission) }}
+                  </span>
+                </div>
+                
 
-              <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції" (click)="addContractor($event)">
-                <mat-icon>edit</mat-icon>
+                <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані підрядника"
+                  (click)="editContractor($event, contractor)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button class="edit-btn" mat-icon-button matTooltip="Видалити підрядника"
+                  (click)="deleteContractor($event, contractor)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
               </button>
-            </button>
+            </ng-container>
           </mat-action-list>
 
           <mat-action-row class="actions">
-            <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції" (click)="editStation(station)">
+            <button class="edit-btn" mat-icon-button matTooltip="Змінити назву міста" (click)="editCity(city)">
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-button color="warn">Видалити</button>
+            <button mat-button color="warn" (click)="deleteCity(city)">Видалити</button>
 
-            <button mat-button class="right" (click)="addContractor($event, city.id)" color="primary">Додати</button>
+            <button mat-button class="right" (click)="addContractor($event, city)" color="primary">Додати</button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>

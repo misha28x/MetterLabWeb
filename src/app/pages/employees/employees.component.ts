@@ -11,6 +11,7 @@ import { MenuService } from '../../services/menu.service';
 import { EmployeeService } from '../../services/employee.service';
 import { StationsService } from '../../services/stations.service';
 import { ContractorService } from '../../services/contractor.service';
+
 import { login } from '../../store/actions/permission.action';
 
 import { AddEmployeeComponent } from '../../ui/components/add-employee';
@@ -30,10 +31,14 @@ import { Contractor } from '../../interfaces/contractor';
 })
 export class PageEmployeesComponent implements OnInit {
   employees: Observable<Employee[]>;
+  contractors: Observable<Contractor[]>;
+  cities: Observable<City[]>;
   permissions: any[];
   stations;
 
   user: User;
+
+  step: number;
 
   constructor(
     private contractorSv: ContractorService,
@@ -49,17 +54,26 @@ export class PageEmployeesComponent implements OnInit {
     this.store.pipe(select('permission')).subscribe( _user => {
       this.employeeSv.fetchEmployees(_user.serviceProvider);
       this.stationsSv.fetchStations(_user.serviceProvider);
+      this.contractorSv.fetchContractors();
+      this.citySv.fetchCities();
       this.user = _user;
     });
 
     this.employeeSv.getPermissions().subscribe( _permissions => this.permissions = _permissions); 
 
+    this.contractors = this.contractorSv.getContractors();
     this.employees = this.employeeSv.getEmployees();
     this.stations = this.stationsSv.getStations();
+    this.cities = this.citySv.getCities();
   }
 
-  getMenu(user: User): void {
-    this.store.dispatch(login(user));
+  getMenu(contractor: Contractor): void {
+    const user: User = {
+      username: contractor.name,
+      serviceProvider: contractor.name,
+      permission: contractor.permission
+    }; 
+    this.menuSv.setVisitState(user);
   }
 
   getUserPermission(id: string): string {
@@ -70,6 +84,21 @@ export class PageEmployeesComponent implements OnInit {
     }
 
     return '...';
+  }
+
+  getContractorType(id: number): string {
+    switch (id) {
+      case 2: 
+        return 'Адмін';
+
+      case 5: 
+        return 'Метрологія';
+
+      case 6: 
+        return 'Надавач Послуг';
+
+      default: return 'Підприємство';
+    }
   }
 
   addEmployee(): void {
@@ -133,16 +162,20 @@ export class PageEmployeesComponent implements OnInit {
   }
 
   addCity(): void {
-    this.dialog.open(AddCityComponent, {
+    const ref = this.dialog.open(AddCityComponent, {
       minWidth: '600px'
     });
+
+    ref.afterClosed().subscribe(() =>  this.citySv.fetchCities())
   }
 
   editCity(city: City): void {
-    this.dialog.open(AddCityComponent, {
+    const ref = this.dialog.open(AddCityComponent, {
       minWidth: '600px',
-      data: city
+      data: city.name
     });
+
+    ref.afterClosed().subscribe(() => this.citySv.fetchCities())
   }
 
   deleteCity(city: City): void {
@@ -153,18 +186,21 @@ export class PageEmployeesComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.citySv.deleteCity(city);
+        this.citySv.deleteCity(city).subscribe(() => this.citySv.fetchCities());
       }
     });
   }
 
-  addContractor(event: Event): void {
+  addContractor(event: Event, city: City): void {
     event.preventDefault();
     event.stopPropagation();
 
-    this.dialog.open(AddContractorComponent, {
-      minWidth: '600px'
+    const ref = this.dialog.open(AddContractorComponent, {
+      minWidth: '600px',
+      data: city.id
     });
+
+    ref.afterClosed().subscribe(() => this.contractorSv.fetchContractors());
   }
 
   editContractor(event: Event, contractor: Contractor): void {
@@ -176,7 +212,7 @@ export class PageEmployeesComponent implements OnInit {
       data: contractor
     });
 
-    ref.afterClosed().subscribe(() =>  this.contractorSv.fetchContractors(this.user.serviceProvider));
+    ref.afterClosed().subscribe(() =>  this.contractorSv.fetchContractors());
   }
 
   deleteContractor(event: Event, contractor: Contractor): void {
@@ -190,7 +226,7 @@ export class PageEmployeesComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.citySv.deleteCity(contractor);
+        this.contractorSv.deleteContractor(contractor).subscribe(() => this.contractorSv.fetchContractors());
       }
     });
   }

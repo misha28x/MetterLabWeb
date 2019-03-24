@@ -258,6 +258,7 @@ router.put("/city/:id", (req, res, next) => {
  */
 router.delete("/city/:id", (req, res, next) => {
   connection.query("DELETE FROM city WHERE id='" + req.params.id + "';", (err) => {
+    console.log(req.params.id);
     if (err) {
       console.log(err);
     }
@@ -304,7 +305,11 @@ router.get("/contractors/:id", (req, res, next) => {
  */
 router.post("/contractors", (req, res, next) => {
   connection.query("INSERT INTO `contractors`(`name`, `city_id`, `permission`) " +
+<<<<<<< HEAD
+    " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", ( err ) => {
+=======
     " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", (err) => {
+>>>>>>> d3d834f212907934dee07edd4095bc45e757b126
       if (err) {
         console.log(err);
       }

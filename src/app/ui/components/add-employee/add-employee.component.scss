@@ -42,4 +42,16 @@
       margin-right: $module-rem / 2;
     }
   }
+
+  .pass-icon {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    cursor: pointer;
+    transition: opacity .3s $animation;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
 }

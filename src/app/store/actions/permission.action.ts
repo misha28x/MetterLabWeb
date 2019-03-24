@@ -11,7 +11,6 @@ export enum PermissionTypes {
 }
 
 const getType = (permission: number) => {
-  console.log(permission);
   switch (permission) {
     case 1: 
       return PermissionTypes.SuperAdmin;
@@ -28,7 +27,7 @@ const getType = (permission: number) => {
     case 5: 
       return PermissionTypes.Metrology;
 
-    case 5: 
+    case 6: 
       return PermissionTypes.ServiceProvider;
       
     default: 
@@ -39,4 +38,8 @@ const getType = (permission: number) => {
 export const login = (info: User) => ({
   type: getType(info.permission),
   payload: { username: info.username, serviceProvider: info.serviceProvider }
+});
+
+export const logout = () => ({
+  type: PermissionTypes.Unauthorized
 });
