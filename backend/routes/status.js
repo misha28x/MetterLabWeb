@@ -12,7 +12,7 @@ const router = express.Router();
  * @returns status повірки
  */
 router.get('/verification/:id', (req, res, next) => {
-  connection.query("SELECT `status` FROM `archive` WHERE `applicationNumber` = '" + req.params.id + "' ;", (err, status) => {
+  connection.query("SELECT protocols.symbol, protocols.type, archive.productionYear, archive.acumulatedVolume, archive.serviceProvider, archive.scanFile, archive.protocolSignDate, protocols.image FROM archive INNER JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.applicationNumber = '" + req.params.id + "';", (err, status) => {
     if (err) {
       console.log(err);
     }
@@ -27,7 +27,7 @@ router.get('/verification/:id', (req, res, next) => {
  * @returns status повірки
  */
 router.get('/counter/:id', (req, res, next) => {
-  connection.query("SELECT `status` FROM `archive` WHERE `counterNumber` = '" + req.params.id + "' ;", (err, status) => {
+  connection.query("SELECT protocols.symbol, protocols.type, archive.productionYear, archive.acumulatedVolume, archive.serviceProvider, archive.scanFile, archive.protocolSignDate, protocols.image FROM archive INNER JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.counterNumber = '" + req.params.id + "';", (err, status) => {
     if (err) {
       console.log(err);
     }
