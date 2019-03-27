@@ -40,7 +40,7 @@ function bytesToInt(bytes) {
   return new Uint32Array(u32bytes)[0];
 }
 
-function getResultsFromDatabase(byteArray) {
+function getResultsFromDatabase(byteArray, createFor) {
   const db = new SQL.Database(byteArray);
 
   // Формуємо результат у масив об'єктів
@@ -113,8 +113,8 @@ function getResultsFromDatabase(byteArray) {
               if (appNum.length == 0) {
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, /* TODO: */ row.Date, row.FileNumber, null, null, null, null, null);
-                let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, createFor, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, /* TODO: */ row.Date, row.FileNumber, null, null, null, null, null);
+                let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
                 connection.query(varResult, (err) => {
                   if (err) {
                     console.log(err);
@@ -132,13 +132,13 @@ function getResultsFromDatabase(byteArray) {
                 console.log('Відсутні помилки в запиті на оновлення: ' + row.Id_pc);
               }
             } else {
-              const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+              const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
               const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
 
               applicationNumber = createNextApplicationNumber(applicationNumber);
 
-              let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
-              let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+              let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, createFor , null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
+              let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`,`employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
               connection.query(varResult, (err) => {
                 if (err) {
                   console.log(err);
@@ -532,6 +532,10 @@ function addProtocol(protocol) {
 
 }
 
+/**
+ * @param req.body.createFor - створено для, передається в метод для отримання результатів з БД архіву
+ * і INSERT записів в таблицю `archive`, що містить `createFor`
+ */
 router.post('', upload.single('file'), (req, res, next) => {
   fs.readFile('./backend/temp/tempo.zip', function (err, data) {
     if (err) throw err;
@@ -555,7 +559,7 @@ router.post('', upload.single('file'), (req, res, next) => {
           });
         } else if (zipEntry.name.includes('.db')) {
           zip.file("BluetoothDB.db").async("uint8array").then(async (data) => {
-            await getResultsFromDatabase(data);
+            await getResultsFromDatabase(data, req.body.createFor);
           });
         }
       });

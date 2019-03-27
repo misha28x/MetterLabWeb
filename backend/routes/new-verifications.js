@@ -52,6 +52,10 @@ router.get( '/cancel-employee/:id', ( req, res, next ) => {
 
 // 1. Додавання нової повірки в Archive з усіма даними і статусом "Визначено відповідальну особу"
 // TODO: Встановити PrimaryKey/Qniquef
+
+/**
+ * @param req.body.createFor - створено для
+ */
 router.post('', (req, res, next) => {
   // Знаходимо номер останньої створеної заявки
   console.log({
@@ -75,9 +79,9 @@ router.post('', (req, res, next) => {
       status = "Визначено відповідальну особу";
     }
 
-    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-    let formatedData = varData.format(getCurrentDate(), applicationNumber, req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate)[0], formatDate(req.body.favorTime)[1], req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo)[0], req.body.serviceProvider, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate)[0], req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
-    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`favorTime`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`, `status`)" + formatedData);
+    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+    let formatedData = varData.format(getCurrentDate(), applicationNumber, req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate)[0], formatDate(req.body.favorTime)[1], req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo)[0], req.body.serviceProvider, req.body.createFor, req.body.employeeName, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate)[0], req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status);
+    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`favorTime`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`, `status`)" + formatedData);
     connection.query(varResult, (err, result) => {
       if (err) {
         console.log(err);
