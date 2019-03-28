@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
-const metrologyProtocolsUrl = 'http://localhost:3000/api/verications-protocols/metrology';
-const rejectedProtocolsUrl = 'http://localhost:3000/api/rejected-protocols';
-const failedTasksUrl = 'http://localhost:3000/api/stations-tasks/failed/1';
-const newVerificationUrl = 'http://localhost:3000/api/new-verifications';
-const rejectedVerif = 'http://localhost:3000/api/rejected-verification';
-const ptocolsUrl = 'http://localhost:3000/api/verications-protocols';
-const archiveUrl = 'http://localhost:3000/api/verifications-archive';
-const stationTasksUrl = 'http://localhost:3000/api/stations-tasks';
-const taskPlaningUrl = 'http://localhost:3000/api/task-planing';
-const labUrl = 'http://localhost:3000/api/lab-requests';
+import { User } from '../interfaces/user';
+
+let metrologyProtocolsUrl: string = 'http://localhost:3000/api/verications-protocols/metrology';
+let rejectedProtocolsUrl: string = 'http://localhost:3000/api/rejected-protocols';
+let failedTasksUrl: string = 'http://localhost:3000/api/stations-tasks/failed/1';
+let newVerificationUrl: string = 'http://localhost:3000/api/new-verifications';
+let rejectedVerif: string = 'http://localhost:3000/api/rejected-verification';
+let ptocolsUrl: string = 'http://localhost:3000/api/verications-protocols';
+let archiveUrl: string = 'http://localhost:3000/api/verifications-archive';
+let stationTasksUrl: string = 'http://localhost:3000/api/stations-tasks';
+let taskPlaningUrl: string = 'http://localhost:3000/api/task-planing';
+let labUrl: string = 'http://localhost:3000/api/lab-requests';
 // TODO:Rejected Verif
 
 @Injectable({
@@ -29,7 +32,27 @@ export class SourceService {
   private archiveSource$ = new BehaviorSubject([]);
   private labSource$ = new BehaviorSubject([]);
 
-  constructor(private http: HttpClient) { }
+  private user: User;
+
+  constructor(
+    private http: HttpClient,
+    private store: Store<User>
+  ) {
+    this.store.pipe(select('permission')).subscribe(_user => {
+      this.user = _user;
+      
+      metrologyProtocolsUrl += '/' + _user.createFor;
+      rejectedProtocolsUrl += '/' + _user.createFor;
+      failedTasksUrl += '/' + _user.createFor;
+      newVerificationUrl += '/' + _user.createFor;
+      rejectedVerif += '/' + _user.createFor;
+      ptocolsUrl += '/' + _user.createFor;
+      archiveUrl += '/' + _user.createFor;
+      stationTasksUrl += '/' + _user.createFor;
+      taskPlaningUrl += '/' + _user.createFor;
+      labUrl += '/' + _user.createFor;
+    });
+  }
 
   fetchNewVerifications(): void {
     this.http.get(newVerificationUrl).subscribe((res: any) => this.newVerificationSource$.next(res));
