@@ -5,8 +5,13 @@ const router = express.Router();
 
 const connection = require('../database/db');
 // TODO: протоколи, де статус "Повірено. Не придатний"
-router.get('', (req, res, next) => {
-  connection.query( "SELECT * FROM `archive` WHERE `status` = 'Повірено. Непридатний';", ( err, result ) => {
+
+/**
+ * @param req.params.createFor - створено для
+ */
+// створено для
+router.get('/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `status` = 'Повірено. Непридатний' AND `createFor` = '" + req.params.createFor + "';", (err, result) => {
     if (err) {
       console.log(err);
     }

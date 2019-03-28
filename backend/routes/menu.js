@@ -15,8 +15,8 @@ const counters = {
 };
 
 // Роут, що повертає json з counters для конкретного permission користувача
-router.get("/counters/:permission", (req, res, next) => {
-  let countersQuery = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='Не визначено відповідальну особу' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці' AND scanFile IS NOT NULL) AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology;";
+router.get("/counters/:permission/:createFor", (req, res, next) => {
+  let countersQuery = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND (`status`='Не визначено відповідальну особу' OR `status` IS NULL) ) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Проведено повірку на місці' AND scanFile IS NOT NULL) AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Передано повірнику') AS metrology;";
   connection.query(countersQuery, (err, rezz) => {
     if (err) {
       console.log({
@@ -61,8 +61,8 @@ router.get("/counters/:permission", (req, res, next) => {
   });
 });
 
-router.get("/:id", (req, res, next) => {
-  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `status`='Не визначено відповідальну особу' OR `status` IS NULL) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `status`='Передано повірнику') AS metrology;";
+router.get("/:id/:createFor", (req, res, next) => {
+  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND (`status`='Не визначено відповідальну особу' OR `status` IS NULL)) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Передано повірнику') AS metrology;";
   connection.query(queryString, (err, result) => {
     if (err) {
       console.log({
@@ -119,75 +119,75 @@ router.get("/:id", (req, res, next) => {
  */
 
 function getSuperAdminMenu() {
-	 return [{
-	     title: 'Головна Панель',
-	     icon: 'icofont-ui-home',
-	     routing: 'home'
-	   },
-	   {
-	     title: 'Нові Повірки',
-	     icon: 'far fa-calendar-plus',
-	     routing: 'new-verifications',
-	     counter: counters.new_verifications
-	   },
-	   {
-	     title: 'Заявки Лабораторії',
-	     icon: 'fas fa-flask',
-	     routing: 'lab-requests',
-	     counter: counters.lab_requests
-	   },
-	   {
-	     title: 'Протоколи',
-	     icon: 'icofont-file-powerpoint',
-	     routing: 'verications-protocols'
-	   },
-	   {
-	     title: 'Електроні протоколи',
-	     icon: 'far fa-file-powerpoint',
-	     routing: 'verications-protocols'
-	   },
-	   {
-	     title: 'Відхилені Протоколи',
-	     icon: 'fas fa-file-prescription',
-	     routing: 'rejected-protocols'
-	   },
-	   {
-	     title: 'Планування Завдання',
-	     icon: 'icofont-tasks-alt',
-	     routing: 'tasks-planing',
-	     counter: counters.task_planing
-	   },
-	   {
-	     title: 'Невиконанні завдання',
-	     icon: 'far fa-calendar-times',
-	     routing: 'failed-tasks'
-	   },
-	   {
-	     title: 'Завдання Для Станцій',
-	     icon: 'icofont-tack-pin',
-	     routing: 'station-tasks'
-	   },
-	   {
-	     title: 'Відхилені Повірки',
-	     icon: 'fas fa-ban',
-	     routing: 'rejected-verification'
-	   },
-	   {
-	     title: 'Архів Повірок',
-	     icon: 'icofont-archive',
-	     routing: 'verifications-archive'
-	   },
-	   {
-	     title: 'Працівники та підрядники',
-	     icon: 'icofont-users',
-	     routing: 'employees'
-	   },
-	   {
-	     title: 'Звіти',
-	     icon: 'icofont-file-excel',
-	     routing: 'reports'
-	   }
-	 ];
+  return [{
+      title: 'Головна Панель',
+      icon: 'icofont-ui-home',
+      routing: 'home'
+    },
+    {
+      title: 'Нові Повірки',
+      icon: 'far fa-calendar-plus',
+      routing: 'new-verifications',
+      counter: counters.new_verifications
+    },
+    {
+      title: 'Заявки Лабораторії',
+      icon: 'fas fa-flask',
+      routing: 'lab-requests',
+      counter: counters.lab_requests
+    },
+    {
+      title: 'Протоколи',
+      icon: 'icofont-file-powerpoint',
+      routing: 'verications-protocols'
+    },
+    {
+      title: 'Електроні протоколи',
+      icon: 'far fa-file-powerpoint',
+      routing: 'verications-protocols'
+    },
+    {
+      title: 'Відхилені Протоколи',
+      icon: 'fas fa-file-prescription',
+      routing: 'rejected-protocols'
+    },
+    {
+      title: 'Планування Завдання',
+      icon: 'icofont-tasks-alt',
+      routing: 'tasks-planing',
+      counter: counters.task_planing
+    },
+    {
+      title: 'Невиконанні завдання',
+      icon: 'far fa-calendar-times',
+      routing: 'failed-tasks'
+    },
+    {
+      title: 'Завдання Для Станцій',
+      icon: 'icofont-tack-pin',
+      routing: 'station-tasks'
+    },
+    {
+      title: 'Відхилені Повірки',
+      icon: 'fas fa-ban',
+      routing: 'rejected-verification'
+    },
+    {
+      title: 'Архів Повірок',
+      icon: 'icofont-archive',
+      routing: 'verifications-archive'
+    },
+    {
+      title: 'Працівники та підрядники',
+      icon: 'icofont-users',
+      routing: 'employees'
+    },
+    {
+      title: 'Звіти',
+      icon: 'icofont-file-excel',
+      routing: 'reports'
+    }
+  ];
 }
 
 /**

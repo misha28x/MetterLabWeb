@@ -48,21 +48,22 @@ router.post('/seal/:id', (req, res, next) => {
 });
 
 // Оновлення даних про клієнта
-router.put('/client/upd/:id', (req,res,next) => {
-	// "UPDATE archive SET client, email, phoneNumber, secondNumber, region, district, settlement, cityIndex, street, house, apartment FROM archive WHERE applicationNumber='" + req.params.id + "';"
-	let varData = "`client`='%s',`email`='%s',`phoneNumber`='%s',`secondNumber`='%s',`region`='%s',`district`='%s',`settlement`='%s',`cityIndex`='%s',`street`='%s',`house`='%s',`apartment`='%s'";
-	let formatedData = varData.format(req.body.client, req.body.email, req.body.phoneNumber, req.body.secondNumber, req.body.region, req.body.district, req.body.settlement, req.body.cityIndex, req.body.street, req.body.house, req.body.apartment);
-	let varResult = "UPDATE archive SET " + formatedData + " WHERE applicationNumber = '" + req.params.id + "';";
-	connection.query(varResult, (err) => {
-			if (err) {
-				console.log(err);				
-			}
-	});
+router.put('/client/upd/:id', (req, res, next) => {
+  // "UPDATE archive SET client, email, phoneNumber, secondNumber, region, district, settlement, cityIndex, street, house, apartment FROM `archive` WHERE applicationNumber='" + req.params.id + "';"
+  let varData = "`client`='%s',`email`='%s',`phoneNumber`='%s',`secondNumber`='%s',`region`='%s',`district`='%s',`settlement`='%s',`cityIndex`='%s',`street`='%s',`house`='%s',`apartment`='%s'";
+  let formatedData = varData.format(req.body.client, req.body.email, req.body.phoneNumber, req.body.secondNumber, req.body.region, req.body.district, req.body.settlement, req.body.cityIndex, req.body.street, req.body.house, req.body.apartment);
+  let varResult = "UPDATE archive SET " + formatedData + " WHERE applicationNumber = '" + req.params.id + "';";
+  connection.query(varResult, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 });
 
 // Отримання інформації про клієнта
-router.get('/client/:id', (req, res, next) => {
-  connection.query("SELECT client, email, phoneNumber, secondNumber, region, district, settlement, cityIndex, street, house, apartment FROM archive WHERE applicationNumber='" + req.params.id + "';", (err, result) => {
+// створено для
+router.get('/client/:id/:createFor', (req, res, next) => {
+  connection.query("SELECT client, email, phoneNumber, secondNumber, region, district, settlement, cityIndex, street, house, apartment FROM `archive` WHERE applicationNumber='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -88,8 +89,9 @@ router.post('/service-provider/:id', (req, res, next) => {
 });
 
 // Post запит на завантаження сканованого файлу
-router.get('/scan/:id', (req, res, next) => {
-  connection.query(`SELECT scanFile FROM archive WHERE applicationNumber = '${req.params.id}'`, (err, result) => {
+// створено для
+router.get('/scan/:id/:createFor', (req, res, next) => {
+  connection.query(`SELECT scanFile FROM archive WHERE applicationNumber = '${req.params.id}' AND createFor = '` + req.params.createFor + `'`, (err, result) => {
     if (err) {
       res.json({
         err: 'Database Error'
@@ -114,8 +116,9 @@ router.post('/scan/:id', upload.single('scan'), (req, res, next) => {
   });
 });
 
-router.get('', (req, res, next) => {
-  connection.query("SELECT * FROM archive WHERE `status` LIKE 'Повірено%' OR 'Передано %'", (err, result) => {
+// створено для
+router.get('/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `createFor` = '" + req.params.createFor + "' (`status` LIKE 'Повірено%' OR 'Передано %')", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -139,8 +142,9 @@ router.put('/edit/:id', (req, res, next) => {
   });
 });
 
-router.get('/:id', (req, res, next) => {
-  connection.query('SELECT * FROM `archive` WHERE `applicationNumber` =' + req.params.id + ';', (err, result) => {
+// створено для
+router.get('/:id/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `applicationNumber` ='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "';", (err, result) => {
     if (err) {
       console.log(err);
     }

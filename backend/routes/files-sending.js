@@ -18,7 +18,7 @@ const configOb = {
 
 router.post('/:id', (req, res, next) => {
   if (true) { // TODO: req.body.status = '' || req.body.status == null
-    const queryStr = "SELECT * FROM archive WHERE `idForStation`= " + req.params.id + ";";
+    const queryStr = "SELECT * FROM `archive` WHERE `idForStation`= " + req.params.id + ";";
     connection.query(queryStr, (err, result) => {
       connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
         connection.query("SELECT `contactEmail` FROM `stations` WHERE `stationNumber`='" + stationRows[0].stationNumber + "';", (err, emails) => {

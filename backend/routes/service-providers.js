@@ -5,8 +5,9 @@ const connection = require('../database/db');
 
 const router = express.Router();
 
-router.get('/provider/:id', (req, res, next) => {
-	connection.query("SELECT * FROM `archive` WHERE `userId`='" + req.params.id + "' AND (`status`='Не визначено відповідальну особу' OR `status`='');", (err, result) => {
+// створено для
+router.get('/provider/:id/:createFor', (req, res, next) => {
+	connection.query("SELECT * FROM `archive` WHERE `userId`='" + req.params.id + "' AND (`status`='Не визначено відповідальну особу' OR `status`='') AND `createFor` = '" + req.params.createFor + "';", (err, result) => {
 		if (err) {
 			res.json(err);
 		}

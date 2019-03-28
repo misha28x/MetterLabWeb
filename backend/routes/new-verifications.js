@@ -29,9 +29,9 @@ router.get('/device', (req, res, next) => {
 });
 
 // Запит для отримання усіх повірок get
-router.get('', (req, res, next) => {
-
-  connection.query("SELECT * FROM archive WHERE `status` NOT LIKE 'Відхилено%' OR 'Передано повірнику' OR 'Повірено%';", (err, result) => {
+// створено для
+router.get('/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `createFor` = '" + req.params.createFor + "' AND (`status` NOT LIKE 'Відхилено%' OR 'Передано повірнику' OR 'Повірено%');", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -39,16 +39,16 @@ router.get('', (req, res, next) => {
   });
 });
 
-router.get( '/cancel-employee/:id', ( req, res, next ) => {
-  connection.query( "UPDATE `archive` SET `employeeName`='', status='' WHERE `applicationNumber`='" + req.params.id + "';", ( err ) => {
-    if ( err ) {
-      console.log( err );
+router.get('/cancel-employee/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `employeeName`='', status='' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
+    if (err) {
+      console.log(err);
     }
-  } );
-  res.status( 200 ).send( {
+  });
+  res.status(200).send({
     msg: 'знято відповідальну особу'
-  } );
-} );
+  });
+});
 
 // 1. Додавання нової повірки в Archive з усіма даними і статусом "Визначено відповідальну особу"
 // TODO: Встановити PrimaryKey/Qniquef

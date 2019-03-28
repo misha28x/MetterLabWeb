@@ -5,8 +5,11 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
-router.get('', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `status` LIKE 'Проведено%' AND `scanFile` IS NOT NULL;", (err, result) => {
+/**
+ * @param req.params.createFor - створено для
+ */
+router.get('/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `status` LIKE 'Проведено%' AND `scanFile` IS NOT NULL AND `createFor` = '" + req.params.createFor + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
