@@ -8,8 +8,8 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
-router.get('', (req, res, next) => {
-  connection.query('SELECT * FROM station_tasks', (err, result) => {
+router.get('/:serviceProvider', (req, res, next) => {
+  connection.query("SELECT * FROM station_tasks WHERE `serviceProvider` = '" + req.params.serviceProvider + "';", (err, result) => {
     if (err) {
       console.log(err);
     }

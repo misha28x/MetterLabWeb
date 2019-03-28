@@ -31,6 +31,9 @@ router.get('/stations', (req, res, next) => {
   });
 });
 
+/** 
+ * @param req.body.serviceProvider
+*/
 // Роутер, що переміщає заявку в архів повірок
 router.post('/station-task', (req, res, next) => {
   console.log({
@@ -43,9 +46,9 @@ router.post('/station-task', (req, res, next) => {
     const phNumber = station[0].phoneNumber;
     const eMail = station[0].contactEmail;
 
-    let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s', '%s');";
-    let taskAddingFormat = taskAdding.format(formatDate(req.body.taskDate)[0], "Переносна установка *", stNumber, emName, phNumber, eMail, req.body.verifications.length);
-    let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`)" + taskAddingFormat;
+    let taskAdding = " VALUES ('%s','%s','%s','%s','%s','%s', '%s', '%s');";
+    let taskAddingFormat = taskAdding.format(formatDate(req.body.taskDate)[0], "Переносна установка *", stNumber, emName, phNumber, eMail, req.body.verifications.length, req.body.serviceProvider);
+    let taskAddingResult = "INSERT INTO `station_tasks`(`taskDate`, `stationType`, `stationNumber`, `contactName`, `phoneNumber`,`e_mail`, `verifCount`, `serviceProvider`)" + taskAddingFormat;
 
     let getTasksId = "SELECT id_task FROM `station_tasks` ORDER BY `id_task` DESC LIMIT 1;";
 
