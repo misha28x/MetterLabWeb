@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ResponseContentType } from '@angular/http';
-
 import { HttpClient } from '@angular/common/http';
+import { Store, select } from '@ngex/store';
+
+import { User } from '../interfaces/user';
 
 enum DateType  {
   Single = 'single/',
@@ -21,15 +22,22 @@ const Url = 'http://localhost:3000/api/reports/';
   providedIn: 'root'
 })
 export class ReportsService {
+  private user: User;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private store: Store<User>
+  ) { 
+    this.store.pipe(select('permission')).subscribe(_user => this.user = _user);
+  }
 
   public getReport(type: string, date: string[]): void {
     const reportType = this.getReportType(type);
     const reportDate = this.getDate(date);
     const dateType = reportDate.type;
+    const serviceProvider = '/' + this.user.createFor;
 
-    const url = Url + reportType + dateType  + date ;
+    const url = Url + reportType + dateType  + date  + serviceProvider;
 
     window.open(url);
   }

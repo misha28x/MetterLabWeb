@@ -7,7 +7,6 @@ import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
-import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
 const url = 'http://localhost:3000/api/new-verifications';
 
@@ -32,7 +31,7 @@ export class PageRejectedVerificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rejectedVerif = this.sourceSv.getLab();
+    this.rejectedVerif = this.sourceSv.getRejectedVerifications();
   }
 
   updateData(): void {

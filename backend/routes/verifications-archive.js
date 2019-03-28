@@ -23,8 +23,8 @@ const upload = multer({
 });
 
 // Недозвон
-router.get('/ndz/:id', (req, res, next) => {
-  connection.query("UPDATE `archive` SET `note`='НДЗ " + currentDate() + "' WHERE `applicationNumber`=" + req.params.id + ";", (err, result) => {
+router.put('/ndz/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `note`='__НДЗ " + currentDate() + "__' WHERE `applicationNumber`=" + req.params.id + ";", (err, result) => {
     if (err) {
       console.log(err);
     }

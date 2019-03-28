@@ -3,14 +3,14 @@
   <mat-card class="mb-0" >
     <form class="login-form mb-0">
 
-			<h2 class="header-style">Вхід</h2>
+			<h3 class="header-style">Вхід</h3>
 			
 			<p>Для входу пройдіть авторизацію</p>
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="Email" [formControl]="emailFormControl">
+        <input matInput placeholder="Логін" [formControl]="emailFormControl">
         <mat-error *ngIf="emailFormControl.hasError('required')">
-          Будь ласка, <strong>введіть</strong> email
+          Будь ласка, <strong>введіть</strong> логін
         </mat-error>
       </mat-form-field>
 
@@ -20,7 +20,7 @@
           Будь ласка, <strong>введіть</strong> пароль
         </mat-error>
       </mat-form-field>
-      <mat-card-actions>
+      <mat-card-actions class="mb-0">
         <button mat-raised-button color="primary" (click)="authorization()">Увійти</button>
       </mat-card-actions>
     </form>

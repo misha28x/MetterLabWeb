@@ -45,9 +45,9 @@
 
       <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [width]="35" [columnTitle]="'Буд.'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [width]="75" [columnTitle]="'Буд.'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [width]="35" [columnTitle]="'Кв.'" [columnName]="'apartment'" [enableSorting]="true"
+      <app-column [width]="75" [columnTitle]="'Кв.'" [columnName]="'apartment'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="110" [columnTitle]="'Коментар'" [columnName]="'comment'" [enableSorting]="true"
@@ -57,15 +57,23 @@
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button>
-              <i class="icofont-info color-info" matTooltip="Інформація про заявку"></i>
-            </button>
-
-            <button mat-icon-button>
               <i class="icofont-info-circle color-info" matTooltip="Інформація про протокол"></i>
             </button>
 
             <button mat-icon-button (click)="displayProtocol(row['protocolNumber'])">
               <i class="icofont-edit color-info" matTooltip="Переглянути протокол"></i>
+            </button>
+
+            <button mat-icon-button (click)="deleteProtocol(row['bbiFilename'])">
+              <mat-icon class="color-error" matTooltip="Видалити файл">delete_outline</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
+              <mat-icon class="color-error" matTooltip="Відхилити повірку">cancel</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="showClientInfo(row['applicationNumber'])">
+              <i class="icofont-info color-info" matTooltip="Інформація про клієнта"></i>
             </button>
           </div>
         </ng-template>

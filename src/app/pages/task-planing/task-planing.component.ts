@@ -11,6 +11,7 @@ import { VerificationService } from '../../services/verification.service';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
 import { TaskSendingComponent } from './task-sending/task-sending.component';
+import { UserInfoComponent } from '../../ui/components/user-info';
 
 const verificationUrl = 'http://localhost:3000/api/new-verifications';
 
@@ -106,7 +107,7 @@ export class PageTaskPlaningComponent implements OnInit {
   }
 
   updateData(): void {
-    this.sourceSv.fetchLabRequest();
+    this.sourceSv.fetchTaskPlaning();
   }
 
   detailView(id: number): void {
@@ -155,5 +156,18 @@ export class PageTaskPlaningComponent implements OnInit {
 
   checkForDuplicate(verification: Verification): void {
     this.verificationSv.addVerification(verification);
+  }
+
+  clientInaccesable(id: any): void {
+    this.verificationSv.clientInaccesable(id).subscribe(() => this.updateData());
+  }
+
+  showClientInfo(id: any): void {
+
+    this.dialog.open(UserInfoComponent, {
+      height: '90%',
+      minWidth: '70%',
+      data: id
+    });
   }
 }

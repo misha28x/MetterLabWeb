@@ -19,7 +19,8 @@ export function permissionReducer(
       state = {
         permission: 1,
         username: action.payload.username,
-        serviceProvider: action.payload.serviceProvider
+        serviceProvider: action.payload.serviceProvider,
+        createFor: action.payload.serviceProvider
       };
 
       return state;
@@ -29,7 +30,8 @@ export function permissionReducer(
       state = {
         permission: 2,
         username: action.payload.username,
-        serviceProvider: action.payload.serviceProvider
+        serviceProvider: action.payload.serviceProvider,
+        createFor: action.payload.serviceProvider
       };
 
       return state;
@@ -39,7 +41,8 @@ export function permissionReducer(
       state = {
         permission: 3,
         username: action.payload.username,
-        serviceProvider: action.payload.serviceProvider
+        serviceProvider: action.payload.serviceProvider,
+        createFor: action.payload.serviceProvider
       };
       return state;
     }
@@ -48,7 +51,8 @@ export function permissionReducer(
       state = { 
         permission: 4,
         username: action.payload.username,
-        serviceProvider: action.payload.serviceProvider
+        serviceProvider: action.payload.serviceProvider,
+        createFor: action.payload.serviceProvider
       };
 
       return state;
@@ -68,7 +72,8 @@ export function permissionReducer(
       state = {
         permission: 6,
         username: action.payload.username,
-        serviceProvider: action.payload.serviceProvider
+        serviceProvider: action.payload.serviceProvider,
+        createFor: 'ТЗОВ "ВОЛИНЬ АКВА СТАНДАРТ"'
       };
 
       return state;

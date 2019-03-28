@@ -15,7 +15,9 @@ export class MenuComponent implements OnInit {
 
   menu: Observable<IMenuItem[]>;
 
-  constructor(private menuSv: MenuService) { }
+  constructor(
+    private menuSv: MenuService
+  ) { }
 
   ngOnInit(): void {
     this.menu = this.getMenu();

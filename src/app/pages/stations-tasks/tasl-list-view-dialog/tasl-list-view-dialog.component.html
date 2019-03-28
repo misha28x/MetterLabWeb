@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Список заявок завдання</h2>
 
-<app-table [hovered]="true" [bordered]="true" [tableData]="taskList" [pagination]="true">
+<app-table [hovered]="true" [bordered]="true" [tableData]="(taskList | async)" [pagination]="true">
 
   <app-column [columnTitle]="'Дата додання'" [columnName]="'addingDate'" [width]="90" [enableSorting]="true"
     [enableFiltering]="true"></app-column>
@@ -8,36 +8,61 @@
   <app-column [columnTitle]="'Надавач послуг'" [columnName]="'serviceProvider'" [width]="180" [enableSorting]="true"
     [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'ПІБ Клієнта'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'ПІБ Клієнта'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true">
+  </app-column>
 
-  <app-column [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true" [width]="120" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true" [width]="120"
+    [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'Вулиця клієнта'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Вулиця клієнта'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true">
+  </app-column>
 
-  <app-column [columnTitle]="'Буд.'" [columnName]="'house'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Буд.'" [columnName]="'house'" [width]="50" [enableSorting]="true"
+    [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'Кв.'" [columnName]="'apartment'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Кв.'" [columnName]="'apartment'" [width]="50" [enableSorting]="true"
+    [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'Під.'" [columnName]="'entrance'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Під.'" [columnName]="'entrance'" [width]="50" [enableSorting]="true"
+    [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'Пов.'" [columnName]="'floor'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Пов.'" [columnName]="'floor'" [width]="50" [enableSorting]="true"
+    [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
+    [enableFiltering]="true"></app-column>
 
   <app-column [columnTitle]="'Бажаний час'" [columnName]="'taskTime'" [width]="100" [enableSorting]="true"
     [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true">
+  </app-column>
 
-  <app-column [columnTitle]="''" [width]="100">
+  <app-column [columnTitle]="''" [width]="140">
     <ng-template #tableBodyTemplate let-row="row">
       <div class="actions-row">
         <button mat-icon-button (click)="cancelTask(row['applicationNumber'])">
-          <i class="fas fa-reply color-info" matTooltip="Повернути до планування"></i>
+          <mat-icon class="color-info" matTooltip="Повернути до планування">settings_backup_restore</mat-icon>
         </button>
 
         <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
-          <i class="fas fa-minus-circle color-error" matTooltip="Відхилити повірку"></i>
+          <mat-icon class="color-error" matTooltip="Відхилити повірку">cancel</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="detailView(row['applicationNumber'])">
+          <mat-icon class="color-info" matTooltip="Інформація">info</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="cancellEmployee(row['applicationNumber'])">
+          <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
+        </button>
+
+        <button mat-icon-button (click)="checkForDuplicate(row)">
+          <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
+        </button>
+
+        <button mat-icon-button (click)="clientInaccesable(row['applicationNumber'])">
+          <mat-icon class="color-error" matTooltip="Недозвон">phone_missed</mat-icon>
         </button>
       </div>
     </ng-template>

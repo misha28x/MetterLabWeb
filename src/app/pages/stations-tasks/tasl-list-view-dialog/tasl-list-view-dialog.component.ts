@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material';
 
 import { DataService } from '../../../services/data.service';
+import { SourceService } from '../../../services/source.service';
+import { VerificationService } from '../../../services/verification.service';
 
 @Component({
 	selector: 'app-tasl-list-view-dialog',
@@ -16,22 +18,20 @@ export class TaslListViewDialogComponent implements OnInit {
 	private url: string;
 
 	constructor(
-		private dataSv: DataService,
+    private dataSv: DataService,
+    private sourceSv: SourceService,
+    private verifSv: VerificationService,
 		private dialogRef: MatDialogRef<TaslListViewDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public idTask: number
 	) { }
 
 	ngOnInit(): void {
-		this.url = 'http://localhost:3000/api/stations-tasks/' + this.idTask;
-
-		this.taskList = this.dataSv.getData(this.url);
+    this.updateData();
   }
+
 
   cancelTask(id: string): void {
     this.dataSv.getData('http://localhost:3000/api/stations-tasks/delete/' + id).subscribe();
-  }
-  rejectVerification(id: string): void {
-    this.dataSv.getData('http://localhost:3000/api/new-verification/rejected/:id' + id).subscribe();
   }
   
   rowStyle(date: string, status: string): any {
@@ -46,5 +46,26 @@ export class TaslListViewDialogComponent implements OnInit {
       return false;
     }
     return true;
+  }
+  updateData(): void {
+    this.url = 'http://localhost:3000/api/stations-tasks/' + this.idTask;
+
+    this.taskList = this.dataSv.getData(this.url);
+  }
+
+  rejectVerification(id: number): void {
+    this.verifSv.rejectVerification(id).subscribe(() => this.updateData());
+  }
+
+  cancellEmployee(id: number): void {
+    this.verifSv.cancellEmployee(id).subscribe(() => this.updateData());
+  }
+
+  checkForDuplicate(verification: any): void {
+    this.verifSv.addVerification(verification);
+  }
+
+  clientInaccesable(id: any): void {
+    this.verifSv.clientInaccesable(id).subscribe(() => this.updateData());
   }
 }

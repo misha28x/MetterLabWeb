@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { VerificationService } from '../../services/verification.service';
 import { ProtocolService } from '../../services/protocol.service';
 import { SourceService } from '../../services/source.service';
 import { DataService } from '../../services/data.service';
@@ -20,10 +21,11 @@ export class PageVerificationsProtocolsComponent implements OnInit {
   constructor(
     private dataSv: DataService,
     private sourceSv: SourceService,
-    private protocolSv: ProtocolService
+    private protocolSv: ProtocolService,
+    private verifSv: VerificationService
   ) {
-    this.sourceSv.fetchProtocols();
     this.selectedData = [];
+    this.sourceSv.fetchProtocols();
   }
 
   ngOnInit(): void {
@@ -56,5 +58,25 @@ export class PageVerificationsProtocolsComponent implements OnInit {
         }
       );
     }
+  }
+
+  rejectVerification(id: number): void {
+    this.verifSv.rejectVerification(id).subscribe(() => this.sourceSv.fetchProtocols());
+  }
+
+  cancellEmployee(id: number): void {
+    this.verifSv.cancellEmployee(id).subscribe(() => this.sourceSv.fetchProtocols());
+  }
+
+  checkForDuplicate(verification: any): void {
+    this.verifSv.addVerification(verification);
+  }
+
+  clientInaccesable(id: any): void {
+    this.verifSv.clientInaccesable(id).subscribe(() => this.sourceSv.fetchProtocols());
+  }
+
+  deleteProtocol(id: any): void {
+    this.verifSv.deleteProtocol(id).subscribe();
   }
 }
