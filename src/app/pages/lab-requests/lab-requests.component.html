@@ -25,124 +25,8 @@
         </button>
       </div>
     </div>
-    <table mat-table [dataSource]="labRequests | async">
 
-      <ng-container matColumnDef="addingDate">
-        <th mat-header-cell *matHeaderCellDef> Дата надходження </th>
-        <td mat-cell *matCellDef="let row"> {{ row.addingDate }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="applicationNumber">
-        <th mat-header-cell *matHeaderCellDef> Номер Заявки </th>
-        <td mat-cell *matCellDef="let row"> {{ row.applicationNumber }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="client">
-        <th mat-header-cell *matHeaderCellDef>Клієнт</th>
-        <td mat-cell *matCellDef="let row"> {{ row.client }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="serviceProvider">
-        <th mat-header-cell *matHeaderCellDef>Надавач Послуг</th>
-        <td mat-cell *matCellDef="let row"> {{ row.serviceProvider }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="district">
-        <th mat-header-cell *matHeaderCellDef>Район</th>
-        <td mat-cell *matCellDef="let row"> {{ row.district }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="street">
-        <th mat-header-cell *matHeaderCellDef> Дата додання </th>
-        <td mat-cell *matCellDef="let row"> {{ row.street }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="house">
-        <th mat-header-cell *matHeaderCellDef>Будинок</th>
-        <td mat-cell *matCellDef="let row"> {{ row.house }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="apartment">
-        <th mat-header-cell *matHeaderCellDef>Квартира</th>
-        <td mat-cell *matCellDef="let row"> {{ row.apartment }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="favorDate">
-        <th mat-header-cell *matHeaderCellDef> Бажана дата повірки </th>
-        <td mat-cell *matCellDef="let row"> {{ row.favorDate }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="sanitaryWellfare">
-        <th mat-header-cell *matHeaderCellDef>Cправність Сантехніки</th>
-        <td mat-cell *matCellDef="let row"> {{ row.sanitaryWellfare > 0 ? 'Так' : 'Ні' }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="waterAbsentTo">
-        <th mat-header-cell *matHeaderCellDef> Вода відсутня до </th>
-        <td mat-cell *matCellDef="let row"> {{ row.waterAbsentTo }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="haveSeal">
-        <th mat-header-cell *matHeaderCellDef> Дата додання </th>
-        <td mat-cell *matCellDef="let row"> {{ row.haveSeal > 0 ? 'Так' : 'Ні' }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="phoneNumber">
-        <th mat-header-cell *matHeaderCellDef>Телефон</th>
-        <td mat-cell *matCellDef="let row"> {{ row.phoneNumber }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="note">
-        <th mat-header-cell *matHeaderCellDef>Примітка</th>
-        <td mat-cell *matCellDef="let row"> {{ row.note }} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions" stickyEnd>
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="detailView(row['applicationNumber'])">
-              <mat-icon>info</mat-icon>
-              <span>Інформація</span>
-            </button>
-
-            <button mat-menu-item
-              (click)="editProvider(row['applicationNumber'], row['serviceProvider'], row['serviceType'])">
-              <mat-icon>edit</mat-icon>
-              <span>Змінити надавача послуг</span>
-            </button>
-
-            <button mat-menu-item (click)="cancellEmployee(row['applicationNumber'])">
-              <mat-icon>cancel</mat-icon>
-              <span>Скасувати відповідальну особу</span>
-            </button>
-
-            <button mat-menu-item (click)="checkForDuplicate(row)">
-              <mat-icon>file_copy</mat-icon>
-              <span>Перевірити на дублі</span>
-            </button>
-
-            <button mat-menu-item (click)="deleteVerification(row['applicationNumber'])">
-              <mat-icon>delete</mat-icon>
-              <span>Видалити заявку</span>
-            </button>
-
-            <button mat-menu-item (click)="rejectVerification(row['applicationNumber'])">
-              <mat-icon>cancel</mat-icon>
-              <span>Відхилити заявку</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-      <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-    </table>
-    <!-- <app-table [tableData]="(labRequests | async)" [pagination]="true">
+    <app-table [tableData]="(labRequests | async)" [pagination]="true">
       <app-column [width]="30">
         <ng-template #headerBodyTemplate>
           <mat-checkbox></mat-checkbox>
@@ -220,6 +104,6 @@
           </div>
         </ng-template>
       </app-column>
-    </app-table> -->
+    </app-table>
   </mat-card-content>
 </mat-card>

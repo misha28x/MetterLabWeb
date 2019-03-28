@@ -305,7 +305,7 @@ router.get("/contractors/:id", (req, res, next) => {
  */
 router.post("/contractors", (req, res, next) => {
   connection.query("INSERT INTO `contractors`(`name`, `city_id`, `permission`) " +
-    " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", ( err ) => {
+    " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", (err) => {
       if (err) {
         console.log(err);
       }

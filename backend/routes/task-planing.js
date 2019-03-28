@@ -7,7 +7,7 @@ const connection = require('../database/db');
 const router = express.Router();
 
 router.get('', (req, res, next) => {
-  connection.query( "SELECT * FROM `archive` WHERE  `status` = 'Визначено відповідальну особу';", ( err, result ) => {
+  connection.query("SELECT * FROM `archive` WHERE  `status` = 'Визначено відповідальну особу';", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -93,13 +93,21 @@ router.post('/station-task', (req, res, next) => {
   });
 });
 
-// 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
-// TODO: протестувати Update
+/** 
+ * Відхилення заявки зі зміною статусу на "Відхилено" rejected і зменшенням кількості заявок в завданні
+ * 
+ * @param req.params.id - номер заявки
+ * @param req.body.id_task - id завдання з якого видаляють заявку
+ * 
+ * TODO: Відхилені завки мають залишатися в завданні ? , `idForStation`=0, `positionInTask`=0
+ * */
 router.put('/rejected/:id', (req, res, next) => {
-  let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
-  connection.query(varResult, () => {
-    io.getIo().emit('update');
-    res.send(200);
+  connection.query("UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';", () => {
+    connection.query("UPDATE `station_tasks` SET verifCount = verifCount - 1 WHERE id_task = '" + req.body.id_task + "';", () => {
+      io.getIo().emit('update');
+      res.sendStatus(200);
+    });
   });
 });
+
 module.exports = router;
