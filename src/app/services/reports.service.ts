@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Store, select } from '@ngex/store';
+import { Store, select } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 

@@ -17,11 +17,9 @@ router.get('', (req, res, next) => {
   });
 });
 
-router.get('/:id', (req, res, next) => {
-  let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id +
-    "' ORDER BY `positionInTask` ASC;";
-
-  connection.query(query, (err, rows) => {
+// створено для
+router.get('/:id/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "' ORDER BY `positionInTask` ASC;", (err, rows) => {
     if (err) {
       console.log(err);
       res.json({
@@ -35,7 +33,7 @@ router.get('/:id', (req, res, next) => {
 // "SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано'"
 // TODO: додати перевірку за датою, щоб не виводило завдання, які ніяк не могли бути виконані
 router.get('/failed/:id', (req, res, next) => {
-	const currentDate = '' + new Date().getFullYear + '-' + (new Date().getMonth + 1) + '-' + new Date().getDay;
+  const currentDate = '' + new Date().getFullYear + '-' + (new Date().getMonth + 1) + '-' + new Date().getDay;
   connection.query("SELECT * FROM `station_tasks` WHERE `task_status` != 'Виконано' AND `taskDate` < '" + currentDate + "';", (err, rows) => {
     if (err) {
       console.log(err);
@@ -47,10 +45,10 @@ router.get('/failed/:id', (req, res, next) => {
   });
 });
 
-
-router.get('/unresolved/:id', (req, res, next) => {
+// створено для
+router.get('/unresolved/:id/:createFor', (req, res, next) => {
   console.log('resolved');
-  connection.query("SELECT * from archive WHERE `idForStation`=" + parseInt(req.params.id) + " AND status = 'В роботі' ORDER BY `positionInTask` DESC", (err, rows) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`=" + parseInt(req.params.id) + " AND status = 'В роботі' AND `createFor` = '" + req.params.createFor + "' ORDER BY `positionInTask` DESC", (err, rows) => {
     if (err) {
       console.log(err);
       res.json({
@@ -69,20 +67,24 @@ router.get('/delete/:id', (req, res) => {
   connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
-      res.json({m : err });
+      res.json({
+        m: err
+      });
     }
-    res.json({m: 'success'});
+    res.json({
+      m: 'success'
+    });
   });
 });
 
 // TODO: винесено generateExcel
-router.get('/excel/:id', (req, res, next) => {
-  let query = "SELECT * FROM archive WHERE `idForStation`='" + req.params.id + "' ORDER BY `positionInTask` DESC;";
-  connection.query(query, (err, taskResult) => {
+// створено для
+router.get('/excel/:id/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "' ORDER BY `positionInTask` DESC;", (err, taskResult) => {
     if (err) {
       console.log(error);
-		}
-		const taskDate = taskResult[0].taskDate.split('-')[2] + taskResult[0].taskDate.split('-')[1] + taskResult[0].taskDate.split('-')[0];
+    }
+    const taskDate = taskResult[0].taskDate.split('-')[2] + taskResult[0].taskDate.split('-')[1] + taskResult[0].taskDate.split('-')[0];
     const stringName = taskResult[0].stationNumber + "-" + taskDate;
     generateExcel(taskResult, stringName).then(name => {
       res.download(name);

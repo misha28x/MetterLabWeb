@@ -5,8 +5,9 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
-router.get('', (req, res, next) => {
-  connection.query("SELECT archive.protocolDate, archive.protocolNumber, archive.applicationNumber, archive.status, archive.counterNumber, archive.sealNumber, archive.settlement, archive.district, archive.street, archive.house, archive.apartment, archive.comment, protocols.deviceNumber FROM archive LEFT JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.status LIKE 'Проведено повірку%';", (err, result) => {
+// створено для
+router.get('/:createFor', (req, res, next) => {
+  connection.query("SELECT archive.protocolDate, archive.protocolNumber, archive.applicationNumber, archive.status, archive.counterNumber, archive.sealNumber, archive.settlement, archive.district, archive.street, archive.house, archive.apartment, archive.comment, protocols.deviceNumber FROM `archive` LEFT JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.status LIKE 'Проведено повірку%' AND archive.createFor = '" + req.params.createFor + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -19,16 +20,16 @@ router.get('/delete/:id', (req, res, next) => {
   connection.query("DELETE FROM `protocols` WHERE `bbiFileName` = '" + req.params.id + "' ;", (err2) => {
     if (err2) {
       console.log(err2);
-      res.json( {
+      res.json({
         err: 'cannot delete'
-      } );
+      });
     }
     connection.query("DELETE FROM `tests` WHERE `bbiFileName` = '" + req.params.id + "' ;", (err3) => {
       if (err3) {
         console.log(err3);
-        res.json( {
+        res.json({
           err: 'cannot delete'
-        } );
+        });
       }
       res.json({
         result: req.params.id + ' deleted'
@@ -38,8 +39,9 @@ router.get('/delete/:id', (req, res, next) => {
 });
 
 // TODO: роутер для виведення заявок для метрології
-router.get('/metrology', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `status` = 'Передано повірнику';", (err, rows) => {
+// створено для
+router.get('/metrology/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `status` = 'Передано повірнику' AND `createFor` = '" + req.params.createFor + "';", (err, rows) => {
     if (err) {
       console.log(err);
     }
@@ -47,8 +49,9 @@ router.get('/metrology', (req, res, next) => {
   });
 });
 
-router.get('/rejected', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `status` = 'Повірено. Непридатний';", (err, rows) => {
+// створено для
+router.get('/rejected/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `status` = 'Повірено. Непридатний' AND `createFor` = '" + req.params.createFor + "';", (err, rows) => {
     if (err) {
       console.log(err);
     }
