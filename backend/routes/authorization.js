@@ -22,13 +22,14 @@ router.post("", (req, res, next) => {
       });
     } 
 
-    if (user.length > 0) {
+    if (user) {
       res.json({
         permission: user[0].user_permissions,
         username: user[0].user_full_name,
         serviceProvider: user[0].service_provider,
       });
     } else {
+      console.log( user );
       res.json({
         error: 'Немає такого користувача'
       });

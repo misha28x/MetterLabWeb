@@ -41,6 +41,7 @@
         </div>
       </th>
     </tr>
+    
     <tr *ngFor="let row of rows; trackBy: trackByFn">
       <td *ngFor="let col of columnList" [ngStyle]="{'min-width.px': col.width}">
         <ng-container *ngIf="!col.bodyTemplate">

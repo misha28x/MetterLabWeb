@@ -23,6 +23,8 @@ export class PageLabRequestsComponent implements OnInit {
   selectedData: any[];
   employee: string;
 
+  columnsToDisplay: string[];
+
   constructor(
     private http: HttpClient,
     private dialog: MatDialog,
@@ -36,6 +38,7 @@ export class PageLabRequestsComponent implements OnInit {
 
   ngOnInit(): void {
     this.labRequests = this.sourceSv.getLab();
+    this.columnsToDisplay = ['addingDate', 'applicationNumber', 'client', 'serviceProvider', 'district', 'street', 'house', 'apartment', 'favorDate', 'sanitaryWellfare', 'waterAbsentTo', 'haveSeal', 'phoneNumber', 'note', 'actions'];
   }
 
   updateData(): void {

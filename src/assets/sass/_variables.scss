@@ -1,8 +1,8 @@
 @import '/mixins';
 
-$background: #ebf2f6;
+$background: #dadee0;
 $default-color: #464D69;
-$main-ff: 'Rubik', sans-serif;
+$main-ff: 'Source Sans Pro', sans-serif;
 $main-fs: 14px;
 $main-fw: 400;
 $module: 11px;
@@ -34,7 +34,7 @@ $primary-light: #ffffff;
 
 $sidebar-width: 24 * $module-rem;
 $min-sidebar-width: 9 * $module-rem;
-$sidebar-bg: #27313f;
+$sidebar-bg: #154242d0;
 
 
 $animation: ease-in-out;
@@ -45,11 +45,11 @@ $hover-gradient: linear-gradient(to right, lighten(#2490b1, 5%), lighten(#196074
 $accent-color: #e22a6f;
 $success-color: #28a30a;
 $success-contrast: #fff;
-$info-color: #486ad1;
+$info-color: #17a2b8;
 $info-contrast: #fff;
-$warning-color: #f1c606;
+$warning-color: #FFCC00;
 $warning-contrast: #fff;
-$error-color: #f81418;
+$error-color: rgb(218, 18, 18);
 $error-contrast: #fff;
 
 $main-palette: (50 : #e6e6e6,

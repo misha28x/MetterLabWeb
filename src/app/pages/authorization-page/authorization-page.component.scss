@@ -4,6 +4,9 @@
   align-items: center;
   background: accent-palette(500);
   background: linear-gradient(to right, accent-palette(500), accent-palette(300));
+  background-image: url('../../../assets/content/bg.jpg');
+  background-position: 5% 50%;
+  background-size: cover;
   display: flex;
   justify-content: center;
   min-height: 100vh;
@@ -11,7 +14,7 @@
   width: 100%;
 
   .container {
-    max-width: 650px;
+    max-width: 475px;
 
     .text-col {
       @media #{$max767} {
@@ -39,6 +42,7 @@
 
     .login-form {
       padding: 0 $module-rem;
+      overflow: hidden !important;
 
 			.header-style {
 				margin-top: 16px;
@@ -49,7 +53,7 @@
       }
 
       .forgot-box {
-        margin-top: ($module-rem * 4);
+        margin-top: ($module-rem * 3);
         text-align: center;
       }
     }

@@ -19,10 +19,16 @@ router.get('/delete/:id', (req, res, next) => {
   connection.query("DELETE FROM `protocols` WHERE `bbiFileName` = '" + req.params.id + "' ;", (err2) => {
     if (err2) {
       console.log(err2);
+      res.json( {
+        err: 'cannot delete'
+      } );
     }
     connection.query("DELETE FROM `tests` WHERE `bbiFileName` = '" + req.params.id + "' ;", (err3) => {
       if (err3) {
         console.log(err3);
+        res.json( {
+          err: 'cannot delete'
+        } );
       }
       res.json({
         result: req.params.id + ' deleted'

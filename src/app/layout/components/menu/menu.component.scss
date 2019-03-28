@@ -5,7 +5,7 @@ $item-color: #bdc9db;
 :host {
   display: block;
 	height: 100%;
-  padding: ($module-rem * 2) 0;
+  padding: 0 0 ($module-rem * 2) 0;
   width: 100%;
 
 	.main-menu {

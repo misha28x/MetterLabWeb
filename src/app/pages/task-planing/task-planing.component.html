@@ -3,7 +3,7 @@
     <div class="actions">
       <div class="task-actions">
         <button mat-raised-button class="bg-success" (click)="sendData()">
-          <i class="icon icofont-paper-plane"></i>
+          <mat-icon>send</mat-icon>
           Створити завдання
         </button>
       </div>
@@ -78,6 +78,18 @@
 
             <button mat-icon-button (click)="checkForDuplicate(row)">
               <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
+            </button>
+
+            <button mat-icon-button (click)="clientInaccesable(row['applicationNumber'])">
+              <mat-icon class="color-error" matTooltip="Недозвон">phone_missed</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
+              <mat-icon class="color-error" matTooltip="Відхилити повірку">cancel</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="showClientInfo(row['applicationNumber'])">
+              <i class="icofont-info color-info" matTooltip="Інформація про клієнта"></i>
             </button>
           </div>
         </ng-template>

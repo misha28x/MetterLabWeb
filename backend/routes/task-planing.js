@@ -80,6 +80,7 @@ router.post('/station-task', (req, res, next) => {
             if (err) {
               console.log(err);
             }
+            io.getIo().emit( 'update' );
           });
           position++;
         });

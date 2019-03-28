@@ -1,1 +1,31 @@
+<div class="user-block">
+  <div class="user-info">
+    <span class="user-name d-flex">
+      <mat-icon class="icon mr-2">
+        account_circle
+      </mat-icon>
+
+      Віталій Криштапюк
+    </span>
+
+    <div class="user-actions">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item>
+          <mat-icon>account_box</mat-icon>
+          <span>Переглянути акаунт</span>
+        </button>
+
+        <button mat-menu-item (click)="logout()" [routerLink]="['/']">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Вийти</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
+
 <app-menu [min]="min"></app-menu>

@@ -2,7 +2,10 @@
 
 :host {
   background: $navbar-bg;
-  box-shadow: 8px 5px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 2px 1px -1px rgba(0, 0, 0, .2),
+    0 1px 1px 0 rgba(0, 0, 0, .14),
+    0 1px 3px 0 rgba(0, 0, 0, .12);
   color: #212529 !important;
   display: block;
   position: fixed;
@@ -20,14 +23,13 @@
     .logo {
       align-items: center;
       display: flex;
-      height: 100%;
       margin-right: ($module-rem * 2);
       justify-content: center;
       overflow: hidden;
       width: $min-sidebar-width;
 
       .logo-img {
-        max-height: 9 * ($module-rem);
+        max-height: 7 * ($module-rem);
       }
     }
 

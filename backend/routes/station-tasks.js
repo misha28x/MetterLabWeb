@@ -62,7 +62,9 @@ router.get('/unresolved/:id', (req, res, next) => {
   });
 });
 
-// TODO: Видалити заявку з завдання `stations-task` get(:id)
+// TODO: Також виконати зміну кількості заявок в завдані
+
+
 router.get('/delete/:id', (req, res) => {
   connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {

@@ -284,11 +284,6 @@ function getMetrologyManagerMenu() {
       routing: 'verications-protocols'
     },
     {
-      title: 'Електроні протоколи',
-      icon: 'far fa-file-powerpoint',
-      routing: 'verications-protocols'
-    },
-    {
       title: 'Відхилені Протоколи',
       icon: 'fas fa-file-prescription',
       routing: 'rejected-protocols'
@@ -352,11 +347,6 @@ function getManagerMenu() {
     {
       title: 'Протоколи',
       icon: 'icofont-file-powerpoint',
-      routing: 'verications-protocols'
-    },
-    {
-      title: 'Електроні протоколи',
-      icon: 'far fa-file-powerpoint',
       routing: 'verications-protocols'
     },
     {

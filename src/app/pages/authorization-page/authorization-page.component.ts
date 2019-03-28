@@ -48,7 +48,8 @@ export class AuthorizationPageComponent implements OnInit {
         return;
       }
 
-      if (res.permission > 0) {
+      console.log({ res: res.permission > 0});
+      if (parseInt(res.permission) > 0) {
         this.redirectHome(res.permission);
       }
 
@@ -63,13 +64,15 @@ export class AuthorizationPageComponent implements OnInit {
 
     switch (permission) {
       case 1:
+      case 2:
+      case 3:
       case 4:
         url = 'default/home';
         break;
-      case 2:
+      case 6:
         url = 'default/verifications';
         break;
-      case 3:
+      case 5:
         url = 'default/metrology';
         break;
       default:
