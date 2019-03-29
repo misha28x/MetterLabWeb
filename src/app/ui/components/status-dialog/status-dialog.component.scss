@@ -1,13 +1,41 @@
+@import '../../../../assets/sass/variables';
+
 :host {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding-top: 30px;
+  overflow: visible;
+  border-radius: 5px;
 
   .img {
+    display: flex;
+    flex-direction: column;
     margin: auto;
   }
   .spinner {
     margin: auto;
+  }
+  .status {
+    color: #fff;
+    position: absolute;
+    text-align: center;
+    top: -5px;
+    left: 0;
+    right: 0;
+    font-size: 1.2em;
+    border-radius: 5px;
+    background: $success-color;
+    padding: 10px;
+  }
+  .actions {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .photo-label {
+    margin: 10px auto;
+    font-size: 1.1em;
   }
 }

@@ -63,7 +63,7 @@ router.get("/counters/:permission/:createFor", (req, res, next) => {
 });
 
 // створено для
-router.get("/:id/:createFor", (req, res, next) => {
+router.get("/:id", (req, res, next) => {
   const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND (`status`='Не визначено відповідальну особу' OR `status` IS NULL)) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Передано повірнику') AS metrology;";
   connection.query(queryString, (err, result) => {
     if (err) {

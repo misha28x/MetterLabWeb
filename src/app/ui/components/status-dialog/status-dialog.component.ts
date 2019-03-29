@@ -16,7 +16,7 @@ export class StatusDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public asyncData: Observable<any>
   ) {
     this.asyncData.subscribe(data => {
-      if (!data.length) {
+      if (!data || !data.length) {
         this.isEmpty = true;
       }
 
