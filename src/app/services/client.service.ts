@@ -1,4 +1,5 @@
 import { Subject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -29,4 +30,17 @@ export class ClientService {
 
     this.http.put(URL, info).subscribe();
   }
+
+  getVerificationData(verificationNumber: string): Observable<any> {
+    const URL = `http://localhost:3000/api/status/verification/${verificationNumber}`;
+
+    return this.http.get(URL).pipe(tap(console.log));
+  }
+
+  getCounterData(counterNumber: string): Observable<any> {
+    const URL = `http://localhost:3000/api/status/counter/${counterNumber}`;
+
+    return this.http.get(URL).pipe(tap(console.log));
+  }
+
 }

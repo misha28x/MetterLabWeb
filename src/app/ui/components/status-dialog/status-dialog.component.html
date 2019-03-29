@@ -1,0 +1,57 @@
+
+
+<table class="protocol-table" *ngIf="data">
+  <tr>
+    <td>Метод проведення повірки</td>
+    <td>На місці експлуатації приладу</td>
+  </tr>
+  <tr>
+    <td>Номер заявки</td>
+    <td>{{ data.applicationNumber }}</td>
+  </tr>
+  <tr>
+    <td>Номер лічильника</td>
+    <td>{{ data.counterNumber }}</td>
+  </tr>
+  <tr>
+    <td>Умовне позначення</td>
+    <td>{{ data.symbol }}</td>
+  </tr>
+  <tr>
+    <td>Типорозмір</td>
+    <td>{{ data.type }}</td>
+  </tr>
+  <tr>
+    <td>Рік випуску</td>
+    <td>{{ data.productionYear }}</td>
+  </tr>
+  <tr>
+    <td>Накопичений об'єм</td>
+    <td>{{ data.acumulatedVolume }}</td>
+  </tr>
+  <tr>
+    <td>Уповноважена лабораторія</td>
+    <td>ДП "Волиньстандартметрологія"</td>
+  </tr>
+  <tr>
+    <td>Номер пломби</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Статус</td>
+    <td>{{ data.protocolStatus ? 'Розблоковано' : 'Заблоковано' }}</td>
+  </tr>
+</table>
+Фото лічильника на момент проведення повірки
+<div class="img" *ngIf="data">
+  <img [src]="getImage(data.image)">
+</div>
+
+<div class="spinner" *ngIf="!data && !isEmpty">
+  <mat-spinner></mat-spinner>
+</div>
+
+
+<div class="error" *ngIf="isEmpty">
+  Не знайдено повірки
+</div>

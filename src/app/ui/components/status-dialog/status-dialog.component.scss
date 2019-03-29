@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .img {
+    margin: auto;
+  }
+  .spinner {
+    margin: auto;
+  }
+}

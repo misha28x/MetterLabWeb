@@ -21,8 +21,11 @@ import { FailedTasksComponent } from '../pages/failed-tasks';
 import { ProvidersPageComponent } from '../pages/providers-page';
 import { FinishedVerificationsComponent } from '../pages/finished-verifications';
 import { PageEmployeesComponent } from '../pages/employees';
+import { StatusPageComponent } from '../pages/status-page';
+import { VerificationFormComponent } from '../pages/verification-form';
 
 import { ExtraComponent } from '../layout/extra/extra.component';
+import { SharedComponent } from '../layout/shared';
 
 export const DEFAULT_ROUTES = [
 	{ path: 'home', component: PageHomePageComponent, data: { title: 'Головна Панель' } },
@@ -49,6 +52,11 @@ export const EXTRA_ROUTES = [
   { path: 'auth', component: AuthorizationPageComponent }
 ];
 
+export const SHARED_ROUTES: Routes = [
+  { path: 'status', component: StatusPageComponent },
+  { path: 'new-verif', component: VerificationFormComponent }
+]
+
 export const ROUTES: Routes = [
 	{
 		path: '',
@@ -64,6 +72,11 @@ export const ROUTES: Routes = [
     path: 'extra',
     component: ExtraComponent,
     children: EXTRA_ROUTES
+  },
+  {
+    path: 'shared',
+    component: SharedComponent,
+    children: SHARED_ROUTES
   }
 ];
 

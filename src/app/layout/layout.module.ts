@@ -11,6 +11,7 @@ import { NavbarComponent } from './components/navbar';
 import { MenuComponent } from './components/menu';
 import { UiModule } from '../ui/ui.module';
 import { ExtraComponent } from './extra';
+import { SharedComponent } from './shared/shared.component';
 
 @NgModule({
 	declarations: [
@@ -18,7 +19,8 @@ import { ExtraComponent } from './extra';
 		SidebarComponent,
 		NavbarComponent,
 		MenuComponent,
-		ExtraComponent
+		ExtraComponent,
+		SharedComponent
 	],
 	imports: [
     CommonModule,

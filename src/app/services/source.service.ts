@@ -40,58 +40,48 @@ export class SourceService {
   ) {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
-      
-      metrologyProtocolsUrl += '/' + _user.createFor;
-      rejectedProtocolsUrl += '/' + _user.createFor;
-      failedTasksUrl += '/' + _user.createFor;
-      newVerificationUrl += '/' + _user.createFor;
-      rejectedVerif += '/' + _user.createFor;
-      ptocolsUrl += '/' + _user.createFor;
-      archiveUrl += '/' + _user.createFor;
-      stationTasksUrl += '/' + _user.createFor;
-      taskPlaningUrl += '/' + _user.createFor;
-      labUrl += '/' + _user.createFor;
     });
   }
 
   fetchNewVerifications(): void {
-    this.http.get(newVerificationUrl).subscribe((res: any) => this.newVerificationSource$.next(res));
+    this.http.get(newVerificationUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.newVerificationSource$.next(res));
   }
 
   fetchStationTasks(): void {
-    this.http.get(stationTasksUrl).subscribe((res: any) => this.stationTaskSource$.next(res));
+    this.http.get(stationTasksUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.stationTaskSource$.next(res));
   }
 
   fetchTaskPlaning(): void {
-    this.http.get(taskPlaningUrl).subscribe((res: any) => this.taskPlaningSource$.next(res));
+    this.http.get(taskPlaningUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.taskPlaningSource$.next(res));
   }
 
   fetchProtocols(): void {
-    this.http.get(ptocolsUrl).subscribe((res: any) => this.protocolsSource$.next(res));
+    this.http.get(ptocolsUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.protocolsSource$.next(res));
   }
 
   fetchMetrologyProtocols(): void {
-    this.http.get(metrologyProtocolsUrl).subscribe((res: any) => this.metrologyProtocolsSource$.next(res));
+    this.http.get(metrologyProtocolsUrl + '/' + this.user.serviceProvider)
+      .subscribe((res: any) => this.metrologyProtocolsSource$.next(res));
   }
 
   fetchRejectedVerif(): void {
-    this.http.get(rejectedVerif).subscribe((res: any) => this.rejectedVerifSource$.next(res));
+    this.http.get(rejectedVerif + '/' + this.user.serviceProvider).subscribe((res: any) => this.rejectedVerifSource$.next(res));
   }
 
   fetchFailedTasks(): void {
-    this.http.get(failedTasksUrl).subscribe((res: any) => this.failedTasksSource$.next(res));
+    this.http.get(failedTasksUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.failedTasksSource$.next(res));
   }
 
   fetchRejectedProtocols(): void {
-    this.http.get(rejectedProtocolsUrl).subscribe((res: any) => this.rejectedProtocolsSource$.next(res));
+    this.http.get(rejectedProtocolsUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.rejectedProtocolsSource$.next(res));
   }
 
   fetchArchive(): void {
-    this.http.get(archiveUrl).subscribe((res: any) => this.archiveSource$.next(res));
+    this.http.get(archiveUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.archiveSource$.next(res));
   }
 
   fetchLabRequest(): void {
-    this.http.get(labUrl).subscribe((res: any) => this.labSource$.next(res));
+    this.http.get(labUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.labSource$.next(res));
   }
 
   getNewVerifications(): Observable<any> {

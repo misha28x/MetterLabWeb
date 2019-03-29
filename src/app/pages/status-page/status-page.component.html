@@ -1,0 +1,19 @@
+<mat-card>
+  <mat-card-title>
+    Перевірити статус лічильника
+  </mat-card-title>
+
+  <mat-card-content>
+     <mat-form-field appearance="outline" class="full-width">
+       <mat-label>Номер лічильника / заявки</mat-label>
+       <input #number matInput placeholder="Номер лічильника / заявки">
+       <mat-icon matSuffix><mat-icon>check_circle_outline</mat-icon> </mat-icon>
+       <mat-hint>Введіть номер лічильника, або заявки</mat-hint>
+     </mat-form-field>
+  </mat-card-content>
+
+  <mat-card-actions> 
+    <button mat-raised-button (click)="getCounterData(number.value)">По номеру лічильника</button>
+    <button mat-raised-button (click)="getVerification(number.value)">По номеру заявки</button>
+  </mat-card-actions>
+</mat-card>
