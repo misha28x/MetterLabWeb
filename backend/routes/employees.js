@@ -304,16 +304,32 @@ router.get("/contractors/:id", (req, res, next) => {
  * @param req.body.permission - Тип підприємства
  */
 router.post("/contractors", (req, res, next) => {
-  connection.query("INSERT INTO `contractors`(`name`, `city_id`, `permission`) " +
-    " VALUES ('" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", (err) => {
-      if (err) {
+  addContractor(req, res);
+});
+
+function addContractor(req, res) {
+  let id = getRandomArbitrary(10000000, 99999999);
+  console.log({
+    id: id
+  });
+
+  connection.query("INSERT INTO `contractors`(`id`, `name`, `city_id`, `permission`) " +
+    " VALUES ('" + id + "', '" + req.body.name + "', '" + req.body.city_id + "', '" + req.body.permission + "');", (err) => {
+      if (err == null) {
+        res.status(200).send({
+          msg: 'Додано нове підприємство'
+        });
+      } else if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
+        addContractor(req, res);
+      } else if (err) {
         console.log(err);
       }
-      res.status(200).send({
-        msg: 'Додано нове підприємство'
-      });
     });
-});
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 /**
  * Оновлення інформації про підприємство 
