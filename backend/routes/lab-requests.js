@@ -6,6 +6,20 @@ const router = express.Router();
 const connection = require('../database/db');
 
 /**
+ * @param req.params.id - номер заявки статус якої потрібно змінити
+ */
+router.get('/send/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET status = 'Проведено повірку' WHERE applicationNumber = '" + req.params.id + "';", (err) => {
+    if (err) {
+      console.log(err);      
+    }
+    res.status(201).send({
+      msg: 'Статус заявки ' + req.params.id + ' змінено на: Проведено повірку '
+    });
+  });
+});
+
+/**
  * @param req.params.createFor - створено для
  */
 router.get('/:createFor', (req, res, next) => {
