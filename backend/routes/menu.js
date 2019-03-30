@@ -62,20 +62,26 @@ router.get("/counters/:permission/:createFor", (req, res, next) => {
   });
 });
 
-// створено для
+// створено для /:createFor
 router.get("/:id/:createFor", (req, res, next) => {
-  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND (`status`='Не визначено відповідальну особу' OR `status` IS NULL)) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Передано повірнику') AS metrology;";
+  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `createFor` = '" + req.params.createFor + "' AND (`status`='Не визначено відповідальну особу' OR `status` IS NULL)) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Передано повірнику') AS metrology;";
   connection.query(queryString, (err, result) => {
     if (err) {
       console.log({
         menuErr: err
       });
     }
-
-    counters.new_verifications = result[0].new_verifications;
-    counters.task_planing = result[0].task_planing;
-    counters.lab_requests = result[0].lab_requests;
-    counters.metrology = result[0].metrology;
+    if (result && result.length > 0) {
+      counters.new_verifications = result[0].new_verifications;
+      counters.task_planing = result[0].task_planing;
+      counters.lab_requests = result[0].lab_requests;
+      counters.metrology = result[0].metrology;
+    } else {
+      counters.new_verifications = 0;
+      counters.task_planing = 0;
+      counters.lab_requests = 0;
+      counters.metrology = 0;
+    }
 
     if (parseInt(req.params.id) > 0) {
 
@@ -104,10 +110,16 @@ router.get("/:id/:createFor", (req, res, next) => {
         default:
           break;
       }
-
-      res.json({
-        menu: menuObj,
-      });
+      if (result && result.length > 0) {
+        res.json({
+          menu: menuObj,
+        });
+      } else {
+        res.json({
+          menu: menuObj,
+          err: "get counters error"
+        });
+      }
     } else {
       res.json({
         error: 'Немає такого користувача'
