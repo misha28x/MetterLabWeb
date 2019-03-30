@@ -29,6 +29,12 @@
                 ></app-input>
               </div>
             </ng-container>
+
+            <ng-container *ngIf="c.date">
+              <div class="search-box">
+                <input #RejectedRange class="form-control mb-3" placeholder="За проміжок" bsDaterangepicker [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
+              </div>
+            </ng-container>
             
             <span class="icons">
               <span *ngIf="c.config.enableSorting" class="arrows">

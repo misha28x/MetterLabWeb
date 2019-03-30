@@ -15,6 +15,8 @@ export class ColumnComponent implements OnInit {
 	@Input() enableFiltering: boolean;
 	@Input() enableSorting: boolean;
   @Input() width: number;
+  @Input() date: boolean;
+
 
 	config: any;
 		
@@ -25,7 +27,8 @@ export class ColumnComponent implements OnInit {
 		this.config = {
 			title: '',
 			name: '',
-			sort: '',
+      sort: '',
+      date: false,
 			enableSorting: this.enableSorting,
 			filter: this.enableFiltering,
 			filtering: {

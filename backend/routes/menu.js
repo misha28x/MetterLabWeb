@@ -64,20 +64,7 @@ router.get("/counters/:permission/:createFor", (req, res, next) => {
 
 // створено для
 router.get("/:id", (req, res, next) => {
-  const queryString = "SELECT (SELECT COUNT(*)FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND (`status`='Не визначено відповідальну особу' OR `status` IS NULL)) AS new_verifications, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` WHERE `createFor` = " + req.params.createFor + " AND `status`='Передано повірнику') AS metrology;";
-  connection.query(queryString, (err, result) => {
-    if (err) {
-      console.log({
-        menuErr: err
-      });
-    }
-
-    counters.new_verifications = result[0].new_verifications;
-    counters.task_planing = result[0].task_planing;
-    counters.lab_requests = result[0].lab_requests;
-    counters.metrology = result[0].metrology;
-
-    if (parseInt(req.params.id) > 0) {
+  if (parseInt(req.params.id) > 0) {
 
       let menuObj = {};
 
@@ -113,7 +100,21 @@ router.get("/:id", (req, res, next) => {
         error: 'Немає такого користувача'
       });
     }
-  });
+  // const queryString = "SELECT (SELECT COUNT(*)FROM `archive`  AND (`status`='Не визначено відповідальну особу' OR `status` IS NULL)) AS new_verifications, (SELECT COUNT(*) FROM `archive` AND `status`='Визначено відповідальну особу') AS task_planing, (SELECT COUNT(*) FROM `archive`  AND `status`='Проведено повірку на місці') AS lab_requests, (SELECT COUNT(*) FROM `archive` AND `status`='Передано повірнику') AS metrology;";
+  // connection.query(queryString, (err, result) => {
+  //   if (err || !result) {
+  //     console.log({
+  //       menuErr: err
+  //     });
+  //   }
+
+  //   counters.new_verifications = result[0].new_verifications;
+  //   counters.task_planing = result[0].task_planing;
+  //   counters.lab_requests = result[0].lab_requests;
+  //   counters.metrology = result[0].metrology;
+
+    
+  // });
 });
 
 /**
@@ -443,6 +444,12 @@ function getOperatorMenu() {
       title: 'Завершені Повірки',
       icon: 'far fa-calendar-check',
       routing: 'finished-verifications',
+      counter: counters.lab_requests
+    },
+    {
+      title: 'Перевірити статус',
+      icon: 'fas fa-tachometer-alt',
+      routing: 'status',
       counter: counters.lab_requests
     },
 

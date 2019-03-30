@@ -44,7 +44,7 @@ export class MenuService {
   }
 
   public setMenu(permission: any, serviceProvider: string): void {
-    this.http.get(menuUrl + permission).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
+    this.http.get(menuUrl + permission + '/' + serviceProvider).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
   }
 
   public getMenu(): Observable<IMenuItem[]> {
