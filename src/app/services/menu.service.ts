@@ -18,6 +18,7 @@ export class MenuService {
   private isVisiting$ = new BehaviorSubject<{ state: boolean, name?: string }>({ state: false });
   private menuUpdate = this.socket.fromEvent<any>('update');
   private permission: any;
+  private user: User;
   private home: any = null;
 
   constructor(
@@ -26,8 +27,8 @@ export class MenuService {
     private socket: Socket
     ) { 
     this.store.select('permission').subscribe(user => {
-      this.permission = user.permission;
-      this.setMenu(this.permission);
+      this.user = user;
+      this.setMenu(this.user.permission, this.user.serviceProvider);
 
       if (!this.home) {
         this.home = user;
@@ -35,12 +36,12 @@ export class MenuService {
     });
 
     this.menuUpdate.subscribe(() => {
-      this.setMenu(this.permission);
+      this.setMenu(this.user.permission, this.user.serviceProvider);
     });
   }
 
-  public setMenu(permission: any): void {
-    this.http.get(menuUrl + permission).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
+  public setMenu(permission: any, serviceProvider: string): void {
+    this.http.get(menuUrl + permission + serviceProvider).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
   }
 
   public getMenu(): Observable<IMenuItem[]> {
@@ -60,7 +61,7 @@ export class MenuService {
   public setVisitState(user: User): void {
     this.store.dispatch(login(user));
 
-    this.setMenu(user.permission);
+    this.setMenu(user.permission, user.serviceProvider);
 
     this.isVisiting$.next({ state: true, name: user.username });
   }

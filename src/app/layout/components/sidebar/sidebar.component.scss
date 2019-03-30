@@ -1,7 +1,8 @@
 @import "../../../../assets/sass/variables";
 
 :host {
-	background: $sidebar-bg;
+  background: #0c2c40ed;
+  background-color: rgba($sidebar-bg, .95);
 	box-shadow: 
 		1px 0 4px -1px rgba(0, 0, 0, .18),
 		1px 0 4px 0 rgba(0, 0, 0, .12),
@@ -26,6 +27,11 @@
 	&.min {
 		width: $min-sidebar-width;
 
+    .user-block {
+      .username {
+        display: none !important;
+      }
+    }
 		@media #{max991} {
 			width: $sidebar-width;
 			left: -100%;
@@ -35,6 +41,7 @@
     font-size: 1.2em;
     padding: $module-rem 0;
     background: #0c2c40ed;
+    background-position: 100% 35%;
     background-image: url('../../../../assets/content/user-bg.jpg');
     display: flex;
     align-items: center;

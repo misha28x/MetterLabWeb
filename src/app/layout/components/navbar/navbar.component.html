@@ -3,7 +3,7 @@
     <img src="../../../../assets/content/logo.png" alt="" class="logo-img">
   </div>
 
-  <div class="nav-button" (click)="onButtonClick()" [ngClass]="{'min': !menuState}">
+  <div class="nav-button" (click)="onButtonClick()" [ngClass]="{'min': !menuState}" *ngIf="permission !== 0">
     <span class="bar"></span>
     <span class="bar"></span>
     <span class="bar"></span>
@@ -15,8 +15,8 @@
 
   <span *ngIf="visit" class="visit-name">{{ visit.name }}</span>
 
-  <div class="upload">
-    <app-new-verification *ngIf="permission == 2"></app-new-verification>
-    <app-file-upload *ngIf="permission != 2"></app-file-upload>
+  <div class="upload" *ngIf="permission !== 0">
+    <app-new-verification *ngIf="permission === 6"></app-new-verification>
+    <app-file-upload *ngIf="permission !== 6"></app-file-upload>
   </div>
 </div>

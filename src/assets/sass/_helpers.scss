@@ -232,11 +232,6 @@ mat-card-header {
   }
 }
 
-.mat-card-content>:last-child:not(.mat-card-footer),
-.mat-card>:last-child:not(.mat-card-footer) {
-  overflow-x: scroll !important;
-}
-
 .mat-mini-fab .mat-button-wrapper {
   line-height: 24px;
   display: flex !important;
@@ -267,10 +262,6 @@ mat-card-header {
   .filter {
     flex: 1;
     margin: 0 25px;
-
-    .mat-form-field-appearance-legacy .mat-form-field-infix {
-      padding: .4375rem 0;
-    }
   }
 
   .actions {

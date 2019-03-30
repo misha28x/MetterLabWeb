@@ -30,6 +30,9 @@ import { ScanUploadComponent } from '../ui/components/scan-upload';
 import { SelectDialogComponent } from '../ui/components/select-dialog';
 import { PageEmployeesComponent } from './employees/employees.component';
 import { InfoPageComponent } from './info-page/info-page.component';
+import { StatusPageComponent } from './status-page/status-page.component';
+import { VerificationFormComponent } from './verification-form/verification-form.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
@@ -57,7 +60,10 @@ import { InfoPageComponent } from './info-page/info-page.component';
     ProvidersPageComponent,
     FinishedVerificationsComponent,
     PageEmployeesComponent,
-    InfoPageComponent
+    InfoPageComponent,
+    StatusPageComponent,
+    VerificationFormComponent,
+    ProfileComponent
   ],
   entryComponents: [
     EmployeeDialogComponent,

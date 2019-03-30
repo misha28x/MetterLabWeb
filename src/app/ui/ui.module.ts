@@ -40,6 +40,8 @@ import { DeleteDialogComponent } from './components/delete-dialog';
 import { AddCityComponent } from './components/add-city/add-city.component';
 import { AddContractorComponent } from './components/add-contractor/add-contractor.component';
 import { RejectionDialogComponent } from './components/rejection-dialog/rejection-dialog.component';
+import { StatusViewComponent } from './status-view/status-view.component';
+import { StatusDialogComponent } from './components/status-dialog/status-dialog.component';
 
 @NgModule({
 	imports: [
@@ -98,7 +100,9 @@ import { RejectionDialogComponent } from './components/rejection-dialog/rejectio
     DeleteDialogComponent,
     AddCityComponent,
     AddContractorComponent,
-    RejectionDialogComponent
+    RejectionDialogComponent,
+    StatusViewComponent,
+    StatusDialogComponent
 	],
   entryComponents: [
     UploadDialogComponent,
@@ -116,7 +120,8 @@ import { RejectionDialogComponent } from './components/rejection-dialog/rejectio
     AddStationComponent,
     AddCityComponent,
     AddContractorComponent,
-    RejectionDialogComponent
+    RejectionDialogComponent,
+    StatusDialogComponent
   ]
 })
 export class UiModule { }
