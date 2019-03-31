@@ -14,22 +14,24 @@ const counters = {
 
 // Авторизація
 router.post("", (req, res, next) => {
-  connection.query("SELECT * FROM users WHERE 	user_name ='" + req.body.email + "' AND user_password='" + req.body.pass + "';", (err, user) => {
+  connection.query("SELECT users.id AS user_id, users.user_permissions, users.user_full_name, contractors.id FROM users INNER JOIN contractors ON users.service_provider = contractors.name WHERE 	users.user_name ='" + req.body.email + "' AND users.user_password='" + req.body.pass + "';", (err, user) => {
     if (err) {
       console.log(err);
       res.json({
         error: 'Помилка авторизації'
       });
-    } 
+    }
 
-    if (user) {
+    if (user.length > 0) {
+      console.log(user);
       res.json({
+        userId: user[0].user_id,
         permission: user[0].user_permissions,
         username: user[0].user_full_name,
-        serviceProvider: user[0].service_provider,
+        serviceProvider: user[0].id,
       });
     } else {
-      console.log( user );
+      console.log(user);
       res.json({
         error: 'Немає такого користувача'
       });

@@ -7,7 +7,7 @@ const connection = require('../database/db');
 
 // створено для
 router.get('/:createFor', (req, res, next) => {
-  connection.query("SELECT archive.protocolDate, archive.protocolNumber, archive.applicationNumber, archive.status, archive.counterNumber, archive.sealNumber, archive.settlement, archive.district, archive.street, archive.house, archive.apartment, archive.comment, protocols.deviceNumber FROM `archive` LEFT JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.status LIKE 'Проведено повірку%' AND archive.createFor = '" + req.params.createFor + "';", (err, result) => {
+  connection.query("SELECT archive.protocolDate, archive.protocolNumber, archive.applicationNumber, archive.status, archive.counterNumber, archive.sealNumber, archive.settlement, archive.district, archive.street, archive.house, archive.apartment, archive.comment, protocols.deviceNumber FROM `archive` LEFT JOIN protocols ON archive.protocolNumber = protocols.bbiFileName WHERE archive.status = 'Проведено повірку' AND archive.createFor = '" + req.params.createFor + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
