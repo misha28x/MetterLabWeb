@@ -274,7 +274,7 @@ router.delete("/city/:id", (req, res, next) => {
  * @returns список всіх contractors
  */
 router.get("/contractors", (req, res, next) => {
-  connection.query("SELECT * FROM `contractors`;", (err, result) => {
+  connection.query("SELECT * FROM `contractors` WHERE name != 'ТзОВ \"ВОЛИНЬ АКВА СТАНДАРТ\"';", (err, result) => {
     if (err) {
       console.log(err);
     }
