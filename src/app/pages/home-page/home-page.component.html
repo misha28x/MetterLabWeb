@@ -27,8 +27,7 @@
       <mat-card-content>
         <app-table [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
 
-          <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
-            [enableFiltering]="true"></app-column>
+          <app-column [date]="true" [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"></app-column>
 
           <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
 

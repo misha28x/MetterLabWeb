@@ -22,6 +22,19 @@ const upload = multer({
   storage: storage
 });
 
+router.get( '/single/:id', ( req, res, next ) => {
+  console.log( req.params.id );
+  connection.query( "SELECT * FROM `archive` WHERE `applicationNumber` ='" + req.params.id + "';", ( err, result ) => {
+    if ( err ) {
+      console.log( err );
+      res.status( 500 ).json( {
+        err: 'SQL ERROR'
+      } );
+    }
+    res.status( 200 ).json( result );
+  } );
+} );
+
 // Недозвон
 router.put('/ndz/:id', (req, res, next) => {
   connection.query("UPDATE `archive` SET `note`='__НДЗ " + currentDate() + "__' WHERE `applicationNumber`=" + req.params.id + ";", (err, result) => {
@@ -62,8 +75,8 @@ router.put('/client/upd/:id', (req, res, next) => {
 
 // Отримання інформації про клієнта
 // створено для
-router.get('/client/:id/:createFor', (req, res, next) => {
-  connection.query("SELECT client, email, phoneNumber, secondNumber, region, district, settlement, cityIndex, street, house, apartment FROM `archive` WHERE applicationNumber='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "';", (err, result) => {
+router.get('/client/:id', (req, res, next) => {
+  connection.query("SELECT client, email, phoneNumber, secondNumber, region, district, settlement, cityIndex, street, house, apartment FROM `archive` WHERE applicationNumber='" + req.params.id + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -117,7 +130,7 @@ router.post('/scan/:id', upload.single('scan'), (req, res, next) => {
 });
 
 // створено для
-router.get('/:createFor', (req, res, next) => {
+router.get('/all/:createFor', (req, res, next) => {
   connection.query("SELECT * FROM `archive` WHERE `createFor` = '" + req.params.createFor + "' (`status` LIKE 'Повірено%' OR 'Передано %')", (err, result) => {
     if (err) {
       console.log(err);
@@ -139,16 +152,6 @@ router.put('/edit/:id', (req, res, next) => {
     res.status(200).send({
       m: 'success'
     });
-  });
-});
-
-// створено для
-router.get('/:id/:createFor', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `applicationNumber` ='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "';", (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    res.status(200).json(result);
   });
 });
 

@@ -16,6 +16,7 @@ export class AuthService {
   }
 
   logOut(): void {
+    localStorage.clear();
     this.store.dispatch(logout());
   }
 }

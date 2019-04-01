@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12 col-lg-6">
+  <div class="col-md-12 col-lg-6 mb-3">
     <mat-card>
       <mat-card-title>Працівники</mat-card-title>
 
@@ -7,11 +7,9 @@
         <h3 mat-subheader>Працівники</h3>
         <mat-list-item class="item" *ngFor="let employee of (employees | async)">
           <mat-icon mat-list-icon>account_box</mat-icon>
-          <p mat-line class="text"> {{ employee.user_full_name }}
-            <span *ngIf="permissions" class="role">
-              &mdash; {{ getUserPermission(employee.user_permissions) }}
-            </span>
-          </p>
+          <p mat-line class="text mb-0"> {{ employee.user_full_name }}</p>
+          <p *ngIf="permissions" mat-line class="role mb-0">{{ getUserPermission(employee.user_permissions) }}</p>
+
 
           <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника"
             (click)="editEmployee(employee)">
@@ -60,12 +58,9 @@
             <ng-container *ngFor="let contractor of (contractors | async)">
               <button mat-list-item class="item" *ngIf="contractor.city_id === city.id" (click)="getMenu(contractor)">
                 <div class="text">
-                  {{ contractor.name }}
-                  <span *ngIf="permissions" class="role">
-                    &mdash; {{ getContractorType(contractor.permission) }}
-                  </span>
+                  <p mat-line class="mb-0">{{ contractor.name }}</p>
+                  <p *ngIf="permissions" class="role mb-0" mat-line> {{ getContractorType(contractor.permission) }} </p>
                 </div>
-                
 
                 <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані підрядника"
                   (click)="editContractor($event, contractor)">
@@ -81,7 +76,7 @@
             </ng-container>
           </mat-action-list>
 
-          <mat-action-row class="actions">
+          <mat-action-row class="actions mb-0">
             <button class="edit-btn" mat-icon-button matTooltip="Змінити назву міста" (click)="editCity(city)">
               <mat-icon>edit</mat-icon>
             </button>
@@ -92,7 +87,7 @@
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
-      <mat-card-actions class="actions">
+      <mat-card-actions class="actions mb-0">
         <button mat-button color="primary" (click)="addCity()">Додати Місто</button>
       </mat-card-actions>
     </mat-card>

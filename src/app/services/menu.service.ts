@@ -28,7 +28,10 @@ export class MenuService {
     ) { 
     this.store.select('permission').subscribe(user => {
       this.user = user;
-      this.setMenu(this.user.permission, this.user.serviceProvider);
+
+      if (+user.permission > 0) {
+        this.setMenu(this.user.permission, this.user.serviceProvider);
+      }
 
       if (!this.home) {
         this.home = user;
@@ -41,7 +44,7 @@ export class MenuService {
   }
 
   public setMenu(permission: any, serviceProvider: string): void {
-    this.http.get(menuUrl + permission + serviceProvider).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
+    this.http.get(menuUrl + permission + '/' + serviceProvider).subscribe((res: {menu: IMenuItem[]}) => this.menuSource$.next(res.menu));
   }
 
   public getMenu(): Observable<IMenuItem[]> {

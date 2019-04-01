@@ -1,4 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import * as MenuActions from '../../../store/actions/menu.actions';
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
   visit: any;
 
 	constructor(
+      public router: Router,
 			private menuSv: MenuService,
 			private store: Store<Boolean>) { }
 

@@ -23,6 +23,7 @@ import { FinishedVerificationsComponent } from '../pages/finished-verifications'
 import { PageEmployeesComponent } from '../pages/employees';
 import { StatusPageComponent } from '../pages/status-page';
 import { VerificationFormComponent } from '../pages/verification-form';
+import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { ExtraComponent } from '../layout/extra/extra.component';
 import { SharedComponent } from '../layout/shared';
@@ -45,7 +46,9 @@ export const DEFAULT_ROUTES = [
   { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } },
   { path: 'verifications', component: ProvidersPageComponent, data: { title: 'Нові повірки' } },
   { path: 'finished-verifications', component: FinishedVerificationsComponent, data: { title: 'Завершені повірки' } },
-  { path: 'employees', component: PageEmployeesComponent, data : { title: 'Працівники та підрядники' } }
+  { path: 'employees', component: PageEmployeesComponent, data : { title: 'Працівники та підрядники' } },
+  { path: 'profile', component: ProfileComponent, data: { title: 'Сторінка профілю' } },
+  { path: 'status', component: StatusPageComponent , data: { title: 'Перевірка стану лічильника' }}
 ]; 
 
 export const EXTRA_ROUTES = [

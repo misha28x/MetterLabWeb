@@ -1,4 +1,6 @@
-
+<div class="status" *ngIf="data">
+  Повірено. Придатний
+</div>
 
 <table class="protocol-table" *ngIf="data">
   <tr>
@@ -42,8 +44,9 @@
     <td>{{ data.protocolStatus ? 'Розблоковано' : 'Заблоковано' }}</td>
   </tr>
 </table>
-Фото лічильника на момент проведення повірки
+
 <div class="img" *ngIf="data">
+  <span class="photo-label">Фото лічильника</span>
   <img [src]="getImage(data.image)">
 </div>
 
@@ -55,3 +58,8 @@
 <div class="error" *ngIf="isEmpty">
   Не знайдено повірки
 </div>
+
+<mat-dialog-actions class="actions">
+  <button mat-raised-button color="success">Завантажити копію свідоцтва</button>
+  <button mat-raised-button mat-dialog-close>Закрити</button>
+</mat-dialog-actions>

@@ -16,12 +16,12 @@
       </button>
 
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item>
+        <button mat-menu-item [routerLink]="['/default/profile']">
           <mat-icon>account_box</mat-icon>
           <span>Переглянути акаунт</span>
         </button>
 
-        <button mat-menu-item (click)="logout()" [routerLink]="['/']">
+        <button mat-menu-item (click)="authSv.logOut()" [routerLink]="['/']">
           <mat-icon>exit_to_app</mat-icon>
           <span>Вийти</span>
         </button>

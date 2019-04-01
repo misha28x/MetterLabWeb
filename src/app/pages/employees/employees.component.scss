@@ -17,6 +17,7 @@
       text-align: left;
     }
     .role {
+      font-size: 0.8em;
       opacity: .6;
     }
   }
@@ -31,5 +32,8 @@
     .right {
       margin-left: auto;
     }
+  }
+  .mat-list-icon {
+    color: rgba(#000, 0.8);
   }
 }

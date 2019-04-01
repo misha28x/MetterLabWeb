@@ -12,7 +12,7 @@ export class SidebarComponent implements OnInit {
 	@HostBinding('class.min') @Input() min: Boolean;
   @HostBinding('class.open') get getMenuState(): boolean { return !this.min; }
   
-  constructor(private authSv: AuthService) { }
+  constructor(public authSv: AuthService) { }
 
   ngOnInit(): void {
   }
