@@ -41,16 +41,19 @@ function bytesToInt(bytes) {
 }
 
 function getServiceProviderId(serviceProviders, currentProvider) {
+  let currentId = 0;
+
   serviceProviders.forEach(provider => {
-    if (provider.name.localeCompare(currentProvider)) {
-      return provider.id;
+    if (provider.name.localeCompare(currentProvider) == 0) {
+      currentId = provider.id;
     }
   });
-  return 0;
+  
+  return currentId;
 }
 
 function getResultsFromDatabase(byteArray, createFor, contractors) {
- 
+
   const db = new SQL.Database(byteArray);
 
   // Формуємо результат у масив об'єктів
@@ -119,15 +122,9 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
           } else {
             if (row.Id_pc !== '' && row.Id_pc !== null) {
               if (appNum.length == 0) {
-
-                  console.log({
-                    createFor: createFor,
-                    contractor: getServiceProviderId(contractors, row.Customer)
-                  });
-
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors ,row.Customer), createFor, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
+                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors, row.Customer), createFor, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
                 let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
                 connection.query(varResult, (err) => {
                   if (err) {
