@@ -40,7 +40,17 @@ function bytesToInt(bytes) {
   return new Uint32Array(u32bytes)[0];
 }
 
-function getResultsFromDatabase(byteArray, createFor) {
+function getServiceProviderId(serviceProviders, currentProvider) {
+  serviceProviders.forEach(provider => {
+    if (provider.name.localeCompare(currentProvider)) {
+      return provider.id;
+    }
+  });
+  return 0;
+}
+
+function getResultsFromDatabase(byteArray, createFor, contractors) {
+ 
   const db = new SQL.Database(byteArray);
 
   // Формуємо результат у масив об'єктів
@@ -84,10 +94,8 @@ function getResultsFromDatabase(byteArray, createFor) {
       row.City = row.City.replace(/'/g, "''");
 
       console.log({
-        street: row.Street,
         customer: row.Customer
       });
-
 
       connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
@@ -111,9 +119,15 @@ function getResultsFromDatabase(byteArray, createFor) {
           } else {
             if (row.Id_pc !== '' && row.Id_pc !== null) {
               if (appNum.length == 0) {
+
+                  console.log({
+                    createFor: createFor,
+                    contractor: getServiceProviderId(contractors, row.Customer)
+                  });
+
                 const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
                 const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, createFor, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, /* TODO: */ row.Date, row.FileNumber, null, null, null, null, null);
+                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors ,row.Customer), createFor, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
                 let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
                 connection.query(varResult, (err) => {
                   if (err) {
@@ -137,8 +151,8 @@ function getResultsFromDatabase(byteArray, createFor) {
 
               applicationNumber = createNextApplicationNumber(applicationNumber);
 
-              let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, row.Customer, createFor , null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null);
-              let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`,`employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+              let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors, row.Customer), createFor, null, row.serviceType, null, null, null, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, null, null, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, null, null); // 39
+              let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
               connection.query(varResult, (err) => {
                 if (err) {
                   console.log(err);
@@ -268,7 +282,7 @@ function parseProtocol(byteArray, fileName) {
   protocol.type = uintToString(countType);
 
   // Умовне_позначення
-	protocol.symbol = uintToString(countSymbol);
+  protocol.symbol = uintToString(countSymbol);
 
   // Рік виробництва
   const year = bbiFile.slice(124, 128);
@@ -537,31 +551,41 @@ function addProtocol(protocol) {
  * і INSERT записів в таблицю `archive`, що містить `createFor`
  */
 router.post('', upload.single('file'), (req, res, next) => {
-  fs.readFile('./backend/temp/tempo.zip', function (err, data) {
-    if (err) throw err;
-    JSZip.loadAsync(data).then(function (zip) {
-      let counterValue = 0;
-      zip.forEach(async function (relativePath, zipEntry) {
-        if (zipEntry.name.includes('.bbi')) {
-          counterValue++;
-        }
-      });
-      if (counterValue == 0) {
-        io.getIo().emit('upload', {
-          err: 'Не знайдено файлів протоколів'
-        });
-        return;
+  connection.query("SELECT id, name FROM contractors", (err, contractors) => {
+
+    let createFor = null;
+    contractors.forEach(contractor => {
+      if (contractor.name.localeCompare(req.body.createFor)) {
+        createFor = contractor.id;
       }
-      zip.forEach(async function (relativePath, zipEntry) {
-        if (zipEntry.name.includes('.bbi')) {
-          zip.file(zipEntry.name).async("uint8array").then(async (byteArray) => {
-            await parseProtocol(byteArray, zipEntry.name.split('/')[1]);
+    });
+
+    fs.readFile('./backend/temp/tempo.zip', function (err, data) {
+      if (err) throw err;
+      JSZip.loadAsync(data).then(function (zip) {
+        let counterValue = 0;
+        zip.forEach(async function (relativePath, zipEntry) {
+          if (zipEntry.name.includes('.bbi')) {
+            counterValue++;
+          }
+        });
+        if (counterValue == 0) {
+          io.getIo().emit('upload', {
+            err: 'Не знайдено файлів протоколів'
           });
-        } else if (zipEntry.name.includes('.db')) {
-          zip.file("BluetoothDB.db").async("uint8array").then(async (data) => {
-            await getResultsFromDatabase(data, req.body.createFor);
-          });
+          return;
         }
+        zip.forEach(async function (relativePath, zipEntry) {
+          if (zipEntry.name.includes('.bbi')) {
+            zip.file(zipEntry.name).async("uint8array").then(async (byteArray) => {
+              await parseProtocol(byteArray, zipEntry.name.split('/')[1]);
+            });
+          } else if (zipEntry.name.includes('.db')) {
+            zip.file("BluetoothDB.db").async("uint8array").then(async (data) => {
+              await getResultsFromDatabase(data, createFor, contractors);
+            });
+          }
+        });
       });
     });
   });
