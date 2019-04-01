@@ -26,7 +26,7 @@ router.get("/users/:provider", (req, res, next) => {
  * @param req.params.id - ідентифікатор користувача в базі даних
  */
 router.get("/user/:id", (req, res, next) => {
-  connection.query("SELECT * FROM users WHERE id = '" + req.params.id + "';", (err, result) => {
+  connection.query("SELECT users.id, users.user_name, users.user_password, permissions.value AS permission, users.user_full_name, users.service_provider FROM users INNER JOIN permissions ON users.user_permissions = permissions.id WHERE users.id = '" + req.params.id + "';", (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -274,7 +274,7 @@ router.delete("/city/:id", (req, res, next) => {
  * @returns список всіх contractors
  */
 router.get("/contractors", (req, res, next) => {
-  connection.query("SELECT * FROM `contractors`;", (err, result) => {
+  connection.query("SELECT * FROM `contractors` WHERE name != 'ТзОВ \"ВОЛИНЬ АКВА СТАНДАРТ\"';", (err, result) => {
     if (err) {
       console.log(err);
     }
