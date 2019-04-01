@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Verification } from '../interfaces/verifications';
 
-const verUrl = 'http://localhost:3000/api/verifications-archive/';
+const verUrl = 'http://localhost:3000/api/verifications-archive/single/';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,10 @@ export class DetailViewService {
   addVerification(id: any): void {
     this.http.get(verUrl + id)
     .subscribe((ver: Verification) => {
+      console.log({
+        id: id,
+        ver: ver
+      });
       this.verificationSource$.next(ver);
     });
   }
