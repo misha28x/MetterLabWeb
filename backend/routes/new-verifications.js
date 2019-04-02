@@ -61,6 +61,8 @@ router.post('', (req, res, next) => {
   console.log({
     'Номер ост заявки': req.body.favorTime
   });
+
+  console.log(req.body);
   connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate` = '" + getCurrentDate() + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
     if (err) {
       console.log(err);

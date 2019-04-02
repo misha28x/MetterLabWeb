@@ -46,5 +46,6 @@ export interface Verification {
 	idForStation?: number;			// id для станції										\\
 	positionInTask?: number;		// позиція в завданні								\\
 	// поля з new-verification-dialog
-	isUnique?: boolean;					// ?																\\
+  isUnique?: boolean;					// ?																\\
+  userId?: string;
 }

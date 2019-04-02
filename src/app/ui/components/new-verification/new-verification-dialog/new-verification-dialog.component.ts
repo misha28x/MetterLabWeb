@@ -7,6 +7,8 @@ import { DataService } from 'src/app/services/data.service';
 import { Verification } from 'src/app/interfaces/verifications';
 import { VerificationService } from 'src/app/services/verification.service';
 
+import { User } from '../../../../interfaces/user';
+
 const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
@@ -25,11 +27,11 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   showForm: boolean;
 
   permission: number;
-
+  user: User;
 	constructor(
     private fb: FormBuilder,
     private dataSv: DataService,
-    private store: Store<number>,
+    private store: Store<User>,
 		private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any
@@ -52,8 +54,9 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
 	ngOnInit(): void {
-    this.store.pipe(select('permission')).subscribe(user => {
-      this.permission = user.permission;
+    this.store.pipe(select('permission')).subscribe(_user => {
+      this.user = _user;
+      this.permission = _user.permission;
     });
 
 		this.generalDataForm = this.fb.group({
@@ -178,7 +181,8 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 			symbol: this.counterForm.get('symbol').value,
 			counterQuantity: this.locationForm.get('counterQuantity').value,
 			floor: this.additionalDataForm.get('floor').value,
-			entrance: this.additionalDataForm.get('entrance').value
+      entrance: this.additionalDataForm.get('entrance').value,
+      userId: this.user.serviceProvider
 		};
 	}
 }
