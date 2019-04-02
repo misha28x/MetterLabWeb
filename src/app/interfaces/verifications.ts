@@ -48,5 +48,5 @@ export interface Verification {
 	// поля з new-verification-dialog
   isUnique?: boolean;					// ?																\\
   userId?: string;
-  createFor: string;
+  createFor?: string;
 }
