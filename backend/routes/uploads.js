@@ -43,6 +43,11 @@ function bytesToInt(bytes) {
 function getServiceProviderId(serviceProviders, currentProvider) {
   let currentId = 0;
 
+  console.log({
+    providers: serviceProviders,
+    current: currentProvider
+  });  
+
   serviceProviders.forEach(provider => {
     if (provider.name.localeCompare(currentProvider) == 0) {
       currentId = provider.id;
@@ -83,11 +88,6 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
       console.log({
         "Перший запис за день": applicationNumber
       });
-    }
-    for ( const row of result ) {
-      console.log( {
-        row: Object.keys( row ).length
-      } );
     }
 
     for (const row of result) {
@@ -549,19 +549,11 @@ function addProtocol(protocol) {
 }
 
 /**
- * @param req.body.createFor - створено для, передається в метод для отримання результатів з БД архіву
+ * @param req.params.createFor - створено для, передається в метод для отримання результатів з БД архіву
  * і INSERT записів в таблицю `archive`, що містить `createFor`
  */
-router.post('', upload.single('file'), (req, res, next) => {
-  connection.query("SELECT id, name FROM contractors", (err, contractors) => {
-
-    let createFor = null;
-    contractors.forEach(contractor => {
-      if (contractor.name.localeCompare(req.body.createFor)) {
-        createFor = contractor.id;
-      }
-    });
-
+router.post('/:createFor', upload.single('file'), (req, res, next) => {
+  connection.query("SELECT id, name FROM contractors WHERE id != 63770936", (err, contractors) => {
     fs.readFile('./backend/temp/tempo.zip', function (err, data) {
       if (err) throw err;
       JSZip.loadAsync(data).then(function (zip) {
@@ -584,7 +576,7 @@ router.post('', upload.single('file'), (req, res, next) => {
             });
           } else if (zipEntry.name.includes('.db')) {
             zip.file("BluetoothDB.db").async("uint8array").then(async (data) => {
-              await getResultsFromDatabase(data, createFor, contractors);
+              await getResultsFromDatabase(data, req.params.createFor, contractors);
             });
           }
         });
