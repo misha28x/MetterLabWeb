@@ -71,6 +71,11 @@ function getResultsFromDatabase(byteArray, createFor) {
         "Перший запис за день": applicationNumber
       });
     }
+    for ( const row of result ) {
+      console.log( {
+        row: Object.keys( row ).length
+      } );
+    }
 
     for (const row of result) {
       if (row.CounterNumber.length < 4 | row.CounterNumber == '-' | row.FileNumber == '00000000.bbi') {
@@ -83,11 +88,10 @@ function getResultsFromDatabase(byteArray, createFor) {
       row.Middlename = row.Middlename.replace(/'/g, "''");
       row.City = row.City.replace(/'/g, "''");
 
-      console.log({
-        street: row.Street,
-        customer: row.Customer
-      });
-
+      // console.log({
+      //   street: row.Street,
+      //   customer: row.Customer
+      // });
 
       connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
@@ -104,8 +108,8 @@ function getResultsFromDatabase(byteArray, createFor) {
               console.log('Запис для лічильника ' + row.CounterNumber + ' вже існує');
               return;
             } else {
-              console.log('Інша помилка в запиті на дублікати:');
-              console.log(err);
+              // console.log('Інша помилка в запиті на дублікати:');
+              // console.log(err);
               return;
             }
           } else {
@@ -124,7 +128,7 @@ function getResultsFromDatabase(byteArray, createFor) {
               } else {
                 connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
                   if (err) {
-                    console.log(err);
+                    // console.log(err);
                   }
                   // TODO: Метод, який вибирає лічильники і якщо числа рівні то Update station task where id set status
                   setTaskStatusDone(appNum[0].idForStation);
@@ -141,7 +145,7 @@ function getResultsFromDatabase(byteArray, createFor) {
               let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`,`employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
               connection.query(varResult, (err) => {
                 if (err) {
-                  console.log(err);
+                  // console.log(err);
                 }
               });
               console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber + ' K');
