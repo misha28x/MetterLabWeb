@@ -144,19 +144,19 @@ mat-card-header {
 }
 
 .table {
-  margin: -($module-rem);
-  padding: $module-rem;
-  margin-top: -($module-rem * 2);
-  margin-bottom: -($module-rem * 2);
+  // margin: -($module-rem);
+  // padding: $module-rem;
+  // margin-top: -($module-rem * 2);
+  // margin-bottom: -($module-rem * 2);
 
   &-success {
     @extend .table;
-    background: rgba($success-color, 0.3);
+    background: rgba($success-color, 0.15);
   }
 
   &-error {
     @extend .table;
-    background: rgba($error-color, 0.3);
+    background: rgba($error-color, 0.15);
   }
 }
 

@@ -3,7 +3,7 @@
 $header-bg: #f2f5f8;
 $row-hover-bg: rgba(#f2f5f8, 0.8);
 $active-bg: accent-palette(600);
-$table-border: solid 1px #e7e9ec;
+$table-border: solid 1px rgba(#000, 0.15);
 $scroll-height: 40 * $module;
 $input-color: rgba(
   $color: #000000,
@@ -16,7 +16,7 @@ $_animation: $animation;
   padding: 0;
 
   table {
-    border: 1px solid rgba(#000, 0.15);
+    border: 1px solid rgba(#000, 0.3);
     border-radius: 3px;
     overflow: auto;
 		width: 100%;
@@ -30,7 +30,7 @@ $_animation: $animation;
 			width: 100%;
 
       th, td {
-        border-bottom: 1px solid rgba(#000, 0.15);
+        border-bottom: 1px solid rgba(#000, 0.3);
 				padding: 0 ($module-rem / 2);
 				min-width: 15 * $module-rem;
         transition:

@@ -11,8 +11,6 @@ import { VerificationService } from '../../services/verification.service';
 import { SelectDialogComponent } from '../../ui/components/select-dialog';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
-const url = 'http://localhost:3000/api/new-verifications';
-
 @Component({
   selector: 'app-lab-requests',
   templateUrl: './lab-requests.component.html',
@@ -38,7 +36,6 @@ export class PageLabRequestsComponent implements OnInit {
 
   ngOnInit(): void {
     this.labRequests = this.sourceSv.getLab();
-    this.columnsToDisplay = ['addingDate', 'applicationNumber', 'client', 'serviceProvider', 'district', 'street', 'house', 'apartment', 'favorDate', 'sanitaryWellfare', 'waterAbsentTo', 'haveSeal', 'phoneNumber', 'note', 'actions'];
   }
 
   updateData(): void {

@@ -1,24 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Store, select } from '@ngrx/store';
+
+import { User } from '../interfaces/user';
 
 // import { Protocol, Test } from '../interfaces/protocol';
 
-const url = 'http://localhost:3000/api/upload';
+const url = 'http://localhost:3000/api/upload/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
-
-  constructor(private http: HttpClient) { }
+  user: User;
+  
+  constructor(
+    private http: HttpClient,
+    private store: Store<User>
+    ) {
+    this.store.pipe(select('permission')).subscribe(_user => {
+      this.user = _user;
+    });
+    }
 
   public upload(files: Set<File>): void {
     const fileData: FormData = new FormData();
 
     files.forEach(file => {
       fileData.append('file', file);
-      this.http.post(url, fileData).subscribe();
+      this.http.post(url + this.user.serviceProvider, fileData).subscribe();
     });
   }
 

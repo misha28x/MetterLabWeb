@@ -98,6 +98,20 @@ export class TableComponent implements  OnInit, OnChanges {
 		return { _columns: sortColumns };
 	}
 
+  getSuccessClass(row: any): boolean {
+    if (!row['status']) {
+      return false;
+    }
+
+    const successStatusses = ['Визначено відповідальну особу', 'В роботі', 'Повірено. Придатний'];
+
+    if (!successStatusses.includes(row['status'])) {
+      return false;
+    } 
+
+    return true;
+  }
+
 	public onChangePage(event: PageEvent): void {
 		this.page = event.pageIndex;
 		this.itemsPerPage = event.pageSize;

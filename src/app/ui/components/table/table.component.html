@@ -49,7 +49,7 @@
     </tr>
     
     <tr *ngFor="let row of rows; trackBy: trackByFn">
-      <td *ngFor="let col of columnList" [ngStyle]="{'min-width.px': col.width}">
+      <td *ngFor="let col of columnList" [ngStyle]="{'min-width.px': col.width}" [ngClass]="{ 'table-success': getSuccessClass(row) }">
         <ng-container *ngIf="!col.bodyTemplate">
           {{ row[col.config.name] }}
         </ng-container>

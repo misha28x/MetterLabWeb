@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 
-let metrologyProtocolsUrl: string = 'http://localhost:3000/api/verications-protocols/metrology';
-let rejectedProtocolsUrl: string = 'http://localhost:3000/api/rejected-protocols';
-let failedTasksUrl: string = 'http://localhost:3000/api/stations-tasks/failed/1';
-let newVerificationUrl: string = 'http://localhost:3000/api/new-verifications';
-let rejectedVerif: string = 'http://localhost:3000/api/rejected-verification';
-let ptocolsUrl: string = 'http://localhost:3000/api/verications-protocols';
-let archiveUrl: string = 'http://localhost:3000/api/verifications-archive';
-let stationTasksUrl: string = 'http://localhost:3000/api/stations-tasks';
-let taskPlaningUrl: string = 'http://localhost:3000/api/task-planing';
-let labUrl: string = 'http://localhost:3000/api/lab-requests';
+const metrologyProtocolsUrl: string = 'http://localhost:3000/api/verications-protocols/metrology';
+const rejectedProtocolsUrl: string = 'http://localhost:3000/api/rejected-protocols';
+const failedTasksUrl: string = 'http://localhost:3000/api/stations-tasks/failed/1';
+const newVerificationUrl: string = 'http://localhost:3000/api/new-verifications';
+const rejectedVerif: string = 'http://localhost:3000/api/rejected-verification';
+const ptocolsUrl: string = 'http://localhost:3000/api/verications-protocols';
+const archiveUrl: string = 'http://localhost:3000/api/verifications-archive';
+const stationTasksUrl: string = 'http://localhost:3000/api/stations-tasks';
+const taskPlaningUrl: string = 'http://localhost:3000/api/task-planing';
+const labUrl: string = 'http://localhost:3000/api/lab-requests';
 // TODO:Rejected Verif
 
 @Injectable({
@@ -81,7 +82,7 @@ export class SourceService {
   }
 
   fetchLabRequest(): void {
-    this.http.get(labUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.labSource$.next(res));
+    this.http.get(labUrl + '/' + this.user.serviceProvider).pipe(tap(console.log)).subscribe((res: any) => this.labSource$.next(res));
   }
 
   getNewVerifications(): Observable<any> {
