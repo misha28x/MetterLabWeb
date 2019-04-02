@@ -182,7 +182,8 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 			counterQuantity: this.locationForm.get('counterQuantity').value,
 			floor: this.additionalDataForm.get('floor').value,
       entrance: this.additionalDataForm.get('entrance').value,
-      userId: this.user.serviceProvider
+      userId: this.user.serviceProvider,
+      createFor: this.user.createFor
 		};
 	}
 }

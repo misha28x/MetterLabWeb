@@ -59,7 +59,7 @@ router.get('/cancel-employee/:id', (req, res, next) => {
 router.post('', (req, res, next) => {
   // Знаходимо номер останньої створеної заявки
   console.log({
-    'Номер ост заявки': req.body.favorTime
+    'Номер ост заявки': req.body.createFor
   });
 
   console.log(req.body);

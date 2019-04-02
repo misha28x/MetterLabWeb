@@ -73,7 +73,7 @@ export function permissionReducer(
         permission: 6,
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider,
-        createFor: 'ТЗОВ "ВОЛИНЬ АКВА СТАНДАРТ"'
+        createFor: '80334'
       };
 
       return state;
