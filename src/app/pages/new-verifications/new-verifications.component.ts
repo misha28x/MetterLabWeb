@@ -99,15 +99,8 @@ export class PageNewVerificationsComponent implements OnInit {
     });
   }
 
-  onChange(data: any, state: boolean): void {
-    if (state) {
-      this.selectedData.push(data);
-    } else {
-      this.selectedData = this.selectedData.filter(
-        (val: any) => {
-          return val !== data;
-        }
-      );
-    }
+  onChange(data: any): void {
+    this.selectedData = data;
+    console.log(data);
   }
 }

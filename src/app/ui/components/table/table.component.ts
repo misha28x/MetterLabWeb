@@ -1,4 +1,5 @@
 import { Component, Input, HostBinding, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
 import { PageEvent } from '@angular/material';
 
 import { ColumnComponent } from './column/column.component';
@@ -22,9 +23,11 @@ export class TableComponent implements  OnInit, OnChanges {
 	@Input() tableData: any;
 	@Input() itemsPerPage: number;
 
-  @Output() rowSelected: EventEmitter<any>;
+  @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
 	columnList: ColumnComponent[];
+  
+  desiredStatus: string;
 
 	pageEvent: PageEvent;
 	filtering: any;
@@ -34,6 +37,8 @@ export class TableComponent implements  OnInit, OnChanges {
 	dataLenght: number;
 	data: Array<any>;
 	rows: Array<any>;
+
+  selection = new SelectionModel<any>(true, []);
 
 	constructor() {
 		this.columnList = [];
@@ -55,8 +60,6 @@ export class TableComponent implements  OnInit, OnChanges {
 	ngOnInit(): void {
 		this.getColumns();
 		this.setData(this.data);
-
-    this.rowSelected = new EventEmitter<any>();
   }
   
   ngOnChanges(): void {
@@ -116,7 +119,21 @@ export class TableComponent implements  OnInit, OnChanges {
 		this.page = event.pageIndex;
 		this.itemsPerPage = event.pageSize;
 		this.onChangeTable();
-	}
+  }
+  
+  isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.rows.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle(): void {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.rows.forEach(row => this.selection.select(row));
+    console.log(this.selection.selected);
+    this.rowSelected.emit(this.selection.selected);
+  }
 
 	public changePage(data: any[]): any[] {
 		let start = (this.page) * this.itemsPerPage;
@@ -188,8 +205,8 @@ export class TableComponent implements  OnInit, OnChanges {
     const tempArray: Array<any> = [];
     filteredData.forEach((item: any) => {
       let flag = false;
-      this.columnList.forEach((column: any) => {
-				if (item[column.config.name]
+      this.columnList.forEach((_column: any) => {
+				if (item[_column.config.name]
               .toString()
               .toLowerCase()
               .startsWith(filterString.toLowerCase())
@@ -225,7 +242,8 @@ export class TableComponent implements  OnInit, OnChanges {
   }
 
   onRowSelected(row: any): void {
-    this.rowSelected.emit(row);
+    this.selection.toggle(row);
+    this.rowSelected.emit(this.selection.selected);
   }
 
 	trackByFn(index: number, item: any): any {

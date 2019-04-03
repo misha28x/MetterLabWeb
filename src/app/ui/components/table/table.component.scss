@@ -42,6 +42,9 @@ $_animation: $animation;
         &:last-child {
           padding: $module-rem;
         }
+        &.checkboxes {
+          width: 30px;
+        }
       }
       th {
         align-items: center;
