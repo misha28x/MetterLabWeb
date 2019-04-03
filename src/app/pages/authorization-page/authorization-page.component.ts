@@ -48,7 +48,6 @@ export class AuthorizationPageComponent implements OnInit {
         return;
       }
 
-      console.log({ res: res.permission > 0});
       if (parseInt(res.permission) > 0) {
         this.redirectHome(res.permission);
       }

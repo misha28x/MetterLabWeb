@@ -1,5 +1,5 @@
 export interface User {
-  username?: string;
+  user_full_name?: string;
   permission?: number;
   serviceProvider?: string;
   createFor?: string;
