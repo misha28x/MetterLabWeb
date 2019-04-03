@@ -25,15 +25,15 @@ router.get('/employee/:id', (req, res, next) => {
   });
 });
 
-router.get('/stations', (req, res, next) => {
-  connection.query("SELECT `stationNumber` FROM stations;", (err, station) => {
+router.get('/stations/:serviceProvider', (req, res, next) => {
+  connection.query("SELECT `stationNumber` FROM stations WHERE 	serviceProvider = '" + req.params.serviceProvider + "';", (err, station) => {
     res.send(station);
   });
 });
 
 /** 
  * @param req.body.serviceProvider
-*/
+ */
 // Роутер, що переміщає заявку в архів повірок
 router.post('/station-task', (req, res, next) => {
   console.log({
@@ -84,7 +84,7 @@ router.post('/station-task', (req, res, next) => {
             if (err) {
               console.log(err);
             }
-            io.getIo().emit( 'update' );
+            io.getIo().emit('update');
           });
           position++;
         });
