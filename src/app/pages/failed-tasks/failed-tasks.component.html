@@ -8,15 +8,8 @@
       </button>
     </div>
 
-    <app-table [hovered]="true" [bordered]="true" [tableData]="(stationsTasks | async)" [pagination]="true">
-      <app-column [width]="30">
-        <ng-template #headerBodyTemplate>
-          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
-        </ng-template>
-        <ng-template #tableBodyTemplate let-row="row">
-          <mat-checkbox (change)="onChange(row['id_task'], $event.checked)"></mat-checkbox>
-        </ng-template>
-      </app-column>
+    <app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(stationsTasks | async)"
+      [pagination]="true">
 
       <app-column [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>

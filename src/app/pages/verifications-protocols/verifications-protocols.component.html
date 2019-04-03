@@ -6,15 +6,8 @@
       </div>
     </div>
 
-    <app-table [hovered]="true" [bordered]="true" [tableData]="(protocols | async)" [pagination]="true">
-      <app-column [width]="30">
-        <ng-template #headerBodyTemplate>
-          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
-        </ng-template>
-        <ng-template #tableBodyTemplate let-row="row">
-          <mat-checkbox (change)="onChange(row['applicationNumber'], $event.checked)"></mat-checkbox>
-        </ng-template>
-      </app-column>
+<app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(protocols | async)"
+  [pagination]="true">
 
       <app-column [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
