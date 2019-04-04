@@ -18,11 +18,14 @@ export class RejectionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.selectedType = '';
-    this.list = this.dataSv.getData('http://localhost:3000/api/rejected-verification/rejections');
+    this.list = this.dataSv.getData('http://localhost:3000/api/rejected-verification/types/rejections');
+    this.list.subscribe(console.log);
   }
 
   ngOnInit() {
   }
 
-  save(): void { }
+  save(): void {
+
+  }
 }

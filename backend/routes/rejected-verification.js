@@ -15,7 +15,7 @@ router.get('/:createFor', (req, res, next) => {
   });
 });
 
-router.get('/rejections', (req, res, next) => {
+router.get('/types/rejections', (req, res, next) => {
   connection.query("SELECT * FROM rejections_types;", (err, result) => {
     if (err) {
       console.log(err);

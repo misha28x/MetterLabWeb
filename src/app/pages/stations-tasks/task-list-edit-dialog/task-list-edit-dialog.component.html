@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Порядок завдань</h2>
 
-<app-table [hovered]="true" [bordered]="true" [tableData]="taskList" [pagination]="true">
+<app-table [hovered]="true" [bordered]="true" [tableData]="(taskList | async)" [pagination]="true">
 
   <app-column [date]="true" [columnTitle]="'Дата додання'" [columnName]="'addingDate'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
 

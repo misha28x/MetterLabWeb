@@ -63,8 +63,8 @@ export class PageTaskPlaningComponent implements OnInit {
 
   sendData(): void {
     const url = 'http://localhost:3000/api/task-planing/stations/' + this.user.serviceProvider;
-    console.log(url);
-    const obs = this.dataSv.getData(url).pipe(tap(console.log) ,map((res: any[]) => res.map(station => station.stationNumber)));
+    
+    const obs = this.dataSv.getData(url).pipe(map((res: any[]) => res.map(station => station.stationNumber)));
 
     const dialogRef = this.dialog.open(TaskSendingComponent, {
       data: obs

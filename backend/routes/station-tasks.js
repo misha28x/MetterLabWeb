@@ -18,7 +18,7 @@ router.get('/:serviceProvider', (req, res, next) => {
 });
 
 // створено для
-router.get('/:id', (req, res, next) => {
+router.get('/tasks/:id', (req, res, next) => {
   connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' ORDER BY `favorTime` ASC;", (err, rows) => {
     if (err) {
       console.log(err);

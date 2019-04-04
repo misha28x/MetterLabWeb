@@ -21,8 +21,10 @@ export class TaskListEditDialogComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public idTask: number) { }
 
 	ngOnInit(): void {
-		this.url = 'http://localhost:3000/api/stations-tasks/' + this.idTask;
-
-		this.taskList = this.dataSv.getData(this.url);
+    this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.idTask;
+    console.log(this.url);
+    
+    this.taskList = this.dataSv.getData(this.url);
+    this.taskList.subscribe(console.log);
 	}
 }

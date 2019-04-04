@@ -48,7 +48,7 @@ export class TaslListViewDialogComponent implements OnInit {
     return true;
   }
   updateData(): void {
-    this.url = 'http://localhost:3000/api/stations-tasks/' + this.idTask;
+    this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.idTask;
 
     this.taskList = this.dataSv.getData(this.url);
   }
