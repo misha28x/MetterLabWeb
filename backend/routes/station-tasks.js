@@ -18,8 +18,8 @@ router.get('/:serviceProvider', (req, res, next) => {
 });
 
 // створено для
-router.get('/:id/:createFor', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "' ORDER BY `positionInTask` ASC;", (err, rows) => {
+router.get('/:id', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' ORDER BY `favorTime` ASC;", (err, rows) => {
     if (err) {
       console.log(err);
       res.json({
@@ -46,9 +46,9 @@ router.get('/failed/:id', (req, res, next) => {
 });
 
 // створено для
-router.get('/unresolved/:id/:createFor', (req, res, next) => {
+router.get('/unresolved/:id', (req, res, next) => {
   console.log('resolved');
-  connection.query("SELECT * FROM `archive` WHERE `idForStation`=" + parseInt(req.params.id) + " AND status = 'В роботі' AND `createFor` = '" + req.params.createFor + "' ORDER BY `positionInTask` DESC", (err, rows) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`=" + parseInt(req.params.id) + "' ORDER BY `positionInTask` DESC", (err, rows) => {
     if (err) {
       console.log(err);
       res.json({
@@ -77,8 +77,8 @@ router.get('/delete/:id', (req, res) => {
 
 // TODO: винесено generateExcel
 // створено для
-router.get('/excel/:id/:createFor', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' AND `createFor` = '" + req.params.createFor + "' ORDER BY `positionInTask` DESC;", (err, taskResult) => {
+router.get('/excel/:id', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' ORDER BY `positionInTask` DESC;", (err, taskResult) => {
     if (err) {
       console.log(error);
     }

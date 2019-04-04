@@ -137,6 +137,16 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
+router.get( '/all/address', ( req, res, next ) => {
+  console.log( 'Get addreses' );
+  connection.query( "SELECT * FROM `address`", ( err, address ) => {
+    if ( err ) {
+      console.log( err );
+    }
+    res.status( 200 ).json( address );
+  } );
+} );
+
 // Перевірка на дублі по адресі клієнта (район, вулиця, будинок, квартира)
 router.post('/duplicate', (req, res, next) => {
   connection.query("SELECT * FROM `archive` WHERE  +`district`='" + req.body.district + "' AND `street`= '" + req.body.street + "' AND `house`= '" + req.body.house + "'AND `apartment` = '" + req.body.flat + "';", (err, result) => {
@@ -150,14 +160,7 @@ router.post('/duplicate', (req, res, next) => {
 
 
 // Роутер для отримання всіх можливих населених пунктів і адрес
-router.get('/address/', (req, res, next) => {
-  connection.query("SELECT * FROM `address`", (err, address) => {
-    if (err) {
-      console.log(err);
-    }
-    res.status(200).json(address);
-  });
-});
+
 
 function generateDateString() {
   const date = new Date();

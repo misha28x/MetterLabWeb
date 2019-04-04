@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { Observable, forkJoin } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material';
+import { Store, select } from '@ngrx/store';
 
+import { User } from '../../interfaces/user';
 import { Task } from '../../interfaces/taskData';
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
@@ -21,17 +24,19 @@ const verificationUrl = 'http://localhost:3000/api/new-verifications';
   styleUrls: ['./task-planing.component.scss']
 })
 export class PageTaskPlaningComponent implements OnInit {
-	data: any;
-	config: any;
-	columns: Array<any>;
-	tableData: any;
+  data: any;
+  config: any;
+  columns: Array<any>;
+  tableData: any;
 
   selectedData: any[];
   labRequests: Observable<any[]>;
   employee: string;
+  user: User;
 
   constructor(
     private dialog: MatDialog,
+    private store: Store<User>,
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
@@ -39,57 +44,48 @@ export class PageTaskPlaningComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.store.pipe(select('permission')).subscribe(_user => {
+      this.user = _user;
+    });
     this.sourceSv.fetchTaskPlaning();
 
-		this.config = {
-			sorting: { columns: this.columns },
-			filtering: {
-				filterString: ''
-			}
-		};
+    this.config = {
+      sorting: { columns: this.columns },
+      filtering: {
+        filterString: ''
+      }
+    };
 
     this.selectedData = [];
 
-		this.tableData = this.sourceSv.getTaskPlaning();
+    this.tableData = this.sourceSv.getTaskPlaning();
   }
 
   sendData(): void {
-    let stations = [];
+    const url = 'http://localhost:3000/api/task-planing/stations/' + this.user.serviceProvider;
+    console.log(url);
+    const obs = this.dataSv.getData(url).pipe(tap(console.log) ,map((res: any[]) => res.map(station => station.stationNumber)));
 
-    const url = 'http://localhost:3000/api/task-planing/stations';
-
-    this.dataSv.getData(url)
-    .subscribe(
-      data => {
-        stations = data.map(
-          station => {
-            return station.stationNumber;
-          }
-        );
-
-        this.request(stations);
-      }
-    );
-  }
-
-  request(stations: string[]): void {
     const dialogRef = this.dialog.open(TaskSendingComponent, {
-      data: stations
+      data: obs
     });
 
     dialogRef.afterClosed().subscribe(
       (data: Task) => {
-        const taskData = {
-          taskDate: data.taskDate,
-          type: data.serviceType,
-					stationNumber: data.stationNumber,
-          verifications: this.selectedData
-        };
+        if (data) {
+          const taskData = {
+            taskDate: data.taskDate,
+            type: data.serviceType,
+            stationNumber: data.stationNumber,
+            verifications: this.selectedData,
+            serviceProvider: this.user.serviceProvider
+          };
 
-        const url = 'http://localhost:3000/api/task-planing/station-task';
-        
-        this.dataSv.sendData(url, taskData)
-          .subscribe(() => this.sourceSv.fetchTaskPlaning());
+          const url = 'http://localhost:3000/api/task-planing/station-task';
+
+          this.dataSv.sendData(url, taskData)
+            .subscribe(() => this.sourceSv.fetchTaskPlaning());
+        }
       }
     );
   }

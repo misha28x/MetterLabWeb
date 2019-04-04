@@ -18,7 +18,7 @@
         </div>
         <div class="header-wrapper">
           <ng-container *ngIf="!c.headerTemplate">
-            <ng-container *ngIf="c.enableFiltering">
+            <ng-container *ngIf="c.enableFiltering && !c.date">
               <div class="search-box">
                 <app-input [size]="'sm'" (click)="$event.stopPropagation();" [appFilterTable]="c.config.filtering"
                   [suffixIcon]="'icofont icofont-search-alt-2'" (filterChanged)="onChangeTable(c)"></app-input>

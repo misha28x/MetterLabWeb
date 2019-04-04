@@ -6,10 +6,10 @@
       </div>
     </div>
 
-<app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(protocols | async)"
+<app-table  [desiredStatus]="'Передано повірнику'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(protocols | async)"
   [pagination]="true">
 
-      <app-column [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
+      <app-column [date]="true" [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [width]="125" [columnTitle]="'Номер установки'" [columnName]="'deviceNumber'" [enableSorting]="true"

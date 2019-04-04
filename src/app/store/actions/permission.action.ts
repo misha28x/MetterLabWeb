@@ -37,7 +37,7 @@ const getType = (permission: number) => {
 
 export const login = (info: User) => ({
   type: getType(info.permission),
-  payload: { username: info.user_full_name, serviceProvider: info.serviceProvider }
+  payload: { username: info.username, serviceProvider: info.serviceProvider, id: info.userId }
 });
 
 export const logout = () => ({

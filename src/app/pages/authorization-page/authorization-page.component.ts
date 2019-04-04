@@ -44,6 +44,7 @@ export class AuthorizationPageComponent implements OnInit {
     authData.pass = this.passwordFormControl.value;
 
     this.dataSv.sendData(authUrl, authData).subscribe(res => {
+      console.log(res);
       if (res.hasOwnProperty('error')) {
         return;
       }

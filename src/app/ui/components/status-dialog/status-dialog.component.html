@@ -1,65 +1,78 @@
-<div class="status" *ngIf="data">
-  Повірено. Придатний
-</div>
+<ng-container *ngIf="data">
+  <div class="status" *ngIf="data.status.includes('Придатний')">
+    Повірено. Придатний
+  </div>
 
-<table class="protocol-table" *ngIf="data">
-  <tr>
-    <td>Метод проведення повірки</td>
-    <td>На місці експлуатації приладу</td>
-  </tr>
-  <tr>
-    <td>Номер заявки</td>
-    <td>{{ data.applicationNumber }}</td>
-  </tr>
-  <tr>
-    <td>Номер лічильника</td>
-    <td>{{ data.counterNumber }}</td>
-  </tr>
-  <tr>
-    <td>Умовне позначення</td>
-    <td>{{ data.symbol }}</td>
-  </tr>
-  <tr>
-    <td>Типорозмір</td>
-    <td>{{ data.type }}</td>
-  </tr>
-  <tr>
-    <td>Рік випуску</td>
-    <td>{{ data.productionYear }}</td>
-  </tr>
-  <tr>
-    <td>Накопичений об'єм</td>
-    <td>{{ data.acumulatedVolume }}</td>
-  </tr>
-  <tr>
-    <td>Уповноважена лабораторія</td>
-    <td>ДП "Волиньстандартметрологія"</td>
-  </tr>
-  <tr>
-    <td>Номер пломби</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>Статус</td>
-    <td>{{ data.protocolStatus ? 'Розблоковано' : 'Заблоковано' }}</td>
-  </tr>
-</table>
+  <div class="status bg-error" *ngIf="data.status.includes('Непридатний')">
+    Повірено. Непридатний
+  </div>
 
-<div class="img" *ngIf="data">
-  <span class="photo-label">Фото лічильника</span>
-  <img [src]="getImage(data.image)">
-</div>
-
-<div class="spinner" *ngIf="!data && !isEmpty">
-  <mat-spinner></mat-spinner>
-</div>
+  <div class="status bg-info" *ngIf="!data.status.includes('Повірено')">
+    Не повірено. {{ data.status }}
+  </div>
 
 
-<div class="error" *ngIf="isEmpty">
+
+  <table class="protocol-table" *ngIf="data.status.includes('Проведено') || data.status.includes('Повірено')">
+    <tr>
+      <td>Метод проведення повірки</td>
+      <td>На місці експлуатації приладу</td>
+    </tr>
+    <tr>
+      <td>Номер заявки</td>
+      <td>{{ data.applicationNumber }}</td>
+    </tr>
+    <tr>
+      <td>Номер лічильника</td>
+      <td>{{ data.counterNumber }}</td>
+    </tr>
+    <tr>
+      <td>Умовне позначення</td>
+      <td>{{ replace(data.symbol) }}</td>
+    </tr>
+    <tr>
+      <td>Типорозмір</td>
+      <td>{{ data.type }}</td>
+    </tr>
+    <tr>
+      <td>Рік випуску</td>
+      <td>{{ data.productionYear }}</td>
+    </tr>
+    <tr>
+      <td>Накопичений об'єм</td>
+      <td>{{ data.acumulatedVolume }}</td>
+    </tr>
+    <tr>
+      <td>Уповноважена лабораторія</td>
+      <td>ДП "Волиньстандартметрологія"</td>
+    </tr>
+    <tr>
+      <td>Номер пломби</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Статус</td>
+      <td>{{ data.protocolStatus ? 'Розблоковано' : 'Заблоковано' }}</td>
+    </tr>
+  </table>
+
+  <div class="img mb-4" *ngIf="data">
+    <span class="photo-label">Фото лічильника</span>
+    <img [src]="getImage(data.image)">
+  </div>
+
+  <div class="spinner" *ngIf="!data && !isEmpty">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-dialog-actions class="actions mb-0">
+    <button mat-raised-button color="primary" *ngIf="data.status.includes('Повірено')">Завантажити копію
+      свідоцтва</button>
+    <button mat-raised-button mat-dialog-close>Закрити</button>
+  </mat-dialog-actions>
+
+</ng-container>
+
+<div class="status bg-error" *ngIf="isEmpty">
   Не знайдено повірки
 </div>
-
-<mat-dialog-actions class="actions">
-  <button mat-raised-button color="success">Завантажити копію свідоцтва</button>
-  <button mat-raised-button mat-dialog-close>Закрити</button>
-</mat-dialog-actions>

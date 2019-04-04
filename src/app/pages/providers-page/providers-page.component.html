@@ -1,19 +1,11 @@
 <mat-card>
   <mat-card-content>
     <app-table [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
-      <app-column [width]="30">
-        <ng-template #headerBodyTemplate>
-          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
-        </ng-template>
-        <ng-template #tableBodyTemplate let-row="row">
-          <mat-checkbox (change)="onChange(row['applicationNumber'], $event.checked)"></mat-checkbox>
-        </ng-template>
-      </app-column>
-
+      
       <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
+      <app-column [date]="true" [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>

@@ -5,7 +5,7 @@
 
     <app-table [hovered]="true" [bordered]="true" [tableData]="(verificationsArchive | async)" [pagination]="true">
 
-      <app-column [width]="75" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
+      <app-column [date]="true" [width]="75" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
@@ -106,13 +106,13 @@
       <app-column [width]="75" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'" [enableSorting]="true"
+      <app-column [date]="true" [width]="75" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Номер протоколу'" [columnName]="'protocolNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Дата підпису протоколу'" [columnName]="'protocolSignDate'"
+      <app-column [date]="true" [width]="75" [columnTitle]="'Дата підпису протоколу'" [columnName]="'protocolSignDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Умовне позначення'" [columnName]="'symbol'" [enableSorting]="true"
@@ -139,16 +139,16 @@
       <app-column [width]="75" [columnTitle]="'Тип послуги'" [columnName]="'serviceType'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Дата видачі документу'" [columnName]="'documentPrintDate'"
+      <app-column [date]="true" [width]="75" [columnTitle]="'Дата видачі документу'" [columnName]="'documentPrintDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Коментар'" [columnName]="'comment'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Дата монтажу лічильника'" [columnName]="'montageDate'" [enableSorting]="true"
+      <app-column [date]="true" [width]="75" [columnTitle]="'Дата монтажу лічильника'" [columnName]="'montageDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
+      <app-column [date]="true" [width]="75" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="75" [columnTitle]="'Назва бригади'" [columnName]="'Назва_бригади'" [enableSorting]="true"

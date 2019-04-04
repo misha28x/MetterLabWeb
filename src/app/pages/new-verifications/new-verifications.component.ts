@@ -101,6 +101,5 @@ export class PageNewVerificationsComponent implements OnInit {
 
   onChange(data: any): void {
     this.selectedData = data;
-    console.log(data);
   }
 }

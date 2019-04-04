@@ -6,17 +6,9 @@
       </div>
     </div>
 
-    <app-table [hovered]="true" [bordered]="true" [tableData]="(protocols | async)" [pagination]="true">
-      <app-column [width]="30">
-        <ng-template #headerBodyTemplate>
-          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
-        </ng-template>
-        <ng-template #tableBodyTemplate>
-          <mat-checkbox></mat-checkbox>
-        </ng-template>
-      </app-column>
-
-      <app-column [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
+    <app-table [desiredStatus]="'Повірено. Придатний'" [hovered]="true" [bordered]="true" [tableData]="(protocols | async)" [pagination]="true">
+      
+      <app-column [date]="true" [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
 
       <app-column [width]="125" [columnTitle]="'Номер установки'" [columnName]="'deviceNumber'" [enableSorting]="true"

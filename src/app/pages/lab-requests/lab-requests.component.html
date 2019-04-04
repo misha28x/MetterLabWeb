@@ -28,7 +28,7 @@
 
     <app-table (rowSelected)="onChange($event)" [tableData]="(labRequests | async)" [pagination]="true">
       
-      <app-column [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
+      <app-column [date]="true" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
@@ -51,7 +51,7 @@
       <app-column [columnTitle]="'Квартира'" [columnName]="'apartment'" [width]="50" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
+      <app-column [date]="true" [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"

@@ -1,41 +1,34 @@
-<mat-card>
+<mat-card class="profile">
   <mat-card-title>
     Сторінка профілю
   </mat-card-title>
 
-  <form>
+  <form *ngIf="user">
     <div class="full-width">
       <span>ПІБ</span>
       <mat-form-field class="input-field">
-        <input [disabled]="true" matInput value="Віталій Криштапюк" placeholder="ПІБ">
+        <input [disabled]="true" matInput [value]="user.user_full_name" placeholder="ПІБ">
       </mat-form-field>
     </div>
 
     <div class="full-width">
       <span>Рівень доступу</span>
-      <mat-form-field class="input-field">
-        <mat-select placeholder="Рівень доступу" value="admin">
-          <mat-option>--</mat-option>
-          <ng-container *ngFor="let permission of (permissions | async)">
-            <mat-option *ngIf="permission.id >= user.permission" [value]="permission.id">
-              {{permission.value}}
-            </mat-option>
-          </ng-container>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="input-field">
+          <input [disabled]="true" matInput [value]="user.permission" placeholder="Рівень Доступу">
+        </mat-form-field>
     </div>
 
     <div class="full-width">
       <span>Логін</span>
       <mat-form-field class="input-field">
-        <input [disabled]="true" matInput value="admin" placeholder="Логін">
+        <input [disabled]="true" matInput [value]="user.user_name" placeholder="Логін">
       </mat-form-field>
     </div>
 
     <div class="full-width">
       <span>Пароль</span>
       <mat-form-field class="input-field">
-        <input [disabled]="true" #pass value="admin" type="password" matInput placeholder="Пароль">
+        <input [disabled]="true" #pass [value]="user.user_password" type="password" matInput placeholder="Пароль">
         <mat-icon class="pass-icon" (mouseenter)="pass.type = 'text'" (mouseleave)="pass.type = 'password'">
           remove_red_eye
         </mat-icon>

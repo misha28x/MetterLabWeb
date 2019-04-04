@@ -3,7 +3,7 @@
   <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
     [enableFiltering]="true"></app-column>
 
-  <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
+  <app-column [date]="true" [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
     [enableFiltering]="true"></app-column>
 
   <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
@@ -26,7 +26,7 @@
   <app-column [width]="110" [columnTitle]="'Тип послуги'" [columnName]="'serviceType'" [enableSorting]="true"
     [enableFiltering]="true"></app-column>
 
-  <app-column [width]="110" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
+  <app-column [date]="true" [width]="110" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
     [enableFiltering]="true"></app-column>
 
   <app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>

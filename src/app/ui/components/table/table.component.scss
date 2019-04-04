@@ -45,6 +45,15 @@ $_animation: $animation;
         &.checkboxes {
           width: 30px;
         }
+        .search-box {
+          max-height: 22px;
+          min-width: 166px;
+
+          >* {
+            padding: 1px 5px;
+            max-height: 22px;
+          }
+        }
       }
       th {
         align-items: center;
@@ -53,7 +62,8 @@ $_animation: $animation;
 				position: relative;
         margin: auto;
 				width:1px !important;
-				white-space:nowrap !important;
+        white-space:nowrap !important;
+        text-align: center;
 				
 				.title {
 					padding-bottom: $module-rem / 2;

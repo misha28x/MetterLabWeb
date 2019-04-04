@@ -26,6 +26,7 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
+      console.log(_user);
     });
   }
 

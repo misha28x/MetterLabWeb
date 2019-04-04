@@ -11,7 +11,7 @@
     <app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(stationsTasks | async)"
       [pagination]="true">
 
-      <app-column [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
+      <app-column [date]="true" [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [width]="115" [columnTitle]="'Тип установки'" [columnName]="'stationType'" [enableSorting]="true"

@@ -3,6 +3,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { DataService } from '../../services/data.service';
+import { SourceService } from '../../services/source.service';
 import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-edit-dialog.component';
 import { TaslListViewDialogComponent } from './tasl-list-view-dialog/tasl-list-view-dialog.component';
 
@@ -20,13 +21,15 @@ export class PageStationsTasksComponent implements OnInit {
   selectedData: any[];
 
 	constructor(
+    private sourceSv: SourceService,
     private snackBar: MatSnackBar,
     private dataSv: DataService,
     private dialog: MatDialog
     ) { }
 
 	ngOnInit(): void {
-		this.stationsTasks = this.dataSv.getData(url);
+    this.sourceSv.fetchStationTasks();
+    this.stationsTasks = this.sourceSv.getStationTasks();
     this.selectedData = [];
 	}
 

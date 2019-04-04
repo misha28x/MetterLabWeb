@@ -14,7 +14,7 @@ const counters = {
 
 // Авторизація
 router.post( "", ( req, res, next ) => {
-  connection.query( "SELECT users.id AS user_id, users.user_permissions, users.user_full_name, contractors.id FROM users INNER JOIN contractors ON users.service_provider = contractors.name WHERE 	users.user_name ='" + req.body.email + "' AND users.user_password='" + req.body.pass + "';", ( err, user ) => {
+  connection.query( "SELECT users.id AS user_id, users.user_permissions, users.user_full_name, contractors.id FROM users INNER JOIN contractors ON users.service_provider = contractors.id WHERE 	users.user_name ='" + req.body.email + "' AND users.user_password='" + req.body.pass + "';", ( err, user ) => {
     if ( err ) {
       console.log( err );
       res.json( {
@@ -22,7 +22,7 @@ router.post( "", ( req, res, next ) => {
       } );
     }
 
-    if ( user.length > 0 ) {
+    if ( user && user.length > 0 ) {
       console.log( user );
       res.json( {
         userId: user[ 0 ].user_id,

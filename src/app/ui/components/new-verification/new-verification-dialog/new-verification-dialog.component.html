@@ -76,21 +76,35 @@
         <div class="full-width">
           <span>Область</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Область" formControlName="region">
+            <input matInput placeholder="Область" formControlName="region" value="Волинська">
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Район</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Район" formControlName="district">
+            <input matInput placeholder="Район" formControlName="district" [matAutocomplete]="district">
+
+             <mat-autocomplete #district="matAutocomplete">
+               <mat-option *ngFor="let country of filteredDistricts | async" [value]="country">
+                 {{ country }}
+               </mat-option>
+             </mat-autocomplete>
+
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Населений пункт</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Населений пункт" formControlName="settlement">
+            <input matInput placeholder="Населений пункт" formControlName="settlement" [matAutocomplete]="auto">
+
+             <mat-autocomplete #auto="matAutocomplete">
+               <mat-option *ngFor="let country of filteredSettlement | async" [value]="country">
+                 {{ country }}
+               </mat-option>
+             </mat-autocomplete>
+
           </mat-form-field>
         </div>
 
@@ -104,7 +118,14 @@
         <div class="full-width">
           <span>Вулиця</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Вулиця" formControlName="street">
+            <input matInput placeholder="Вулиця" formControlName="street" [matAutocomplete]="streets">
+
+             <mat-autocomplete #streets="matAutocomplete">
+               <mat-option *ngFor="let country of filteredStreets | async" [value]="country">
+                 {{ country }}
+               </mat-option>
+             </mat-autocomplete>
+
           </mat-form-field>
         </div>
 
@@ -218,15 +239,6 @@
         </div>
 
         <div class="full-width">
-          <span>ПІБ працівника</span>
-          <mat-form-field class="input-field">
-            <mat-select placeholder="Працівник" formControlName="employeeName">
-              <mat-option *ngFor="let employee of data.name" [value]="employee">{{ employee }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
           <span>Номер лічильника</span>
           <mat-form-field class="input-field">
             <input matInput placeholder="Номер лічильника" formControlName="counterNumber">
@@ -246,7 +258,7 @@
             <input type="text" placeholder="Типорозмір лічильника" formControlName="counterType" matInput
               [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let type of data.Device" [value]="type">{{ type }}</mat-option>
+              <mat-option *ngFor="let type of (data.types | async)" [value]="type">{{ type.Device }}</mat-option>
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -255,7 +267,7 @@
           <span>Символ</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Символ" formControlName="symbol">
-              <mat-option *ngFor="let symbol of data.DN" [value]="symbol">{{ symbol }}</mat-option>
+              <mat-option *ngFor="let symbol of (data.symbols | async)" [value]="symbol">{{ symbol.DN }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

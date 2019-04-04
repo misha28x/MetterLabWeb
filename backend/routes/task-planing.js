@@ -66,11 +66,13 @@ router.post('/station-task', (req, res, next) => {
         if (err) {
           console.log(err);
         }
-        let id = rows[0].id_task;
         console.log(rows);
+        let id = rows[0].id_task;
+        
         if (rows.length > 0) {
           id = rows[0].id_task;
         }
+
         let position = 0;
 
         // Переміщення заявок в архів з додаванням id завдання

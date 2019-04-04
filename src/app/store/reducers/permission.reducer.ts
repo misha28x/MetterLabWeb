@@ -7,8 +7,7 @@ const DEFAULT_STATE: User = {
 
 export function permissionReducer(
   state: User = DEFAULT_STATE,
-  action: { payload: {username: string, serviceProvider: string}, type: PermissionTypes }): User {
-  console.log(action);
+  action: { payload: {username: string, serviceProvider: string, id: string}, type: PermissionTypes }): User {
   switch (action.type) {
     case PermissionTypes.Unauthorized: {
       state = { permission: 0 };
@@ -20,7 +19,8 @@ export function permissionReducer(
         permission: 1,
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider,
-        createFor: action.payload.serviceProvider
+        createFor: action.payload.serviceProvider,
+        userId: action.payload.id
       };
 
       return state;
@@ -31,7 +31,8 @@ export function permissionReducer(
         permission: 2,
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider,
-        createFor: action.payload.serviceProvider
+        createFor: action.payload.serviceProvider,
+        userId: action.payload.id
       };
 
       return state;
@@ -42,7 +43,8 @@ export function permissionReducer(
         permission: 3,
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider,
-        createFor: action.payload.serviceProvider
+        createFor: action.payload.serviceProvider,
+        userId: action.payload.id
       };
       return state;
     }
@@ -52,7 +54,8 @@ export function permissionReducer(
         permission: 4,
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider,
-        createFor: action.payload.serviceProvider
+        createFor: action.payload.serviceProvider,
+        userId: action.payload.id
       };
 
       return state;
@@ -62,7 +65,8 @@ export function permissionReducer(
       state = {
         permission: 5,
         username: action.payload.username,
-        serviceProvider: action.payload.serviceProvider
+        serviceProvider: action.payload.serviceProvider,
+        userId: action.payload.id
       };
 
       return state;
@@ -73,7 +77,8 @@ export function permissionReducer(
         permission: 6,
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider,
-        createFor: '80334'
+        createFor: '80334',
+        userId: action.payload.id
       };
 
       return state;

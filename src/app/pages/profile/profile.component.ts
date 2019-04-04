@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Store, select } from '@ngrx/store';
+
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  user: any;
+  constructor(
+    private store: Store<User>,
+    private http: HttpClient
+  ) {
+    this.store.pipe(select('permission')).subscribe(_user => {
+      this.http.get('http://localhost:3000/api/employees/user/' + _user.userId).subscribe(res => {
+        this.user = res[0];
+        console.log(res);
+      });
+    });
   }
+
+  ngOnInit() { }
 
 }

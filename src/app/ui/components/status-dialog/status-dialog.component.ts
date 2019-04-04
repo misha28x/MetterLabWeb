@@ -26,6 +26,10 @@ export class StatusDialogComponent implements OnInit {
 
   ngOnInit() { }
 
+  replace(val: string): string {
+    return val.substring(0, val.length - 4);
+  }
+
   getImage(base64Data: String): any {
     return 'data:image/png;base64,' + base64Data.toString();
   }

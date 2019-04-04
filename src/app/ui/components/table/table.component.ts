@@ -21,14 +21,13 @@ export class TableComponent implements  OnInit, OnChanges {
 
 	@Input() config: ITableConfig;
 	@Input() tableData: any;
-	@Input() itemsPerPage: number;
+  @Input() itemsPerPage: number;
+  @Input() desiredStatus: string;
 
   @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
 	columnList: ColumnComponent[];
   
-  desiredStatus: string;
-
 	pageEvent: PageEvent;
 	filtering: any;
 	_columns: Array<any>;
@@ -106,9 +105,7 @@ export class TableComponent implements  OnInit, OnChanges {
       return false;
     }
 
-    const successStatusses = ['Визначено відповідальну особу', 'В роботі', 'Повірено. Придатний'];
-
-    if (!successStatusses.includes(row['status'])) {
+    if (row['status'] !== this.desiredStatus) {
       return false;
     } 
 
@@ -131,7 +128,6 @@ export class TableComponent implements  OnInit, OnChanges {
     this.isAllSelected() ?
       this.selection.clear() :
       this.rows.forEach(row => this.selection.select(row));
-    console.log(this.selection.selected);
     this.rowSelected.emit(this.selection.selected);
   }
 

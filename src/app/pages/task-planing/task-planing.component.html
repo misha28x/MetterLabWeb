@@ -15,8 +15,9 @@
         <button mat-raised-button color="warn"><i class="icofont-minus"></i>Відхилити Повірку</button>
       </div>
     </div>
-<app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(tableData | async)"
-  [pagination]="true">
+    
+    <app-table [desiredStatus]="'В роботі'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(tableData | async)"
+      [pagination]="true">
 
       <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
@@ -24,7 +25,8 @@
       <app-column [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true">
+      </app-column>
 
       <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
@@ -32,7 +34,8 @@
       <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true">
+      </app-column>
 
       <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>

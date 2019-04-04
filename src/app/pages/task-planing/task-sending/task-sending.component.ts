@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatDialogRef } from '@angular/material';
 
+import { Observable } from 'rxjs';
+
 import { Task } from '../../../interfaces/taskData';
 
 @Component({
@@ -16,17 +18,17 @@ export class TaskSendingComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<TaskSendingComponent>,
-    @Inject(MAT_DIALOG_DATA) public stations: string[]
+    @Inject(MAT_DIALOG_DATA) public stations: Observable<string[]>
     ) { }
 
   ngOnInit(): void { }
 
   saveData(): void {
-    const date = this.selectedDate;
+    const date = new Date(this.selectedDate);
     const data: Task = {
       stationNumber: this.selectedStation,
       serviceType: this.selectedService,
-      taskDate: date
+      taskDate: date.toISOString()
     };
 
     this.dialogRef.close(data);

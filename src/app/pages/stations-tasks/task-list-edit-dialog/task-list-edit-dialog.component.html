@@ -2,7 +2,7 @@
 
 <app-table [hovered]="true" [bordered]="true" [tableData]="taskList" [pagination]="true">
 
-  <app-column [columnTitle]="'Дата додання'" [columnName]="'addingDate'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column [date]="true" [columnTitle]="'Дата додання'" [columnName]="'addingDate'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
   <app-column [columnTitle]="'Район'" [columnName]="'district'" [width]="50" [enableSorting]="true" [enableFiltering]="true"></app-column>
 
