@@ -18,9 +18,14 @@ const configOb = {
 
 router.post('/:id', (req, res, next) => {
   if (true) { // TODO: req.body.status = '' || req.body.status == null
-    const queryStr = "SELECT * FROM `archive` WHERE `idForStation`= " + req.params.id + ";";
-    connection.query(queryStr, (err, result) => {
+    connection.query("SELECT * FROM `archive` WHERE `idForStation`= " + req.params.id + ";", (err, result) => {
       connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
+        console.log({
+          reqParamsId: req.params.id,
+          result: result,
+          stationRows: stationRows
+        });
+        
         connection.query("SELECT `contactEmail` FROM `stations` WHERE `stationNumber`='" + stationRows[0].stationNumber + "';", (err, emails) => {
           if (err) {
             console.log(err);
@@ -30,7 +35,7 @@ router.post('/:id', (req, res, next) => {
 
           configOb.stationNumber = stationRows[0].stationNumber;
           configOb.taskDate = stationRows[0].taskDate;
-          configOb.contactEmail = 'lutsk10131ap@gmail.com'; //emails[0].contactEmail;
+          configOb.contactEmail = 'lutsk10131ap@gmail.com'; //  emails[0].contactEmail;
           configOb.filesName = configOb.stationNumber + "-" + dateForName[2] + dateForName[1] + dateForName[0];
           generateFiles(result);
           // TODO: зміна статусу на В роботі після надсилання завдання
@@ -104,9 +109,9 @@ function generateMail() {
     let mailOptions = {
       from: 'Адреса відправника', // sender address
       to: configOb.contactEmail, // list of receivers
-      subject: 'Тема', // Subject line
-      text: 'Звичайний текст', // plain text body
-      html: '<b>Текст в форматі html</b>', // html body
+      subject: 'Завдання', // Subject line
+      text: '', // plain text body
+      html: '<p>Коментар до завдання:<br/>Назва вимірювальної лабораторії: ф, <br/>ПІБ, телефон користувача: ф, н, <br/> Заводський № установки: ф, <br/>Дата завдання: ф, <br/>Протоколи надсилати на e - mail оператора: ф </p>', //html body
       attachments: [{ // filename and content type is derived from path
         path: './backend/data/' + configOb.filesName + '.zip'
       }, {

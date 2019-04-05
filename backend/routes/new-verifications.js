@@ -97,11 +97,14 @@ router.post('', (req, res, next) => {
   });
 });
 
-// 2. Відхилення заявки зі зміною статусу на "Відхилено" rejected
-// TODO: пофіксити Update
-router.get('/rejected/:id', (req, res, next) => {
+/** Відхилення заявки зі зміною статусу на "Відхилено" rejected
+ * 
+ * @param req.params.id - id заявки в таблиці `archive`
+ * @param req.body.reason - причина відхилення взята з таблиці `rejections_types`
+ */
+router.post('/rejected/:id', (req, res, next) => {
   console.log('rejected');
-  let varResult = "UPDATE `archive` SET `status`='Відхилено' WHERE `applicationNumber`='" + req.params.id + "';";
+  let varResult = "UPDATE `archive` SET `status`='Відхилено', `note`=CONCAT(note, '" + req.body.reason + "') WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
     io.getIo().emit('update');
     res.status(200).json({
