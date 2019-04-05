@@ -48,7 +48,7 @@ router.get('/failed/:id', (req, res, next) => {
 // створено для
 router.get('/unresolved/:id', (req, res, next) => {
   console.log('resolved');
-  connection.query("SELECT * FROM `archive` WHERE `idForStation`=" + parseInt(req.params.id) + "' ORDER BY `positionInTask` DESC", (err, rows) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`=" + parseInt(req.params.id) + "' ORDER BY `favorTime` DESC", (err, rows) => {
     if (err) {
       console.log(err);
       res.json({
@@ -60,8 +60,7 @@ router.get('/unresolved/:id', (req, res, next) => {
   });
 });
 
-// TODO: Також виконати зміну кількості заявок в завдані
-router.get('/delete/:id', (req, res) => {
+router.post('/delete/:id', (req, res) => {
   connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     connection.query("UPDATE `station_tasks` SET verifCount = verifCount - 1 WHERE id_task = '" + req.body.id_task + "';", () => {
       io.getIo().emit('update');
@@ -73,7 +72,7 @@ router.get('/delete/:id', (req, res) => {
 // TODO: винесено generateExcel
 // створено для
 router.get('/excel/:id', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' ORDER BY `positionInTask` DESC;", (err, taskResult) => {
+  connection.query("SELECT * FROM `archive` WHERE `idForStation`='" + req.params.id + "' ORDER BY `favorTime` DESC;", (err, taskResult) => {
     if (err) {
       console.log(error);
     }
