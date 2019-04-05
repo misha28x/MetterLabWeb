@@ -8,7 +8,7 @@ import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-e
 import { TaslListViewDialogComponent } from './tasl-list-view-dialog/tasl-list-view-dialog.component';
 
 const url = 'http://localhost:3000/api/stations-tasks';
-const sendUrl = 'http://localhost:3000/api/file-sending/';
+const sendUrl = 'http://localhost:3000/api/file-sending';
 
 @Component({
 	selector: 'app-stations-tasks',
@@ -47,13 +47,13 @@ export class PageStationsTasksComponent implements OnInit {
 
   sendData(): void {
     const observer = {
-      next: x => console.log(x),
+      next: x => this.sourceSv.fetchStationTasks(),
       error: err => this.dataSv.handleError(err),
       complete: () => this.showSnackBar()
     };
-    console.log(sendUrl + this.selectedData[0].id_task);
+
     const task = forkJoin(
-      this.selectedData.map( message => this.dataSv.sendData(sendUrl + message.id))
+      this.selectedData.map(message => this.dataSv.sendData(sendUrl, { id: message.id_task, status: message.task_status }))
     );
     
     task.subscribe(observer);
@@ -65,7 +65,7 @@ export class PageStationsTasksComponent implements OnInit {
     });
   }
 
-  onChange(data: any, state: boolean): void {
+  onChange(data: any): void {
     this.selectedData = data;
     console.log(data);
   }
