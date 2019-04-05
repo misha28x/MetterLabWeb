@@ -104,7 +104,7 @@ router.post('', (req, res, next) => {
  */
 router.post('/rejected/:id', (req, res, next) => {
   console.log('rejected');
-  let varResult = "UPDATE `archive` SET `status`='Відхилено', `note`=CONCAT(note, '" + req.body.reason + "') WHERE `applicationNumber`='" + req.params.id + "';";
+  let varResult = "UPDATE `archive` SET `status`='Відхилено',`idForStation`=0, `positionInTask`=0, `note`=CONCAT(note, '" + req.body.reason + "') WHERE `applicationNumber`='" + req.params.id + "';";
   connection.query(varResult, () => {
     io.getIo().emit('update');
     res.status(200).json({

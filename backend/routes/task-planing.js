@@ -116,4 +116,13 @@ router.put('/rejected/:id', (req, res, next) => {
   });
 });
 
+router.put('/back/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `status`='Визначено відповідальну особу', `idForStation`=0, `positionInTask`=0 WHERE `applicationNumber`='" + req.params.id + "';", () => {
+    connection.query("UPDATE `station_tasks` SET verifCount = verifCount - 1 WHERE id_task = '" + req.body.id_task + "';", () => {
+      io.getIo().emit('update');
+      res.sendStatus(200);
+    });
+  });
+});
+
 module.exports = router;

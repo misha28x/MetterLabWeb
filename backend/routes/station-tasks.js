@@ -63,14 +63,9 @@ router.get('/unresolved/:id', (req, res, next) => {
 // TODO: Також виконати зміну кількості заявок в завдані
 router.get('/delete/:id', (req, res) => {
   connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
-    if (err) {
-      console.log(err);
-      res.json({
-        m: err
-      });
-    }
-    res.json({
-      m: 'success'
+    connection.query("UPDATE `station_tasks` SET verifCount = verifCount - 1 WHERE id_task = '" + req.body.id_task + "';", () => {
+      io.getIo().emit('update');
+      res.sendStatus(200);
     });
   });
 });
@@ -103,5 +98,13 @@ router.post('/position', (req, res, next) => {
   });
   res.status(200);
 })
+
+router.put('/change/:id', (req, res, next) => {
+  connection.query("UPDATE `station_tasks` SET `stationNumber` = " + req.body.stationNumber + " WHERE `id_task` =" + req.params.id + " ;", (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+});
 
 module.exports = router;
