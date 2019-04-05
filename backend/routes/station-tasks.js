@@ -5,6 +5,7 @@ const xl = require('excel4node');
 const generateExcel = require('../utils/utils').generateExcelFile;
 
 const router = express.Router();
+const io = require('../socket/socket');
 
 const connection = require('../database/db');
 
