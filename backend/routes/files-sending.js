@@ -16,10 +16,15 @@ const configOb = {
   filesName: ''
 };
 
+<<<<<<< HEAD
 router.post('/:id', (req, res, next) => {
+=======
+router.post('', (req, res, next) => {
+  
+>>>>>>> 35839a86a5423e4e4d16173d64bc01250c3288d7
   if (true) { // TODO: req.body.status = '' || req.body.status == null
-    connection.query("SELECT * FROM `archive` WHERE `idForStation`= " + req.params.id + ";", (err, result) => {
-      connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.params.id + "';", (err, stationRows) => {
+    connection.query("SELECT * FROM `archive` WHERE `idForStation`= " + req.body.id + ";", (err, result) => {
+      connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.body.id + "';", (err, stationRows) => {
         console.log({
           reqParamsId: req.params.id,
           result: result,
@@ -35,11 +40,11 @@ router.post('/:id', (req, res, next) => {
 
           configOb.stationNumber = stationRows[0].stationNumber;
           configOb.taskDate = stationRows[0].taskDate;
-          configOb.contactEmail = 'lutsk10131ap@gmail.com'; //  emails[0].contactEmail;
+          configOb.contactEmail = '@gmail.com'; //  emails[0].contactEmail;
           configOb.filesName = configOb.stationNumber + "-" + dateForName[2] + dateForName[1] + dateForName[0];
           generateFiles(result);
           // TODO: зміна статусу на В роботі після надсилання завдання
-          connection.query("UPDATE `station_tasks` SET `task_status`='В роботі' WHERE `id_task`='" + req.params.id + "';", (err) => {
+          connection.query("UPDATE `station_tasks` SET `task_status`='В роботі' WHERE `id_task`='" + req.body.id + "';", (err) => {
             if (err) {
               console.log(err);
             };
@@ -110,8 +115,8 @@ function generateMail() {
       from: 'Адреса відправника', // sender address
       to: configOb.contactEmail, // list of receivers
       subject: 'Завдання', // Subject line
-      text: '', // plain text body
-      html: '<p>Коментар до завдання:<br/>Назва вимірювальної лабораторії: ф, <br/>ПІБ, телефон користувача: ф, н, <br/> Заводський № установки: ф, <br/>Дата завдання: ф, <br/>Протоколи надсилати на e - mail оператора: ф </p>', //html body
+      text: 'Коментар до завдання:', // plain text body
+      html: '<p>Назва вимірювальної лабораторії: ф, <br/>ПІБ, телефон користувача: ф, н, <br/> Заводський № установки: ' + configOb.stationNumber + ', <br/>Дата завдання: ' + configOb.taskDate + ', <br/>Протоколи надсилати на e-mail оператора: volynaquastandart@gmail.com </p>', //html body
       attachments: [{ // filename and content type is derived from path
         path: './backend/data/' + configOb.filesName + '.zip'
       }, {
