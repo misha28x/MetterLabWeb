@@ -41,7 +41,7 @@
   <app-column [columnTitle]="''" [width]="140">
     <ng-template #tableBodyTemplate let-row="row">
       <div class="actions-row">
-        <button mat-icon-button (click)="cancelTask(row['applicationNumber'])">
+        <button mat-icon-button (click)="deleteFromTask(row['applicationNumber'])">
           <mat-icon class="color-info" matTooltip="Повернути до планування">settings_backup_restore</mat-icon>
         </button>
 

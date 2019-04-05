@@ -119,8 +119,6 @@ router.post('', (req, res, next) => {
   });
 });
 
-<<<<<<< HEAD
-=======
 /** Відхилення заявки зі зміною статусу на "Відхилено" rejected
  * 
  * @param req.params.id - id заявки в таблиці `archive`
@@ -138,7 +136,6 @@ router.post('/rejected/:id', (req, res, next) => {
 });
 
 
->>>>>>> 35839a86a5423e4e4d16173d64bc01250c3288d7
 router.post('/employee/:id', (req, res, next) => {
   console.log(req.params.id);
   connection.query("UPDATE `archive` SET `status`='Визначено відповідальну особу', `employeeName`='" + req.body.employee + "' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {

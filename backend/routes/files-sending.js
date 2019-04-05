@@ -16,12 +16,8 @@ const configOb = {
   filesName: ''
 };
 
-<<<<<<< HEAD
-router.post('/:id', (req, res, next) => {
-=======
 router.post('', (req, res, next) => {
   
->>>>>>> 35839a86a5423e4e4d16173d64bc01250c3288d7
   if (true) { // TODO: req.body.status = '' || req.body.status == null
     connection.query("SELECT * FROM `archive` WHERE `idForStation`= " + req.body.id + ";", (err, result) => {
       connection.query("SELECT `stationNumber`,`taskDate` FROM `station_tasks` WHERE `id_task`='" + req.body.id + "';", (err, stationRows) => {
