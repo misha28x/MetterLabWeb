@@ -65,7 +65,9 @@ router.post('/delete/:id', (req, res) => {
   connection.query("UPDATE `archive` SET `idForStation`='0', `positionInTask`='0', `status`='Визначено відповідальну особу' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     connection.query("UPDATE `station_tasks` SET verifCount = verifCount - 1 WHERE id_task = '" + req.body.id_task + "';", () => {
       io.getIo().emit('update');
-      res.sendStatus(200);
+      res.status(200).send({
+        msg: 'UPDATE'
+      });
     });
   });
 });
