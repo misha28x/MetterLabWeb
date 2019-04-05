@@ -95,6 +95,10 @@ export class PageLabRequestsComponent implements OnInit {
     this.sourceSv.fetchLabRequest();
   }
 
+  sendVErif(): void {
+    
+  }
+
   cancellEmployeeToSelected(): void {
     forkJoin(this.selectedData.map((ver: Verification) =>
       this.verificationSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());

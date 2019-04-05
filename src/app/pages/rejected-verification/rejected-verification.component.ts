@@ -27,7 +27,7 @@ export class PageRejectedVerificationComponent implements OnInit {
     private detailSv: DetailViewService,
     private verificationSv: VerificationService
   ) {
-    this.sourceSv.fetchLabRequest();
+    this.sourceSv.fetchRejectedVerif();
   }
 
   ngOnInit(): void {

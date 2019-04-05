@@ -46,6 +46,10 @@ export class PageStationsTasksComponent implements OnInit {
 	}
 
   sendData(): void {
+    if (!this.selectedData.length) {
+      return;
+    }
+
     const observer = {
       next: x => this.sourceSv.fetchStationTasks(),
       error: err => this.dataSv.handleError(err),

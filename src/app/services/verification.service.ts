@@ -10,6 +10,7 @@ import { RejectionDialogComponent } from '../ui/components/rejection-dialog';
 const employeeCancelUrl = 'http://localhost:3000/api/new-verifications/cancel-employee/';
 const duplicateUrl = 'http://localhost:3000/api/new-verifications/duplicate';
 const archiveUrl = 'http://localhost:3000/api/verifications-archive';
+const deleteFromTask = 'http://localhost:3000/api/task-planing/delete';
 const rejectUrl = 'http://localhost:3000/api/new-verifications/rejected/';
 const editUrl = 'http://localhost:3000/api/verifications-archive/edit/';
 const protocolUrl = 'http://localhost:3000/api/verications-protocols';
@@ -35,12 +36,27 @@ export class VerificationService {
     return this.verificationAdded$;
   }
 
+  public deleteFromTask(id: any, idTask: any): Observable<any> {
+    const ref = this.dialog.open(DeleteDialogComponent, {
+      minWidth: '600px',
+      data: 'повірку з завдання'
+    });
+
+    ref.afterClosed().subscribe((result: string) => {
+      if (result === 'delete') {
+        return this.http.post(deleteFromTask + id, { id_task: idTask });
+      }
+    });
+
+    return from([false]);
+  }
+
   public rejectVerification(id: any): Observable<any> {
     const ref = this.dialog.open(RejectionDialogComponent);
 
     ref.afterClosed().subscribe(res => {
       if (res) {
-        return this.http.get(rejectUrl + id);
+        return this.http.post(rejectUrl + id, { reason: res });
       }
     });
 
@@ -48,7 +64,18 @@ export class VerificationService {
   }
 
   public deleteVerification(id: any): Observable<any> {
-    return this.http.delete(deleteUrl + id);
+    const ref = this.dialog.open(DeleteDialogComponent, {
+      minWidth: '600px',
+      data: 'повірку'
+    });
+
+    ref.afterClosed().subscribe((result: string) => {
+      if (result === 'delete') {
+        return this.http.delete(deleteUrl + id);
+      }
+    });
+
+    return from([false]);
   }
 
   public checkForDuplicate(address: any): Observable<any> {

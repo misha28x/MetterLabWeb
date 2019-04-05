@@ -10,6 +10,27 @@ const router = express.Router();
 
 const connection = require('../database/db');
 
+/** Відхилення заявки зі зміною статусу на "Відхилено" rejected
+ * 
+ * @param req.params.id - id заявки в таблиці `archive`
+ * @param req.body.reason - причина відхилення взята з таблиці `rejections_types`
+ */
+router.post( '/rejected/:id', ( req, res, next ) => {
+  console.log( req.body );
+  console.log( 'rejected' );
+  let varResult = "UPDATE `archive` SET `status`='Відхилено', `note`=CONCAT(note, '" + req.body.reason + "') WHERE `applicationNumber`='" + req.params.id + "';";
+  connection.query( varResult, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    io.getIo().emit( 'update' );
+    res.status( 200 ).json( {
+      m: 'rejected'
+    } );
+  } );
+} );
+
+
 router.get('/employee', (req, res, next) => {
   connection.query("SELECT `name` FROM employees;", (err, name) => {
     res.send(name);
@@ -44,6 +65,7 @@ router.get('/cancel-employee/:id', (req, res, next) => {
     if (err) {
       console.log(err);
     }
+    io.getIo().emit( 'update' );
   });
   res.status(200).send({
     msg: 'знято відповідальну особу'
@@ -96,23 +118,6 @@ router.post('', (req, res, next) => {
     g: 'good'
   });
 });
-
-/** Відхилення заявки зі зміною статусу на "Відхилено" rejected
- * 
- * @param req.params.id - id заявки в таблиці `archive`
- * @param req.body.reason - причина відхилення взята з таблиці `rejections_types`
- */
-router.post('/rejected/:id', (req, res, next) => {
-  console.log('rejected');
-  let varResult = "UPDATE `archive` SET `status`='Відхилено', `note`=CONCAT(note, '" + req.body.reason + "') WHERE `applicationNumber`='" + req.params.id + "';";
-  connection.query(varResult, () => {
-    io.getIo().emit('update');
-    res.status(200).json({
-      m: 'rejected'
-    });
-  });
-});
-
 
 router.post('/employee/:id', (req, res, next) => {
   console.log(req.params.id);

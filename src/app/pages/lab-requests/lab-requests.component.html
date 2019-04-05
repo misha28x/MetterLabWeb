@@ -1,29 +1,7 @@
 <mat-card>
   <mat-card-content>
     <div class="table-actions">
-      <div class="title">
-        <h5>Нові повірки</h5>
-      </div>
-
-      <mat-form-field class="filter">
-        <mat-icon matPrefix>search</mat-icon>
-        <input type="text" matInput placeholder="Пошук по таблиці">
-      </mat-form-field>
-
-      <div class="actions">
-        <button mat-mini-fab color="primary" mat-tooltip="Додати повірку">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" class="bg-success" matTooltip="Додати відповідальну особу">
-          <mat-icon>person_add</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" class="bg-warning">
-          <mat-icon>person_add_disabled</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary">
-          <mat-icon>send</mat-icon>
-        </button>
-      </div>
+      <button mat-raised-button (click)="sendVerif()">Надіслати</button>
     </div>
 
     <app-table [checkboxes]="true"  (rowSelected)="onChange($event)" [tableData]="(labRequests | async)"

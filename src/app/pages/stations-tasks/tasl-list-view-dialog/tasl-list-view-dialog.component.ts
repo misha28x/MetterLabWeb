@@ -29,7 +29,6 @@ export class TaslListViewDialogComponent implements OnInit {
     this.updateData();
   }
 
-
   cancelTask(id: string): void {
     this.dataSv.getData('http://localhost:3000/api/stations-tasks/delete/' + id).subscribe();
   }
@@ -54,7 +53,13 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   rejectVerification(id: number): void {
-    this.verifSv.rejectVerification(id).subscribe(() => this.updateData());
+    this.verifSv.rejectVerification(id).subscribe(() => {
+      this.updateData();
+    });
+  }
+
+  deleteFromTask(verifId: string): void {
+    this.verifSv.deleteFromTask(verifId, this.idTask).subscribe(() => this.updateData());
   }
 
   cancellEmployee(id: number): void {

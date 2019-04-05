@@ -66,7 +66,7 @@ export class SourceService {
   }
 
   fetchRejectedVerif(): void {
-    this.http.get(rejectedVerif + '/' + this.user.serviceProvider).subscribe((res: any) => this.rejectedVerifSource$.next(res));
+    this.http.get(rejectedVerif + '/' + this.user.serviceProvider).pipe(tap(console.log)).subscribe((res: any) => this.rejectedVerifSource$.next(res));
   }
 
   fetchFailedTasks(): void {

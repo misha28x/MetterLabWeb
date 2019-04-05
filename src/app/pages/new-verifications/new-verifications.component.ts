@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material';
 import { Observable, forkJoin } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
+import { DeleteDialogComponent } from '../../ui/components/delete-dialog';
+
 import { User } from '../../interfaces/user';
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
