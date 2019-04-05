@@ -17,8 +17,7 @@ export class ColumnComponent implements OnInit {
   @Input() width: number;
   @Input() date: boolean;
 
-
-	config: any;
+	public config: any;
 		
   constructor(private table: TableComponent) {
 		this.enableFiltering = false;
@@ -28,11 +27,11 @@ export class ColumnComponent implements OnInit {
 			title: '',
 			name: '',
       sort: '',
-      date: false,
+      date: this.date,
 			enableSorting: this.enableSorting,
 			filter: this.enableFiltering,
 			filtering: {
-				filterString: '',
+				filterString: null,
 				columnName: ''
 			}
 		};

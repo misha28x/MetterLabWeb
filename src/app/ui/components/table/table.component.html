@@ -6,16 +6,18 @@
 <div class="table-wrap">
   <table [ngClass]="getTableClasses()">
     <tr>
-      <th [ngStyle]="{'min-width.px': 30, 'padding-top.px': 22}">
+      <th [ngStyle]="{'min-width.px': 30, 'padding-top.px': 22}" *ngIf="checkboxes">
         <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()">
         </mat-checkbox>
       </th>
-      <th *ngFor="let c of columnList;" [column]="c.config" appTableSort="c.config.sort"
-        (sortChanged)="onChangeTable(c)" [ngStyle]="{'min-width.px': c.width}">
+
+      <th *ngFor="let c of columnList;" [column]="c.config" appTableSort="c.config.sort" (sortChanged)="onChangeTable(c)" [ngStyle]="{'min-width.px': c.width}">
+
         <div class="title">
           {{ c.config.title }}
         </div>
+
         <div class="header-wrapper">
           <ng-container *ngIf="!c.headerTemplate">
             <ng-container *ngIf="c.enableFiltering && !c.date">
@@ -27,7 +29,7 @@
 
             <ng-container *ngIf="c.date">
               <div class="search-box">
-                <input #RejectedRange class="form-control mb-3" placeholder="За проміжок" bsDaterangepicker
+                <input #Range class="form-control mb-3" [(ngModel)]="c.config.filtering" [appFilterTable]="c.config.filtering" (onHidden)="onChangeTable(c, Range.value)" placeholder="За проміжок" bsDaterangepicker
                   [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
               </div>
             </ng-container>
@@ -45,7 +47,7 @@
     </tr>
 
     <tr *ngFor="let row of rows; trackBy: trackByFn">
-      <td [ngStyle]="{'min-width.px': 30}" [ngClass]="{ 'table-success': getSuccessClass(row) }">
+      <td [ngStyle]="{'min-width.px': 30}" [ngClass]="{ 'table-success': getSuccessClass(row) }" *ngIf="checkboxes">
         <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowSelected(row) : null"
           [checked]="selection.isSelected(row)"></mat-checkbox>
       </td>

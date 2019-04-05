@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <app-table [desiredStatus]="'Визначено відповідальну особу'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
+    <app-table [checkboxes]="true" [desiredStatus]="'Визначено відповідальну особу'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
       
       <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
@@ -46,7 +46,7 @@
       <app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
       
-      <app-column [date]="true" [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
+      <app-column [date]="true" [enableFiltering]="true" [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>
 
       <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"

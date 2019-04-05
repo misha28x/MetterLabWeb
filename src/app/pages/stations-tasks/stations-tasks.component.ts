@@ -51,9 +51,9 @@ export class PageStationsTasksComponent implements OnInit {
       error: err => this.dataSv.handleError(err),
       complete: () => this.showSnackBar()
     };
-
+    console.log(sendUrl + this.selectedData[0].id_task);
     const task = forkJoin(
-      this.selectedData.map( id => this.dataSv.sendData(sendUrl + id))
+      this.selectedData.map( message => this.dataSv.sendData(sendUrl + message.id))
     );
     
     task.subscribe(observer);

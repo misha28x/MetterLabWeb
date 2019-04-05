@@ -6,7 +6,8 @@
       </div>
     </div>
 
-    <app-table [desiredStatus]="'Повірено. Придатний'" [hovered]="true" [bordered]="true" [tableData]="(protocols | async)" [pagination]="true">
+    <app-table [checkboxes]="true" [desiredStatus]="'Повірено. Придатний'" [hovered]="true" [bordered]="true"
+      [tableData]="(protocols | async)" [pagination]="true">
       
       <app-column [date]="true" [width]="140" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>

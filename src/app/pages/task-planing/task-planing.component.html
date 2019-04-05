@@ -16,7 +16,7 @@
       </div>
     </div>
     
-    <app-table [desiredStatus]="'В роботі'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(tableData | async)"
+    <app-table [checkboxes]="true" [desiredStatus]="'В роботі'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(tableData | async)"
       [pagination]="true">
 
       <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"

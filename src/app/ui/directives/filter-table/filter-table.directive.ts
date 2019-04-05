@@ -24,7 +24,7 @@ export class FilterTableDirective {
     this.appFilterTable = value;
   }
 
-  @HostListener('input', ['$event.target.value'])
+  @HostListener('change', ['$event.target.value'])
   public onChangeFilter(event: any): void {
 		this.appFilterTable.filterString = event;
     this.filterChanged.emit(this.appFilterTable.filterString);

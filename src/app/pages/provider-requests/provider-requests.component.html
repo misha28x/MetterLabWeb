@@ -3,7 +3,7 @@
   <mat-card-content>
     <div class="actions"> </div>
 
-    <app-table [desiredStatus]="" [hovered]="true" [bordered]="true" [tableData]="(providerRequests | async)" [pagination]="true">
+    <app-table [checkboxes]="true" (rowSelected)="onChange($event)" [desiredStatus]="" [hovered]="true" [bordered]="true" [tableData]="(providerRequests | async)" [pagination]="true">
 
       <app-column [date]="true" [columnTitle]="'Дата надходження'" [columnName]="'Дата_надходження'"
         [enableSorting]="true"

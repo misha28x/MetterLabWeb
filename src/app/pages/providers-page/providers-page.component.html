@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-content>
-    <app-table [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
+    <app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
       
       <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>

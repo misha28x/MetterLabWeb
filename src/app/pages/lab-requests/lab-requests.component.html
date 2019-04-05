@@ -26,7 +26,8 @@
       </div>
     </div>
 
-    <app-table (rowSelected)="onChange($event)" [tableData]="(labRequests | async)" [pagination]="true">
+    <app-table [checkboxes]="true"  (rowSelected)="onChange($event)" [tableData]="(labRequests | async)"
+      [pagination]="true">
       
       <app-column [date]="true" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
         [enableFiltering]="true"></app-column>

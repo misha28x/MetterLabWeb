@@ -3,7 +3,7 @@
   <mat-card-content>
     <div class="actions"> </div>
 
-    <app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(rejectedVerif | async)"
+    <app-table [hovered]="true" [bordered]="true" [tableData]="(rejectedVerif | async)"
       [pagination]="true">
 
       <app-column [date]="true" [width]="75" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"

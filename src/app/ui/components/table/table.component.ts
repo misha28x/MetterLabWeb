@@ -17,7 +17,8 @@ export class TableComponent implements  OnInit, OnChanges {
 	@Input() bordered: boolean;
 	@Input() striped: boolean;
 	@Input() hovered: boolean;
-	@Input() search: boolean;
+  @Input() search: boolean;
+  @Input() checkboxes: boolean;
 
 	@Input() config: ITableConfig;
 	@Input() tableData: any;
@@ -184,7 +185,17 @@ export class TableComponent implements  OnInit, OnChanges {
 	}
 
 	public changeFilter(data: any, filterString: string, column?: ColumnComponent): any {
-		let filteredData: Array<any> = data;
+    let filteredData: Array<any> = data;
+    
+    if (column && column.date && Array.isArray(column.config.filtering)) {
+      const firstDate = new Date(column.config.filtering[0]).toISOString();
+      const secondDate = new Date(column.config.filtering[1]).toISOString();
+      filteredData = filteredData.filter(row => {
+        return row[column.config.name] <= secondDate && row[column.config.name] >= firstDate;
+      });
+
+      return filteredData;
+    }
 
 		if (!filterString || filterString.length === 0) {
 			return filteredData;
@@ -196,8 +207,8 @@ export class TableComponent implements  OnInit, OnChanges {
 			});
 
 			return filteredData;
-		}
-
+    }
+    
     const tempArray: Array<any> = [];
     filteredData.forEach((item: any) => {
       let flag = false;
@@ -219,7 +230,8 @@ export class TableComponent implements  OnInit, OnChanges {
     return filteredData;
   }
 
-	onChangeTable(column?: ColumnComponent): void {
+	onChangeTable(column?: ColumnComponent, value?: string): void {
+
 		if (column) {
 				Object.assign(this.config.filtering, column.config.filtering);
 		}
