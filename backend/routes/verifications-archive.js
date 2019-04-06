@@ -130,8 +130,8 @@ router.post('/scan/:id', upload.single('scan'), (req, res, next) => {
 });
 
 // створено для
-router.get('/all/:createFor', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `createFor` = '" + req.params.createFor + "' (`status` LIKE 'Повірено%' OR 'Передано %')", (err, result) => {
+router.get('/:createFor', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `createFor` = '" + req.params.createFor + "' AND (`status` LIKE 'Повірено%' OR 'Передано %')", (err, result) => {
     if (err) {
       console.log(err);
     }
