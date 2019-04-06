@@ -119,6 +119,41 @@ router.post('', (req, res, next) => {
   });
 });
 
+router.post('/site/', (req, res, next) => {
+  // Знаходимо номер останньої створеної заявки
+  connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate` = '" + getCurrentDate() + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
+    if (err) {
+      console.log(err);
+    }
+    let applicationNumber = '';
+
+    if (typeof lastNumber[0] !== 'undefined') {
+      applicationNumber = createNextApplicationNumber(lastNumber[0].applicationNumber);
+    } else {
+      applicationNumber = generateDateString() + '000000';
+    }
+
+    const status = "Не визначено відповідальну особу";
+    const createFor = 80334;
+    const serviceProvider = 80334;
+    const userId = 1;
+
+    let varData = " VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+    let formatedData = varData.format(getCurrentDate(), applicationNumber, req.body.client, req.body.phoneNumber, req.body.region, req.body.index, req.body.district, req.body.settlement, req.body.street, req.body.house, req.body.apartment, req.body.entrance, req.body.floor, formatDate(req.body.favorDate)[0], formatDate(req.body.favorTime)[1], req.body.sanitaryWellfare, formatDate(req.body.waterAbsentTo)[0], serviceProvider, createFor, req.body.serviceType, req.body.counterQuantity, req.body.isUnique, req.body.isDismantled, req.body.counterNumber, req.body.symbol, req.body.counterType, req.body.productionYear, formatDate(req.body.montageDate)[0], req.body.acumulatedVolume, req.body.haveSeal, null, req.body.comment, req.body.note, status, userId);
+    let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`,`entrance`,`floor`,`favorDate`,`favorTime`,`sanitaryWellfare`,`waterAbsentTo`, `serviceProvider`, `createFor`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `comment`, `note`, `status`, `userId`)" + formatedData);
+    connection.query(varResult, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      io.getIo().emit('update');
+      console.log('Нова повірка з сайту створена. ' + status + '. Номер заявки: ' + applicationNumber);
+    });
+  });
+  res.json({
+    g: 'good'
+  });
+});
+
 /** Відхилення заявки зі зміною статусу на "Відхилено" rejected
  * 
  * @param req.params.id - id заявки в таблиці `archive`
