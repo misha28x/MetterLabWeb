@@ -44,8 +44,8 @@ function getServiceProviderId(serviceProviders, currentProvider) {
   let currentId = 0;
 
   console.log({
-    providers: serviceProviders,
-    current: currentProvider
+    all: serviceProviders,
+    cur: currentProvider
   });  
 
   serviceProviders.forEach(provider => {
