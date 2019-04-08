@@ -38,6 +38,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   filteredDistricts: Observable<string[]>;
   filteredSettlement: Observable<string[]>;
   filteredStreets: Observable<string[]>;
+  filteredTypes: Observable<string[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -65,7 +66,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   ngOnInit(): void {
-    this.getAddress();
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
       this.permission = _user.permission;
@@ -117,6 +117,16 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       waterAbsentTo: '',
       note: ''
     });
+
+    this.getAddress();
+    this.getTypes();
+    
+  }
+
+  getTypes(): any {
+    this.data.types.pipe(map((res: any) => res.Device)).subscribe(_types => {
+      console.log(_types);
+    });
   }
 
   getAddress(): any {
@@ -127,17 +137,17 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 
       this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
         startWith(''),
-        map(res => this.districts.filter(district => district.toLowerCase().includes(res.toLowerCase())))
+        map(_res => this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase())))
       );
 
       this.filteredSettlement = this.locationForm.get('settlement').valueChanges.pipe(
         startWith(''),
-        map(res => this.cities.filter(city => city.toLowerCase().includes(res.toLowerCase())))
+        map(_res => this.cities.filter(city => city.toLowerCase().includes(_res.toLowerCase())))
       );
 
       this.filteredStreets = this.locationForm.get('street').valueChanges.pipe(
         startWith(''),
-        map(res => this.streets.filter(street => street.toLowerCase().includes(res.toLowerCase()))),
+        map(_res => this.streets.filter(street => street.toLowerCase().includes(_res.toLowerCase())))
       );
     });
   }

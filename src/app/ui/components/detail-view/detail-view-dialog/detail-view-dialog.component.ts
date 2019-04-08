@@ -2,14 +2,15 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { concat } from 'rxjs';
+import { concat, Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 import { VerificationService } from '../../../../services/verification.service';
 import { Verification } from '../../../../interfaces/verifications';
 import { SourceService } from '../../../../services/source.service';
 import { DataService } from '../../../../services/data.service';
 
-const employeeUrl = 'http://localhost:3000/api/new-verifications/employee';
+const addressUrl = 'http://localhost:3000/api/new-verifications/all/address';
 const typeUrl = 'http://localhost:3000/api/new-verifications/device';
 const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
 
@@ -29,6 +30,14 @@ export class DetailViewDialogComponent implements OnInit {
 
   permission: number;
 
+  cities: string[];
+  streets: string[];
+  districts: string[];
+
+  filteredDistricts: Observable<string[]>;
+  filteredSettlement: Observable<string[]>;
+  filteredStreets: Observable<string[]>;
+
   private url: string;
 
   constructor(
@@ -44,14 +53,14 @@ export class DetailViewDialogComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(user => this.permission = user.permission) ;
 
-    const $employeeObservable = this.dataSv.getData(employeeUrl);
     const $symbolObservable = this.dataSv.getData(symbolUrl);
     const $typeObservable = this.dataSv.getData(typeUrl);
 
-    const dataObservable = concat($employeeObservable, $symbolObservable, $typeObservable);
+    const dataObservable = concat($symbolObservable, $typeObservable);
 
     this.additionalData = {};
-    dataObservable.subscribe((next: [any]) => {
+
+    dataObservable.subscribe((next: any[]) => {
       const key = Object.keys(next[0])[0];
 
       this.additionalData[key] = next.map(val => {
@@ -114,6 +123,29 @@ export class DetailViewDialogComponent implements OnInit {
       sanitaryWellFare: this.data.verification[0].sanitaryWellFare,
       waterAbsentTo: new Date(this.data.verification[0].waterAbsentTo) || '',
       note: this.data.verification[0].note
+    });
+  }
+
+  getAddress(): any {
+    this.data.address.subscribe(res => {
+      this.cities = Array.from(new Set(res.map(address => address.city)));
+      this.streets = Array.from(new Set(res.map(address => address.street)));
+      this.districts = Array.from(new Set(res.map(address => address.district)));
+
+      this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
+        startWith(''),
+        map(_res => this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase())))
+      );
+
+      this.filteredSettlement = this.locationForm.get('settlement').valueChanges.pipe(
+        startWith(''),
+        map(_res => this.cities.filter(city => city.toLowerCase().includes(_res.toLowerCase())))
+      );
+
+      this.filteredStreets = this.locationForm.get('street').valueChanges.pipe(
+        startWith(''),
+        map(_res => this.streets.filter(street => street.toLowerCase().includes(_res.toLowerCase())))
+      );
     });
   }
 

@@ -255,8 +255,7 @@
         <div class="full-width">
           <span>Тип Лічильника</span>
           <mat-form-field class="input-field">
-            <input type="text" placeholder="Типорозмір лічильника" formControlName="counterType" matInput
-              [matAutocomplete]="auto">
+            <input type="text" placeholder="Типорозмір лічильника" formControlName="counterType" matInput [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let type of (data.types | async)" [value]="type">{{ type.Device }}</mat-option>
             </mat-autocomplete>

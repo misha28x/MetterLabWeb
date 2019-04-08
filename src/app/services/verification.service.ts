@@ -37,15 +37,14 @@ export class VerificationService {
   }
 
   public deleteFromTask(id: any, idTask: any): Observable<any> {
-    console.log({ id: id, task: idTask });
     const ref = this.dialog.open(DeleteDialogComponent, {
       minWidth: '600px',
       data: 'повірку з завдання'
     });
-
+    
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        return this.http.post(deleteFromTask + id, { id_task: idTask });
+        return this.http.post(deleteFromTask + '' + id, { id_task: idTask });
       }
     });
 

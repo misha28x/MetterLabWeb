@@ -59,7 +59,11 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   deleteFromTask(verifId: string): void {
-    this.verifSv.deleteFromTask(verifId, this.idTask).subscribe(() => this.updateData());
+    this.verifSv.deleteFromTask(verifId, this.idTask).subscribe(() => {
+      setTimeout(() => {
+        this.updateData();
+      }, 300);
+    });
   }
 
   cancellEmployee(id: number): void {
