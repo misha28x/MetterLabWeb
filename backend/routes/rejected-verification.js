@@ -15,6 +15,19 @@ router.get('/:createFor', (req, res, next) => {
   });
 });
 
+/**
+ * Відхилення повірки за id користувача
+ * @param req.params.userId
+ */
+router.get('/user/:userId', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `userId` = '" + req.params.userId + "' AND `status` LIKE 'Відхилен%'", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json(result);
+  });
+});
+
 router.get('/types/rejections', (req, res, next) => {
   connection.query("SELECT * FROM rejections_types;", (err, result) => {
     if (err) {
