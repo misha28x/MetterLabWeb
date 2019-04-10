@@ -18,6 +18,7 @@ export class ProtocolService {
   constructor(private http: HttpClient) { }
 
   public addProtocol(protocol: Protocol): void {
+    console.log(protocol);
     this.protocolSource$.next(protocol);
   }
 

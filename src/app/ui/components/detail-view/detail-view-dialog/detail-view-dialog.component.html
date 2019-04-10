@@ -310,8 +310,7 @@
         <div class="full-width">
           <span>Вода відсутня до</span>
           <div class="input-field form-group">
-            <input type="text" placement="top" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="waterAbsentTo"
-              [bsValue]="additionalDataForm.get('waterAbsentTo').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            <input type="text" placement="top" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="waterAbsentTo" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
           </div>
         </div>
 
@@ -319,8 +318,7 @@
           <span>Примітка</span>
           <mat-form-field class="input-field">
             <mat-label>Примітка</mat-label>
-            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-              cdkAutosizeMaxRows="10"></textarea>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5 "cdkAutosizeMaxRows="10" formControlName="note"></textarea>
           </mat-form-field>
         </div>
       </form>

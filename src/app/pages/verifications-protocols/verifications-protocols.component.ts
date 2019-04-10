@@ -33,15 +33,14 @@ export class PageVerificationsProtocolsComponent implements OnInit {
   }
 
   sendProtocols(): void {
-    this.selectedData.forEach((ver: any) => this.dataSv.sendData(url + '/metrology/' + ver)
+    this.selectedData.forEach((ver: any) => this.dataSv.sendData(url + '/metrology/' + ver.applicationNumber)
     .subscribe( () => {
       this.sourceSv.fetchProtocols();
-      this.selectedData.length -= 1;
     }));
   }
 
   displayProtocol(id: string): void { 
-    this.dataSv.getData(url + '/' + id).subscribe(
+    this.dataSv.getData(url + '/protocol/' + id).subscribe(
       (protocol: Protocol) => {
         this.protocolSv.addProtocol(protocol);
       }

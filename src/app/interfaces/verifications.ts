@@ -13,12 +13,12 @@ export interface Verification {
 	street: string;						  // Вулиця + 												\\
 	house: string; 							// Будинок + 												\\
   apartment: string; 					// Квартира + 											\\
-  isDismantled: boolean; 			// Лічильник_демонтовано +					\\
+  isDismantled: string; 			// Лічильник_демонтовано +					\\
   montageDate: string;        // Дата монтажу лічильника +				\\
   counterQuantity?: number;   // Кількість лічильників						\\
 	symbol: string; 						// Умовне_позначення +							\\
 	counterNumber: string; 			// Номер_лічильника +								\\
-  haveSeal: boolean;          // Наявність пломби									\\
+  haveSeal: string;          // Наявність пломби									\\
   counterType: string; 				// Типорозмір_лічильника +					\\
 	productionYear: string; 		// Рік_випуску_лічильника +					\\
   acumulatedVolume: string;   // Накопичений об'єм								\\

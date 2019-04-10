@@ -31,7 +31,7 @@ export class PageLabRequestsComponent implements OnInit {
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
-    private verificationSv: VerificationService
+    private verifSv: VerificationService
   ) {
     this.sourceSv.fetchLabRequest();
   }
@@ -92,32 +92,35 @@ export class PageLabRequestsComponent implements OnInit {
   }
 
   update(): void {
+    console.log('update');
     this.sourceSv.fetchLabRequest();
   }
 
-  sendVErif(): void {
-    
+  sendVerif(): void {
+    forkJoin(this.selectedData
+      .map((ver: Verification) => this.verifSv.sendVerif(ver.applicationNumber))
+    ).subscribe(() => this.updateData());
   }
 
   cancellEmployeeToSelected(): void {
     forkJoin(this.selectedData.map((ver: Verification) =>
-      this.verificationSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
+      this.verifSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
   }
 
   deleteVerification(id: number): void {
-    this.verificationSv.deleteVerification(id).subscribe(() => this.updateData());
+    this.verifSv.deleteVerification(id).subscribe(() => this.updateData());
   }
 
   rejectVerification(id: number): void {
-    this.verificationSv.rejectVerification(id).subscribe(() => this.updateData());
+    this.verifSv.rejectVerification(id).subscribe(() => this.updateData());
   }
 
   cancellEmployee(id: number): void {
-    this.verificationSv.cancellEmployee(id).subscribe(() => this.updateData());
+    this.verifSv.cancellEmployee(id).subscribe(() => this.updateData());
   }
 
   checkForDuplicate(verification: Verification): void {
-    this.verificationSv.addVerification(verification);
+    this.verifSv.addVerification(verification);
   }
 
   onChange(data: any, state: boolean): void {

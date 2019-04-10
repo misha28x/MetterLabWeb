@@ -27,11 +27,11 @@ export class MetrologyProtocolsComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  displayProtocol(id: string): void { 
-    this.dataSv.getData(url + '/' + id).subscribe(
+  displayProtocol(id: string): void {
+    this.dataSv.getData(url + '/protocol/' + id).subscribe(
       (protocol: Protocol) => {
         this.protocolSv.addProtocol(protocol);
       }
-    ); 
+    );
   }
 }

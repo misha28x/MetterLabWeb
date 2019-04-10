@@ -81,7 +81,10 @@ export class PageNewVerificationsComponent implements OnInit {
   }
 
   rejectVerification(id: number): void {
-    this.verificationSv.rejectVerification(id).subscribe(() => this.updateData());
+    this.verificationSv.rejectVerification(id).subscribe((res) => {
+      console.log(res);
+      this.updateData();
+    });
   }
 
   cancellEmployee(id: number): void {

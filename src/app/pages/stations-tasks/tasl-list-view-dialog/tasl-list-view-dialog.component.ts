@@ -1,11 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MatDialog } from '@angular/material';
 
 import { DataService } from '../../../services/data.service';
 import { SourceService } from '../../../services/source.service';
+import { DetailViewService } from '../../../services/detail-view.service';
 import { VerificationService } from '../../../services/verification.service';
+import { DeleteDialogComponent } from '../../../ui/components/delete-dialog';
 
 @Component({
 	selector: 'app-tasl-list-view-dialog',
@@ -18,10 +20,12 @@ export class TaslListViewDialogComponent implements OnInit {
 	private url: string;
 
 	constructor(
+    private dialog: MatDialog,
     private dataSv: DataService,
     private sourceSv: SourceService,
+    private detailSv: DetailViewService,
     private verifSv: VerificationService,
-		private dialogRef: MatDialogRef<TaslListViewDialogComponent>,
+    private dialogRef: MatDialogRef<TaslListViewDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public idTask: number
 	) { }
 
@@ -59,10 +63,15 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   deleteFromTask(verifId: string): void {
-    this.verifSv.deleteFromTask(verifId, this.idTask).subscribe(() => {
-      setTimeout(() => {
-        this.updateData();
-      }, 300);
+    const ref = this.dialog.open(DeleteDialogComponent, {
+      minWidth: '600px',
+      data: 'повірку з завдання'
+    });
+
+    ref.afterClosed().subscribe((result: string) => {
+      if (result === 'delete') {
+        this.verifSv.deleteFromTask(verifId, this.idTask).subscribe(() => this.updateData());
+      }
     });
   }
 
@@ -76,5 +85,9 @@ export class TaslListViewDialogComponent implements OnInit {
 
   clientInaccesable(id: any): void {
     this.verifSv.clientInaccesable(id).subscribe(() => this.updateData());
+  }
+
+  detailView(id: number): void {
+    this.detailSv.addVerification(id);
   }
 }

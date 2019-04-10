@@ -151,12 +151,12 @@ mat-card-header {
 
   &-success {
     @extend .table;
-    background: rgba($success-color, 0.15);
+    background: rgba($success-color, 0.18);
   }
 
   &-error {
     @extend .table;
-    background: rgba($error-color, 0.15);
+    background: rgba($error-color, 0.18);
   }
 }
 

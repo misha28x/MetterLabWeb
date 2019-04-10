@@ -9,6 +9,9 @@ const connection = require('../database/db');
  * @param req.params.id - номер заявки статус якої потрібно змінити
  */
 router.get('/send/:id', (req, res, next) => {
+  console.log( {
+    id: req.params.id
+  } );
   connection.query("UPDATE `archive` SET status = 'Проведено повірку' WHERE applicationNumber = '" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);      

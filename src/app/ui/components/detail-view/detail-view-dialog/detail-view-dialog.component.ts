@@ -118,10 +118,10 @@ export class DetailViewDialogComponent implements OnInit {
       entrance: this.data.verification[0].entrance,
       doorCode: this.data.verification[0].doorCode,
       floor: this.data.verification[0].floor,
-      favorDate: new Date(this.data.verification[0].favorDate) || '',
+      favorDate: new Date(this.data.verification[0].favorDate) || null,
       favorTime: new Date(this.data.verification[0].favorTime || date),
       sanitaryWellFare: this.data.verification[0].sanitaryWellFare,
-      waterAbsentTo: new Date(this.data.verification[0].waterAbsentTo) || '',
+      waterAbsentTo: new Date(this.data.verification[0].waterAbsentTo) || null,
       note: this.data.verification[0].note
     });
   }

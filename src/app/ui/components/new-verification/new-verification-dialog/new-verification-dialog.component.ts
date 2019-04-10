@@ -124,7 +124,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   getTypes(): any {
-    this.data.types.pipe(map((res: any) => res.Device)).subscribe(_types => {
+    this.data.types.pipe().subscribe(_types => {
       console.log(_types);
     });
   }
@@ -199,14 +199,14 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       street: this.locationForm.get('street').value,
       house: this.locationForm.get('house').value,
       apartment: this.locationForm.get('apartment').value,
-      isDismantled: this.locationForm.get('isDismantled').value,
+      isDismantled: this.locationForm.get('isDismantled').value ? '1' : '0',
       montageDate: this.counterForm.get('montageDate').value
         ? this.counterForm.get('montageDate').value.toISOString()
         : '',
       employeeName: '',
       comment: this.locationForm.get('comment').value.replace(/'/g, /\'/),
       counterNumber: this.counterForm.get('counterNumber').value,
-      haveSeal: this.counterForm.get('haveSeal').value,
+      haveSeal: this.counterForm.get('haveSeal').value ? '1' : '0',
       counterType: this.counterForm.get('counterType').value,
       productionYear: this.counterForm.get('productionYear').value,
       acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
@@ -216,11 +216,12 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       favorTime: this.additionalDataForm.get('favorTime').value
         ? this.additionalDataForm.get('favorTime').value.toISOString()
         : '',
-      sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value,
+      sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value ? '1' : '0',
       waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value
         ? this.additionalDataForm.get('waterAbsentTo').value.toISOString()
         : '',
       note: this.additionalDataForm.get('note').value,
+      isUnique: this.locationForm.get('isUnique').value ? '1' : '0',
       serviceProvider: this.locationForm.get('serviceProvider').value,
       serviceType: this.locationForm.get('serviceType').value,
       symbol: this.counterForm.get('symbol').value,

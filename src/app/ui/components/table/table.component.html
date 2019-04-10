@@ -47,12 +47,12 @@
     </tr>
 
     <tr *ngFor="let row of rows; trackBy: trackByFn">
-      <td [ngStyle]="{'min-width.px': 30}" [ngClass]="{ 'table-success': getSuccessClass(row) }" *ngIf="checkboxes">
+      <td [ngStyle]="{'min-width.px': 30}" [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }" *ngIf="checkboxes">
         <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowSelected(row) : null"
           [checked]="selection.isSelected(row)"></mat-checkbox>
       </td>
       <td *ngFor="let col of columnList" [ngStyle]="{'min-width.px': col.width}"
-        [ngClass]="{ 'table-success': getSuccessClass(row) }">
+        [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }">
         <ng-container *ngIf="!col.bodyTemplate">
           {{ row[col.config.name] }}
         </ng-container>

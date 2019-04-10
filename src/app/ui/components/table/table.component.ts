@@ -24,6 +24,7 @@ export class TableComponent implements  OnInit, OnChanges {
 	@Input() tableData: any;
   @Input() itemsPerPage: number;
   @Input() desiredStatus: string;
+  @Input() errorStatus: string;
 
   @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
@@ -107,6 +108,18 @@ export class TableComponent implements  OnInit, OnChanges {
     }
 
     if (row['status'] !== this.desiredStatus) {
+      return false;
+    } 
+
+    return true;
+  }
+
+  getErrorClass(row: any): boolean {
+    if (!row['status']) {
+      return false;
+    }
+
+    if (row['status'] !== this.errorStatus) {
       return false;
     } 
 

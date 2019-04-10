@@ -41,8 +41,8 @@ router.get('/delete/:id', (req, res, next) => {
 
 // TODO: роутер для виведення заявок для метрології
 // створено для
-router.get('/metrology/:createFor', (req, res, next) => {
-  connection.query("SELECT * FROM `archive` WHERE `status` = 'Передано повірнику' AND `createFor` = '" + req.params.createFor + "';", (err, rows) => {
+router.get('/metrology/protocols', (req, res, next) => {
+  connection.query( "SELECT * FROM `archive` WHERE `status` = 'Передано повірнику';", ( err, rows ) => {
     if (err) {
       console.log(err);
     }
@@ -89,7 +89,7 @@ router.get('/accept/:id', (req, res, next) => {
   res.json('metrology accepted success');
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/protocol/:id', (req, res, next) => {
   let selectionOne = "SELECT protocols.bbiFileName, archive.applicationNumber, protocols.date, protocols.deviceNumber, protocols.counterNumber, protocols.symbol,protocols.type, archive.serviceType, protocols.temperature, protocols.productionYear, archive.acumulatedVolume, protocols.latitude, protocols.longitude, protocols.status, protocols.result, protocols.protocolStatus, protocols.image FROM protocols INNER JOIN archive ON protocols.bbiFileName = archive.protocolNumber WHERE protocols.bbiFileName = '" + req.params.id + "';";
 
   connection.query(selectionOne, function (err, rows, fields) {

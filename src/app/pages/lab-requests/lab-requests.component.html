@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-content>
     <div class="table-actions">
-      <button mat-raised-button (click)="sendVerif()">Надіслати</button>
+      <button mat-raised-button class="bg-success mb-3" (click)="sendVerif()">Надіслати</button>
     </div>
 
     <app-table [checkboxes]="true"  (rowSelected)="onChange($event)" [tableData]="(labRequests | async)"

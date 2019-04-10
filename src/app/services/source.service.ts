@@ -6,7 +6,7 @@ import { Store, select } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 
-const metrologyProtocolsUrl: string = 'http://localhost:3000/api/verications-protocols/metrology';
+const metrologyProtocolsUrl: string = 'http://localhost:3000/api/verications-protocols/metrology/protocols';
 const rejectedProtocolsUrl: string = 'http://localhost:3000/api/rejected-protocols';
 const failedTasksUrl: string = 'http://localhost:3000/api/stations-tasks/failed/1';
 const newVerificationUrl: string = 'http://localhost:3000/api/new-verifications';
@@ -61,7 +61,7 @@ export class SourceService {
   }
 
   fetchMetrologyProtocols(): void {
-    this.http.get(metrologyProtocolsUrl + '/' + this.user.serviceProvider)
+    this.http.get(metrologyProtocolsUrl)
       .subscribe((res: any) => this.metrologyProtocolsSource$.next(res));
   }
 
