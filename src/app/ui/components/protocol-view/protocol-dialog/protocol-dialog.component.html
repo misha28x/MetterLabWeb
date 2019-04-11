@@ -109,7 +109,7 @@
           </button>
         </div>
 
-        <div *ngIf="permission == 3 && !checked" class="metrology-actions">
+        <div *ngIf="permission == 5 && !checked" class="metrology-actions">
           <button mat-raised-button class="bg-success" (click)="acceptProtocol()">
             Придатний
           </button>
@@ -119,7 +119,7 @@
           </button>
         </div>
         
-        <div *ngIf="permission == 3 && checked" class="metrology-actions">
+        <div *ngIf="permission == 5 && checked" class="metrology-actions">
           <button (click)="downloadDoc()" mat-raised-button class="bg-success">
             Завантажити документ
           </button>

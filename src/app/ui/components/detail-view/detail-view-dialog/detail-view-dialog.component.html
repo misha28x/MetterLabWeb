@@ -288,8 +288,7 @@
         <div *ngIf="permission !== 2" class="full-width">
           <span>Бажана дата проведення повірки</span>
           <div class="input-field form-group">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="favorDate"
-              [bsValue]="additionalDataForm.get('favorDate').value" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="favorDate" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
           </div>
         </div>
 

@@ -34,7 +34,7 @@ export interface Verification {
   sanitaryWellfare: string;   // Справність сантехніки            \\
   waterAbsentTo: string;      // Вода відсутня до...              \\
   entrance: string;           // Під'їзд                          \\
-  floor: string;              // Поверх                           \\
+  floor: string;              // Поверх p                          \\
 	// Дані з archive по протоколу
 	laboratory?: string;				// Уповноважена_повірочна_лабораторі\\
 	protocolDate?: string;			// Дата створення протоколу					\\
@@ -46,7 +46,7 @@ export interface Verification {
 	idForStation?: number;			// id для станції										\\
 	positionInTask?: number;		// позиція в завданні								\\
 	// поля з new-verification-dialog
-  isUnique?: boolean;					// ?																\\
+  isUnique?: any;					// ?																\\
   userId?: string;
   createFor?: string;
 }
