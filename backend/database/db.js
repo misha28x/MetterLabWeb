@@ -11,6 +11,8 @@ function connectDatabase() {
         console.log('Database is connected!');
       } else {
         console.log('Error connecting database!');
+        console.log(err);
+        
       }
     });
   }
