@@ -1,8 +1,8 @@
 const config = {
-  host: 'localhost',
+  host: 'http://165.227.135.50',
   database: 'water_counters',
-  user: 'root',
-  password: ''
+  user: 'phpmyadmin',
+  password: 'admin'
 };
 
 module.exports = config;
