@@ -1,5 +1,5 @@
 const config = {
-  host: 'http://165.227.135.50',
+  host: 'localhost',
   database: 'water_counters',
   user: 'phpmyadmin',
   password: 'admin'
