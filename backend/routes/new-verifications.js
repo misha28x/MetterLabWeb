@@ -15,20 +15,20 @@ const connection = require('../database/db');
  * @param req.params.id - id заявки в таблиці `archive`
  * @param req.body.reason - причина відхилення взята з таблиці `rejections_types`
  */
-router.post( '/rejected/:id', ( req, res, next ) => {
-  console.log( req.body );
-  console.log( 'rejected' );
+router.post('/rejected/:id', (req, res, next) => {
+  console.log(req.body);
+  console.log('rejected');
   let varResult = "UPDATE `archive` SET `status`='Відхилено', `note`=CONCAT(note, '" + req.body.reason + "') WHERE `applicationNumber`='" + req.params.id + "';";
-  connection.query( varResult, (err) => {
+  connection.query(varResult, (err) => {
     if (err) {
       console.log(err);
     }
-    io.getIo().emit( 'update' );
-    res.status( 200 ).json( {
+    io.getIo().emit('update');
+    res.status(200).json({
       m: 'rejected'
-    } );
-  } );
-} );
+    });
+  });
+});
 
 
 router.get('/employee', (req, res, next) => {
@@ -60,12 +60,27 @@ router.get('/:userId', (req, res, next) => {
   });
 });
 
+/**
+ * Запит на отримання всіх заявок по відповідальній особі і підприємству, де `status` не призначений
+ * 
+ * @param userId - id користувача
+ * @param employee - відповідальна особа 
+ */ 
+router.post('/providers/new-verifocations/:userId', (req, res, next) => {
+  connection.query("SELECT * FROM `archive` WHERE `userId` = '" + req.params.userId + "' AND `employeeName` = '" + req.body.employee +"' AND (`status` = '' OR `status` IS NULL);", (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.status(200).json(result);
+  });
+});
+
 router.get('/cancel-employee/:id', (req, res, next) => {
   connection.query("UPDATE `archive` SET `employeeName`='', status='' WHERE `applicationNumber`='" + req.params.id + "';", (err) => {
     if (err) {
       console.log(err);
     }
-    io.getIo().emit( 'update' );
+    io.getIo().emit('update');
   });
   res.status(200).send({
     msg: 'знято відповідальну особу'
@@ -197,15 +212,15 @@ router.delete('/:id', (req, res, next) => {
   });
 });
 
-router.get( '/all/address', ( req, res, next ) => {
-  console.log( 'Get addreses' );
-  connection.query( "SELECT * FROM `address`", ( err, address ) => {
-    if ( err ) {
-      console.log( err );
+router.get('/all/address', (req, res, next) => {
+  console.log('Get addreses');
+  connection.query("SELECT * FROM `address`", (err, address) => {
+    if (err) {
+      console.log(err);
     }
-    res.status( 200 ).json( address );
-  } );
-} );
+    res.status(200).json(address);
+  });
+});
 
 // Перевірка на дублі по адресі клієнта (район, вулиця, будинок, квартира)
 router.post('/duplicate', (req, res, next) => {
