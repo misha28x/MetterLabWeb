@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "pm2 start server.js --node-args=\"--icu - data - dir = node_modules / full - icu\"" 
+    "server": "nodemon --icu-data-dir=node_modules/full-icu server.js"
   },
   "private": true,
   "dependencies": {
