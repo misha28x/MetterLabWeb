@@ -57,6 +57,6 @@ export class PageRejectedVerificationComponent implements OnInit {
 
   onChange(data: any, state: boolean): void {
     this.selectedData = data;
-    console.log(data);
+    console.log(data); 
   }
 }

@@ -52,8 +52,8 @@ export class PageStationsTasksComponent implements OnInit {
 
     const observer = {
       next: x => this.sourceSv.fetchStationTasks(),
-      error: err => this.dataSv.handleError(err),
-      complete: () => this.showSnackBar()
+      error: err => this.showSnackBar(),
+      complete: () => this.showSnackBar(),
     };
 
     const task = forkJoin(

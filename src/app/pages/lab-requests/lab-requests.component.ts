@@ -123,8 +123,7 @@ export class PageLabRequestsComponent implements OnInit {
     this.verifSv.addVerification(verification);
   }
 
-  onChange(data: any, state: boolean): void {
+  onChange(data: any): void {
     this.selectedData = data;
-    console.log(data);
   }
 }

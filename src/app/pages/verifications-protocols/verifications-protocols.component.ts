@@ -47,9 +47,8 @@ export class PageVerificationsProtocolsComponent implements OnInit {
     ); 
   }
 
-  onChange(data: any, state: boolean): void {
+  onChange(data: any): void {
     this.selectedData = data;
-    console.log(data);
   }
 
   rejectVerification(id: number): void {

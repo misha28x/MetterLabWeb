@@ -16,6 +16,7 @@ const editUrl = 'http://localhost:3000/api/verifications-archive/edit/';
 const protocolUrl = 'http://localhost:3000/api/verications-protocols';
 const deleteUrl = 'http://localhost:3000/api/new-verifications/';
 const sendVerif = 'http://localhost:3000/api/lab-requests/send/';
+const issueDate = 'localhost:3000/api/verifications-archive/issue/';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,7 @@ export class VerificationService {
           this.http.post(rejectUrl + id, { reason: res }).subscribe(val => observer.next(val));
         }
       });
-    })
+    });
   }
 
   public deleteVerification(id: any): Observable<any> {
@@ -98,5 +99,9 @@ export class VerificationService {
     });
 
     return from([false]);
+  }
+
+  public setIssueDate(id: any, date: string): Observable<any> {
+    return this.http.post(issueDate + id, { issueDate : date });
   }
 }
