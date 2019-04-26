@@ -22,18 +22,30 @@ const upload = multer({
   storage: storage
 });
 
-router.get( '/single/:id', ( req, res, next ) => {
-  console.log( req.params.id );
-  connection.query( "SELECT * FROM `archive` WHERE `applicationNumber` ='" + req.params.id + "';", ( err, result ) => {
-    if ( err ) {
-      console.log( err );
-      res.status( 500 ).json( {
-        err: 'SQL ERROR'
-      } );
+/**
+ * Роутер, який встановлює дату видачі `issueDate`
+ */
+router.post('/issue/:id', (req, res, next) => {
+  connection.query("UPDATE `archive` SET `issueDate` = '" + req.body.issueDate + "' WHERE `applicationNumber`=" + req.params.id + ";", (err) => {
+    if (err) {
+      console.log(err);
     }
-    res.status( 200 ).json( result );
-  } );
-} );
+    res.json('updated');
+  });
+});
+
+router.get('/single/:id', (req, res, next) => {
+  console.log(req.params.id);
+  connection.query("SELECT * FROM `archive` WHERE `applicationNumber` ='" + req.params.id + "';", (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        err: 'SQL ERROR'
+      });
+    }
+    res.status(200).json(result);
+  });
+});
 
 // Недозвон
 router.put('/ndz/:id', (req, res, next) => {

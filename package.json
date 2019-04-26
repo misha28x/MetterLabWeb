@@ -8,7 +8,11 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+<<<<<<< HEAD
     "server": "nodemon --icu-data-dir=node_modules/full-icu server.js"
+=======
+    "server": "nodemon start server.js --node-args=\"--icu - data - dir = node_modules / full - icu\"" 
+>>>>>>> ee8d7df621b63e87516fee735fd566ba1f201c02
   },
   "private": true,
   "dependencies": {
