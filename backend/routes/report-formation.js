@@ -15,7 +15,7 @@ router.get('/doc/:id', (req, res, next) => {
   let selection = "SELECT `id`, `applicationNumber`, `bbiFileName`, `date`, `counterNumber`, `deviceNumber`, `symbol`," +
     " `type`, `temperature`, `productionYear`, `capacity`, `status`, " +
     " `result`, `signDate`, `signPerson`, `status` " +
-    "FROM `protocols` WHERE `bbiFileName`='" + req.params.id + "';";
+    "FROM `protocols` WHERE `bbiFileName`='" + req.params.id + ".bbi';";
   connection.query(selection, function (err, fields) {
     if (err) throw err;
 
@@ -32,7 +32,7 @@ router.get('/doc/:id', (req, res, next) => {
 
           generateDovidDocx(fields, tests);
 
-          res.download('./backend/temp/docx/dovidOutput.docx', 'dovid2Output.docx');
+          res.download('./backend/temp/docx/dovidOutput.docx', 'dovidOutput.docx');
         });
       }
     }
