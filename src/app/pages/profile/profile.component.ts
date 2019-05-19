@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient
   ) {
     this.store.pipe(select('permission')).subscribe(_user => {
-      this.http.get('http://localhost:3000/api/employees/user/' + _user.userId).subscribe(res => {
+      this.http.get('http://134.209.243.90:3000/api/employees/user/' + _user.userId).subscribe(res => {
         this.user = res[0];
         console.log(res);
       });

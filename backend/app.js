@@ -25,7 +25,7 @@ const employeesRoutes = require('./routes/employees');
 const statusRoutes = require('./routes/status');
 
 // app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+//   res.setHeader('Access-Control-Allow-Origin', 'http://134.209.243.90:4200');
 
 //   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 

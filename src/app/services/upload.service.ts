@@ -7,7 +7,7 @@ import { User } from '../interfaces/user';
 
 // import { Protocol, Test } from '../interfaces/protocol';
 
-const url = 'http://localhost:3000/api/upload/';
+const url = 'http://134.209.243.90:3000/api/upload/';
 
 @Injectable({
   providedIn: 'root'
@@ -34,14 +34,14 @@ export class UploadService {
   }
 
   public uploadScan(file: File, id: string): Observable<any> {
-    const scanUrl = 'http://localhost:3000/api/verifications-archive/scan/' + id;
+    const scanUrl = 'http://134.209.243.90:3000/api/verifications-archive/scan/' + id;
     const fileData: FormData = new FormData();
     fileData.append('scan', file, file.name);
 
     return this.http.post(scanUrl, fileData);
   }
   public getScan(id: string): void {
-    const scanUrl = 'http://localhost:3000/api/verifications-archive/scan/' + id;
+    const scanUrl = 'http://134.209.243.90:3000/api/verifications-archive/scan/' + id;
   
     window.open(scanUrl);
   }

@@ -8,9 +8,9 @@ import { SocketService } from '../../../services/socket.service';
 
 import { NewVerificationDialogComponent } from './new-verification-dialog/new-verification-dialog.component';
 
-const addressUrl = 'http://localhost:3000/api/new-verifications/all/address';
-const typeUrl = 'http://localhost:3000/api/new-verifications/device';
-const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
+const addressUrl = 'http://134.209.243.90:3000/api/new-verifications/all/address';
+const typeUrl = 'http://134.209.243.90:3000/api/new-verifications/device';
+const symbolUrl = 'http://134.209.243.90:3000/api/new-verifications/dn';
 
 @Component({
   selector: 'app-new-verification',

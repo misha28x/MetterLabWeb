@@ -8,7 +8,7 @@ import { login } from '../../store/actions/permission.action';
 import { DataService } from '../../services/data.service';
 import { MenuService } from '../../services/menu.service';
 
-const authUrl = 'http://localhost:3000/api/authorization';
+const authUrl = 'http://134.209.243.90:3000/api/authorization';
 
 @Component({
   selector: 'app-authorization-page',

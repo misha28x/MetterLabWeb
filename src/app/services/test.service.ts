@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-const startStateUrl = 'http://localhost:3000/api/verications-protocols/test/init/';
-const endStateUrl = 'http://localhost:3000/api/verications-protocols/test/final/';
+const startStateUrl = 'http://134.209.243.90:3000/api/verications-protocols/test/init/';
+const endStateUrl = 'http://134.209.243.90:3000/api/verications-protocols/test/final/';
 
 @Injectable({
   providedIn: 'root'
