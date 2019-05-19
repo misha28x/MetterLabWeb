@@ -44,8 +44,7 @@ function getServiceProviderId(serviceProviders, currentProvider) {
   let currentId = 0;
 
   console.log({
-    all: serviceProviders,
-    cur: currentProvider
+    CurrentProvider: currentProvider
   });  
 
   serviceProviders.forEach(provider => {
@@ -155,6 +154,9 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
 
               let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors, row.Customer), createFor, null, row.serviceType, 1, 1, 0, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, 1, 1, "Проведено повірку на місці", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null, 0, 0); // 39
               let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterQuantity`, `isUnique`, `isDismantled`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `haveSeal`, `sealNumber`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`, `idForStation`, `positionInTask`)" + formatedData);
+              console.log({
+                log: varResult
+              });              
               connection.query(varResult, (err) => {
                 if (err) {
                   // console.log(err);
