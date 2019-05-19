@@ -34,7 +34,7 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   cancelTask(id: string): void {
-    this.dataSv.getData('http://134.209.243.90:3000/api/stations-tasks/delete/' + id).subscribe();
+    this.dataSv.getData('http://localhost:3000/api/stations-tasks/delete/' + id).subscribe();
   }
   
   rowStyle(date: string, status: string): any {
@@ -51,7 +51,7 @@ export class TaslListViewDialogComponent implements OnInit {
     return true;
   }
   updateData(): void {
-    this.url = 'http://134.209.243.90:3000/api/stations-tasks/tasks/' + this.idTask;
+    this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.idTask;
 
     this.taskList = this.dataSv.getData(this.url);
   }

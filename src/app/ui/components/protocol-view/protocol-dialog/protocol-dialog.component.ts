@@ -131,7 +131,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   }
 
   downloadDoc(): void {
-    window.open('http://134.209.243.90:3000/api/report-formation/doc/' + this.data.protocolNumber);
+    window.open('http://localhost:3000/api/report-formation/doc/' + this.data.protocolNumber);
   }
 
   getImage(base64Data: String): any {

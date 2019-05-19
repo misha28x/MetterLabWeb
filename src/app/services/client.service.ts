@@ -20,25 +20,25 @@ export class ClientService {
   }
 
   fetchClientData(id: any): void {
-    const URL = `http://134.209.243.90:3000/api/verifications-archive/client/${id}`;
+    const URL = `http://localhost:3000/api/verifications-archive/client/${id}`;
 
     this.http.get(URL).subscribe(res => this.dataSource$.next(res[0]));
   }
 
   updateClientInfo(id: any, info: ClientInfo): void {
-    const URL = `http://134.209.243.90:3000/api/verifications-archive/client/${id}`;
+    const URL = `http://localhost:3000/api/verifications-archive/client/${id}`;
 
     this.http.put(URL, info).subscribe();
   }
 
   getVerificationData(verificationNumber: string): Observable<any> {
-    const URL = `http://134.209.243.90:3000/api/status/verification/${verificationNumber}`;
+    const URL = `http://localhost:3000/api/status/verification/${verificationNumber}`;
 
     return this.http.get(URL).pipe(tap(console.log));
   }
 
   getCounterData(counterNumber: string): Observable<any> {
-    const URL = `http://134.209.243.90:3000/api/status/counter/${counterNumber}`;
+    const URL = `http://localhost:3000/api/status/counter/${counterNumber}`;
 
     return this.http.get(URL).pipe(tap(console.log));
   }

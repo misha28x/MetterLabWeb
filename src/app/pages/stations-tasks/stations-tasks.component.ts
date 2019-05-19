@@ -7,8 +7,8 @@ import { SourceService } from '../../services/source.service';
 import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-edit-dialog.component';
 import { TaslListViewDialogComponent } from './tasl-list-view-dialog/tasl-list-view-dialog.component';
 
-const url = 'http://134.209.243.90:3000/api/stations-tasks';
-const sendUrl = 'http://134.209.243.90:3000/api/file-sending';
+const url = 'http://localhost:3000/api/stations-tasks';
+const sendUrl = 'http://localhost:3000/api/file-sending';
 
 @Component({
 	selector: 'app-stations-tasks',

@@ -11,7 +11,7 @@ import { VerificationService } from '../../services/verification.service';
 import { SelectDialogComponent } from '../../ui/components/select-dialog';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
-const url = 'http://134.209.243.90:3000/api/new-verifications';
+const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
   selector: 'app-lab-requests',
@@ -82,7 +82,7 @@ export class PageLabRequestsComponent implements OnInit {
     ref.afterClosed().subscribe(data => {
 
       if (data) {
-        const providerUrl = 'http://134.209.243.90:3000/api/verifications-archive/service-provider/' + id;
+        const providerUrl = 'http://localhost:3000/api/verifications-archive/service-provider/' + id;
 
         this.http.post(
           providerUrl, { provider: data.provider, type: data.type })

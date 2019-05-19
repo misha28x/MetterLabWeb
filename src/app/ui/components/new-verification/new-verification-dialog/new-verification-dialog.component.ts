@@ -11,7 +11,7 @@ import { VerificationService } from 'src/app/services/verification.service';
 
 import { User } from '../../../../interfaces/user';
 
-const url = 'http://134.209.243.90:3000/api/new-verifications';
+const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
   selector: 'app-new-verification-dialog',

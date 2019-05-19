@@ -57,7 +57,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
     ref.afterClosed().subscribe(data => {
       if (data) {
         const url =
-          'http://134.209.243.90:3000/api/verifications-archive/service-provider/' +
+          'http://localhost:3000/api/verifications-archive/service-provider/' +
           id;
 
         this.http
@@ -73,7 +73,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
     ref.afterClosed().subscribe((data: any) => {
       if (data) {
         const url =
-          'http://134.209.243.90:3000/api/verifications-archive/service-provider/' +
+          'http://localhost:3000/api/verifications-archive/service-provider/' +
           id;
 
         this.http
@@ -88,7 +88,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
   }
 
   displayProtocol(id: string): void {
-    const url = 'http://134.209.243.90:3000/api/verications-protocols';
+    const url = 'http://localhost:3000/api/verications-protocols';
 
     this.dataSv.getData(url + '/' + id).subscribe(protocol => {
       this.protocolSv.addProtocol(protocol);
@@ -117,7 +117,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
   }
 
   downloadDoc(id: string): void {
-    window.open('http://134.209.243.90:3000/api/report-formation/doc/' + id);
+    window.open('http://localhost:3000/api/report-formation/doc/' + id);
   }
 
   onChange(data: any): void {
