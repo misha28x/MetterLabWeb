@@ -57,7 +57,6 @@ function getServiceProviderId(serviceProviders, currentProvider) {
 }
 
 function getResultsFromDatabase(byteArray, createFor, contractors) {
-
   const db = new SQL.Database(byteArray);
 
   // Формуємо результат у масив об'єктів
@@ -73,100 +72,102 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
     'Uploading. Task date': date
   });
 
-  connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    let applicationNumber = '';
-    if (lastNumber.length > 0 && lastNumber[0]) {
-      applicationNumber = lastNumber[0].applicationNumber;
-    } else {
-      const oldDateFormat = date.split('-')[2] + '-' + date.split('-')[1] + '-' + date.split('-')[0];
-      applicationNumber = createApplicationNumber(applicationNumber, oldDateFormat);
-      console.log({
-        "Перший запис за день": applicationNumber
-      });
-    }
-
-    for (const row of result) {
-      if (row.CounterNumber.length < 4 | row.CounterNumber == '-' | row.FileNumber == '00000000.bbi') {
-        continue;
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT `applicationNumber` FROM `archive` WHERE `addingDate`='" + date + "' ORDER BY `applicationNumber` DESC LIMIT 1;", (err, lastNumber) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      let applicationNumber = '';
+      if (lastNumber.length > 0 && lastNumber[0]) {
+        applicationNumber = lastNumber[0].applicationNumber;
+      } else {
+        const oldDateFormat = date.split('-')[2] + '-' + date.split('-')[1] + '-' + date.split('-')[0];
+        applicationNumber = createApplicationNumber(applicationNumber, oldDateFormat);
+        console.log({
+          "Перший запис за день": applicationNumber
+        });
       }
 
-      row.Street = row.Street.replace(/'/g, "''");
-      row.Surname = row.Surname.replace(/'/g, "''");
-      row.Name = row.Name.replace(/'/g, "''");
-      row.Middlename = row.Middlename.replace(/'/g, "''");
-      row.City = row.City.replace(/'/g, "''");
+      for (const row of result) {
+        if (row.CounterNumber.length < 4 | row.CounterNumber == '-' | row.FileNumber == '00000000.bbi') {
+          continue;
+        }
 
-      console.log({
-        customer: row.Customer
-      });
+        row.Street = row.Street.replace(/'/g, "''");
+        row.Surname = row.Surname.replace(/'/g, "''");
+        row.Name = row.Name.replace(/'/g, "''");
+        row.Middlename = row.Middlename.replace(/'/g, "''");
+        row.City = row.City.replace(/'/g, "''");
 
-      connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
+        console.log({
+          customer: row.Customer
+        });
 
-        let varData = (" VALUES ('%s','%s', '%s','%s','%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
-        let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
-        let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
-          " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
-          " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
-          " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
+        connection.query("SELECT `applicationNumber`, `idForStation` FROM `archive` WHERE `applicationNumber` ='" + row.Id_pc + "';", (err, appNum) => {
 
-        connection.query(varResult, function (err, rows) {
-          if (err) {
-            if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
-              console.log('Запис для лічильника ' + row.CounterNumber + ' вже існує');
-              return;
-            } else {
-              console.log('Інша помилка в запиті на дублікати:');
-              console.log(err);
-              return;
-            }
-          } else {
-            if (row.Id_pc !== '' && row.Id_pc !== null) {
-              if (appNum.length == 0) {
-                const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
-                const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-                /* Проведено повірку на місці */
-                let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors, row.Customer), createFor, null, row.serviceType, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, "Проведено повірку", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null);
-                let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`)" + formatedData);
-                connection.query(varResult, (err) => {
-                  if (err) {
-                    console.log(err);
-                  }
-                });
-                console.log('Відсутні помилки в запиті на додавання: ' + row.Id_pc);
+          let varData = (" VALUES ('%s','%s', '%s','%s','%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');");
+          let formatedData = varData.format(row.CounterNumber, row.Surname, row.Name, row.Middlename, row.City, row.Street, row.Building, row.Apartment, row.Account, row.Type, row.Year, row.FileNumber, row.Status, row.Date, row.RLatitude, row.RLongitude, row.Liter, row.TelNumber, row.Id_pc, row._id, row.District, row.Customer, row.Image, row.CityID, row.DistrictID, row.StreetID, row.CustomerID, row.TelNumber2, row.Note, row.serviceType);
+          let varResult = ("INSERT INTO `results`(`CounterNumber`, `Surname`, `Name`, `Middlename`, `City`, `Street`," +
+            " `Building`, `Apartment`, `Account`, `Type`, `Year`, `FileNumber`, `Status`, `Date`, `RLatitude`, `RLongitude`," +
+            " `Liter`, `TelNumber`, `Id_pc`, `_id`, `District`, `Customer`, `Image`, `CityID`, `DistrictID`, `StreetID`," +
+            " `CustomerID`, `TelNumber2`, `Note`, `serviceType`)" + formatedData);
+
+          connection.query(varResult, function (err, rows) {
+            if (err) {
+              if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
+                console.log('Запис для лічильника ' + row.CounterNumber + ' вже існує');
+                return;
               } else {
-                connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
+                console.log('Інша помилка в запиті на дублікати:');
+                console.log(err);
+                return;
+              }
+            } else {
+              if (row.Id_pc !== '' && row.Id_pc !== null) {
+                if (appNum.length == 0) {
+                  const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+                  const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
+                  /* Проведено повірку на місці */
+                  let formatedData = varData.format(date, '' + row.Id_pc, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors, row.Customer), createFor, null, row.serviceType, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, "Проведено повірку", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null);
+                  let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`)" + formatedData);
+                  connection.query(varResult, (err) => {
+                    if (err) {
+                      console.log(err);
+                    }
+                  });
+                  console.log('Відсутні помилки в запиті на додавання: ' + row.Id_pc);
+                } else {
+                  connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
+                    if (err) {
+                      // console.log(err);
+                    }
+                    // TODO: Метод, який вибирає лічильники і якщо числа рівні то Update station task where id set status
+                    setTaskStatusDone(appNum[0].idForStation);
+                  });
+                  console.log('Відсутні помилки в запиті на оновлення: ' + row.Id_pc);
+                }
+              } else {
+                const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+                const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
+
+                applicationNumber = createNextApplicationNumber(applicationNumber);
+              /* Проведено повірку на місці */
+                let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors, row.Customer), createFor, null, row.serviceType, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, "Проведено повірку", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null); // 39
+                let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`)" + formatedData);         
+                connection.query(varResult, (err) => {
                   if (err) {
                     // console.log(err);
                   }
-                  // TODO: Метод, який вибирає лічильники і якщо числа рівні то Update station task where id set status
-                  setTaskStatusDone(appNum[0].idForStation);
                 });
-                console.log('Відсутні помилки в запиті на оновлення: ' + row.Id_pc);
+                console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber + ' K');
               }
-            } else {
-              const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
-              const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
-
-              applicationNumber = createNextApplicationNumber(applicationNumber);
-            /* Проведено повірку на місці */
-              let formatedData = varData.format(date, applicationNumber, fullName, row.TelNumber, "Волинська Область", null, row.District, row.City, row.Street, row.Building, row.Apartment, getServiceProviderId(contractors, row.Customer), createFor, null, row.serviceType, row.CounterNumber, null, row.Type, row.Year, null, row.Liter, "Проведено повірку", null, row.Note, null, row.deviceNumber, null, row.Date, row.FileNumber, null, null, null); // 39
-              let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`)" + formatedData);         
-              connection.query(varResult, (err) => {
-                if (err) {
-                  // console.log(err);
-                }
-              });
-              console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber + ' K');
             }
-          }
+          });
         });
-      });
-    }
-  });
+      }
+    });
+  })
 }
 
 // Функція, що перевіряє, чи виконане завдання порівнюючи кількості виконаних заявок до всіх
@@ -497,6 +498,8 @@ function parseProtocol(byteArray, fileName) {
   } else {
     addProtocol(protocol);
   }
+
+  return protocol;
 }
 
 function uintToString(bytes) {
@@ -516,34 +519,36 @@ function addProtocol(protocol) {
   let varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
   let formatedData = varData.format(protocol.bbiFileName, generateFormatedDateString(protocol.date), protocol.deviceNumber, null, protocol.counterNumber, protocol.symbol, protocol.type, protocol.image, null, protocol.temperature, protocol.productionYear, protocol.capacity, protocol.latitude, protocol.longitude, protocol.status, protocol.result, null, null, protocol.protocolStatus);
 
-  // TODO: додати count для кількості дублікатів
-  connection.query(varPart + formatedData, function (err, rows) {
-    if (err) {
-      if (err.code == 'ER_DUP_ENTRY' || err.errno == 1062) {
-        console.log('Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName);
-        io.getIo().emit('upload', {
-          err: protocol.bbiFileName + ': Уже додано'
-        });
-        return;
+  return new Promise((resolve, reject) => {
+    connection.query( varPart + formatedData, function ( err, rows ) {
+      if ( err ) {
+        if ( err.code == 'ER_DUP_ENTRY' || err.errno == 1062 ) {
+          console.log( 'Помилка додавання. Існує дублікат для: ' + protocol.bbiFileName );
+          io.getIo().emit( 'upload', {
+            err: protocol.bbiFileName + ': Уже додано'
+          } );
+          return;
+        } else {
+          console.log( 'Інша помилка при перевірці на дублікати:' );
+          io.getIo().emit( 'upload', {
+            err: protocol.bbiFileName + ': Помилка читання файлу'
+          } );
+          console.log( err );
+          return;
+        }
       } else {
-        console.log('Інша помилка при перевірці на дублікати:');
-        io.getIo().emit('upload', {
-          err: protocol.bbiFileName + ': Помилка читання файлу'
-        });
-        console.log(err);
-        return;
+        io.getIo().emit( 'upload', {
+          msg: 'Файл додано: ' + protocol.bbiFileName
+        } );
+        resolve();
+        protocol.tests.forEach( test => {
+          varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
+          varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+          formatedData = varData.format( test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage );
+          connection.query( varPart + formatedData );
+        } );
       }
-    } else {
-      io.getIo().emit('upload', {
-        msg: 'Файл додано: ' + protocol.bbiFileName
-      });
-      protocol.tests.forEach(test => {
-        varPart = "INSERT INTO `tests`(`bbiFileName`, `name`, `installedExes`, `etalonCapacity`, `initValue`, `finalValue`, `counterCapacity`, `testDuration`, `mediumExes`, `isInZone`, `assumedFault`, `calculatedFault`, `result`, `startStateImage`, `endStateImage`) ";
-        varData = "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
-        formatedData = varData.format(test.bbiFileName, test.name, test.installedExes, test.etalonCapacity, test.initValue, test.finalValue, test.counterCapacity, test.testDuration, test.mediumExes, test.isInZone, test.assumedFault, test.calculatedFault, test.result, test.startStateImage, test.endStateImage);
-        connection.query(varPart + formatedData);
-      });
-    }
+    });
   });
 
 }
@@ -553,33 +558,48 @@ function addProtocol(protocol) {
  * і INSERT записів в таблицю `archive`, що містить `createFor`
  */
 router.post('/:createFor', upload.single('file'), (req, res, next) => {
+  let protocols = [];
+  let dataBase = [];
+
   connection.query("SELECT id, name FROM contractors WHERE id != 63770936", (err, contractors) => {
     fs.readFile('./backend/temp/tempo.zip', function (err, data) {
       if (err) throw err;
-      JSZip.loadAsync(data).then(function (zip) {
+
+      JSZip.loadAsync(data).then(async function (zip) {
+
         let counterValue = 0;
+        
         zip.forEach(async function (relativePath, zipEntry) {
           if (zipEntry.name.includes('.bbi')) {
             counterValue++;
           }
         });
+
         if (counterValue == 0) {
           io.getIo().emit('upload', {
             err: 'Не знайдено файлів протоколів'
           });
           return;
         }
+
         zip.forEach(async function (relativePath, zipEntry) {
+
+          
           if (zipEntry.name.includes('.bbi')) {
-            zip.file(zipEntry.name).async("uint8array").then(async (byteArray) => {
-              await parseProtocol(byteArray, zipEntry.name.split('/')[1]);
-            });
+            protocols.add(zipEntry);
+            // zip.file(zipEntry.name).async("uint8array").then(async (byteArray) => {
+            //   await parseProtocol(byteArray, zipEntry.name.split('/')[1]);
+            // });
+
           } else if (zipEntry.name.includes('.db')) {
-            zip.file("BluetoothDB.db").async("uint8array").then(async (data) => {
-              await getResultsFromDatabase(data, req.params.createFor, contractors);
-            });
+            database = zipEntry;
+            // zip.file("BluetoothDB.db").async("uint8array").then(async (data) => {
+            //   await getResultsFromDatabase(data, req.params.createFor, contractors);
+            // });
           }
         });
+        
+
       });
     });
   });
