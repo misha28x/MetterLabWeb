@@ -1,5 +1,5 @@
 const config = {
-  host: 'localhost',
+  host: '134.209.243.90',
   database: 'water_counters',
   user: 'root',
   password: ''

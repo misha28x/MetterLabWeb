@@ -140,7 +140,7 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
               } else {
                 connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
                   if (err) {
-                    // console.log(err);
+                    console.log(err);
                   }
                   // TODO: Метод, який вибирає лічильники і якщо числа рівні то Update station task where id set status
                   setTaskStatusDone(appNum[0].idForStation);
@@ -148,7 +148,7 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
                 console.log('Відсутні помилки в запиті на оновлення: ' + row.Id_pc);
               }
             } else {
-              const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
+              const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
               const fullName = row.Surname + " " + row.Name + " " + row.Middlename;
 
               applicationNumber = createNextApplicationNumber(applicationNumber);
@@ -157,7 +157,7 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
               let varResult = ("INSERT INTO `archive`(`addingDate`, `applicationNumber`, `client`, `phoneNumber`, `region`, `cityIndex`, `district`, `settlement`, `street`, `house`, `apartment`, `serviceProvider`, `createFor`, `employeeName`, `serviceType`, `counterNumber`, `symbol`, `counterType`, `productionYear`, `montageDate`, `acumulatedVolume`, `status`, `comment`, `note`, `taskDate`, `stationNumber`, `laboratory`, `protocolDate`, `protocolNumber`, `protocolSignDate`, `suitableFor`, `documentPrintDate`)" + formatedData);         
               connection.query(varResult, (err) => {
                 if (err) {
-                  // console.log(err);
+                  console.log(err);
                 }
               });
               console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber + ' K');

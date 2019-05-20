@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { Protocol } from '../interfaces/protocol';
 
-const protocolUrl = 'http://localhost:3000/api/verications-protocols/';
-const rejectUrl = 'http://localhost:3000/api/verications-protocols/reject/';
-const acceptUrl = 'http://localhost:3000/api/verications-protocols/accept/';
+const protocolUrl = 'http://134.209.243.90:3000/api/verications-protocols/';
+const rejectUrl = 'http://134.209.243.90:3000/api/verications-protocols/reject/';
+const acceptUrl = 'http://134.209.243.90:3000/api/verications-protocols/accept/';
 
 @Injectable({
   providedIn: 'root'
