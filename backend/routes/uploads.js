@@ -43,10 +43,6 @@ function bytesToInt(bytes) {
 function getServiceProviderId(serviceProviders, currentProvider) {
   let currentId = 0;
 
-  console.log({
-    CurrentProvider: currentProvider
-  });  
-
   serviceProviders.forEach(provider => {
     if (provider.name.localeCompare(currentProvider) == 0) {
       currentId = provider.id;
@@ -136,7 +132,7 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
                     console.log(err);
                   }
                 });
-                console.log('Відсутні помилки в запиті на додавання: ' + row.Id_pc);
+                console.log('Відсутні помилки в запиті на додавання: ' + row.Id_pc + '   | ' + row.Customer);
               } else {
                 connection.query("UPDATE `archive` SET `status`='Проведено повірку', `protocolDate`='" + row.Date + "', `protocolNumber`='" + row.FileNumber + "' WHERE `applicationNumber`='" + row.Id_pc + "';", (err) => {
                   if (err) {
@@ -145,7 +141,7 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
                   // TODO: Метод, який вибирає лічильники і якщо числа рівні то Update station task where id set status
                   setTaskStatusDone(appNum[0].idForStation);
                 });
-                console.log('Відсутні помилки в запиті на оновлення: ' + row.Id_pc);
+                console.log('Відсутні помилки в запиті на оновлення: ' + row.Id_pc + '   | ' + row.Customer);
               }
             } else {
               const varData = " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')";
@@ -160,7 +156,7 @@ function getResultsFromDatabase(byteArray, createFor, contractors) {
                   console.log(err);
                 }
               });
-              console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber + ' K');
+              console.log('Відсутні помилки в запиті на додавання: ' + applicationNumber + ' K' + ' | ' + row.Customer);
             }
           }
         });
