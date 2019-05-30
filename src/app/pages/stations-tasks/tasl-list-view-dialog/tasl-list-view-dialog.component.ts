@@ -1,7 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 import { DataService } from '../../../services/data.service';
 import { SourceService } from '../../../services/source.service';

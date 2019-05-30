@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PageEvent } from '@angular/material';
 

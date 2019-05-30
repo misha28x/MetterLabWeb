@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 
@@ -66,7 +66,7 @@ export class SourceService {
   }
 
   fetchRejectedVerif(): void {
-    this.http.get(rejectedVerif + '/' + this.user.serviceProvider).pipe(tap(console.log)).subscribe((res: any) => this.rejectedVerifSource$.next(res));
+    this.http.get(rejectedVerif + '/' + this.user.serviceProvider).subscribe((res: any) => this.rejectedVerifSource$.next(res));
   }
 
   fetchFailedTasks(): void {
@@ -82,7 +82,7 @@ export class SourceService {
   }
 
   fetchLabRequest(): void {
-    this.http.get(labUrl + '/' + this.user.serviceProvider).pipe(tap(console.log)).subscribe((res: any) => this.labSource$.next(res));
+    this.http.get(labUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.labSource$.next(res));
   }
 
   getNewVerifications(): Observable<any> {

@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { CounterDialogDataComponent } from '../counter-dialog-data/counter-dialog-data.component';
 import { StartStateDialogComponent } from '../start-state-dialog/start-state-dialog.component';

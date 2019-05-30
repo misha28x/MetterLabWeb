@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { CityService } from '../../../services/city.service';

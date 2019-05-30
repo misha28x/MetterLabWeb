@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
@@ -23,10 +23,10 @@ import { DuplicateViewComponent, DuplicatViewDialogComponent } from './component
 import { BadgeComponent } from './components/badge';
 
 import {
-  ProtocolViewComponent,
-  ProtocolDialogComponent,
   CounterDialogDataComponent,
   EndStateDialogComponent,
+  ProtocolDialogComponent,
+  ProtocolViewComponent,
   StartStateDialogComponent
 } from './components/protocol-view';
 

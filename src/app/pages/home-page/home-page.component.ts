@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable, forkJoin } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 
 import { User } from '../../interfaces/user';
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 

@@ -55,16 +55,8 @@ export class PageVerificationsProtocolsComponent implements OnInit {
     this.verifSv.rejectVerification(id).subscribe(() => this.sourceSv.fetchProtocols());
   }
 
-  cancellEmployee(id: number): void {
-    this.verifSv.cancellEmployee(id).subscribe(() => this.sourceSv.fetchProtocols());
-  }
-
   checkForDuplicate(verification: any): void {
     this.verifSv.addVerification(verification);
-  }
-
-  clientInaccesable(id: any): void {
-    this.verifSv.clientInaccesable(id).subscribe(() => this.sourceSv.fetchProtocols());
   }
 
   deleteProtocol(id: any): void {

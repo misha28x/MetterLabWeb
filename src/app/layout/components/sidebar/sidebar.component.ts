@@ -1,6 +1,6 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { User } from '../../../interfaces/user';
 

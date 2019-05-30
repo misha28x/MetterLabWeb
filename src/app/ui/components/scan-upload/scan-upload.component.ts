@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { UploadService } from '../../../services/upload.service';
 import { SocketService } from '../../../services/socket.service';

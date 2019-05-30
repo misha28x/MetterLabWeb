@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
-import { Subject, Observable, from } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 
 import { Verification } from '../interfaces/verifications';
 import { DeleteDialogComponent } from '../ui/components/delete-dialog';

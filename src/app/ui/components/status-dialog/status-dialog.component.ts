@@ -1,7 +1,6 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
 
 @Component({
   selector: 'app-status-dialog',

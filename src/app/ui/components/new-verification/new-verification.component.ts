@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { tap } from 'rxjs/operators';
 
 import { DataService } from '../../../services/data.service';
 import { SourceService } from '../../../services/source.service';

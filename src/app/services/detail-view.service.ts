@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { Verification } from '../interfaces/verifications';

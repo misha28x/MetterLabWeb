@@ -8,13 +8,13 @@ import { MaterialModule } from '../material/material.module';
 import { UiModule } from './../ui/ui.module';
 
 import { PageHomePageComponent } from './home-page';
-import { PageNewVerificationsComponent, EmployeeDialogComponent } from './new-verifications';
+import { EmployeeDialogComponent, PageNewVerificationsComponent } from './new-verifications';
 import { PageLabRequestsComponent } from './lab-requests';
 import { PageProviderRequestsComponent } from './provider-requests';
 import { PageVerificationsProtocolsComponent } from './verifications-protocols';
 import { PageRejectedProtocolsComponent } from './rejected-protocols';
 import { PageTaskPlaningComponent, TaskSendingComponent } from './task-planing';
-import { PageStationsTasksComponent, TaslListViewDialogComponent, TaskListEditDialogComponent } from './stations-tasks';
+import { PageStationsTasksComponent, TaskListEditDialogComponent, TaslListViewDialogComponent } from './stations-tasks';
 import { PageBrigadeTasksComponent } from './brigade-tasks';
 import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';

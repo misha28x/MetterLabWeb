@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { User } from '../../interfaces/user';
@@ -11,8 +11,6 @@ import { MenuService } from '../../services/menu.service';
 import { EmployeeService } from '../../services/employee.service';
 import { StationsService } from '../../services/stations.service';
 import { ContractorService } from '../../services/contractor.service';
-
-import { login } from '../../store/actions/permission.action';
 
 import { AddEmployeeComponent } from '../../ui/components/add-employee';
 import { AddStationComponent } from '../../ui/components/add-station';

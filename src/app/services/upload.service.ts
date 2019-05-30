@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { MenuService } from '../../../services/menu.service';

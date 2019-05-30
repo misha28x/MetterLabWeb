@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { DataService } from '../../services/data.service';

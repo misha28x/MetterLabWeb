@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable, forkJoin } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-
-import { DeleteDialogComponent } from '../../ui/components/delete-dialog';
+import { forkJoin, Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 
 import { User } from '../../interfaces/user';
 import { DataService } from '../../services/data.service';

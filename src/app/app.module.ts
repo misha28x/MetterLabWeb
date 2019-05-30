@@ -4,13 +4,13 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 
 import { MenuReducer } from './store/reducers/menu.reducer';
 import { permissionReducer } from './store/reducers/permission.reducer';
 
 import { LayoutModule } from './layout/layout.module';
-import { RoutingModule, ROUTES } from './routing/routing.module';
+import { ROUTES, RoutingModule } from './routing/routing.module';
 import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
 

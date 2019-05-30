@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
-import { logout, login } from '../store/actions/permission.action';
+import { logout } from '../store/actions/permission.action';
 
 @Injectable({
   providedIn: 'root'

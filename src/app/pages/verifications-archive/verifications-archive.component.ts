@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 
-
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';

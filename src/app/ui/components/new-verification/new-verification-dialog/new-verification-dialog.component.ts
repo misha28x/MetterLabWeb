@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { startWith, map, tap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 import { DataService } from 'src/app/services/data.service';
 import { Verification } from 'src/app/interfaces/verifications';

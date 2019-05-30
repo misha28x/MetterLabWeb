@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable, forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { DataService } from '../../services/data.service';

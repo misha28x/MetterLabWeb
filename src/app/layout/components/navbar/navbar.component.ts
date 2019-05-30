@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 

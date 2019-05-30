@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { User } from '../../interfaces/user';
 import { Task } from '../../interfaces/taskData';

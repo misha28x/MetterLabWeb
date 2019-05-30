@@ -1,5 +1,5 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
