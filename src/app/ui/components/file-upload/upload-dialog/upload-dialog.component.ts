@@ -11,7 +11,7 @@ import { SocketService } from '../../../../services/socket.service';
 	styleUrls: ['./upload-dialog.component.scss']
 })
 export class UploadDialogComponent implements OnInit {
-	@ViewChild('file') file;
+	@ViewChild('file', { static: false }) file;
 
 	public files: Set<File> = new Set();
 

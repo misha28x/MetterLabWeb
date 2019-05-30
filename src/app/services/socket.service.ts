@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +15,4 @@ export class SocketService implements OnInit {
   updateCounters(): void {
     this.socket.emit('change', 'something');
   }
-
-  getFiles(): Observable<any> {
-    return this.files;
-  } 
 }

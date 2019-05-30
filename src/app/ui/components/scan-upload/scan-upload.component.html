@@ -2,7 +2,7 @@
 
 <h1 mat-dialog-title>{{ title }}</h1>
 <mat-dialog-content class="content">
-  <ng-container *ngIf="!uploading && !uploadedSuccesfully">
+  <ng-container *ngIf="!uploading && !uploadedSuccessfully">
     <div>
       <button [disabled]="files.size > 0" mat-raised-button color="primary" class="add-files-btn" (click)="addFiles($event)">
         Вибрати скан
@@ -16,11 +16,11 @@
     </mat-list>
   </ng-container>
 
-  <ng-container *ngIf="uploading && !uploadedSuccesfully">
+  <ng-container *ngIf="uploading && !uploadedSuccessfully">
     <mat-spinner class="spinner"></mat-spinner>
   </ng-container>
 
-  <ng-container *ngIf="uploadedSuccesfully">
+  <ng-container *ngIf="uploadedSuccessfully">
     <h5>Успішно завантажено</h5>
   </ng-container>
 
@@ -29,8 +29,8 @@
 <mat-dialog-actions class="actions">
   <button *ngIf="!uploading" mat-raised-button mat-dialog-close>Закрити</button>
 
-  <button *ngIf="!uploading && !uploadedSuccesfully" mat-raised-button color="primary" [disabled]="0 >= files.size"
-    (click)="uploadFiles()">
+  <button *ngIf="!uploading && !uploadedSuccessfully" mat-raised-button color="primary" [disabled]="0 >= files.size"
+          (click)="uploadFiles()">
     Завантажити
   </button>
 </mat-dialog-actions>

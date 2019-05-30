@@ -10,7 +10,7 @@ import { SocketService } from '../../../services/socket.service';
   styleUrls: ['./scan-upload.component.scss']
 })
 export class ScanUploadComponent implements OnInit {
-  @ViewChild('file') file;
+  @ViewChild('file', { static: false }) file;
 
   public files: Set<File> = new Set();
 
@@ -18,7 +18,7 @@ export class ScanUploadComponent implements OnInit {
   errorList: string[];
   downloaded: number;
   uploading: boolean;
-  uploadedSuccesfully: boolean;
+  uploadedSuccessfully: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<ScanUploadComponent>,
@@ -29,7 +29,7 @@ export class ScanUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.uploading = false;
-    this.uploadedSuccesfully = false;
+    this.uploadedSuccessfully = false;
     this.title = 'Завантаження скану документу';
     this.errorList = [];
     this.downloaded = 0;
@@ -56,7 +56,7 @@ export class ScanUploadComponent implements OnInit {
     this.uploadService.uploadScan(this.files.values().next().value, this.verNumber.id).subscribe(() => {
       this.title = 'Завантаження завершено';
       this.uploading = false;
-      this.uploadedSuccesfully = true;
+      this.uploadedSuccessfully = true;
       this.dialogRef.updateSize('60%', '30%');
     });
   }

@@ -7,8 +7,8 @@ import { TableComponent } from '../';
   templateUrl: './column.component.html'
 })
 export class ColumnComponent implements OnInit {
-	@ContentChild('tableBodyTemplate') bodyTemplate: TemplateRef<any>;
-	@ContentChild('headerBodyTemplate') headerTemplate: TemplateRef<any>;
+	@ContentChild('tableBodyTemplate', { static: false }) bodyTemplate: TemplateRef<any>;
+	@ContentChild('headerBodyTemplate', { static: false }) headerTemplate: TemplateRef<any>;
 
 	@Input() columnTitle: string;
 	@Input() columnName: string;
