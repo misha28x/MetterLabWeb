@@ -121,6 +121,5 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
   onChange(data: any): void {
     this.selectedData = data;
-    console.log(data);
   }
 }

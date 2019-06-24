@@ -35,7 +35,6 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.checked = false;
     this.subscription = this.photoSv.getAngleObservable().subscribe(angle => this.angle = angle);
     this.store.pipe(select('permission')).subscribe(user => this.permission = user.permission);

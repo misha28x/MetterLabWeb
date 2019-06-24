@@ -1,171 +1,154 @@
-<!-- Архів Повірок -->
 <mat-card>
   <mat-card-content>
     <div class="actions">
-      <button mat-raised-button color="primary" (click)="dateStatus = true" *ngIf="!dateStatus">
-        Встановити дату видачі
-      </button>
-
-      <div class="date" *ngIf="dateStatus">
-        <input #issueDate class="form-control mb-3" placeholder="Дата видачі" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"  [(ngModel)]="currentDate"/>
-        <button mat-raised-button color="primary" (click)="setIssueDate(); dateStatus = false;">Встановити</button>
+      <div class="task-actions">
+        <button mat-raised-button class="bg-success">
+          <i class="icofont-send-mail"></i> Надіслати
+        </button>
       </div>
     </div>
 
-    <app-table (rowSelected)="onChange($event)" [checkboxes]="true" [hovered]="true" [bordered]="true" [tableData]="(verificationsArchive | async)" [pagination]="true">
+    <app-table
+      [checkboxes]="true"
+      [desiredStatus]="'Повірено. Придатний'"
+      [hovered]="true"
+      [bordered]="true"
+      [tableData]="verificationsArchive | async"
+      [pagination]="true"
+    >
+      <app-column
+        [date]="true"
+        [width]="140"
+        [columnTitle]="'Дата створення протоколу'"
+        [columnName]="'protocolDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [date]="true" [width]="75" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="125"
+        [columnTitle]="'Номер установки'"
+        [columnName]="'deviceNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="125"
+        [columnTitle]="'Номер протоколу'"
+        [columnName]="'protocolNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="50" [columnTitle]="''">
+      <app-column
+        [width]="100"
+        [columnTitle]="'Номер заявки'"
+        [columnName]="'applicationNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="200"
+        [columnTitle]="'Статус'"
+        [columnName]="'status'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="125"
+        [columnTitle]="'Номер лічильника'"
+        [columnName]="'counterNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="115"
+        [columnTitle]="'Номер пломби'"
+        [columnName]="'sealNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="125"
+        [columnTitle]="'Населений пункт'"
+        [columnName]="'settlement'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="115"
+        [columnTitle]="'Район'"
+        [columnName]="'district'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [columnTitle]="'Вулиця'"
+        [columnName]="'street'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="75"
+        [columnTitle]="'Буд.'"
+        [columnName]="'house'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="75"
+        [columnTitle]="'Кв.'"
+        [columnName]="'apartment'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="110"
+        [columnTitle]="'Коментар'"
+        [columnName]="'comment'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column [columnTitle]="'Дії'">
         <ng-template #tableBodyTemplate let-row="row">
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>build</mat-icon>
-          </button>
-
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item [matMenuTriggerFor]="ver">
-              <span>Повірка</span>
-            </button>
-            <button mat-menu-item [matMenuTriggerFor]="protocol">
-              <span>Протокол</span>
-            </button>
-          </mat-menu>
-
-          <mat-menu #ver="matMenu">
-            <button (click)="detailView(row['applicationNumber'])" mat-menu-item>
-              <mat-icon>info</mat-icon>
-              Детальніше
+          <div class="actions-row">
+            <button mat-icon-button>
+              <i
+                class="icofont-info color-info"
+                matTooltip="Інформація про заявку"
+              ></i>
             </button>
 
-            <!-- <button mat-menu-item>
-              <mat-icon>person</mat-icon>
-              Інформація про клієнта
-            </button> -->
-
-            <button (click)="editSeal(row['applicationNumber'])" mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              Редагувати номер пломби
+            <button mat-icon-button>
+              <i
+                class="icofont-info-circle color-info"
+                matTooltip="Інформація про протокол"
+              ></i>
             </button>
 
-            <button (click)="editProvider(
-              row['applicationNumber'],
-              row['serviceProvider'],
-              row['serviceType']
-            )" mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              Змінити надавача послуг
+            <button
+              mat-icon-button
+              (click)="displayProtocol(row['counterNumber'])"
+            >
+              <i
+                class="icofont-edit color-info"
+                matTooltip="Переглянути протокол"
+              ></i>
             </button>
-            
-            <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
-              <mat-icon>file_copy</mat-icon>
-              Завантажити документ
-            </button>
-
-            <button (click)="addScan(row['applicationNumber'])" mat-menu-item>
-              <mat-icon>attach_file</mat-icon>
-              Прикріпити скан документів
-            </button>
-          </mat-menu>
-
-          <mat-menu #protocol="matMenu">
-            <button (click)="displayProtocol(row['protocolNumber'])" mat-menu-item>
-              <mat-icon>more</mat-icon>
-              Детальніше
-            </button>
-
-            <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
-              <mat-icon>save_alt</mat-icon>
-              Завантажити свідоцтво
-            </button>
-          </mat-menu>
+          </div>
         </ng-template>
       </app-column>
-
-      <app-column [width]="180" [columnTitle]="'ПІБ Клієнта'" [columnName]="'client'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Населений пункт'" [columnName]="'settlement'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="150" [columnTitle]="'Вулиця клієнта'" [columnName]="'street'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="50" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="50" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Індекс'" [columnName]="'cityIndex'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="150" [columnTitle]="'Статус'" [columnName]="'status'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Уповноважена лабораторія'" [columnName]="'laboratory'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [date]="true" [width]="75" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер протоколу'" [columnName]="'protocolNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [date]="true" [width]="75" [columnTitle]="'Дата підпису протоколу'" [columnName]="'protocolSignDate'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Умовне позначення'" [columnName]="'symbol'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер лічильника'" [columnName]="'counterNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Рік випуску лічильника'" [columnName]="'productionYear'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Лічильник демонтовано'" [columnName]="'isDismantled'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Номер пломби'" [columnName]="'sealNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Придатний до'" [columnName]="'suitableFor'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Надавач послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Тип послуги'" [columnName]="'serviceType'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [date]="true" [width]="75" [columnTitle]="'Дата видачі документу'" [columnName]="'documentPrintDate'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Коментар'" [columnName]="'comment'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [date]="true" [width]="75" [columnTitle]="'Дата монтажу лічильника'" [columnName]="'montageDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [date]="true" [width]="75" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Назва бригади'" [columnName]="'Назва_бригади'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
     </app-table>
   </mat-card-content>
 </mat-card>

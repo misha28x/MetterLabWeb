@@ -13,9 +13,9 @@ export interface Verification {
 	street: string;						  // Вулиця + 												\\
 	house: string; 							// Будинок + 												\\
   apartment: string; 					// Квартира + 											\\
-  isDismantled: string; 			// Лічильник_демонтовано +					\\
-  montageDate: string;        // Дата монтажу лічильника +				\\
-  counterQuantity?: number;   // Кількість лічильників						\\
+  isDismantled?: any; 			// Лічильник_демонтовано +					\\
+  montageDate?: string;        // Дата монтажу лічильника +				\\
+  counterQuantity?: any;   // Кількість лічильників						\\
 	symbol: string; 						// Умовне_позначення +							\\
 	counterNumber: string; 			// Номер_лічильника +								\\
   haveSeal: string;          // Наявність пломби									\\
@@ -31,8 +31,8 @@ export interface Verification {
 	stationNumber?: string; 		// Номер_установки +						    \\
   favorDate: any;             // Бажана дата повірки              \\
   favorTime: any;             // Бажана дата повірки              \\
-  sanitaryWellfare: string;   // Справність сантехніки            \\
-  waterAbsentTo: string;      // Вода відсутня до...              \\
+  sanitaryWellfare: any;   // Справність сантехніки            \\
+  waterAbsentTo?: string;      // Вода відсутня до...              \\
   entrance: string;           // Під'їзд                          \\
   floor: string;              // Поверх p                          \\
 	// Дані з archive по протоколу

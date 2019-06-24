@@ -4,14 +4,6 @@
     <div class="actions"> </div>
 
     <app-table  [hovered]="true" [bordered]="true" [tableData]="(rejectedProtocols | async)" [pagination]="true">
-      <!-- <app-column [width]="30">
-        <ng-template #headerBodyTemplate>
-          <mat-checkbox [ngStyle]="{'padding-top.px': 22}"></mat-checkbox>
-        </ng-template>
-        <ng-template #tableBodyTemplate>
-          <mat-checkbox></mat-checkbox>
-        </ng-template>
-      </app-column> -->
 
       <app-column [date]="true" [width]="110" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
@@ -37,8 +29,14 @@
       <app-column [width]="110" [columnTitle]="'ПІБ працівника який відхилив'" [columnName]="'employeeName'"
         [enableSorting]="true" [enableFiltering]="true"></app-column>
 
-      <app-column [columnTitle]="'Дії'">
-
+      <app-column [width]="185" [columnTitle]="'Дії'">
+        <ng-template #tableBodyTemplate let-row="row">
+          <div class="actions-row">
+            <button class="color-info" mat-icon-button>
+              <mat-icon>restore</mat-icon>
+            </button>
+          </div>
+        </ng-template>
       </app-column>
     </app-table>
   </mat-card-content>

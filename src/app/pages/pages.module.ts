@@ -33,6 +33,7 @@ import { InfoPageComponent } from './info-page/info-page.component';
 import { StatusPageComponent } from './status-page/status-page.component';
 import { VerificationFormComponent } from './verification-form/verification-form.component';
 import { ProfileComponent } from './profile/profile.component';
+// import { MetrologyArchiveComponent } from './metrology-archive/metrology-archive.component';
 
 @NgModule({
   imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
@@ -63,7 +64,8 @@ import { ProfileComponent } from './profile/profile.component';
     InfoPageComponent,
     StatusPageComponent,
     VerificationFormComponent,
-    ProfileComponent
+    ProfileComponent,
+    // MetrologyArchiveComponent
   ],
   entryComponents: [
     EmployeeDialogComponent,

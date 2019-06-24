@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
 
@@ -9,7 +9,7 @@ import { User } from '../../interfaces/user';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss', '../../ui/components/add-employee/add-employee.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
   user: any;
   constructor(
@@ -19,11 +19,7 @@ export class ProfileComponent implements OnInit {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.http.get('http://134.209.243.90:3000/api/employees/user/' + _user.userId).subscribe(res => {
         this.user = res[0];
-        console.log(res);
       });
     });
   }
-
-  ngOnInit() { }
-
 }

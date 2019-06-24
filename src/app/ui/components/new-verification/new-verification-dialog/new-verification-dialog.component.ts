@@ -124,9 +124,8 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   getTypes(): any {
-    this.data.types.pipe().subscribe(_types => {
-      console.log(_types);
-    });
+    //TODO: GET COUNTER TYPES
+    this.data.types.pipe().subscribe(_types => {  });
   }
 
   getAddress(): any {

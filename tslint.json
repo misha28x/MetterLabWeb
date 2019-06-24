@@ -57,9 +57,9 @@
       true,
       {
         "order": [
-          "public-instance-field",
           "protected-instance-field",
           "private-instance-field",
+          "public-instance-field",
           "public-constructor",
           "public-instance-method",
           "protected-instance-method",

@@ -92,7 +92,6 @@ export class PageLabRequestsComponent implements OnInit {
   }
 
   update(): void {
-    console.log('update');
     this.sourceSv.fetchLabRequest();
   }
 

@@ -44,18 +44,19 @@ export class AuthorizationPageComponent implements OnInit {
     authData.pass = this.passwordFormControl.value;
 
     this.dataSv.sendData(authUrl, authData).subscribe(res => {
-      console.log(res);
       if (res.hasOwnProperty('error')) {
         return;
-      }
-
-      if (parseInt(res.permission) > 0) {
-        this.redirectHome(res.permission);
       }
 
       window.localStorage.setItem('user', JSON.stringify(res));
       window.localStorage.setItem('time', new Date().getTime().toString());
       this.store.dispatch(login(res));
+
+      setTimeout(() => {
+        if (parseInt(res.permission, 10) > 0) {
+          this.redirectHome(res.permission);
+        }
+      });
     });
   }
 

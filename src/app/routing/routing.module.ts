@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { GuardService } from '../services/guard.service';
+
 import { PageUserGuideComponent } from './../pages/user-guide/user-guide.component';
 import { PageReportsComponent } from './../pages/reports/reports.component';
 import { PageVerificationsArchiveComponent } from './../pages/verifications-archive/verifications-archive.component';
@@ -27,6 +29,7 @@ import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { ExtraComponent } from '../layout/extra/extra.component';
 import { SharedComponent } from '../layout/shared';
+// import { MetrologyArchiveComponent } from '../pages/metrology-archive/metrology-archive.component';
 
 export const DEFAULT_ROUTES = [
 	{ path: 'home', component: PageHomePageComponent, data: { title: 'Головна Панель' } },
@@ -40,10 +43,11 @@ export const DEFAULT_ROUTES = [
 	{ path: 'brigade-tasks', component: PageBrigadeTasksComponent, data: { title: 'Завдання Для Бригад' } },
   { path: 'rejected-verification', component: PageRejectedVerificationComponent, data: { title: 'Відхилені Повірки' } },
 	{ path: 'verifications-archive', component: PageVerificationsArchiveComponent, data: { title: 'Архів Повірок' } },
+  // { path: 'metrology-archive', component: MetrologyArchiveComponent, date: { title: 'Архів протоколів' } },
 	{ path: 'reports', component: PageReportsComponent, data: { title: 'Звіти' } },
   { path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } },
   { path: 'metrology', component: MetrologyProtocolsComponent, data: { title: 'Список протоколів' } },
-  { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } },
+  { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } }, 
   { path: 'verifications', component: ProvidersPageComponent, data: { title: 'Нові повірки' } },
   { path: 'finished-verifications', component: FinishedVerificationsComponent, data: { title: 'Завершені повірки' } },
   { path: 'employees', component: PageEmployeesComponent, data : { title: 'Працівники та підрядники' } },
@@ -58,7 +62,7 @@ export const EXTRA_ROUTES = [
 export const SHARED_ROUTES: Routes = [
   { path: 'status', component: StatusPageComponent },
   { path: 'new-verif', component: VerificationFormComponent }
-]
+];
 
 export const ROUTES: Routes = [
 	{
@@ -68,6 +72,7 @@ export const ROUTES: Routes = [
 	},
 	{
 		path: 'default',
+    canActivate: [GuardService],
 		component: DefaultLayoutComponent,
 		children: DEFAULT_ROUTES
 	},

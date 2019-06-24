@@ -26,8 +26,7 @@ export class DuplicatViewDialogComponent implements OnInit {
       house: this.data.house,
       flat: this.data.apartment
     };
-    console.log(address);
-    
+
     this.duplicates = this.dataSv.sendData(url, address);
   }
 }

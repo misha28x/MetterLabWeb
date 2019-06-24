@@ -10,12 +10,12 @@ const rejectedProtocolsUrl: string = 'http://134.209.243.90:3000/api/rejected-pr
 const failedTasksUrl: string = 'http://134.209.243.90:3000/api/stations-tasks/failed/1';
 const newVerificationUrl: string = 'http://134.209.243.90:3000/api/new-verifications';
 const rejectedVerif: string = 'http://134.209.243.90:3000/api/rejected-verification';
+const metrologyArchive: string = 'http://134.209.243.90:3000/api/verications-protocols/metrology';
 const ptocolsUrl: string = 'http://134.209.243.90:3000/api/verications-protocols';
 const archiveUrl: string = 'http://134.209.243.90:3000/api/verifications-archive';
 const stationTasksUrl: string = 'http://134.209.243.90:3000/api/stations-tasks';
 const taskPlaningUrl: string = 'http://134.209.243.90:3000/api/task-planing';
 const labUrl: string = 'http://134.209.243.90:3000/api/lab-requests';
-// TODO:Rejected Verif
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,7 @@ const labUrl: string = 'http://134.209.243.90:3000/api/lab-requests';
 export class SourceService {
   private metrologyProtocolsSource$ = new BehaviorSubject([]);
   private rejectedProtocolsSource$ = new BehaviorSubject([]);
+  private metrologyArchiveSource$ = new BehaviorSubject([]);
   private newVerificationSource$ = new BehaviorSubject([]);
   private rejectedVerifSource$ = new BehaviorSubject([]);
   private failedTasksSource$ = new BehaviorSubject([]);
@@ -57,6 +58,10 @@ export class SourceService {
 
   fetchProtocols(): void {
     this.http.get(ptocolsUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.protocolsSource$.next(res));
+  }
+
+  fetchMetrologyArchive(): void {
+    this.http.get(metrologyArchive).subscribe((res: any) => this.metrologyArchiveSource$.next(res));
   }
 
   fetchMetrologyProtocols(): void {
@@ -114,6 +119,10 @@ export class SourceService {
 
   getMetrologyProtocols(): Observable<any> {
     return this.metrologyProtocolsSource$.asObservable();
+  }
+
+  getMetrolohyArchive(): Observable<any> {
+    return  this.metrologyArchiveSource$.asObservable();
   }
 
   getFailedTasks(): Observable<any> {

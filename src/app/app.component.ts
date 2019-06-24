@@ -17,7 +17,6 @@ export class AppComponent {
       const currentTime = new Date().getTime();
 
       if ((currentTime - addingTime) / 1000 < 900) {
-
         const user = JSON.parse(window.localStorage.getItem('user'));
         this.store.dispatch(login(user));
       } else {

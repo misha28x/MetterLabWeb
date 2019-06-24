@@ -72,7 +72,7 @@ export class AddEmployeeComponent implements OnInit {
         ...this.employeeForm.value,
         serviceProvider: this.serviceProvider
       };
-      console.log(employee);
+
       this.employeeSv.addEmployee(employee).subscribe();
     }
     this.dialogRef.close();

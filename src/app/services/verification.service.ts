@@ -78,6 +78,7 @@ export class VerificationService {
   }
 
   public updateVerification(id: any, verification: Verification): Observable<any> {
+    console.log(editUrl + id, verification);
     return this.http.put(editUrl + id, verification);
   }
 

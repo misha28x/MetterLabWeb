@@ -34,13 +34,13 @@ export class ClientService {
   getVerificationData(verificationNumber: string): Observable<any> {
     const URL = `http://134.209.243.90:3000/api/status/verification/${verificationNumber}`;
 
-    return this.http.get(URL).pipe(tap(console.log));
+    return this.http.get(URL);
   }
 
   getCounterData(counterNumber: string): Observable<any> {
     const URL = `http://134.209.243.90:3000/api/status/counter/${counterNumber}`;
 
-    return this.http.get(URL).pipe(tap(console.log));
+    return this.http.get(URL);
   }
 
 }

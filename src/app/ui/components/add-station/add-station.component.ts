@@ -71,7 +71,7 @@ export class AddStationComponent implements OnInit {
         ...this.stationForm.value,
         provider: this.serviceProvider
       };
-      console.log(station);
+
       this.stationsSv.addStation(station).subscribe();
     }
     this.dialogRef.close();

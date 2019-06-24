@@ -62,7 +62,7 @@ export class AddContractorComponent implements OnInit {
 
   saveContractor(): void {
     if (typeof this.data !== 'number') {
-      console.log(this.data);
+
       const contractor = {
         ...this.data,
         ...this.contractorForm.value,
@@ -74,8 +74,6 @@ export class AddContractorComponent implements OnInit {
         ...this.contractorForm.value,
         provider: this.serviceProvider
       };
-
-      console.log(contractor);
 
       this.contractorSv.addContractor(contractor).subscribe(() => this.contractorSv.fetchContractors);
     }

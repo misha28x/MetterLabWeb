@@ -33,19 +33,22 @@ export class PageVerificationsProtocolsComponent implements OnInit {
   }
 
   sendProtocols(): void {
-    this.selectedData.forEach((ver: any) => this.dataSv.sendData(url + '/metrology/' + ver.applicationNumber)
-    .subscribe( () => {
-      this.sourceSv.fetchProtocols();
-    }));
+    this.selectedData.forEach((ver: any) =>
+      this.dataSv
+        .sendData(url + '/metrology/' + ver.applicationNumber)
+        .subscribe(() => {
+          this.sourceSv.fetchProtocols();
+        })
+    );
   }
 
   displayProtocol(id: string): void {
     console.log(id);
-    this.dataSv.getData(url + '/protocol/' + id).subscribe(
-      (protocol: Protocol) => {
+    this.dataSv
+      .getData(url + '/protocol/' + id)
+      .subscribe((protocol: Protocol) => {
         this.protocolSv.addProtocol(protocol);
-      }
-    ); 
+      });
   }
 
   onChange(data: any): void {
@@ -53,7 +56,9 @@ export class PageVerificationsProtocolsComponent implements OnInit {
   }
 
   rejectVerification(id: number): void {
-    this.verifSv.rejectVerification(id).subscribe(() => this.sourceSv.fetchProtocols());
+    this.verifSv
+      .rejectVerification(id)
+      .subscribe(() => this.sourceSv.fetchProtocols());
   }
 
   checkForDuplicate(verification: any): void {
