@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { GuardService } from '../services/guard.service';
 
-import { PageUserGuideComponent } from './../pages/user-guide/user-guide.component';
-import { PageReportsComponent } from './../pages/reports/reports.component';
-import { PageVerificationsArchiveComponent } from './../pages/verifications-archive/verifications-archive.component';
-import { PageRejectedProtocolsComponent } from './../pages/rejected-protocols/rejected-protocols.component';
-import { PageBrigadeTasksComponent } from './../pages/brigade-tasks/brigade-tasks.component';
-import { PageStationsTasksComponent } from './../pages/stations-tasks/stations-tasks.component';
+import { PageUserGuideComponent } from './../pages/user-guide';
+import { PageReportsComponent } from './../pages/reports';
+import { PageVerificationsArchiveComponent } from './../pages/verifications-archive';
+import { PageRejectedProtocolsComponent } from './../pages/rejected-protocols';
+import { PageBrigadeTasksComponent } from './../pages/brigade-tasks';
+import { PageStationsTasksComponent } from './../pages/stations-tasks';
 import { DefaultLayoutComponent } from '../layout/default';
 import { PageHomePageComponent } from '../pages/home-page';
 import { PageNewVerificationsComponent } from '../pages/new-verifications';
@@ -32,28 +32,108 @@ import { SharedComponent } from '../layout/shared';
 // import { MetrologyArchiveComponent } from '../pages/metrology-archive/metrology-archive.component';
 
 export const DEFAULT_ROUTES = [
-	{ path: 'home', component: PageHomePageComponent, data: { title: 'Головна Панель' } },
-	{ path: 'new-verifications', component: PageNewVerificationsComponent, data: { title: 'Нові Повірки' }  },
-	{ path: 'lab-requests', component: PageLabRequestsComponent, data: { title: 'Заявки Вимірювальної Лабораторії' } },
-	{ path: 'provides-requests', component: PageProviderRequestsComponent, data: { title: 'Заявки Для Надавача Послуг' } },
-	{ path: 'verications-protocols', component: PageVerificationsProtocolsComponent, data: { title: 'Електроні Протоколи Повірок' } },
-	{ path: 'rejected-protocols', component: PageRejectedProtocolsComponent, data: { title: 'Відхилені Протоколи' } },
-	{ path: 'tasks-planing', component: PageTaskPlaningComponent, data: { title: 'Планування Завдання' } },
-	{ path: 'station-tasks', component: PageStationsTasksComponent, data: { title: 'Завдання Для Станцій' } },
-	{ path: 'brigade-tasks', component: PageBrigadeTasksComponent, data: { title: 'Завдання Для Бригад' } },
-  { path: 'rejected-verification', component: PageRejectedVerificationComponent, data: { title: 'Відхилені Повірки' } },
-	{ path: 'verifications-archive', component: PageVerificationsArchiveComponent, data: { title: 'Архів Повірок' } },
+  {
+    path: 'home',
+    component: PageHomePageComponent,
+    data: { title: 'Головна Панель' }
+  },
+  {
+    path: 'new-verifications',
+    component: PageNewVerificationsComponent,
+    data: { title: 'Нові Повірки' }
+  },
+  {
+    path: 'lab-requests',
+    component: PageLabRequestsComponent,
+    data: { title: 'Заявки Вимірювальної Лабораторії' }
+  },
+  {
+    path: 'provides-requests',
+    component: PageProviderRequestsComponent,
+    data: { title: 'Заявки Для Надавача Послуг' }
+  },
+  {
+    path: 'verications-protocols',
+    component: PageVerificationsProtocolsComponent,
+    data: { title: 'Електроні Протоколи Повірок' }
+  },
+  {
+    path: 'rejected-protocols',
+    component: PageRejectedProtocolsComponent,
+    data: { title: 'Відхилені Протоколи' }
+  },
+  {
+    path: 'tasks-planing',
+    component: PageTaskPlaningComponent,
+    data: { title: 'Планування Завдання' }
+  },
+  {
+    path: 'station-tasks',
+    component: PageStationsTasksComponent,
+    data: { title: 'Завдання Для Станцій' }
+  },
+  {
+    path: 'brigade-tasks',
+    component: PageBrigadeTasksComponent,
+    data: { title: 'Завдання Для Бригад' }
+  },
+  {
+    path: 'rejected-verification',
+    component: PageRejectedVerificationComponent,
+    data: { title: 'Відхилені Повірки' }
+  },
+  {
+    path: 'verifications-archive',
+    component: PageVerificationsArchiveComponent,
+    data: { title: 'Архів Повірок' }
+  },
   // { path: 'metrology-archive', component: MetrologyArchiveComponent, date: { title: 'Архів протоколів' } },
-	{ path: 'reports', component: PageReportsComponent, data: { title: 'Звіти' } },
-  { path: 'user-guide', component: PageUserGuideComponent, data: { title: 'Інструкція Користувача' } },
-  { path: 'metrology', component: MetrologyProtocolsComponent, data: { title: 'Список протоколів' } },
-  { path: 'failed-tasks', component: FailedTasksComponent, data: { title: 'Невиконанні завданння' } }, 
-  { path: 'verifications', component: ProvidersPageComponent, data: { title: 'Нові повірки' } },
-  { path: 'finished-verifications', component: FinishedVerificationsComponent, data: { title: 'Завершені повірки' } },
-  { path: 'employees', component: PageEmployeesComponent, data : { title: 'Працівники та підрядники' } },
-  { path: 'profile', component: ProfileComponent, data: { title: 'Сторінка профілю' } },
-  { path: 'status', component: StatusPageComponent , data: { title: 'Перевірка стану лічильника' }}
-]; 
+  {
+    path: 'reports',
+    component: PageReportsComponent,
+    data: { title: 'Звіти' }
+  },
+  {
+    path: 'user-guide',
+    component: PageUserGuideComponent,
+    data: { title: 'Інструкція Користувача' }
+  },
+  {
+    path: 'metrology',
+    component: MetrologyProtocolsComponent,
+    data: { title: 'Список протоколів' }
+  },
+  {
+    path: 'failed-tasks',
+    component: FailedTasksComponent,
+    data: { title: 'Невиконанні завданння' }
+  },
+  {
+    path: 'verifications',
+    component: ProvidersPageComponent,
+    data: { title: 'Нові повірки' }
+  },
+  {
+    path: 'finished-verifications',
+    component: FinishedVerificationsComponent,
+    data: { title: 'Завершені повірки' }
+  },
+  {
+    path: 'employees',
+    component: PageEmployeesComponent,
+    data: { title: 'Працівники та підрядники' }
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    data: { title: 'Сторінка профілю' }
+  },
+  {
+    path: 'status',
+    component: StatusPageComponent,
+    data: { title: 'Перевірка стану лічильника' }
+  }
+];
 
 export const EXTRA_ROUTES = [
   { path: 'auth', component: AuthorizationPageComponent }
@@ -65,17 +145,17 @@ export const SHARED_ROUTES: Routes = [
 ];
 
 export const ROUTES: Routes = [
-	{
-		path: '',
-		redirectTo: 'extra/auth',
-		pathMatch: 'full'
-	},
-	{
-		path: 'default',
+  {
+    path: '',
+    redirectTo: 'extra/auth',
+    pathMatch: 'full'
+  },
+  {
+    path: 'default',
     canActivate: [GuardService],
-		component: DefaultLayoutComponent,
-		children: DEFAULT_ROUTES
-	},
+    component: DefaultLayoutComponent,
+    children: DEFAULT_ROUTES
+  },
   {
     path: 'extra',
     component: ExtraComponent,
@@ -89,9 +169,9 @@ export const ROUTES: Routes = [
 ];
 
 @NgModule({
-	imports: [],
-	exports: [RouterModule],
-	declarations: [],
-	providers: []
+  imports: [],
+  exports: [RouterModule],
+  declarations: [],
+  providers: []
 })
-export class RoutingModule { }
+export class RoutingModule {}
