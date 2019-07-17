@@ -1,49 +1,112 @@
 <!-- Архів Повірок -->
 <mat-card>
   <mat-card-content>
-    <div class="actions"> </div>
+    <div class="actions"></div>
 
-    <app-table [hovered]="true" [bordered]="true" [tableData]="(rejectedVerif | async)"
-      [pagination]="true">
+    <app-table
+      [hovered]="true"
+      [bordered]="true"
+      [tableData]="rejectedVerif | async"
+      [pagination]="true"
+    >
+      <app-column
+        [date]="true"
+        [width]="75"
+        [columnTitle]="'Дата надходження'"
+        [columnName]="'addingDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [date]="true" [width]="75" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Номер заявки'"
+        [columnName]="'applicationNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Клієнт'"
+        [columnName]="'client'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Населений пункт'"
+        [columnName]="'settlement'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Населений пункт'" [columnName]="'settlement'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Вулиця клієнта'"
+        [columnName]="'street'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Вулиця клієнта'" [columnName]="'street'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Будинок'"
+        [columnName]="'house'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Квартира'"
+        [columnName]="'apartment'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Індекс'"
+        [columnName]="'cityIndex'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Індекс'" [columnName]="'cityIndex'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Номер телефону'"
+        [columnName]="'phoneNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Надавач послуг'"
+        [columnName]="'serviceProvider'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Надавач послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="75" [columnTitle]="'Тип послуги'" [columnName]="'serviceType'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Тип послуги'"
+        [columnName]="'serviceType'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
       <app-column [columnTitle]="'Дії'" [width]="125">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button (click)="detailView(row['applicationNumber'])">
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
+            </button>
+
+            <button mat-icon-button (click)="revertVerif(row['applicationNumber'])">
+              <mat-icon class="color-info" matTooltip="Повернути до планування">settings_backup_restore</mat-icon>
             </button>
 
             <button mat-icon-button (click)="checkForDuplicate(row)">
@@ -53,7 +116,6 @@
             <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
               <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
             </button>
-
           </div>
         </ng-template>
       </app-column>

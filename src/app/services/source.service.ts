@@ -78,7 +78,7 @@ export class SourceService {
   }
 
   fetchRejectedProtocols(): void {
-    this.http.get(rejectedProtocolsUrl + '/' + this.user.serviceProvider).subscribe((res: any) => this.rejectedProtocolsSource$.next(res));
+    this.http.get(rejectedProtocolsUrl).subscribe((res: any) => this.rejectedProtocolsSource$.next(res));
   }
 
   fetchArchive(): void {

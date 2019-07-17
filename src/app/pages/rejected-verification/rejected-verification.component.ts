@@ -55,6 +55,10 @@ export class PageRejectedVerificationComponent implements OnInit {
     this.verificationSv.addVerification(verification);
   }
 
+  revertVerif(id: any): void {
+    this.verificationSv.revertVerif(id).subscribe(() => this.updateData());
+  }
+
   onChange(data: any, state: boolean): void {
     this.selectedData = data;
   }

@@ -43,7 +43,6 @@ export class PageVerificationsProtocolsComponent implements OnInit {
   }
 
   displayProtocol(id: string): void {
-    console.log(id);
     this.dataSv
       .getData(url + '/protocol/' + id)
       .subscribe((protocol: Protocol) => {

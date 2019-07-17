@@ -18,6 +18,7 @@ const protocolUrl = 'http://134.209.243.90:3000/api/verications-protocols';
 const deleteUrl = 'http://134.209.243.90:3000/api/new-verifications/';
 const sendVerif = 'http://134.209.243.90:3000/api/lab-requests/send/';
 const issueDate = '134.209.243.90:3000/api/verifications-archive/issue/';
+const revertURL = 'http://134.209.243.90:3000/api/rejected-verification/back';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,10 @@ export class VerificationService {
   public updateVerification(id: any, verification: Verification): Observable<any> {
     console.log(editUrl + id, verification);
     return this.http.put(editUrl + id, verification).pipe(tap(console.log));
+  }
+
+  public revertVerif(id: any): Observable<any> {
+    return this.http.put(revertURL, { id: id }).pipe(tap(console.log));
   }
 
   public clientInaccessible(id: any): Observable<any> {
