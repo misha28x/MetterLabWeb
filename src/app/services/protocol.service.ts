@@ -26,7 +26,8 @@ export class ProtocolService {
   } 
 
   public upladteProtocol(id: any, data: Protocol): Observable<any> {
-    return this.http.post(protocolUrl + id, { protocol: data });
+    console.log(data);
+    return this.http.put(protocolUrl + data.counterNumber, { ...data });
   }
 
   public acceptProtocol(id: any): Observable<any> {

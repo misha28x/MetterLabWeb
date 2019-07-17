@@ -79,7 +79,7 @@
 
     <div class="controls">
       <div class="img">
-        <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" [src]="getImage(data.image)">
+        <img (click)="changeProtocolData(data)" [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" [src]="getImage(data.image)">
       </div>
       <div class="protocol-actions">
         <h3 class="action-title">Перегляд фото</h3>

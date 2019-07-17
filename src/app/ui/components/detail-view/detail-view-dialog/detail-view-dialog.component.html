@@ -21,11 +21,7 @@
         <div class="full-width">
           <span>По-батькові</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="По-батькові"
-              formControlName="middlename"
-            />
+            <input matInput placeholder="По-батькові" formControlName="middlename" />
           </mat-form-field>
         </div>
 
@@ -33,13 +29,7 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span matPrefix>+ &nbsp;</span>
-            <input
-              matInput
-              #phone
-              placeholder="Телефон"
-              maxlength="12"
-              formControlName="phone"
-            />
+            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phone" />
             <mat-hint align="end">{{ phone.value.length }} / 12</mat-hint>
           </mat-form-field>
         </div>
@@ -63,11 +53,7 @@
         <div *ngIf="isEntity.checked" class="full-width">
           <span>ІПН</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="Індивідуальний податковий номер"
-              formControlName="ipn"
-            />
+            <input matInput placeholder="Індивідуальний податковий номер" formControlName="ipn" />
           </mat-form-field>
         </div>
       </form>
@@ -92,11 +78,7 @@
         <div class="full-width">
           <span>Населений пункт</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="Населений пункт"
-              formControlName="settlement"
-            />
+            <input matInput placeholder="Населений пункт" formControlName="settlement" />
           </mat-form-field>
         </div>
 
@@ -124,11 +106,7 @@
         <div class="full-width">
           <span>Квартира</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="Квартира"
-              formControlName="apartment"
-            />
+            <input matInput placeholder="Квартира" formControlName="apartment" />
           </mat-form-field>
         </div>
 
@@ -140,24 +118,22 @@
               <td class="w-2">
                 <mat-form-field>
                   <mat-select formControlName="counterQuantity">
-                    <mat-option [value]="1">1</mat-option>
-                    <mat-option [value]="2">2</mat-option>
-                    <mat-option [value]="3">3</mat-option>
-                    <mat-option [value]="4">4</mat-option>
-                    <mat-option [value]="5">5</mat-option>
-                    <mat-option [value]="6">6</mat-option>
-                    <mat-option [value]="7">7</mat-option>
-                    <mat-option [value]="8">8</mat-option>
+                    <mat-option [value]="'1'">1</mat-option>
+                    <mat-option [value]="'2'">2</mat-option>
+                    <mat-option [value]="'3'">3</mat-option>
+                    <mat-option [value]="'4'">4</mat-option>
+                    <mat-option [value]="'5'">5</mat-option>
+                    <mat-option [value]="'6'">6</mat-option>
+                    <mat-option [value]="'7'">7</mat-option>
+                    <mat-option [value]="'8'">8</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
               <td class="w-4">
                 <mat-form-field>
                   <mat-select formControlName="serviceType">
-                    <mat-option [value]="'Холодна вода'"
-                      >Холодна вода</mat-option
-                    >
-                    <mat-option [value]="'Гаряча вода'">Гаряча вода</mat-option>
+                    <mat-option [value]="'0'">Холодна вода</mat-option>
+                    <mat-option [value]="'1'">Гаряча вода</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -165,12 +141,8 @@
                 <mat-form-field>
                   <mat-select formControlName="serviceProvider">
                     <!-- TODO: Добавити табличку виробників -->
-                    <mat-option [value]="'КП ЛУЦЬКВОДОКАНАЛ'"
-                      >КП "ЛУЦЬКВОДОКАНАЛ"</mat-option
-                    >
-                    <mat-option [value]="'ДКП ЛУЦЬКТЕПЛО'"
-                      >ДКП "ЛУЦЬКТЕПЛО"</mat-option
-                    >
+                    <mat-option [value]="'13270431'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
+                    <mat-option [value]="'26366904'">ДКП "ЛУЦЬКТЕПЛО"</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -195,13 +167,6 @@
 
         <div class="full-width inline" *ngIf="permission !== 2">
           <div class="d-flex justify-content-between align-items-center">
-            <span>Провести повірку з демонтажом</span>
-            <div class="input-field">
-              <mat-checkbox formControlName="isDismantled"></mat-checkbox>
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center">
             <mat-checkbox [labelPosition]="'before'" formControlName="isUnique"
               >Перевірено на дублі</mat-checkbox
             >
@@ -214,57 +179,19 @@
               <i class="icofont-copy"></i>
             </button>
           </div>
-
-          <div class="full-width">
-            <span>Коментар</span>
-            <mat-form-field class="input-field">
-              <mat-label>Коментар</mat-label>
-              <textarea
-                matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="5"
-                cdkAutosizeMaxRows="10"
-                formControlName="comment"
-              ></textarea>
-            </mat-form-field>
-          </div>
         </div>
       </form>
     </mat-tab>
 
     <mat-tab *ngIf="permission !== 2" [label]="'Лічильник'">
       <form [formGroup]="counterForm">
-<!--        <div class="full-width">-->
-<!--          <span>Лічильник демонтовано</span>-->
-<!--          <div class="input-field">-->
-<!--            <mat-checkbox formControlName="isDismantled"></mat-checkbox>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="full-width">-->
-<!--          <span>Дата монтажу лічильника</span>-->
-<!--          <div class="input-field form-group">-->
-<!--            <input-->
-<!--              type="text"-->
-<!--              class="form-control"-->
-<!--              #dp="bsDatepicker"-->
-<!--              bsDatepicker-->
-<!--              formControlName="montageDate"-->
-<!--              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"-->
-<!--            />-->
-<!--          </div>-->
-<!--        </div>-->
-
         <div class="full-width">
           <span>ПІБ працівника</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Працівник" formControlName="employeeName">
-              <mat-option
-                *ngFor="let employee of data.name"
-                [value]="employee"
-                >{{ employee }}</mat-option
-              >
+              <mat-option *ngFor="let employee of data.name" [value]="employee">{{
+                employee
+              }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -272,11 +199,7 @@
         <div class="full-width">
           <span>Номер лічильника</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="Номер лічильника"
-              formControlName="counterNumber"
-            />
+            <input matInput placeholder="Номер лічильника" formControlName="counterNumber" />
           </mat-form-field>
         </div>
 
@@ -298,9 +221,7 @@
               [matAutocomplete]="auto"
             />
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let type of data.Device" [value]="type">{{
-                type
-              }}</mat-option>
+              <mat-option *ngFor="let type of data.Device" [value]="type">{{ type }}</mat-option>
             </mat-autocomplete>
           </mat-form-field>
         </div>
@@ -309,9 +230,7 @@
           <span>Символ</span>
           <mat-form-field class="input-field">
             <mat-select placeholder="Символ" formControlName="symbol">
-              <mat-option *ngFor="let symbol of data.DN" [value]="symbol">{{
-                symbol
-              }}</mat-option>
+              <mat-option *ngFor="let symbol of data.DN" [value]="symbol">{{ symbol }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -319,22 +238,14 @@
         <div class="full-width">
           <span>Рік випуску</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="Рік випуску лічильника"
-              formControlName="productionYear"
-            />
+            <input matInput placeholder="Рік випуску лічильника" formControlName="productionYear" />
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Накопичений об'єм</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="'xxxxx'"
-              formControlName="acumulatedVolume"
-            />
+            <input matInput placeholder="'xxxxx'" formControlName="acumulatedVolume" />
           </mat-form-field>
         </div>
       </form>
@@ -352,11 +263,7 @@
         <div class="full-width">
           <span>Код на дверях</span>
           <mat-form-field class="input-field">
-            <input
-              matInput
-              placeholder="Код на дверях"
-              formControlName="doorCode"
-            />
+            <input matInput placeholder="Код на дверях" formControlName="doorCode" />
           </mat-form-field>
         </div>
 
@@ -384,34 +291,16 @@
         <div *ngIf="permission !== 2" class="full-width">
           <span>Бажаний час проведення повірки</span>
           <div class="input-field form-group">
-            <timepicker
-              formControlName="favorTime"
-              [showMeridian]="false"
-            ></timepicker>
+            <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
           </div>
         </div>
 
         <div class="full-width">
           <span>Справність сантехніки</span>
           <div class="input-field">
-            <mat-checkbox formControlName="sanitaryWellFare"></mat-checkbox>
+            <mat-checkbox formControlName="sanitaryWellfare"></mat-checkbox>
           </div>
         </div>
-
-<!--        <div class="full-width">-->
-<!--          <span>Вода відсутня до</span>-->
-<!--          <div class="input-field form-group">-->
-<!--            <input-->
-<!--              type="text"-->
-<!--              placement="top"-->
-<!--              class="form-control"-->
-<!--              #dp="bsDatepicker"-->
-<!--              bsDatepicker-->
-<!--              formControlName="waterAbsentTo"-->
-<!--              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"-->
-<!--            />-->
-<!--          </div>-->
-<!--        </div>-->
 
         <div class="full-width">
           <span>Примітка</span>

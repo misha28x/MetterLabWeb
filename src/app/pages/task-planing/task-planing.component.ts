@@ -147,7 +147,7 @@ export class PageTaskPlaningComponent implements OnInit {
   }
 
   clientInaccesable(id: any): void {
-    this.verificationSv.clientInaccesable(id).subscribe(() => this.updateData());
+    this.verificationSv.clientInaccessible(id).subscribe(() => this.updateData());
   }
 
   showClientInfo(id: any): void {

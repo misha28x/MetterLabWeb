@@ -6,11 +6,11 @@ import { select, Store } from '@ngrx/store';
 import { User } from '../interfaces/user';
 
 const metrologyProtocolsUrl: string = 'http://134.209.243.90:3000/api/verications-protocols/metrology/protocols';
-const rejectedProtocolsUrl: string = 'http://134.209.243.90:3000/api/rejected-protocols';
+const rejectedProtocolsUrl: string = 'http://134.209.243.90:3000/api/metrology/rejected';
 const failedTasksUrl: string = 'http://134.209.243.90:3000/api/stations-tasks/failed/1';
 const newVerificationUrl: string = 'http://134.209.243.90:3000/api/new-verifications';
 const rejectedVerif: string = 'http://134.209.243.90:3000/api/rejected-verification';
-const metrologyArchive: string = 'http://134.209.243.90:3000/api/verications-protocols/metrology';
+const metrologyArchive: string = 'http://134.209.243.90:3000/api/metrology';
 const ptocolsUrl: string = 'http://134.209.243.90:3000/api/verications-protocols';
 const archiveUrl: string = 'http://134.209.243.90:3000/api/verifications-archive';
 const stationTasksUrl: string = 'http://134.209.243.90:3000/api/stations-tasks';

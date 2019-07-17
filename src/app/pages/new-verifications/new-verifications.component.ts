@@ -28,6 +28,8 @@ export class PageNewVerificationsComponent implements OnInit {
 
   user: User;
 
+  addresses: any;
+
   constructor(
     private dialog: MatDialog,
     private dataSv: DataService,
@@ -59,29 +61,37 @@ export class PageNewVerificationsComponent implements OnInit {
   }
 
   addEmployee(id: number): void {
-    this.dataSv.sendData(url + '/employee/' + id, { employee: this.user.username })
+    this.dataSv
+      .sendData(url + '/employee/' + id, { employee: this.user.username })
       .subscribe(() => this.updateData());
   }
 
   addEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) =>
-      this.dataSv.sendData(url + '/employee/' + ver, { employee: this.user.username }))
+    forkJoin(
+      this.selectedData.map((ver: Verification) =>
+        this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, {
+          employee: this.user.username
+        })
+      )
     ).subscribe(() => this.updateData());
   }
 
   cancellEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) =>
-      this.verificationSv.cancellEmployee(ver))).subscribe(() => this.updateData());
+    forkJoin(
+      this.selectedData.map((ver: Verification) =>
+        this.verificationSv.cancellEmployee(ver)
+      )
+    ).subscribe(() => this.updateData());
   }
 
   deleteVerification(id: number): void {
-    this.verificationSv.deleteVerification(id).subscribe(() => this.updateData());
+    this.verificationSv
+      .deleteVerification(id)
+      .subscribe(() => this.updateData());
   }
 
   rejectVerification(id: number): void {
-    this.verificationSv.rejectVerification(id).subscribe((res) => {
-      this.updateData();
-    });
+    this.verificationSv.rejectVerification(id).subscribe(() => this.updateData());
   }
 
   cancellEmployee(id: number): void {
@@ -93,11 +103,10 @@ export class PageNewVerificationsComponent implements OnInit {
   }
 
   showClientInfo(id: any): void {
-    
-    this.dialog.open(UserInfoComponent, { 
+    this.dialog.open(UserInfoComponent, {
       height: '90%',
       minWidth: '70%',
-      data: id 
+      data: id
     });
   }
 

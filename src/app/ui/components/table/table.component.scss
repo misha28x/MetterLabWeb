@@ -66,12 +66,13 @@ $_animation: $animation;
         text-align: center;
 				
 				.title {
-					padding-bottom: $module-rem / 2;
+					padding: 0 ($module-rem / 2) ($module-rem / 2);
+          text-align: left;
 				}
         .search-box {
           width: 100%;
 
-          tc-input {
+          .tc-input {
             min-width: 6 * $module-rem;
           }
         }

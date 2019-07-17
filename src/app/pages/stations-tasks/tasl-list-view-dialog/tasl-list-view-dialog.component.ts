@@ -83,7 +83,7 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   clientInaccesable(id: any): void {
-    this.verifSv.clientInaccesable(id).subscribe(() => this.updateData());
+    this.verifSv.clientInaccessible(id).subscribe(() => this.updateData());
   }
 
   detailView(id: number): void {

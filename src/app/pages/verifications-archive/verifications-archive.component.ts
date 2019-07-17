@@ -13,6 +13,7 @@ import { VerificationService } from '../../services/verification.service';
 import { ScanUploadComponent } from '../../ui/components/scan-upload';
 import { SelectDialogComponent } from '../../ui/components/select-dialog';
 import { SealEditComponent } from '../../ui/components/seal-edit';
+import { Protocol } from '../../interfaces/protocol';
 
 @Component({
   selector: 'app-verifications-archive',
@@ -88,10 +89,11 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
   displayProtocol(id: string): void {
     const url = 'http://134.209.243.90:3000/api/verications-protocols';
-
-    this.dataSv.getData(url + '/' + id).subscribe(protocol => {
-      this.protocolSv.addProtocol(protocol);
-    });
+    this.dataSv.getData(url + '/protocol/' + id).subscribe(
+      (protocol: Protocol) => {
+        this.protocolSv.addProtocol(protocol);
+      }
+    );
   }
 
   setIssueDate(): void {

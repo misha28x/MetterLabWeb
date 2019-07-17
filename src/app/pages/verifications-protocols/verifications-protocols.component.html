@@ -149,25 +149,6 @@
                 >delete_outline</mat-icon
               >
             </button>
-
-            <button
-              mat-icon-button
-              (click)="rejectVerification(row['applicationNumber'])"
-            >
-              <mat-icon class="color-error" matTooltip="Відхилити повірку"
-                >cancel</mat-icon
-              >
-            </button>
-
-            <button
-              mat-icon-button
-              (click)="showClientInfo(row['applicationNumber'])"
-            >
-              <i
-                class="icofont-info color-info"
-                matTooltip="Інформація про клієнта"
-              ></i>
-            </button>
           </div>
         </ng-template>
       </app-column>

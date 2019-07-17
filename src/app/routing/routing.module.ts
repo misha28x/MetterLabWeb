@@ -29,6 +29,7 @@ import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { ExtraComponent } from '../layout/extra/extra.component';
 import { SharedComponent } from '../layout/shared';
+import { PageMetrologyArchiveComponent } from '../pages/metrology-archive/metrology-archive.component';
 // import { MetrologyArchiveComponent } from '../pages/metrology-archive/metrology-archive.component';
 
 export const DEFAULT_ROUTES = [
@@ -87,7 +88,11 @@ export const DEFAULT_ROUTES = [
     component: PageVerificationsArchiveComponent,
     data: { title: 'Архів Повірок' }
   },
-  // { path: 'metrology-archive', component: MetrologyArchiveComponent, date: { title: 'Архів протоколів' } },
+  {
+    path: 'metrology-archive',
+    component: PageMetrologyArchiveComponent,
+    date: { title: 'Архів протоколів' }
+  },
   {
     path: 'reports',
     component: PageReportsComponent,

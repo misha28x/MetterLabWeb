@@ -152,6 +152,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   sendData(): void {
+    console.log(this.setVerification())
     this.dataSv.sendData(url, this.setVerification()).subscribe();
     this.dialogRef.close();
   }

@@ -3,15 +3,19 @@
     <div class="actions">
       <div class="task-actions">
         <app-new-verification></app-new-verification>
-        <button mat-raised-button color="primary"><i class="icofont-search-document"></i> Глобальний Пошук</button>
       </div>
 
       <div class="user-actions">
-        <button mat-raised-button color="primary" class="bg-success" (click)="addEmployeeToSelected()">
+        <button
+          mat-raised-button
+          color="primary"
+          class="bg-success"
+          (click)="addEmployeeToSelected()"
+        >
           <i class="icofont-ui-user"></i> Додати ДійовуОсобу
         </button>
 
-        <button mat-raised-button color="primary" class="bg-warning">
+        <button mat-raised-button color="primary" class="bg-warning" (click)="cancellEmployeeToSelected()">
           <i class="icofont-delete"></i> Скасувати Дійову Особу
         </button>
 
@@ -21,78 +25,191 @@
       </div>
     </div>
 
-    <app-table [checkboxes]="true" [desiredStatus]="'Визначено відповідальну особу'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(newVerifications | async)" [pagination]="true">
-      
-      <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [date]="true" [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'"
+    <app-table
+      [checkboxes]="true"
+      [desiredStatus]="'Визначено відповідальну особу'"
+      (rowSelected)="onChange($event)"
+      [hovered]="true"
+      [bordered]="true"
+      [tableData]="newVerifications | async"
+      [pagination]="true"
+    >
+      <app-column
+        [columnTitle]="'Номер Заявки'"
+        [columnName]="'applicationNumber'"
         [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column
+        [date]="true"
+        [columnTitle]="'Дата Надходження Заявки'"
+        [columnName]="'addingDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Клієнт'"
+        [columnName]="'client'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Надавач Послуг'"
+        [columnName]="'serviceProvider'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Район'"
+        [columnName]="'district'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Вулиця'"
+        [columnName]="'street'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-      
-      <app-column [date]="true" [enableFiltering]="true" [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="75"
+        [columnTitle]="'Будинок'"
+        [columnName]="'house'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="90"
+        [columnTitle]="'Квартира'"
+        [columnName]="'apartment'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Вода відсутня до'" [columnName]="'waterAbsentTo'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [date]="true"
+        [columnTitle]="'Бажана дата повірки'"
+        [columnName]="'favorDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="140" [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Cправність Сантехніки'"
+        [columnName]="'sanitaryWellfare'"
+        [enableSorting]="true"
+        [width]="80"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="120" [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Вода відсутня до'"
+        [columnName]="'waterAbsentTo'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="140"
+        [columnTitle]="'Наявність пломби'"
+        [columnName]="'haveSeal'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="120"
+        [columnTitle]="'Телефон'"
+        [columnName]="'phoneNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="110"
+        [columnTitle]="'Примітка'"
+        [columnName]="'note'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
       <app-column [columnTitle]="'Дії'" [width]="125">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <button mat-icon-button (click)="detailView(row['applicationNumber'])">
-              <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
+            <button
+              mat-icon-button
+              (click)="detailView(row['applicationNumber'])"
+            >
+              <i
+                class="icon icofont-info-circle color-info"
+                matTooltip="Інформація"
+              ></i>
             </button>
 
-            <button *ngIf="!row['employeeName'].length" mat-icon-button (click)="addEmployee(row['applicationNumber'])">
-              <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
+            <button
+              *ngIf="!row['employeeName'].length"
+              mat-icon-button
+              (click)="addEmployee(row['applicationNumber'])"
+            >
+              <i
+                class="icofont-ui-user color-success"
+                matTooltip="Додати відповідальну особу"
+              ></i>
             </button>
 
-            <button *ngIf="row['employeeName'].length" mat-icon-button (click)="cancellEmployee(row['applicationNumber'])">
-              <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
+            <button
+              *ngIf="row['employeeName'].length"
+              mat-icon-button
+              (click)="cancellEmployee(row['applicationNumber'])"
+            >
+              <i
+                class="fas fa-user-times color-warning"
+                matTooltip="Скасувати відповідальну особу"
+              ></i>
             </button>
 
             <button mat-icon-button (click)="checkForDuplicate(row)">
-              <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
+              <i
+                class="far fa-copy color-info"
+                matTooltip="Перевірити на дублі"
+              ></i>
             </button>
 
-            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
-              <mat-icon class="color-error" matTooltip="Видалити файл">delete_outline</mat-icon>
+            <button
+              mat-icon-button
+              (click)="deleteVerification(row['applicationNumber'])"
+            >
+              <mat-icon class="color-error" matTooltip="Видалити файл"
+                >delete_outline</mat-icon
+              >
             </button>
 
-            <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
-              <mat-icon class="color-error" matTooltip="Відхилити повірку">cancel</mat-icon>
+            <button
+              mat-icon-button
+              (click)="rejectVerification(row['applicationNumber'])"
+            >
+              <mat-icon class="color-error" matTooltip="Відхилити повірку"
+                >cancel</mat-icon
+              >
             </button>
 
-            <button mat-icon-button (click)="showClientInfo(row['applicationNumber'])">
-              <i class="icofont-info color-info" matTooltip="Інформація про клієнта"></i>
+            <button
+              mat-icon-button
+              (click)="showClientInfo(row['applicationNumber'])"
+            >
+              <i
+                class="icofont-info color-info"
+                matTooltip="Інформація про клієнта"
+              ></i>
             </button>
           </div>
         </ng-template>
@@ -100,4 +217,3 @@
     </app-table>
   </mat-card-content>
 </mat-card>
-

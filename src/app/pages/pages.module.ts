@@ -14,7 +14,11 @@ import { PageProviderRequestsComponent } from './provider-requests';
 import { PageVerificationsProtocolsComponent } from './verifications-protocols';
 import { PageRejectedProtocolsComponent } from './rejected-protocols';
 import { PageTaskPlaningComponent, TaskSendingComponent } from './task-planing';
-import { PageStationsTasksComponent, TaskListEditDialogComponent, TaslListViewDialogComponent } from './stations-tasks';
+import {
+  PageStationsTasksComponent,
+  TaskListEditDialogComponent,
+  TaslListViewDialogComponent
+} from './stations-tasks';
 import { PageBrigadeTasksComponent } from './brigade-tasks';
 import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';
@@ -33,10 +37,17 @@ import { InfoPageComponent } from './info-page/info-page.component';
 import { StatusPageComponent } from './status-page/status-page.component';
 import { VerificationFormComponent } from './verification-form/verification-form.component';
 import { ProfileComponent } from './profile/profile.component';
-// import { MetrologyArchiveComponent } from './metrology-archive/metrology-archive.component';
+import { PageMetrologyArchiveComponent } from './metrology-archive/metrology-archive.component';
 
 @NgModule({
-  imports: [MaterialModule, NgxChartsModule, UiModule, FormsModule, ReactiveFormsModule, BsDatepickerModule.forRoot()],
+  imports: [
+    MaterialModule,
+    NgxChartsModule,
+    UiModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BsDatepickerModule.forRoot()
+  ],
   declarations: [
     PageHomePageComponent,
     PageNewVerificationsComponent,
@@ -65,7 +76,7 @@ import { ProfileComponent } from './profile/profile.component';
     StatusPageComponent,
     VerificationFormComponent,
     ProfileComponent,
-    // MetrologyArchiveComponent
+    PageMetrologyArchiveComponent
   ],
   entryComponents: [
     EmployeeDialogComponent,
@@ -76,4 +87,4 @@ import { ProfileComponent } from './profile/profile.component';
     SelectDialogComponent
   ]
 })
-export class PagesModule { }
+export class PagesModule {}

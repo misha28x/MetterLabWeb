@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { from, Observable, Subject } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { Verification } from '../interfaces/verifications';
 import { DeleteDialogComponent } from '../ui/components/delete-dialog';
@@ -25,10 +26,7 @@ export class VerificationService {
   private verificationSource$ = new Subject<Verification>();
   private verificationAdded$ = this.verificationSource$.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private dialog: MatDialog
-  ) { }
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   public addVerification(verification: Verification): void {
     this.verificationSource$.next(verification);
@@ -45,7 +43,7 @@ export class VerificationService {
   public rejectVerification(id: any): Observable<any> {
     const ref = this.dialog.open(RejectionDialogComponent);
 
-    return Observable.create((observer)=> {
+    return Observable.create(observer => {
       ref.afterClosed().subscribe(res => {
         if (res) {
           this.http.post(rejectUrl + id, { reason: res }).subscribe(val => observer.next(val));
@@ -60,13 +58,10 @@ export class VerificationService {
       data: 'повірку'
     });
 
-    ref.afterClosed().subscribe((result: string) => {
-      if (result === 'delete') {
-        return this.http.delete(deleteUrl + id);
-      }
-    });
-
-    return from([false]);
+    return ref.afterClosed().pipe(
+      filter(res => res),
+      switchMap(() => this.http.delete(deleteUrl + id))
+    );
   }
 
   public checkForDuplicate(address: any): Observable<any> {
@@ -79,10 +74,10 @@ export class VerificationService {
 
   public updateVerification(id: any, verification: Verification): Observable<any> {
     console.log(editUrl + id, verification);
-    return this.http.put(editUrl + id, verification);
+    return this.http.put(editUrl + id, verification).pipe(tap(console.log));
   }
 
-  public clientInaccesable(id: any): Observable<any> {
+  public clientInaccessible(id: any): Observable<any> {
     return this.http.put(`${archiveUrl}/ndz/${id}`, {});
   }
 
@@ -103,6 +98,6 @@ export class VerificationService {
   }
 
   public setIssueDate(id: any, date: string): Observable<any> {
-    return this.http.post(issueDate + id, { issueDate : date });
+    return this.http.post(issueDate + id, { issueDate: date });
   }
 }

@@ -11,39 +11,48 @@ const url = 'http://134.209.243.90:3000/api/stations-tasks';
 const sendUrl = 'http://134.209.243.90:3000/api/file-sending';
 
 @Component({
-	selector: 'app-stations-tasks',
-	templateUrl: './stations-tasks.component.html',
-	styleUrls: ['./stations-tasks.component.scss']
+  selector: 'app-stations-tasks',
+  templateUrl: './stations-tasks.component.html',
+  styleUrls: ['./stations-tasks.component.scss']
 })
 export class PageStationsTasksComponent implements OnInit {
-
-	stationsTasks: Observable<any[]>;
+  stationsTasks: Observable<any[]>;
   selectedData: any[];
 
-	constructor(
+  constructor(
     private sourceSv: SourceService,
     private snackBar: MatSnackBar,
     private dataSv: DataService,
     private dialog: MatDialog
-    ) { }
+  ) {}
 
-	ngOnInit(): void {
+  ngOnInit(): void {
     this.sourceSv.fetchStationTasks();
     this.stationsTasks = this.sourceSv.getStationTasks();
     this.selectedData = [];
-	}
+  }
 
-	editList(id: number): void {
-		this.dialog.open(TaskListEditDialogComponent, { data: id });
-	}
+  editList(id: number): void {
+    this.dialog.open(TaskListEditDialogComponent, {
+      data: id,
+      width: '90%',
+      height: '80%',
+      panelClass: 'full-screen-modal'
+    });
+  }
 
-	viewList(id: number): void {
-		this.dialog.open(TaslListViewDialogComponent, { data: id });
-	}
+  viewList(id: number): void {
+    this.dialog.open(TaslListViewDialogComponent, {
+      data: id,
+      width: '90%',
+      height: '80%',
+      panelClass: 'full-screen-modal'
+    });
+  }
 
-	downloadExcel(id: number): void {
+  downloadExcel(id: number): void {
     this.dataSv.getFile(url + '/excel/' + id);
-	}
+  }
 
   sendData(): void {
     if (!this.selectedData.length) {
@@ -51,20 +60,22 @@ export class PageStationsTasksComponent implements OnInit {
     }
 
     const observer = {
-      next: x => this.sourceSv.fetchStationTasks(),
-      error: err => this.showSnackBar(),
-      complete: () => this.showSnackBar(),
+      next: () => this.sourceSv.fetchStationTasks(),
+      error: err => this.showSnackBar(err),
+      complete: () => this.showSnackBar()
     };
 
     const task = forkJoin(
-      this.selectedData.map(message => this.dataSv.sendData(sendUrl, { id: message.id_task, status: message.task_status }))
+      this.selectedData.map(message =>
+        this.dataSv.sendData(sendUrl, { id: message.id_task, status: message.task_status })
+      )
     );
-    
+
     task.subscribe(observer);
   }
 
-  showSnackBar(): void {
-    this.snackBar.open('Завдання надіслано', 'Закрити', {
+  showSnackBar(msg: string = 'Завдання надіслано'): void {
+    this.snackBar.open(msg, 'Закрити', {
       duration: 2000
     });
   }

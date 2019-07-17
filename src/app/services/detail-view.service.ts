@@ -18,10 +18,6 @@ export class DetailViewService {
   addVerification(id: any): void {
     this.http.get(verUrl + id)
     .subscribe((ver: Verification) => {
-      console.log({
-        id: id,
-        ver: ver
-      });
       this.verificationSource$.next(ver);
     });
   }
