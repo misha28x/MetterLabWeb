@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../../services/data.service';
 import { SourceService } from '../../../services/source.service';
@@ -15,8 +16,8 @@ import { DeleteDialogComponent } from '../../../ui/components/delete-dialog';
 })
 export class TaslListViewDialogComponent implements OnInit {
 
-	taskList: Observable<any[]>;
 	private url: string;
+	taskList: Observable<any[]>;
 
 	constructor(
     private dialog: MatDialog,
@@ -56,9 +57,13 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   rejectVerification(id: number): void {
-    this.verificationSv.rejectVerification(id).subscribe(() => {
-      this.updateData();
-    });
+    this.verificationSv
+      .openRejectDialog()
+      .pipe(
+        filter(res => !!res),
+        switchMap(res => this.verificationSv.rejectVerification(id, res))
+      )
+      .subscribe(() => this.updateData());
   }
 
   deleteFromTask(verifId: string): void {
