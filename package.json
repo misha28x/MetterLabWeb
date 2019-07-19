@@ -48,7 +48,7 @@
   },
   "prettier": {
     "singleQuote": true,
-    "printWidth": 100
+    "printWidth": 105
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.800.0",

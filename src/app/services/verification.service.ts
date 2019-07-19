@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material';
-import { from, Observable, Subject } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Observable, Subject } from 'rxjs';
+import { filter, switchMap   } from 'rxjs/operators';
 
 import { Verification } from '../interfaces/verifications';
 import { DeleteDialogComponent } from '../ui/components/delete-dialog';
@@ -41,45 +41,28 @@ export class VerificationService {
     return this.http.post(deleteFromTask + '' + id, { id_task: idTask });
   }
 
-  public rejectVerification(id: any): Observable<any> {
-    const ref = this.dialog.open(RejectionDialogComponent);
-
-    return Observable.create(observer => {
-      ref.afterClosed().subscribe(res => {
-        if (res) {
-          this.http.post(rejectUrl + id, { reason: res }).subscribe(val => observer.next(val));
-        }
-      });
-    });
+  public rejectVerification(id: any, reason: string): Observable<any> {
+    return this.http.post(rejectUrl + id, { reason: reason });
   }
 
   public deleteVerification(id: any): Observable<any> {
-    const ref = this.dialog.open(DeleteDialogComponent, {
-      minWidth: '600px',
-      data: 'повірку'
-    });
-
-    return ref.afterClosed().pipe(
-      filter(res => res),
-      switchMap(() => this.http.delete(deleteUrl + id))
-    );
+    return this.http.delete(deleteUrl + id);
   }
 
   public checkForDuplicate(address: any): Observable<any> {
     return this.http.post(duplicateUrl, address);
   }
 
-  public cancellEmployee(id: any): Observable<any> {
+  public cancelEmployee(id: any): Observable<any> {
     return this.http.get(employeeCancelUrl + id);
   }
 
   public updateVerification(id: any, verification: Verification): Observable<any> {
-    console.log(editUrl + id, verification);
-    return this.http.put(editUrl + id, verification).pipe(tap(console.log));
+    return this.http.put(editUrl + id, verification);
   }
 
   public revertVerif(id: any): Observable<any> {
-    return this.http.put(revertURL, { id: id }).pipe(tap(console.log));
+    return this.http.put(revertURL, { id: id });
   }
 
   public clientInaccessible(id: any): Observable<any> {
@@ -93,16 +76,29 @@ export class VerificationService {
   public deleteProtocol(id: any): Observable<any> {
     const ref = this.dialog.open(DeleteDialogComponent, { data: 'протокол' });
 
-    ref.afterClosed().subscribe(res => {
-      if (res === 'delete') {
-        return this.http.delete(`${protocolUrl}/delete/${id}`);
-      }
-    });
-
-    return from([false]);
+    return ref.afterClosed().pipe(
+      filter(res => !!res),
+      switchMap(() => this.http.delete(`${protocolUrl}/delete/${id}`))
+    );
   }
 
   public setIssueDate(id: any, date: string): Observable<any> {
     return this.http.post(issueDate + id, { issueDate: date });
   }
+
+  public openDeleteDialog(): Observable<any> {
+    return this.dialog.open(DeleteDialogComponent, {
+      minWidth: '600px',
+      data: 'повірку'
+    }).afterClosed();
+  }
+
+  public openRejectDialog(): Observable<any> {
+    return this.dialog.open(RejectionDialogComponent, {
+      minWidth: '450px',
+      maxWidth: '95%',
+      data: 'повірку'
+    }).afterClosed();
+  }
 }
+

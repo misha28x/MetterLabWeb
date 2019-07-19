@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, forkJoin, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
@@ -81,9 +81,9 @@ export class PageTaskPlaningComponent implements OnInit {
             serviceProvider: this.user.serviceProvider
           };
 
-          const url = 'http://134.209.243.90:3000/api/task-planing/station-task';
+          const sendUrl = 'http://134.209.243.90:3000/api/task-planing/station-task';
 
-          this.dataSv.sendData(url, taskData)
+          this.dataSv.sendData(sendUrl, taskData)
             .subscribe(() => this.sourceSv.fetchTaskPlaning());
         }
       }
@@ -125,21 +125,52 @@ export class PageTaskPlaningComponent implements OnInit {
     );
   }
 
-  cancellEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) =>
-      this.verificationSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
-  }
-
-  deleteVerification(id: number): void {
-    this.verificationSv.deleteVerification(id).subscribe(() => this.updateData());
+  cancelEmployeeToSelected(): void {
+    combineLatest(
+      this.selectedData.map((ver: Verification) =>
+        this.verificationSv.cancelEmployee(ver.applicationNumber)
+      )
+    ).subscribe(() => this.updateData());
   }
 
   rejectVerification(id: number): void {
-    this.verificationSv.rejectVerification(id).subscribe(() => this.updateData());
+    this.verificationSv
+      .openRejectDialog()
+      .pipe(
+        filter(res => !!res),
+        switchMap(res => this.verificationSv.rejectVerification(id, res))
+      )
+      .subscribe(() => this.updateData());
   }
 
-  cancellEmployee(id: number): void {
-    this.verificationSv.cancellEmployee(id).subscribe(() => this.updateData());
+  rejectSelectedVerifications(): void {
+    this.verificationSv
+      .openRejectDialog()
+      .pipe(
+        filter(res => !!res),
+        switchMap(res =>
+          combineLatest(
+            this.selectedData.map((ver: Verification) =>
+              this.verificationSv.rejectVerification(ver.applicationNumber, res)
+            )
+          )
+        )
+      )
+      .subscribe(() => this.updateData());
+  }
+
+  deleteVerification(id: number): void {
+    this.verificationSv
+      .openDeleteDialog()
+      .pipe(
+        filter(res => !!res),
+        switchMap(() => this.verificationSv.deleteVerification(id))
+      )
+      .subscribe(() => this.updateData());
+  }
+
+  cancelEmployee(id: number): void {
+    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
   }
 
   checkForDuplicate(verification: Verification): void {

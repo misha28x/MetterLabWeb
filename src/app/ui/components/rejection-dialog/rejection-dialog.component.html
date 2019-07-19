@@ -3,12 +3,14 @@
 <mat-dialog-content class="content">
   <mat-form-field>
     <mat-select [placeholder]="'Причина відхилення'" [(ngModel)]="selectedType">
-      <mat-option *ngFor="let type of (list | async)" [value]="type.name">{{ type.name }}</mat-option>
+      <mat-option *ngFor="let type of list$ | async" [value]="type.name">
+        {{ type.name }}
+      </mat-option>
     </mat-select>
   </mat-form-field>
 
-  
-<mat-dialog-actions>
-  <button class="bg-error" mat-raised-button [mat-dialog-close]="selectedType">Видалити</button>
-  <button mat-button mat-dialog-close>Скасувати</button>
-</mat-dialog-actions>
+  <mat-dialog-actions>
+    <button class="bg-error" mat-raised-button [mat-dialog-close]="selectedType">Відхилити</button>
+    <button mat-button mat-dialog-close>Скасувати</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

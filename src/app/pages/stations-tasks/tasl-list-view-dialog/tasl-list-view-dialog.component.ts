@@ -23,7 +23,7 @@ export class TaslListViewDialogComponent implements OnInit {
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
-    private verifSv: VerificationService,
+    private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<TaslListViewDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public idTask: number
 	) { }
@@ -56,7 +56,7 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   rejectVerification(id: number): void {
-    this.verifSv.rejectVerification(id).subscribe(() => {
+    this.verificationSv.rejectVerification(id).subscribe(() => {
       this.updateData();
     });
   }
@@ -69,21 +69,21 @@ export class TaslListViewDialogComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.verifSv.deleteFromTask(verifId, this.idTask).subscribe(() => this.updateData());
+        this.verificationSv.deleteFromTask(verifId, this.idTask).subscribe(() => this.updateData());
       }
     });
   }
 
-  cancellEmployee(id: number): void {
-    this.verifSv.cancellEmployee(id).subscribe(() => this.updateData());
+  cancelEmployee(id: number): void {
+    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
   }
 
   checkForDuplicate(verification: any): void {
-    this.verifSv.addVerification(verification);
+    this.verificationSv.addVerification(verification);
   }
 
   clientInaccesable(id: any): void {
-    this.verifSv.clientInaccessible(id).subscribe(() => this.updateData());
+    this.verificationSv.clientInaccessible(id).subscribe(() => this.updateData());
   }
 
   detailView(id: number): void {

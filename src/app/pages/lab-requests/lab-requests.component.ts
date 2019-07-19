@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { forkJoin, Observable } from 'rxjs';
+import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import { DataService } from '../../services/data.service';
@@ -10,6 +10,7 @@ import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 import { SelectDialogComponent } from '../../ui/components/select-dialog';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
+import { filter, switchMap } from 'rxjs/operators';
 
 const url = 'http://134.209.243.90:3000/api/new-verifications';
 
@@ -31,7 +32,7 @@ export class PageLabRequestsComponent implements OnInit {
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
-    private verifSv: VerificationService
+    private verificationSv: VerificationService
   ) {
     this.sourceSv.fetchLabRequest();
   }
@@ -97,29 +98,60 @@ export class PageLabRequestsComponent implements OnInit {
 
   sendVerif(): void {
     forkJoin(this.selectedData
-      .map((ver: Verification) => this.verifSv.sendVerif(ver.applicationNumber))
+      .map((ver: Verification) => this.verificationSv.sendVerif(ver.applicationNumber))
     ).subscribe(() => this.updateData());
   }
 
-  cancellEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) =>
-      this.verifSv.cancellEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
-  }
-
-  deleteVerification(id: number): void {
-    this.verifSv.deleteVerification(id).subscribe(() => this.updateData());
+  cancelEmployeeToSelected(): void {
+    combineLatest(
+      this.selectedData.map((ver: Verification) =>
+        this.verificationSv.cancelEmployee(ver.applicationNumber)
+      )
+    ).subscribe(() => this.updateData());
   }
 
   rejectVerification(id: number): void {
-    this.verifSv.rejectVerification(id).subscribe(() => this.updateData());
+    this.verificationSv
+      .openRejectDialog()
+      .pipe(
+        filter(res => !!res),
+        switchMap(res => this.verificationSv.rejectVerification(id, res))
+      )
+      .subscribe(() => this.updateData());
   }
 
-  cancellEmployee(id: number): void {
-    this.verifSv.cancellEmployee(id).subscribe(() => this.updateData());
+  rejectSelectedVerifications(): void {
+    this.verificationSv
+      .openRejectDialog()
+      .pipe(
+        filter(res => !!res),
+        switchMap(res =>
+          combineLatest(
+            this.selectedData.map((ver: Verification) =>
+              this.verificationSv.rejectVerification(ver.applicationNumber, res)
+            )
+          )
+        )
+      )
+      .subscribe(() => this.updateData());
+  }
+
+  deleteVerification(id: number): void {
+    this.verificationSv
+      .openDeleteDialog()
+      .pipe(
+        filter(res => !!res),
+        switchMap(() => this.verificationSv.deleteVerification(id))
+      )
+      .subscribe(() => this.updateData());
+  }
+
+  cancelEmployee(id: number): void {
+    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
   }
 
   checkForDuplicate(verification: Verification): void {
-    this.verifSv.addVerification(verification);
+    this.verificationSv.addVerification(verification);
   }
 
   onChange(data: any): void {

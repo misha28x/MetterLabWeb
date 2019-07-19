@@ -19,7 +19,7 @@ export class UploadDialogComponent implements OnInit {
   errorList: string[];
   downloaded: number;
 	uploading: boolean;
-  uploadedSuccesfully: boolean;
+  uploadedSuccessful: boolean;
 	
 	constructor(
       private dialogRef: MatDialogRef<UploadDialogComponent>,
@@ -29,7 +29,7 @@ export class UploadDialogComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.uploading = false;
-    this.uploadedSuccesfully = false;
+    this.uploadedSuccessful = false;
     this.title = 'Завантаження архіву';
     this.errorList = [];
     this.downloaded = 0;
@@ -59,7 +59,7 @@ export class UploadDialogComponent implements OnInit {
     firstFile.subscribe(() => {
       this.title = 'Завантаження завершено';
       this.uploading = false;
-      this.uploadedSuccesfully = true;
+      this.uploadedSuccessful = true;
       this.dialogRef.updateSize('60%', '80%');
     });
 

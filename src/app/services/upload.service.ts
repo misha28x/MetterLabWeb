@@ -5,8 +5,7 @@ import { select, Store } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 
-// import { Protocol, Test } from '../interfaces/protocol';
-
+const scanUrl = 'http://134.209.243.90:3000/api/verifications-archive/scan/';
 const url = 'http://134.209.243.90:3000/api/upload/';
 
 @Injectable({
@@ -14,15 +13,12 @@ const url = 'http://134.209.243.90:3000/api/upload/';
 })
 export class UploadService {
   user: User;
-  
-  constructor(
-    private http: HttpClient,
-    private store: Store<User>
-    ) {
+
+  constructor(private http: HttpClient, private store: Store<User>) {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
     });
-    }
+  }
 
   public upload(files: Set<File>): void {
     const fileData: FormData = new FormData();
@@ -34,15 +30,13 @@ export class UploadService {
   }
 
   public uploadScan(file: File, id: string): Observable<any> {
-    const scanUrl = 'http://134.209.243.90:3000/api/verifications-archive/scan/' + id;
     const fileData: FormData = new FormData();
     fileData.append('scan', file, file.name);
 
-    return this.http.post(scanUrl, fileData);
+    return this.http.post(scanUrl + id, fileData);
   }
+
   public getScan(id: string): void {
-    const scanUrl = 'http://134.209.243.90:3000/api/verifications-archive/scan/' + id;
-  
-    window.open(scanUrl);
+    window.open(scanUrl + id);
   }
 }
