@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { VerificationService } from '../../services/verification.service';
 import { ProtocolService } from '../../services/protocol.service';
 import { SourceService } from '../../services/source.service';
 import { DataService } from '../../services/data.service';
 import { Protocol } from '../../interfaces/protocol';
-import { filter, switchMap } from 'rxjs/operators';
 
 const url = 'http://134.209.243.90:3000/api/verications-protocols';
 
@@ -39,7 +39,7 @@ export class PageVerificationsProtocolsComponent implements OnInit {
 
   sendProtocols(): void {
     this.selectedData.forEach((ver: any) =>
-      this.dataSv.sendData(url + '/metrology/' + ver.applicationNumber).subscribe(() => updateData())
+      this.dataSv.sendData(url + '/metrology/' + ver.applicationNumber).subscribe(() => this.updateData())
     );
   }
 
