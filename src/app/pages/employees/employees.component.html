@@ -5,18 +5,27 @@
 
       <mat-list>
         <h3 mat-subheader>Працівники</h3>
-        <mat-list-item class="item" *ngFor="let employee of (employees | async)">
+        <mat-list-item class="item" *ngFor="let employee of employees | async">
           <mat-icon mat-list-icon>account_box</mat-icon>
-          <p mat-line class="text mb-0"> {{ employee.user_full_name }}</p>
-          <p *ngIf="permissions" mat-line class="role mb-0">{{ getUserPermission(employee.user_permissions) }}</p>
+          <p mat-line class="text mb-0">{{ employee.user_full_name }}</p>
+          <p *ngIf="permissions" mat-line class="role mb-0">
+            {{ getUserPermission(employee.user_permissions) }}
+          </p>
 
-
-          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані працівника"
-            (click)="editEmployee(employee)">
+          <button
+            class="edit-btn"
+            mat-icon-button
+            matTooltip="Редагувати дані працівника"
+            (click)="editEmployee(employee)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
-          <button class="delete-btn" mat-icon-button matTooltip="Видалити працівника"
-            (click)="deleteEmployee(employee)">
+          <button
+            class="delete-btn"
+            mat-icon-button
+            matTooltip="Видалити працівника"
+            (click)="deleteEmployee(employee)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </mat-list-item>
@@ -26,14 +35,25 @@
 
         <h3 mat-subheader>Переносні станції</h3>
 
-        <mat-list-item class="item" *ngFor="let station of (stations | async)">
+        <mat-list-item class="item" *ngFor="let station of stations | async">
           <mat-icon mat-list-icon>next_week</mat-icon>
-          <p mat-line class="text"> {{ station.stationNumber }} </p>
+          <p mat-line class="text">{{ station.stationNumber }}</p>
 
-          <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані станції" (click)="editStation(station)">
+          <button
+            class="edit-btn"
+            mat-icon-button
+            matTooltip="Редагувати дані станції"
+            (click)="editStation(station)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
-          <button class="delete-btn" mat-icon-button matTooltip="Видалити станцію" (click)="deleteStation(station)">
+
+          <button
+            class="delete-btn"
+            mat-icon-button
+            matTooltip="Видалити станцію"
+            (click)="deleteStation(station)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </mat-list-item>
@@ -48,42 +68,67 @@
       <mat-card-title>Підрядники</mat-card-title>
 
       <mat-accordion>
-        <mat-expansion-panel *ngFor="let city of (cities | async); let i = index" [expanded]="i === step" (opened)="step = i">
+        <mat-expansion-panel
+          *ngFor="let city of cities | async; let i = index"
+          [expanded]="i === step"
+          (opened)="step = i"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ city.name }}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <ng-container *ngFor="let contractor of (contractors | async)">
-              <button mat-list-item class="item" *ngIf="contractor.city_id === city.id" (click)="getMenu(contractor)">
+            <ng-container *ngFor="let contractor of contractors | async">
+              <button
+                mat-list-item
+                class="item"
+                *ngIf="contractor.city_id === city.id"
+                (click)="getMenu(contractor)"
+              >
                 <div class="text">
                   <p mat-line class="mb-0">{{ contractor.name }}</p>
-                  <p *ngIf="permissions" class="role mb-0" mat-line> {{ getContractorType(contractor.permission) }} </p>
+                  <p *ngIf="permissions" class="role mb-0" mat-line>
+                    {{ getContractorType(contractor.permission) }}
+                  </p>
                 </div>
 
-                <button class="edit-btn" mat-icon-button matTooltip="Редагувати дані підрядника"
-                  (click)="editContractor($event, contractor)">
+                <button
+                  class="edit-btn"
+                  mat-icon-button
+                  matTooltip="Редагувати дані підрядника"
+                  (click)="editContractor($event, contractor)"
+                >
                   <mat-icon>edit</mat-icon>
                 </button>
 
-                <button class="edit-btn" mat-icon-button matTooltip="Видалити підрядника"
-                  (click)="deleteContractor($event, contractor)">
+                <button
+                  class="edit-btn"
+                  mat-icon-button
+                  matTooltip="Видалити підрядника"
+                  (click)="deleteContractor($event, contractor)"
+                >
                   <mat-icon>delete</mat-icon>
                 </button>
-
               </button>
             </ng-container>
           </mat-action-list>
 
           <mat-action-row class="actions mb-0">
-            <button class="edit-btn" mat-icon-button matTooltip="Змінити назву міста" (click)="editCity(city)">
+            <button
+              class="edit-btn"
+              mat-icon-button
+              matTooltip="Змінити назву міста"
+              (click)="editCity(city)"
+            >
               <mat-icon>edit</mat-icon>
             </button>
 
             <button mat-button color="warn" (click)="deleteCity(city)">Видалити</button>
 
-            <button mat-button class="right" (click)="addContractor($event, city)" color="primary">Додати</button>
+            <button mat-button class="right" (click)="addContractor($event, city)" color="primary">
+              Додати
+            </button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>

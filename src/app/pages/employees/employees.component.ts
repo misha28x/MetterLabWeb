@@ -68,7 +68,7 @@ export class PageEmployeesComponent implements OnInit {
   getMenu(contractor: Contractor): void {
     const user: User = {
       username: contractor.name,
-      serviceProvider: contractor.name,
+      serviceProvider: contractor.id,
       permission: contractor.permission
     }; 
     this.menuSv.setVisitState(user);
