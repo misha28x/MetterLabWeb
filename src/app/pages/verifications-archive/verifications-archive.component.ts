@@ -18,7 +18,7 @@ import { Protocol } from '../../interfaces/protocol';
 @Component({
   selector: 'app-verifications-archive',
   templateUrl: './verifications-archive.component.html',
-  styleUrls: ['./verifications-archive.component.scss'],
+  styleUrls: ['./verifications-archive.component.scss']
 })
 export class PageVerificationsArchiveComponent implements OnInit {
   verificationsArchive: Observable<any[]>;
@@ -50,19 +50,15 @@ export class PageVerificationsArchiveComponent implements OnInit {
     const ref = this.dialog.open(SelectDialogComponent, {
       data: {
         provider: provider,
-        type: type,
-      },
+        type: type
+      }
     });
 
     ref.afterClosed().subscribe(data => {
       if (data) {
-        const url =
-          'http://134.209.243.90:3000/api/verifications-archive/service-provider/' +
-          id;
+        const url = 'http://134.209.243.90:3000/api/verifications-archive/service-provider/' + id;
 
-        this.http
-          .post(url, { provider: data.provider, type: data.type })
-          .subscribe(() => this.update);
+        this.http.post(url, { provider: data.provider, type: data.type }).subscribe(() => this.update);
       }
     });
   }
@@ -72,15 +68,13 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
     ref.afterClosed().subscribe((data: any) => {
       if (data) {
-        const url =
-          'http://134.209.243.90:3000/api/verifications-archive/service-provider/' +
-          id;
+        const url = 'http://134.209.243.90:3000/api/verifications-archive/service-provider/' + id;
 
         this.http
           .post(url, {
             date: data.date,
             number: data.number,
-            comment: data.comment,
+            comment: data.comment
           })
           .subscribe(() => this.update);
       }
@@ -89,19 +83,16 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
   displayProtocol(id: string): void {
     const url = 'http://134.209.243.90:3000/api/verications-protocols';
-    this.dataSv.getData(url + '/protocol/' + id).subscribe(
-      (protocol: Protocol) => {
-        this.protocolSv.addProtocol(protocol);
-      }
-    );
+    this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
+      this.protocolSv.addProtocol(protocol);
+    });
   }
 
   setIssueDate(): void {
     this.selectedData.forEach((data: Verification) => {
-      this.verificationSv.setIssueDate(
-        data.applicationNumber,
-        this.currentDate.toISOString()
-      ).subscribe(() => this.update());
+      this.verificationSv
+        .setIssueDate(data.applicationNumber, this.currentDate.toISOString())
+        .subscribe(() => this.update());
     });
 
     this.selectedData.length = 0;
@@ -109,7 +100,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
   addScan(id: string): void {
     this.dialog.open(ScanUploadComponent, {
-      data: { id: id },
+      data: { id: id }
     });
   }
 
@@ -118,7 +109,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
   }
 
   downloadDoc(id: string): void {
-    window.open('http://134.209.243.90:3000/api/report-formation/doc/' + id);
+    this.protocolSv.downloadDoc(id);
   }
 
   onChange(data: any): void {

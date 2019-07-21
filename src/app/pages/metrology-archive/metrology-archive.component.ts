@@ -111,7 +111,7 @@ export class PageMetrologyArchiveComponent implements OnInit {
   }
 
   downloadDoc(id: string): void {
-    window.open('http://134.209.243.90:3000/api/report-formation/doc/' + id);
+    this.protocolSv.downloadDoc(id);
   }
 
   onChange(data: any): void {

@@ -8,32 +8,72 @@
       </button>
     </div>
 
-    <app-table [checkboxes]="true" [desiredStatus]="'В роботі'" (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(stationsTasks | async)"
-      [pagination]="true">
+    <app-table
+      [checkboxes]="true"
+      [desiredStatus]="'В роботі'"
+      (rowSelected)="onChange($event)"
+      [hovered]="true"
+      [bordered]="true"
+      [tableData]="stationsTasks | async"
+      [pagination]="true"
+    >
+      <app-column
+        [date]="true"
+        [width]="115"
+        [columnTitle]="'Дата завдання'"
+        [columnName]="'taskDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [date]="true" [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Тип установки'"
+        [columnName]="'stationType'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Тип установки'" [columnName]="'stationType'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Номер установки'"
+        [columnName]="'stationNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'ПІБ контактної особи'"
+        [columnName]="'contactName'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'ПІБ контактної особи'" [columnName]="'contactName'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Номер телефону'"
+        [columnName]="'phoneNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="115" [columnTitle]="'Кількість заявок'" [columnName]="'verifCount'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Кількість заявок'"
+        [columnName]="'verifCount'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
       <!-- matTooltip="Додати відповідальну особу" Редагувати завдання, переглянути завдання, ексель, вибрати станцію-->
       <app-column [width]="185">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button (click)="editList(row['id_task'])">
-              <i class="icofont-listing-number color-info" matTooltip="Змінити порядок заявок в завданні"></i>
+              <i
+                class="icofont-listing-number color-info"
+                matTooltip="Змінити порядок заявок в завданні"
+              ></i>
             </button>
 
             <button mat-icon-button (click)="viewList(row['id_task'])">

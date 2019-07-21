@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Store, select } from '@ngrx/store';
 
 import { Protocol } from '../interfaces/protocol';
+import { User } from '../interfaces/user';
 
 const protocolUrl = 'http://134.209.243.90:3000/api/verications-protocols/';
 const rejectUrl = 'http://134.209.243.90:3000/api/verications-protocols/reject/';
@@ -14,8 +16,13 @@ const acceptUrl = 'http://134.209.243.90:3000/api/verications-protocols/accept/'
 export class ProtocolService {
   private protocolSource$ = new Subject<Protocol>();
   private protocolAdded$ = this.protocolSource$.asObservable();
+  private userId: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store<User>) {
+    this.store.pipe(select('permission')).subscribe((_user: User) => {
+      this.userId = _user.userId;
+    });
+  }
 
   public addProtocol(protocol: Protocol): void {
     this.protocolSource$.next(protocol);
@@ -26,7 +33,6 @@ export class ProtocolService {
   } 
 
   public upladteProtocol(id: any, data: Protocol): Observable<any> {
-    console.log(data);
     return this.http.put(protocolUrl + data.counterNumber, { ...data });
   }
 
@@ -36,5 +42,9 @@ export class ProtocolService {
 
   public rejectProtocol(id: any): Observable<any> {
     return this.http.get(rejectUrl + id);
+  }
+
+  downloadDoc(protocolNumber: string): void {
+    window.open(`http://134.209.243.90:3000/api/report-formation/doc/${protocolNumber}/${this.userId}`);
   }
 }
