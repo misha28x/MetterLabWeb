@@ -8,7 +8,7 @@ import { DetailViewService } from '../../../services/detail-view.service';
 import { Verification } from '../../../interfaces/verifications';
 
 const addressUrl =
-  'http://134.209.243.90:3000/api/new-verifications/all/address';
+  'http://localhost:3000/api/new-verifications/all/address';
 
 @Component({
   selector: 'app-detail-view',

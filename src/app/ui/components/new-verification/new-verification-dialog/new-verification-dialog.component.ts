@@ -11,7 +11,7 @@ import { VerificationService } from 'src/app/services/verification.service';
 
 import { User } from '../../../../interfaces/user';
 
-const url = 'http://134.209.243.90:3000/api/new-verifications';
+const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
   selector: 'app-new-verification-dialog',
@@ -47,7 +47,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {}
 
   setStep(index: number): void {
     this.step = index;
@@ -62,7 +62,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   ngAfterContentInit(): void {
-    setTimeout(() => this.showForm = true, 150);
+    setTimeout(() => (this.showForm = true), 150);
   }
 
   ngOnInit(): void {
@@ -76,7 +76,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       name: '',
       middlename: '',
       phone: '380',
-      mail: '',
       ipn: ''
     });
 
@@ -84,11 +83,9 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       region: '',
       district: '',
       settlement: '',
-      index: '',
       street: '',
       house: '',
       apartment: '',
-      isDismantled: false,
       isUnique: false,
       counterQuantity: 0,
       serviceType: '',
@@ -97,8 +94,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     });
 
     this.counterForm = this.fb.group({
-      isDismantled: false,
-      montageDate: '',
       counterNumber: '',
       haveSeal: '',
       counterType: '',
@@ -108,10 +103,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     });
 
     this.additionalDataForm = this.fb.group({
-      entrance: '',
-      doorCode: '',
-      floor: '',
-      favorDate: '',
       favorTime: '',
       sanitaryWellFare: '',
       waterAbsentTo: '',
@@ -120,12 +111,10 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 
     this.getAddress();
     this.getTypes();
-    
   }
 
   getTypes(): any {
-    //TODO: GET COUNTER TYPES
-    this.data.types.pipe().subscribe(_types => {  });
+    this.data.types.pipe().subscribe(_types => {});
   }
 
   getAddress(): any {
@@ -136,7 +125,9 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 
       this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
         startWith(''),
-        map(_res => this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase())))
+        map(_res =>
+          this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase()))
+        )
       );
 
       this.filteredSettlement = this.locationForm.get('settlement').valueChanges.pipe(
@@ -183,52 +174,20 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   setVerification(): Verification {
     const name = this.generalDataForm.get('name').value.replace(/'/g, /\'/);
     const surname = this.generalDataForm.get('surname').value.replace(/'/g, /\'/);
+
     const middlename = this.generalDataForm.get('middlename').value.replace(/'/g, /\'/);
 
     const fullName = `${surname} ${name} ${middlename}`;
+    const time = new Date(this.additionalDataForm.get('favorTime').value);
 
+    const haveSeal = this.counterForm.get('haveSeal').value ? 1 : 0;
     return {
+      ...this.locationForm.value,
+      ...this.counterForm.value,
+      ...this.additionalDataForm.value,
       client: fullName,
-      phoneNumber: this.generalDataForm.get('phone').value,
-      addingDate: new Date().getUTCFullYear() + '-' + new Date().getUTCMonth() + 1 + '-' + new Date().getUTCDate(),
-      region: this.locationForm.get('region').value.replace(/'/g, /\'/),
-      district: this.locationForm.get('district').value.replace(/'/g, /\'/),
-      settlement: this.locationForm.get('settlement').value.replace(/'/g, /\'/),
-      index: this.locationForm.get('index').value,
-      street: this.locationForm.get('street').value,
-      house: this.locationForm.get('house').value,
-      apartment: this.locationForm.get('apartment').value,
-      isDismantled: this.locationForm.get('isDismantled').value ? '1' : '0',
-      montageDate: this.counterForm.get('montageDate').value
-        ? this.counterForm.get('montageDate').value.toISOString()
-        : '',
-      employeeName: '',
-      comment: this.locationForm.get('comment').value.replace(/'/g, /\'/),
-      counterNumber: this.counterForm.get('counterNumber').value,
-      haveSeal: this.counterForm.get('haveSeal').value ? '1' : '0',
-      counterType: this.counterForm.get('counterType').value,
-      productionYear: this.counterForm.get('productionYear').value,
-      acumulatedVolume: this.counterForm.get('acumulatedVolume').value,
-      favorDate: this.additionalDataForm.get('favorDate').value
-        ? this.additionalDataForm.get('favorDate').value.toISOString()
-        : '',
-      favorTime: this.additionalDataForm.get('favorTime').value
-        ? this.additionalDataForm.get('favorTime').value.toISOString()
-        : '',
-      sanitaryWellfare: this.additionalDataForm.get('sanitaryWellFare').value ? '1' : '0',
-      waterAbsentTo: this.additionalDataForm.get('waterAbsentTo').value
-        ? this.additionalDataForm.get('waterAbsentTo').value.toISOString()
-        : '',
-      note: this.additionalDataForm.get('note').value,
-      isUnique: this.locationForm.get('isUnique').value ? '1' : '0',
-      serviceProvider: this.locationForm.get('serviceProvider').value,
-      serviceType: this.locationForm.get('serviceType').value,
-      symbol: this.counterForm.get('symbol').value,
-      counterQuantity: this.locationForm.get('counterQuantity').value,
-      floor: this.additionalDataForm.get('floor').value,
-      entrance: this.additionalDataForm.get('entrance').value,
-      userId: this.user.serviceProvider,
-      createFor: this.user.createFor
+      haveSeal: haveSeal,
+      favorTime: [time.getHours(), time.getMinutes()]
     };
   }
 }

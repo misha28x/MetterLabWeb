@@ -1,19 +1,31 @@
 <mat-form-field *ngIf="search">
-  <app-input [placeholder]="'Seach in table'" [appFilterTable]="config.filtering" (tableChanged)="onChangeTable(config)"
-    [suffixIcon]="'icofont icofont-search-alt-2'"></app-input>
+  <app-input
+    [placeholder]="'Seach in table'"
+    [appFilterTable]="config.filtering"
+    (tableChanged)="onChangeTable(config)"
+    [suffixIcon]="'icofont icofont-search-alt-2'"
+  ></app-input>
 </mat-form-field>
 
 <div class="table-wrap">
-  <table [ngClass]="getTableClasses()">
+  <table [style.height]="'100%'" [ngClass]="getTableClasses()">
     <tr>
-      <th [ngStyle]="{'min-width.px': 30, 'padding-top.px': 22}" *ngIf="checkboxes">
-        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()">
+      <th [ngStyle]="{'padding-top.px': 22 }" *ngIf="checkboxes">
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+        >
         </mat-checkbox>
       </th>
 
-      <th *ngFor="let c of columnList;" [column]="c.config" appTableSort="c.config.sort" (sortChanged)="onChangeTable(c)" [ngStyle]="{'min-width.px': c.width}">
-
+      <th
+        *ngFor="let c of columnList"
+        [column]="c.config"
+        appTableSort="c.config.sort"
+        (sortChanged)="onChangeTable(c)"
+        [ngStyle]="{ 'min-width.px': c.width }"
+      >
         <div class="title">
           {{ c.config.title }}
         </div>
@@ -22,21 +34,37 @@
           <ng-container *ngIf="!c.headerTemplate">
             <ng-container *ngIf="c.enableFiltering && !c.date">
               <div class="search-box">
-                <app-input [size]="'sm'" (click)="$event.stopPropagation();" [appFilterTable]="c.config.filtering"
-                  [suffixIcon]="'icofont icofont-search-alt-2'" (filterChanged)="onChangeTable(c)"></app-input>
+                <app-input
+                  [size]="'sm'"
+                  (click)="$event.stopPropagation()"
+                  [appFilterTable]="c.config.filtering"
+                  [suffixIcon]="'icofont icofont-search-alt-2'"
+                  (filterChanged)="onChangeTable(c)"
+                ></app-input>
               </div>
             </ng-container>
 
             <ng-container *ngIf="c.date">
               <div class="search-box">
-                <input #Range class="form-control mb-3" [(ngModel)]="c.config.filtering" [appFilterTable]="c.config.filtering" (onHidden)="onChangeTable(c, Range.value)" placeholder="За проміжок" bsDaterangepicker
-                  [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }" />
+                <input
+                  #Range
+                  class="form-control mb-3"
+                  [(ngModel)]="c.config.filtering"
+                  [appFilterTable]="c.config.filtering"
+                  (onHidden)="onChangeTable(c, Range.value)"
+                  placeholder="За проміжок"
+                  bsDaterangepicker
+                  [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }"
+                />
               </div>
             </ng-container>
 
             <span class="icons">
               <span *ngIf="c.config.enableSorting" class="arrows">
-                <i class="up icofont icofont-caret-up pull-left" [class.active]="c.config.sort == 'asc'"></i>
+                <i
+                  class="up icofont icofont-caret-up pull-left"
+                  [class.active]="c.config.sort == 'asc'"
+                ></i>
                 <i class="down icofont icofont-caret-down" [class.active]="c.config.sort == 'desc'"></i>
               </span>
             </span>
@@ -47,20 +75,36 @@
     </tr>
 
     <tr *ngFor="let row of rows; trackBy: trackByFn">
-      <td [ngStyle]="{'min-width.px': 30}" [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }" *ngIf="checkboxes">
-        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onRowSelected(row) : null"
-          [checked]="selection.isSelected(row)"></mat-checkbox>
+      <td
+        [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }"
+        *ngIf="checkboxes"
+      >
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? onRowSelected(row) : null"
+          [checked]="selection.isSelected(row)"
+        ></mat-checkbox>
       </td>
-      <td *ngFor="let col of columnList" [ngStyle]="{'min-width.px': col.width}"
-        [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }">
+      <td
+        *ngFor="let col of columnList"
+        [ngStyle]="{ 'min-width.px': col.width }"
+        [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }"
+      >
         <ng-container *ngIf="!col.bodyTemplate">
           {{ row[col.config.name] }}
         </ng-container>
-        <ng-template *ngIf="col.bodyTemplate" [ngTemplateOutlet]="col.bodyTemplate"
-          [ngTemplateOutletContext]="{$implicit: row[col.config.name] , row: row}"></ng-template>
+        <ng-template
+          *ngIf="col.bodyTemplate"
+          [ngTemplateOutlet]="col.bodyTemplate"
+          [ngTemplateOutletContext]="{ $implicit: row[col.config.name], row: row }"
+        ></ng-template>
       </td>
     </tr>
   </table>
 </div>
-<mat-paginator [length]="dataLenght" [pageSize]="itemsPerPage" [pageSizeOptions]="pageSizeOptions"
-  (page)="onChangePage($event)"></mat-paginator>
+<mat-paginator
+  [length]="dataLenght"
+  [pageSize]="itemsPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangePage($event)"
+></mat-paginator>

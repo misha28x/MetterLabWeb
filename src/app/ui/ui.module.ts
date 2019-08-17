@@ -42,9 +42,10 @@ import { AddContractorComponent } from './components/add-contractor/add-contract
 import { RejectionDialogComponent } from './components/rejection-dialog/rejection-dialog.component';
 import { StatusViewComponent } from './status-view/status-view.component';
 import { StatusDialogComponent } from './components/status-dialog/status-dialog.component';
+import { ChangeStationNumberComponent } from './components/change-station-number/change-station-number.component';
 
 @NgModule({
-	imports: [
+  imports: [
     MaterialModule,
     CommonModule,
     BrowserModule,
@@ -53,14 +54,14 @@ import { StatusDialogComponent } from './components/status-dialog/status-dialog.
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot()
   ],
-	exports: [
-		SortTableDirective,
-		FilterTableDirective,
-		TableComponent,
-		InputComponent,
-		ColumnComponent,
-		FileUploadComponent,
-		NewVerificationComponent,
+  exports: [
+    SortTableDirective,
+    FilterTableDirective,
+    TableComponent,
+    InputComponent,
+    ColumnComponent,
+    FileUploadComponent,
+    NewVerificationComponent,
     ProtocolViewComponent,
     DuplicateViewComponent,
     DuplicatViewDialogComponent,
@@ -69,17 +70,17 @@ import { StatusDialogComponent } from './components/status-dialog/status-dialog.
     CounterDialogDataComponent,
     EndStateDialogComponent,
     StartStateDialogComponent
-	],
-	declarations: [
-		SortTableDirective,
-		FilterTableDirective,
-		TableComponent,
-		InputComponent,
-		ColumnComponent,
-		FileUploadComponent,
-		UploadDialogComponent,
-		NewVerificationComponent,
-		NewVerificationDialogComponent,
+  ],
+  declarations: [
+    SortTableDirective,
+    FilterTableDirective,
+    TableComponent,
+    InputComponent,
+    ColumnComponent,
+    FileUploadComponent,
+    UploadDialogComponent,
+    NewVerificationComponent,
+    NewVerificationDialogComponent,
     ProtocolViewComponent,
     ProtocolDialogComponent,
     VerificationViewComponent,
@@ -102,8 +103,9 @@ import { StatusDialogComponent } from './components/status-dialog/status-dialog.
     AddContractorComponent,
     RejectionDialogComponent,
     StatusViewComponent,
-    StatusDialogComponent
-	],
+    StatusDialogComponent,
+    ChangeStationNumberComponent
+  ],
   entryComponents: [
     UploadDialogComponent,
     NewVerificationDialogComponent,
@@ -121,7 +123,8 @@ import { StatusDialogComponent } from './components/status-dialog/status-dialog.
     AddCityComponent,
     AddContractorComponent,
     RejectionDialogComponent,
-    StatusDialogComponent
+    StatusDialogComponent,
+    ChangeStationNumberComponent
   ]
 })
-export class UiModule { }
+export class UiModule {}

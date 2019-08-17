@@ -17,6 +17,6 @@ export class RejectionDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.selectedType = '';
-    this.list$ = this.dataSv.getData('http://134.209.243.90:3000/api/rejected-verification/types/rejections');
+    this.list$ = this.dataSv.getData('http://localhost:3000/api/rejected-verification/types/rejections');
   }
 }

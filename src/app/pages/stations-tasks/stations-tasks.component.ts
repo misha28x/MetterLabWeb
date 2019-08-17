@@ -4,11 +4,13 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
+import { StationsService } from '../../services/stations.service';
+
 import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-edit-dialog.component';
 import { TaslListViewDialogComponent } from './tasl-list-view-dialog/tasl-list-view-dialog.component';
 
-const url = 'http://134.209.243.90:3000/api/stations-tasks';
-const sendUrl = 'http://134.209.243.90:3000/api/file-sending';
+const url = 'http://localhost:3000/api/stations-tasks';
+const sendUrl = 'http://localhost:3000/api/file-sending';
 
 @Component({
   selector: 'app-stations-tasks',
@@ -20,6 +22,7 @@ export class PageStationsTasksComponent implements OnInit {
   selectedData: any[];
 
   constructor(
+    private stationSv: StationsService,
     private sourceSv: SourceService,
     private snackBar: MatSnackBar,
     private dataSv: DataService,
@@ -35,7 +38,7 @@ export class PageStationsTasksComponent implements OnInit {
   editList(id: number): void {
     this.dialog.open(TaskListEditDialogComponent, {
       data: id,
-      width: '90%',
+      width: '95%',
       height: '80%',
       panelClass: 'full-screen-modal'
     });
@@ -72,6 +75,12 @@ export class PageStationsTasksComponent implements OnInit {
     );
 
     task.subscribe(observer);
+  }
+
+  changeStationNumber(taskId: string, stationNumber: string): void {
+    this.stationSv
+      .changeStation(taskId, stationNumber)
+      .subscribe(() => this.sourceSv.fetchStationTasks());
   }
 
   showSnackBar(msg: string = 'Завдання надіслано'): void {

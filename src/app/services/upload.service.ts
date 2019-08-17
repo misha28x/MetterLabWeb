@@ -5,8 +5,8 @@ import { select, Store } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 
-const scanUrl = 'http://134.209.243.90:3000/api/verifications-archive/scan/';
-const url = 'http://134.209.243.90:3000/api/upload/';
+const scanUrl = 'http://localhost:3000/api/verifications-archive/scan/';
+const url = 'http://localhost:3000/api/upload/';
 
 @Injectable({
   providedIn: 'root'

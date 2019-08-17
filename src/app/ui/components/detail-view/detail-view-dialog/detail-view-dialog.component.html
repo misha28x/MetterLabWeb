@@ -34,13 +34,6 @@
           </mat-form-field>
         </div>
 
-        <div class="full-width">
-          <span>E-mail</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="E-mail" formControlName="mail" />
-          </mat-form-field>
-        </div>
-
         <div class="full-width inline">
           <div class="d-flex justify-content-between align-items-center">
             <span>Юридична особа</span>
@@ -64,7 +57,7 @@
         <div class="full-width">
           <span>Область</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Область" formControlName="region" />
+            <input matInput placeholder="Область" formControlName="region" value="Волинська" />
           </mat-form-field>
         </div>
 
@@ -79,13 +72,6 @@
           <span>Населений пункт</span>
           <mat-form-field class="input-field">
             <input matInput placeholder="Населений пункт" formControlName="settlement" />
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Індекс</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Індекс" formControlName="index" />
           </mat-form-field>
         </div>
 
@@ -167,9 +153,9 @@
 
         <div class="full-width inline" *ngIf="permission !== 2">
           <div class="d-flex justify-content-between align-items-center">
-            <mat-checkbox [labelPosition]="'before'" formControlName="isUnique"
-              >Перевірено на дублі</mat-checkbox
-            >
+            <mat-checkbox [labelPosition]="'before'" formControlName="isUnique">
+              Перевірено на дублі
+            </mat-checkbox>
             <button
               mat-raised-button
               color="primary"
@@ -185,17 +171,6 @@
 
     <mat-tab *ngIf="permission !== 2" [label]="'Лічильник'">
       <form [formGroup]="counterForm">
-        <div class="full-width">
-          <span>ПІБ працівника</span>
-          <mat-form-field class="input-field">
-            <mat-select placeholder="Працівник" formControlName="employeeName">
-              <mat-option *ngFor="let employee of data.name" [value]="employee">{{
-                employee
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
         <div class="full-width">
           <span>Номер лічильника</span>
           <mat-form-field class="input-field">
@@ -253,52 +228,10 @@
 
     <mat-tab [label]="'Додаткова інформація'">
       <form [formGroup]="additionalDataForm">
-        <div class="full-width">
-          <span>Під'їзд</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Під'їзд" formControlName="entrance" />
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Код на дверях</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Код на дверях" formControlName="doorCode" />
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Поверх</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Поверх" formControlName="floor" />
-          </mat-form-field>
-        </div>
-
         <div *ngIf="permission !== 2" class="full-width">
-          <span>Бажана дата проведення повірки</span>
-          <div class="input-field form-group">
-            <input
-              type="text"
-              class="form-control"
-              #dp="bsDatepicker"
-              bsDatepicker
-              formControlName="favorDate"
-              [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-            />
-          </div>
-        </div>
-
-        <div *ngIf="permission !== 2" class="full-width">
-          <span>Бажаний час проведення повірки</span>
+          <span>Час проведення повірки</span>
           <div class="input-field form-group">
             <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
-          </div>
-        </div>
-
-        <div class="full-width">
-          <span>Справність сантехніки</span>
-          <div class="input-field">
-            <mat-checkbox formControlName="sanitaryWellfare"></mat-checkbox>
           </div>
         </div>
 

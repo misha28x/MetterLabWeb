@@ -34,15 +34,15 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   cancelTask(id: string): void {
-    this.dataSv.getData('http://134.209.243.90:3000/api/stations-tasks/delete/' + id).subscribe();
+    this.dataSv.getData('http://localhost:3000/api/stations-tasks/delete/' + id).subscribe();
   }
-  
+
   rowStyle(date: string, status: string): any {
     return {
       'table-error': this.isFailed(date, status),
       'table-success': !this.isFailed(date, status)
     };
-  } 
+  }
 
   isFailed(date: string, status: string): boolean {
     if (new Date(date) > new Date || status.includes('Проведено повірку')) {
@@ -51,7 +51,7 @@ export class TaslListViewDialogComponent implements OnInit {
     return true;
   }
   updateData(): void {
-    this.url = 'http://134.209.243.90:3000/api/stations-tasks/tasks/' + this.idTask;
+    this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.idTask;
 
     this.taskList = this.dataSv.getData(this.url);
   }

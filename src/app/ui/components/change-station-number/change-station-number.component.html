@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Змінити номер станції</h2>
+
+<mat-form-field [style.width]="'100%'">
+  <mat-select [placeholder]="'Номео нової станції'" [(ngModel)]="selectedNumber">
+    <mat-option *ngFor="let stationNumber of stationNumbers$ | async" [value]="stationNumber">
+      {{ stationNumber }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div mat-dialog-actions>
+  <button mat-button color="primary" [mat-dialog-close]="selectedNumber" cdkFocusInitial>Вибрати</button>
+  <button mat-button mat-dialog-close>Скасувати</button>
+</div>

@@ -8,130 +8,118 @@ import { ITableConfig } from '../../interfaces/tableConfig';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-	styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements  OnInit, OnChanges {
-	@HostBinding('class.tc-table') true;
+export class TableComponent implements OnInit, OnChanges {
+  @HostBinding('class.tc-table') true;
 
-	@Input() pagination: boolean;
-	@Input() bordered: boolean;
-	@Input() striped: boolean;
-	@Input() hovered: boolean;
+  @Input() pagination: boolean;
+  @Input() bordered: boolean;
+  @Input() striped: boolean;
+  @Input() hovered: boolean;
   @Input() search: boolean;
   @Input() checkboxes: boolean;
 
-	@Input() config: ITableConfig;
-	@Input() tableData: any;
+  @Input() config: ITableConfig;
+  @Input() tableData: any;
   @Input() itemsPerPage: number;
+
+  @Input() statusKey: string;
   @Input() desiredStatus: string;
   @Input() errorStatus: string;
 
   @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
-	columnList: ColumnComponent[];
-  
-	pageEvent: PageEvent;
-	filtering: any;
-	_columns: Array<any>;
-	page: number;
-	pageSizeOptions: number[];
-	dataLenght: number;
-	data: Array<any>;
-	rows: Array<any>;
+  columnList: ColumnComponent[];
+
+  pageEvent: PageEvent;
+  filtering: any;
+  _columns: Array<any>;
+  page: number;
+  pageSizeOptions: number[];
+  dataLenght: number;
+  data: Array<any>;
+  rows: Array<any>;
 
   selection = new SelectionModel<any>(true, []);
 
-	constructor() {
-		this.columnList = [];
-		this._columns = [];
+  constructor() {
+    this.columnList = [];
+    this._columns = [];
+    this.statusKey = 'status';
 
-		this.config = {
-			sorting: true,
-			filtering: {
-				filtering: true,
-				filterString: ''
-			}
-		};
+    this.config = {
+      sorting: true,
+      filtering: {
+        filtering: true,
+        filterString: ''
+      }
+    };
 
-		this.pageSizeOptions = [10, 50, 100, 200];
-		this.itemsPerPage = this.pageSizeOptions[0];
-		this.page = 0;
-	}
-
-	ngOnInit(): void {
-		this.getColumns();
-		this.setData(this.data);
+    this.pageSizeOptions = [10, 50, 100, 200];
+    this.itemsPerPage = this.pageSizeOptions[0];
+    this.page = 0;
   }
-  
+
+  ngOnInit(): void {
+    this.getColumns();
+    this.setData(this.data);
+  }
+
   ngOnChanges(): void {
+    console.log(this.tableData);
     this.setData(this.tableData);
   }
 
-	setData(data: any[]): void {
-		if (data) {
-			this.data = [].concat(data);
-			this.rows = [].concat(data);
-			this.initData();
-		}
-	}
+  setData(data: any[]): void {
+    if (data) {
+      this.data = [].concat(data);
+      this.rows = [].concat(data);
+      this.initData();
+    }
+  }
 
-	initData(): void {
-		this.getColumns();
-		this.onChangeTable();
-	}
+  initData(): void {
+    this.getColumns();
+    this.onChangeTable();
+  }
 
-	addColumn(column: ColumnComponent): void {
+  addColumn(column: ColumnComponent): void {
     this.columnList.push(column);
   }
 
-	public getColumns(): void {
-		this.columnList.forEach(col => {
-			this._columns.push(col.config);
-		});
-	}
+  public getColumns(): void {
+    this.columnList.forEach(col => {
+      this._columns.push(col.config);
+    });
+  }
 
-	public getConfigColumns(): any {
-		const sortColumns: Array<any> = [];
+  public getConfigColumns(): any {
+    const sortColumns: Array<any> = [];
 
-		this._columns.forEach(column => {
-			if (column.sort) {
-				sortColumns.push(column);
-			}
-		});
+    this._columns.forEach(column => {
+      if (column.sort) {
+        sortColumns.push(column);
+      }
+    });
 
-		return { _columns: sortColumns };
-	}
+    return { _columns: sortColumns };
+  }
 
   getSuccessClass(row: any): boolean {
-    if (!row['status']) {
-      return false;
-    }
-
-    if (row['status'] !== this.desiredStatus) {
-      return false;
-    } 
-
-    return true;
+    return row[this.statusKey] == this.desiredStatus;
   }
 
   getErrorClass(row: any): boolean {
-    if (!row['status']) {
-      return false;
-    }
-
-    if (row['status'] !== this.errorStatus) {
-      return false;
-    } 
-
-    return true;
+    return row[this.statusKey] == this.errorStatus;
   }
 
-	public onChangePage(event: PageEvent): void {
-		this.page = event.pageIndex;
-		this.itemsPerPage = event.pageSize;
-		this.onChangeTable();
+  public onChangePage(event: PageEvent): void {
+    this.page = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.onChangeTable();
   }
-  
+
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.rows.length;
@@ -139,67 +127,65 @@ export class TableComponent implements  OnInit, OnChanges {
   }
 
   masterToggle(): void {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.rows.forEach(row => this.selection.select(row));
+    this.isAllSelected() ? this.selection.clear() : this.rows.forEach(row => this.selection.select(row));
     this.rowSelected.emit(this.selection.selected);
   }
 
-	public changePage(data: any[]): any[] {
-		let start = (this.page) * this.itemsPerPage;
-		
-		if (this.page > 0) {
-			--start;
-		}
+  public changePage(data: any[]): any[] {
+    let start = this.page * this.itemsPerPage;
 
-		if (data.length < (start + this.itemsPerPage)) {
-			return data.slice(start);
-		}
+    if (this.page > 0) {
+      --start;
+    }
 
-		const end = start + this.itemsPerPage;
-		return data.slice(start, end);
-	}
+    if (data.length < start + this.itemsPerPage) {
+      return data.slice(start);
+    }
 
-	public changeSort(data: any, config: any): any {
-		if (!config.sorting) {
-			return data;
-		}
+    const end = start + this.itemsPerPage;
+    return data.slice(start, end);
+  }
 
-		const columns = [];
-    
-		this.columnList.forEach(col => {
-			columns.push(col.config);
-		});
+  public changeSort(data: any, config: any): any {
+    if (!config.sorting) {
+      return data;
+    }
 
-		let columnName: string = void 0;
-		let sort: string = void 0;
+    const columns = [];
 
-		for (let i = 0; i < columns.length; i++) {
-			if (columns[i].sort !== '' && columns[i].sort !== false) {
-				columnName = columns[i].name;
-				sort = columns[i].sort;
-			}
-		}
+    this.columnList.forEach(col => {
+      columns.push(col.config);
+    });
 
-		if (!columnName) {
-			return data;
-		}
+    let columnName: string = void 0;
+    let sort: string = void 0;
 
-		return data.sort((previous: any, current: any) => {
-			if (previous[columnName] > current[columnName]) {
-				return sort === 'desc' ? -1 : 1;
-			} 
-      
+    for (let i = 0; i < columns.length; i++) {
+      if (columns[i].sort !== '' && columns[i].sort !== false) {
+        columnName = columns[i].name;
+        sort = columns[i].sort;
+      }
+    }
+
+    if (!columnName) {
+      return data;
+    }
+
+    return data.sort((previous: any, current: any) => {
+      if (previous[columnName] > current[columnName]) {
+        return sort === 'desc' ? -1 : 1;
+      }
+
       if (previous[columnName] < current[columnName]) {
-				return sort === 'asc' ? -1 : 1;
-			}
-			return 0;
-		});
-	}
+        return sort === 'asc' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
 
-	public changeFilter(data: any, filterString: string, column?: ColumnComponent): any {
+  public changeFilter(data: any, filterString: string, column?: ColumnComponent): any {
     let filteredData: Array<any> = data;
-    
+
     if (column && column.date && Array.isArray(column.config.filtering)) {
       const firstDate = new Date(column.config.filtering[0]).toISOString();
       const secondDate = new Date(column.config.filtering[1]).toISOString();
@@ -210,27 +196,31 @@ export class TableComponent implements  OnInit, OnChanges {
       return filteredData;
     }
 
-		if (!filterString || filterString.length === 0) {
-			return filteredData;
-		}
-		
-		if (column) {
-			filteredData = filteredData.filter((item: any) => {
-				return item[column.config.name].toString().toLowerCase().startsWith(filterString.toLowerCase());
-			});
-
-			return filteredData;
+    if (!filterString || filterString.length === 0) {
+      return filteredData;
     }
-    
+
+    if (column) {
+      filteredData = filteredData.filter((item: any) => {
+        return item[column.config.name]
+          .toString()
+          .toLowerCase()
+          .startsWith(filterString.toLowerCase());
+      });
+
+      return filteredData;
+    }
+
     const tempArray: Array<any> = [];
     filteredData.forEach((item: any) => {
       let flag = false;
       this.columnList.forEach((_column: any) => {
-				if (item[_column.config.name]
-              .toString()
-              .toLowerCase()
-              .startsWith(filterString.toLowerCase())
-            ) {
+        if (
+          item[_column.config.name]
+            .toString()
+            .toLowerCase()
+            .startsWith(filterString.toLowerCase())
+        ) {
           flag = true;
         }
       });
@@ -243,23 +233,22 @@ export class TableComponent implements  OnInit, OnChanges {
     return filteredData;
   }
 
-	onChangeTable(column?: ColumnComponent, value?: string): void {
+  onChangeTable(column?: ColumnComponent, value?: string): void {
+    if (column) {
+      Object.assign(this.config.filtering, column.config.filtering);
+    }
 
-		if (column) {
-				Object.assign(this.config.filtering, column.config.filtering);
-		}
-			
-		const filteredData = this.changeFilter(this.data, this.config.filtering.filterString, column);
-		
-		const sortedData = this.changeSort(filteredData, this.config);
-		
-		this.dataLenght = sortedData.length;
+    const filteredData = this.changeFilter(this.data, this.config.filtering.filterString, column);
 
-		if (this.pagination) {
-			this.rows = this.changePage(sortedData);
-		} else {
-			this.rows = sortedData;
-		}
+    const sortedData = this.changeSort(filteredData, this.config);
+
+    this.dataLenght = sortedData.length;
+
+    if (this.pagination) {
+      this.rows = this.changePage(sortedData);
+    } else {
+      this.rows = sortedData;
+    }
   }
 
   onRowSelected(row: any): void {
@@ -267,15 +256,15 @@ export class TableComponent implements  OnInit, OnChanges {
     this.rowSelected.emit(this.selection.selected);
   }
 
-	trackByFn(index: number, item: any): any {
-		return index;
-	}
+  trackByFn(index: number, item: any): any {
+    return index;
+  }
 
-	getTableClasses(): any {
-		return {
-			'stripped': this.striped,
-			'hovered': this.hovered,
-			'bordered': this.bordered
-		};
-	}
+  getTableClasses(): any {
+    return {
+      stripped: this.striped,
+      hovered: this.hovered,
+      bordered: this.bordered
+    };
+  }
 }

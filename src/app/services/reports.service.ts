@@ -16,7 +16,7 @@ enum ReportType {
 	Rejected = 'rejected/'
 }
 
-const Url = 'http://134.209.243.90:3000/api/reports/';
+const Url = 'http://localhost:3000/api/reports/';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class ReportsService {
   constructor(
     private http: HttpClient,
     private store: Store<User>
-  ) { 
+  ) {
     this.store.pipe(select('permission')).subscribe(_user => this.user = _user);
   }
 

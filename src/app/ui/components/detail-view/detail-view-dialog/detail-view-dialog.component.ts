@@ -10,8 +10,8 @@ import { Verification } from '../../../../interfaces/verifications';
 import { SourceService } from '../../../../services/source.service';
 import { DataService } from '../../../../services/data.service';
 
-const typeUrl = 'http://134.209.243.90:3000/api/new-verifications/device';
-const symbolUrl = 'http://134.209.243.90:3000/api/new-verifications/dn';
+const typeUrl = 'http://localhost:3000/api/new-verifications/device';
+const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
 
 @Component({
   selector: 'app-detail-view-dialog',
@@ -48,7 +48,7 @@ export class DetailViewDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(user => (this.permission = user.permission));
-    console.log(this.data);
+
     const $symbolObservable = this.dataSv.getData(symbolUrl);
     const $typeObservable = this.dataSv.getData(typeUrl);
 
@@ -79,14 +79,12 @@ export class DetailViewDialogComponent implements OnInit {
     });
 
     this.locationForm = this.fb.group({
-      region: this.data.verification[0].region,
+      region: 'Волинська',
       district: this.data.verification[0].district,
       settlement: this.data.verification[0].settlement,
-      index: this.data.verification[0].cityIndex,
       street: this.data.verification[0].street,
       house: this.data.verification[0].house,
       apartment: this.data.verification[0].apartment,
-      isDismantled: 0,
       isUnique: this.data.verification[0].isUnique,
       counterQuantity: this.data.verification[0].counterQuantity,
       serviceType: this.data.verification[0].serviceType,
@@ -96,8 +94,6 @@ export class DetailViewDialogComponent implements OnInit {
 
     this.counterForm = this.fb.group({
       isDismantled: 0,
-      montageDate: new Date(this.data.verification[0].montageDate) || null,
-      employeeName: this.data.verification[0].employeeName,
       counterNumber: this.data.verification[0].counterNumber,
       haveSeal: this.data.verification[0].haveSeal === 1,
       counterType: this.data.verification[0].counterType,
@@ -116,14 +112,9 @@ export class DetailViewDialogComponent implements OnInit {
     const favorTime = new Date();
     favorTime.setHours(time[0]);
     favorTime.setMinutes(time[1]);
-    console.log(this.data.verification[0].sanitaryWellFare === 1);
+
     this.additionalDataForm = this.fb.group({
-      entrance: this.data.verification[0].entrance,
-      doorCode: this.data.verification[0].doorCode,
-      floor: this.data.verification[0].floor,
-      favorDate: new Date(this.data.verification[0].favorDate) || null,
       favorTime: favorTime,
-      sanitaryWellfare: this.data.verification[0].sanitaryWellfare === 1,
       note: this.data.verification[0].note
     });
 
@@ -180,14 +171,12 @@ export class DetailViewDialogComponent implements OnInit {
     const fullName = `${surname} ${name} ${middlename}`;
     const time = new Date(this.additionalDataForm.get('favorTime').value);
 
-    const sanitaryWellfare = this.additionalDataForm.get('sanitaryWellfare').value ? 1 : 0;
     const haveSeal = this.counterForm.get('haveSeal').value ? 1 : 0;
     return {
       ...this.locationForm.value,
       ...this.counterForm.value,
       ...this.additionalDataForm.value,
       client: fullName,
-      sanitaryWellfare: sanitaryWellfare,
       haveSeal: haveSeal,
       favorTime: [time.getHours(), time.getMinutes()]
     };

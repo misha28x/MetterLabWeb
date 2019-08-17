@@ -11,7 +11,7 @@ import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 
-const url = 'http://134.209.243.90:3000/api/new-verifications';
+const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
   selector: 'app-providers-page',

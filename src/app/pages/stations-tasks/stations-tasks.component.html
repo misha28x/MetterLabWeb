@@ -10,6 +10,7 @@
 
     <app-table
       [checkboxes]="true"
+      [statusKey]="'task_status'"
       [desiredStatus]="'В роботі'"
       (rowSelected)="onChange($event)"
       [hovered]="true"
@@ -19,23 +20,15 @@
     >
       <app-column
         [date]="true"
-        [width]="115"
+        [width]="165"
         [columnTitle]="'Дата завдання'"
         [columnName]="'taskDate'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
-
+      c
       <app-column
-        [width]="115"
-        [columnTitle]="'Тип установки'"
-        [columnName]="'stationType'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="115"
+        [width]="145"
         [columnTitle]="'Номер установки'"
         [columnName]="'stationNumber'"
         [enableSorting]="true"
@@ -43,7 +36,7 @@
       ></app-column>
 
       <app-column
-        [width]="115"
+        [width]="155"
         [columnTitle]="'ПІБ контактної особи'"
         [columnName]="'contactName'"
         [enableSorting]="true"
@@ -84,7 +77,7 @@
               <i class="icofont-file-excel color-success" matTooltip="Завантажити у форматі .xsl"></i>
             </button>
 
-            <button mat-icon-button>
+            <button mat-icon-button (click)="changeStationNumber(row['id_task'], row['stationNumber'])">
               <i class="icofont-edit color-info" matTooltip="Змінити номер станції"></i>
             </button>
           </div>
