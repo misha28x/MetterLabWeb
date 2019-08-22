@@ -7,8 +7,8 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Station } from '../interfaces/station';
 import { ChangeStationNumberComponent } from '../ui/components/change-station-number/change-station-number.component';
 
-const stationsUrl = 'http://localhost:3000/api/employees/stations';
-const taskUrl = 'http://localhost:3000/api/stations-tasks';
+const stationsUrl = 'http://165.22.83.21:3000/api/employees/stations';
+const taskUrl = 'http://165.22.83.21:3000/api/stations-tasks';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class StationsService {
   }
 
   getPermissions(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/Stations/permissions');
+    return this.http.get('http://165.22.83.21:3000/api/Stations/permissions');
   }
 
   addStation(station: Station): Observable<any> {

@@ -9,10 +9,6 @@
       </div>
 
       <div class="user-actions">
-        <button mat-raised-button color="primary" class="bg-warning">
-          <i class="icofont-delete"></i>
-          Скасувати Дійову Особу
-        </button>
         <button mat-raised-button color="warn"><i class="icofont-minus"></i>Відхилити Повірку</button>
       </div>
     </div>
@@ -110,10 +106,6 @@
           <div class="actions-row">
             <button mat-icon-button (click)="detailView(row['applicationNumber'])">
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
-            </button>
-
-            <button mat-icon-button (click)="cancelEmployee(row['applicationNumber'])">
-              <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
             </button>
 
             <button mat-icon-button (click)="checkForDuplicate(row)">

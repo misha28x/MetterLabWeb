@@ -1,8 +1,6 @@
 <!-- Архів Повірок -->
 <mat-card>
   <mat-card-content>
-    <div class="actions"></div>
-
     <app-table
       [hovered]="true"
       [bordered]="true"
@@ -27,7 +25,7 @@
       ></app-column>
 
       <app-column
-        [width]="75"
+        [width]="200"
         [columnTitle]="'Клієнт'"
         [columnName]="'client'"
         [enableSorting]="true"
@@ -43,7 +41,7 @@
       ></app-column>
 
       <app-column
-        [width]="75"
+        [width]="150"
         [columnTitle]="'Вулиця клієнта'"
         [columnName]="'street'"
         [enableSorting]="true"
@@ -51,25 +49,17 @@
       ></app-column>
 
       <app-column
-        [width]="75"
-        [columnTitle]="'Будинок'"
+        [width]="30"
+        [columnTitle]="'Буд.'"
         [columnName]="'house'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="75"
-        [columnTitle]="'Квартира'"
+        [width]="30"
+        [columnTitle]="'Кв.'"
         [columnName]="'apartment'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Індекс'"
-        [columnName]="'cityIndex'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -78,22 +68,6 @@
         [width]="75"
         [columnTitle]="'Номер телефону'"
         [columnName]="'phoneNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Надавач послуг'"
-        [columnName]="'serviceProvider'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Тип послуги'"
-        [columnName]="'serviceType'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -107,10 +81,6 @@
 
             <button mat-icon-button (click)="revertVerif(row['applicationNumber'])">
               <mat-icon class="color-info" matTooltip="Повернути до планування">settings_backup_restore</mat-icon>
-            </button>
-
-            <button mat-icon-button (click)="checkForDuplicate(row)">
-              <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
             </button>
 
             <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">

@@ -26,13 +26,13 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column
+      <!--<app-column
         [width]="125"
         [columnTitle]="'Номер установки'"
         [columnName]="'deviceNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      ></app-column>-->
 
       <app-column
         [width]="125"
@@ -62,14 +62,6 @@
         [width]="125"
         [columnTitle]="'Номер лічильника'"
         [columnName]="'counterNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="115"
-        [columnTitle]="'Номер пломби'"
-        [columnName]="'sealNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -125,29 +117,15 @@
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button>
-              <i
-                class="icofont-info-circle color-info"
-                matTooltip="Інформація про протокол"
-              ></i>
+              <i class="icofont-info-circle color-info" matTooltip="Інформація про протокол"></i>
             </button>
 
-            <button
-              mat-icon-button
-              (click)="displayProtocol(row['counterNumber'])"
-            >
-              <i
-                class="icofont-edit color-info"
-                matTooltip="Переглянути протокол"
-              ></i>
+            <button mat-icon-button (click)="displayProtocol(row['counterNumber'])">
+              <i class="icofont-edit color-info" matTooltip="Переглянути протокол"></i>
             </button>
 
-            <button
-              mat-icon-button
-              (click)="deleteProtocol(row['counterNumber'])"
-            >
-              <mat-icon class="color-error" matTooltip="Видалити файл"
-                >delete_outline</mat-icon
-              >
+            <button mat-icon-button (click)="deleteProtocol(row['counterNumber'])">
+              <mat-icon class="color-error" matTooltip="Видалити файл">delete_outline</mat-icon>
             </button>
           </div>
         </ng-template>

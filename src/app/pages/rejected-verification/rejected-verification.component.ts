@@ -8,7 +8,7 @@ import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 
-const url = 'http://localhost:3000/api/new-verifications';
+const url = 'http://165.22.83.21:3000/api/new-verifications';
 
 @Component({
   selector: 'app-rejected-verification',

@@ -67,7 +67,6 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.tableData);
     this.setData(this.tableData);
   }
 

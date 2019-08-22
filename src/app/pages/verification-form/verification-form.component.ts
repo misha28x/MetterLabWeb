@@ -23,7 +23,6 @@ export class VerificationFormComponent implements OnInit {
       street: '',
       house: '',
       apartment: '',
-      isDismantled: false,
       isUnique: false,
       counterQuantity: 0,
       serviceType: '',

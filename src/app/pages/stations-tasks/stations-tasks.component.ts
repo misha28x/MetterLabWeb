@@ -9,8 +9,8 @@ import { StationsService } from '../../services/stations.service';
 import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-edit-dialog.component';
 import { TaslListViewDialogComponent } from './tasl-list-view-dialog/tasl-list-view-dialog.component';
 
-const url = 'http://localhost:3000/api/stations-tasks';
-const sendUrl = 'http://localhost:3000/api/file-sending';
+const url = 'http://165.22.83.21:3000/api/stations-tasks';
+const sendUrl = 'http://165.22.83.21:3000/api/file-sending';
 
 @Component({
   selector: 'app-stations-tasks',
@@ -46,7 +46,7 @@ export class PageStationsTasksComponent implements OnInit {
 
   viewList(id: number): void {
     this.dialog.open(TaslListViewDialogComponent, {
-      data: id,
+      data: { taskId: id },
       width: '90%',
       height: '80%',
       panelClass: 'full-screen-modal'

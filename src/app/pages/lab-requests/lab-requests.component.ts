@@ -12,7 +12,7 @@ import { SelectDialogComponent } from '../../ui/components/select-dialog';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 import { filter, switchMap } from 'rxjs/operators';
 
-const url = 'http://localhost:3000/api/new-verifications';
+const url = 'http://165.22.83.21:3000/api/new-verifications';
 
 @Component({
   selector: 'app-lab-requests',
@@ -83,7 +83,7 @@ export class PageLabRequestsComponent implements OnInit {
     ref.afterClosed().subscribe(data => {
 
       if (data) {
-        const providerUrl = 'http://localhost:3000/api/verifications-archive/service-provider/' + id;
+        const providerUrl = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
 
         this.http.post(
           providerUrl, { provider: data.provider, type: data.type })

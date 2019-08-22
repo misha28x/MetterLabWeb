@@ -6,9 +6,9 @@ import { Store, select } from '@ngrx/store';
 import { Protocol } from '../interfaces/protocol';
 import { User } from '../interfaces/user';
 
-const protocolUrl = 'http://localhost:3000/api/verications-protocols/';
-const rejectUrl = 'http://localhost:3000/api/verications-protocols/reject/';
-const acceptUrl = 'http://localhost:3000/api/verications-protocols/accept/';
+const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols/';
+const rejectUrl = 'http://165.22.83.21:3000/api/verications-protocols/reject/';
+const acceptUrl = 'http://165.22.83.21:3000/api/verications-protocols/accept/';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +45,6 @@ export class ProtocolService {
   }
 
   downloadDoc(protocolNumber: string): void {
-    window.open(`http://localhost:3000/api/report-formation/doc/${protocolNumber}/${this.userId}`);
+    window.open(`http://165.22.83.21:3000/api/report-formation/doc/${protocolNumber}/${this.userId}`);
   }
 }

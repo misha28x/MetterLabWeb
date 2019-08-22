@@ -9,32 +9,42 @@ import { DetailViewService } from '../../../services/detail-view.service';
 import { VerificationService } from '../../../services/verification.service';
 import { DeleteDialogComponent } from '../../../ui/components/delete-dialog';
 
+interface DialogData {
+  taskId: string;
+  unresolved: boolean;
+}
+
 @Component({
-	selector: 'app-tasl-list-view-dialog',
-	templateUrl: './tasl-list-view-dialog.component.html',
-	styleUrls: ['./tasl-list-view-dialog.component.scss']
+  selector: 'app-tasl-list-view-dialog',
+  templateUrl: './tasl-list-view-dialog.component.html',
+  styleUrls: ['./tasl-list-view-dialog.component.scss']
 })
 export class TaslListViewDialogComponent implements OnInit {
+  private url: string;
+  taskList: Observable<any[]>;
 
-	private url: string;
-	taskList: Observable<any[]>;
-
-	constructor(
+  constructor(
     private dialog: MatDialog,
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
     private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<TaslListViewDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public idTask: number
-	) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
 
-	ngOnInit(): void {
+  ngOnInit(): void {
+    if (this.data.unresolved) {
+      this.url = 'http://165.22.83.21:3000/api/stations-tasks/unresolved/' + this.data.taskId;
+    } else {
+      this.url = 'http://165.22.83.21:3000/api/stations-tasks/tasks/' + this.data.taskId;
+    }
+
     this.updateData();
   }
 
   cancelTask(id: string): void {
-    this.dataSv.getData('http://localhost:3000/api/stations-tasks/delete/' + id).subscribe();
+    this.dataSv.getData('http://165.22.83.21:3000/api/stations-tasks/delete/' + id).subscribe();
   }
 
   rowStyle(date: string, status: string): any {
@@ -45,14 +55,9 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   isFailed(date: string, status: string): boolean {
-    if (new Date(date) > new Date || status.includes('Проведено повірку')) {
-      return false;
-    }
-    return true;
+    return new Date(date) > new Date() || status.includes('Проведено повірку');
   }
   updateData(): void {
-    this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.idTask;
-
     this.taskList = this.dataSv.getData(this.url);
   }
 
@@ -74,7 +79,7 @@ export class TaslListViewDialogComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.verificationSv.deleteFromTask(verifId, this.idTask).subscribe(() => this.updateData());
+        this.verificationSv.deleteFromTask(verifId, this.data).subscribe(() => this.updateData());
       }
     });
   }

@@ -5,6 +5,7 @@
     [style.minHeight]="'100%'"
     [hovered]="true"
     [bordered]="true"
+    [errorStatus]="'Не виконано'"
     [tableData]="taskList | async"
     [pagination]="true"
   >
@@ -103,15 +104,11 @@
             <mat-icon class="color-info" matTooltip="Інформація">info</mat-icon>
           </button>
 
-          <button mat-icon-button (click)="cancelEmployee(row['applicationNumber'])">
-            <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
-          </button>
-
-          <button mat-icon-button (click)="checkForDuplicate(row)">
+          <button *ngIf="!data.unresolved" mat-icon-button (click)="checkForDuplicate(row)">
             <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
           </button>
 
-          <button mat-icon-button (click)="clientInaccesable(row['applicationNumber'])">
+          <button *ngIf="!data.unresolved" mat-icon-button (click)="clientInaccesable(row['applicationNumber'])">
             <mat-icon class="color-error" matTooltip="Недозвон">phone_missed</mat-icon>
           </button>
         </div>

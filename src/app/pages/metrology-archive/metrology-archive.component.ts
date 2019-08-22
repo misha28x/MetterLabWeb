@@ -56,7 +56,7 @@ export class PageMetrologyArchiveComponent implements OnInit {
 
     ref.afterClosed().subscribe(data => {
       if (data) {
-        const url = 'http://localhost:3000/api/verifications-archive/service-provider/' + id;
+        const url = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
 
         this.http
           .post(url, { provider: data.provider, type: data.type })
@@ -70,7 +70,7 @@ export class PageMetrologyArchiveComponent implements OnInit {
 
     ref.afterClosed().subscribe((data: any) => {
       if (data) {
-        const url = 'http://localhost:3000/api/verifications-archive/service-provider/' + id;
+        const url = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
 
         this.http
           .post(url, {
@@ -84,7 +84,7 @@ export class PageMetrologyArchiveComponent implements OnInit {
   }
 
   displayProtocol(id: string): void {
-    const url = 'http://localhost:3000/api/verications-protocols';
+    const url = 'http://165.22.83.21:3000/api/verications-protocols';
     this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
       this.protocolSv.addProtocol(protocol);
     });

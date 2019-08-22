@@ -1,10 +1,20 @@
 <h2 mat-dialog-title>Кінцеве значення тесту</h2>
 <mat-dialog-content class="content">
-  <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" [src]="getImgSource()" alt="Кінцеве значення тесту">
+  <img
+    [ngStyle]="{ transform: 'rotate(' + angle + 'deg)' }"
+    [src]="getImgSource()"
+    alt="Кінцеве значення тесту"
+  />
 
   <form class="example-form">
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Кінцеве значення лічильника" value="{{ data.value }}" [formControl]="state">
+      <input
+        type="number"
+        matInput
+        placeholder="Кінцеве значення лічильника"
+        value="{{ data.value }}"
+        [formControl]="state"
+      />
     </mat-form-field>
   </form>
 </mat-dialog-content>

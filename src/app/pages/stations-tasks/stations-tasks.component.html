@@ -62,12 +62,12 @@
       <app-column [width]="185">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <button mat-icon-button (click)="editList(row['id_task'])">
+            <!--<button mat-icon-button (click)="editList(row['id_task'])">
               <i
                 class="icofont-listing-number color-info"
                 matTooltip="Змінити порядок заявок в завданні"
               ></i>
-            </button>
+            </button>-->
 
             <button mat-icon-button (click)="viewList(row['id_task'])">
               <i class="fas fa-table color-info" matTooltip="Переглянути завдання"></i>

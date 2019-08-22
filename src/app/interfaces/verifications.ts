@@ -13,7 +13,6 @@ export interface Verification {
 	street: string;						  // Вулиця + 												\\
 	house: string; 							// Будинок + 												\\
   apartment: string; 					// Квартира + 											\\
-  isDismantled?: any; 			// Лічильник_демонтовано +					\\
   montageDate?: string;        // Дата монтажу лічильника +				\\
   counterQuantity?: any;   // Кількість лічильників						\\
 	symbol: string; 						// Умовне_позначення +							\\

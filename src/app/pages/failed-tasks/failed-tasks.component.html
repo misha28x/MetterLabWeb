@@ -8,36 +8,67 @@
       </button>
     </div>
 
-    <app-table (rowSelected)="onChange($event)" [hovered]="true" [bordered]="true" [tableData]="(stationsTasks | async)"
-      [pagination]="true">
+    <app-table
+      (rowSelected)="onChange($event)"
+      [hovered]="true"
+      [bordered]="true"
+      [tableData]="stationsTasks | async"
+      [pagination]="true"
+    >
+      <app-column
+        [date]="true"
+        [width]="115"
+        [columnTitle]="'Дата завдання'"
+        [columnName]="'taskDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [date]="true" [width]="115" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Тип установки'"
+        [columnName]="'stationType'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Тип установки'" [columnName]="'stationType'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Номер установки'"
+        [columnName]="'stationNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'ПІБ контактної особи'"
+        [columnName]="'contactName'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'ПІБ контактної особи'" [columnName]="'contactName'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Номер телефону'"
+        [columnName]="'phoneNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="115" [columnTitle]="'Номер телефону'" [columnName]="'phoneNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="115" [columnTitle]="'Кількість заявок'" [columnName]="'verifCount'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="115"
+        [columnTitle]="'Кількість заявок'"
+        [columnName]="'verifCount'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
       <!-- matTooltip="Додати відповідальну особу" Редагувати завдання, переглянути завдання, ексель, вибрати станцію-->
       <app-column [columnTitle]="'Дії'" [width]="95">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <button mat-icon-button (click)="viewList('unresolved/' + row['id_task'])">
+            <button mat-icon-button (click)="viewList(row['id_task'])">
               <i class="fas fa-table color-info" matTooltip="Переглянути завдання"></i>
-            </button>
-
-            <button mat-icon-button>
-              <i class="fas fa-backspace color-error" matTooltip="Розформувати завдання"></i>
             </button>
           </div>
         </ng-template>

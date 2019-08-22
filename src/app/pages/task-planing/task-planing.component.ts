@@ -16,7 +16,7 @@ import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/em
 import { TaskSendingComponent } from './task-sending/task-sending.component';
 import { UserInfoComponent } from '../../ui/components/user-info';
 
-const verificationUrl = 'http://localhost:3000/api/new-verifications';
+const verificationUrl = 'http://165.22.83.21:3000/api/new-verifications';
 
 @Component({
   selector: 'app-task-planing',
@@ -62,7 +62,7 @@ export class PageTaskPlaningComponent implements OnInit {
   }
 
   sendData(): void {
-    const url = 'http://localhost:3000/api/task-planing/stations/' + this.user.serviceProvider;
+    const url = 'http://165.22.83.21:3000/api/task-planing/stations/' + this.user.serviceProvider;
 
     const obs = this.dataSv.getData(url).pipe(map((res: any[]) => res.map(station => station.stationNumber)));
 
@@ -81,7 +81,7 @@ export class PageTaskPlaningComponent implements OnInit {
             serviceProvider: this.user.serviceProvider
           };
 
-          const sendUrl = 'http://localhost:3000/api/task-planing/station-task';
+          const sendUrl = 'http://165.22.83.21:3000/api/task-planing/station-task';
 
           this.dataSv.sendData(sendUrl, taskData)
             .subscribe(() => this.sourceSv.fetchTaskPlaning());

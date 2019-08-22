@@ -19,11 +19,11 @@ export class DataService {
 
   sendData(url: string, data?: any): any {
     let sendData = {};
-    
+
     if (data) {
       sendData = data;
     }
-    
+
     return this.http.post(url, sendData);
   }
 

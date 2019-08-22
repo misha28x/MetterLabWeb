@@ -20,7 +20,7 @@
     <button *ngIf="!router.url.includes('shared/status')" mat-raised-button color="primary" [routerLink]="['/shared/status']">Статус лічильника</button>
   </div>
   <div class="upload" *ngIf="permission !== 0">
-    <app-new-verification *ngIf="permission === 6"></app-new-verification>
+    <app-new-verification class="mr-4"></app-new-verification>
     <app-file-upload *ngIf="permission !== 6"></app-file-upload>
   </div>
 </div>

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Employee } from '../interfaces/employee';
 
-const employeeUrl = 'http://localhost:3000/api/employees/users';
+const employeeUrl = 'http://165.22.83.21:3000/api/employees/users';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class EmployeeService {
   // }
 
   getPermissions(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/employees/permissions');
+    return this.http.get('http://165.22.83.21:3000/api/employees/permissions');
   }
 
   addEmployee(employee: Employee): Observable<any> {
