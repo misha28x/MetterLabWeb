@@ -7,6 +7,7 @@ import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
+import { ProvidersService } from '../../services/providers.service';
 import { ProtocolService } from '../../services/protocol.service';
 import { VerificationService } from '../../services/verification.service';
 
@@ -27,6 +28,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
   selectedData: any[];
 
   constructor(
+    public providersSv: ProvidersService,
     private http: HttpClient,
     private dialog: MatDialog,
     private dataSv: DataService,

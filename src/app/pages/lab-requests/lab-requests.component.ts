@@ -7,6 +7,7 @@ import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
+import { ProvidersService } from '../../services/providers.service';
 import { VerificationService } from '../../services/verification.service';
 import { SelectDialogComponent } from '../../ui/components/select-dialog';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
@@ -27,6 +28,7 @@ export class PageLabRequestsComponent implements OnInit {
   columnsToDisplay: string[];
 
   constructor(
+    public providersSv: ProvidersService,
     private http: HttpClient,
     private dialog: MatDialog,
     private dataSv: DataService,

@@ -4,47 +4,93 @@
       <button mat-raised-button class="bg-success mb-3" (click)="sendVerif()">Надіслати</button>
     </div>
 
-    <app-table [checkboxes]="true"  (rowSelected)="onChange($event)" [tableData]="(labRequests | async)"
-      [pagination]="true">
-      
-      <app-column [date]="true" [columnTitle]="'Дата надходження'" [columnName]="'addingDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+    <app-table
+      [checkboxes]="true"
+      (rowSelected)="onChange($event)"
+      [tableData]="labRequests | async"
+      [pagination]="true"
+    >
+      <app-column
+        [date]="true"
+        [columnTitle]="'Дата надходження'"
+        [columnName]="'addingDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Номер Заявки'"
+        [columnName]="'applicationNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Клієнт'"
+        [columnName]="'client'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Надавач Послуг'"
+        [columnName]="'serviceProvider'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      >
+        <ng-template #tableBodyTemplate let-value>
+          {{ providersSv.getProviderById(value) }}
+        </ng-template>
+      </app-column>
 
-      <app-column [width]="130" [columnTitle]="'Район'" [columnName]="'district'" [width]="50" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="130"
+        [columnTitle]="'Район'"
+        [columnName]="'district'"
+        [width]="50"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="120" [columnTitle]="'Вулиця'" [columnName]="'street'" [width]="50" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="120"
+        [columnTitle]="'Вулиця'"
+        [columnName]="'street'"
+        [width]="50"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Будинок'" [columnName]="'house'" [width]="50" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Будинок'"
+        [columnName]="'house'"
+        [width]="50"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Квартира'" [columnName]="'apartment'" [width]="50" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Квартира'"
+        [columnName]="'apartment'"
+        [width]="50"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [date]="true" [columnTitle]="'Бажана дата повірки'" [columnName]="'favorDate'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Телефон'"
+        [columnName]="'phoneNumber'"
+        [width]="90"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [columnTitle]="'Cправність Сантехніки'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [columnTitle]="'Вода відсутня до'" [columnName]="'sanitaryWellfare'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [columnTitle]="'Наявність пломби'" [columnName]="'haveSeal'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
-      <app-column [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [width]="90" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column
+        [columnTitle]="'Примітка'"
+        [columnName]="'note'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
       <app-column [columnTitle]="'Дії'" [width]="125">
         <ng-template #tableBodyTemplate let-row="row">
@@ -53,7 +99,12 @@
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
             </button>
 
-            <button mat-icon-button (click)="editProvider(row['applicationNumber'], row['serviceProvider'], row['serviceType'])">
+            <button
+              mat-icon-button
+              (click)="
+                editProvider(row['applicationNumber'], row['serviceProvider'], row['serviceType'])
+              "
+            >
               <i class="icofont-edit-alt color-success" matTooltip="Змінити надавача послуг"></i>
             </button>
 

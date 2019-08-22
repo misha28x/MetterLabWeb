@@ -9,6 +9,7 @@ import { Task } from '../../interfaces/taskData';
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
+import { ProvidersService } from '../../services/providers.service';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
@@ -35,6 +36,7 @@ export class PageTaskPlaningComponent implements OnInit {
   user: User;
 
   constructor(
+    public providersSv: ProvidersService,
     private dialog: MatDialog,
     private store: Store<User>,
     private dataSv: DataService,

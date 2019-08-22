@@ -43,6 +43,6 @@ export class NewVerificationComponent implements OnInit {
       panelClass: 'full-height-modal'
     });
 
-    dialogRef.afterClosed().subscribe(() => this.sourceSv.fetchNewVerifications());
+    dialogRef.afterClosed().subscribe(() => this.sourceSv.fetchTaskPlaning());
   }
 }

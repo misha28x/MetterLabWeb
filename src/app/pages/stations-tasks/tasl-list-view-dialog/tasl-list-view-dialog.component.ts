@@ -5,6 +5,7 @@ import { filter, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../../services/data.service';
 import { SourceService } from '../../../services/source.service';
+import { ProvidersService } from '../../../services/providers.service';
 import { DetailViewService } from '../../../services/detail-view.service';
 import { VerificationService } from '../../../services/verification.service';
 import { DeleteDialogComponent } from '../../../ui/components/delete-dialog';
@@ -24,6 +25,7 @@ export class TaslListViewDialogComponent implements OnInit {
   taskList: Observable<any[]>;
 
   constructor(
+    public providersSv: ProvidersService,
     private dialog: MatDialog,
     private dataSv: DataService,
     private sourceSv: SourceService,

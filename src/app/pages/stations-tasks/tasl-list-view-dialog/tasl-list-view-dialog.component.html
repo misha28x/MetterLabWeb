@@ -62,7 +62,11 @@
       [width]="180"
       [enableSorting]="true"
       [enableFiltering]="true"
-    ></app-column>
+    >
+      <ng-template #tableBodyTemplate let-row="row">
+        {{ providersSv.getProviderById(row['serviceProvider']) }}
+      </ng-template>
+    </app-column>
 
     <app-column
       [columnTitle]="'Дата додання'"
