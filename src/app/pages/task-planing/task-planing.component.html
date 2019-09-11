@@ -106,7 +106,7 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column [columnTitle]="'Дії'" [width]="125">
+      <app-column [columnTitle]="'Дії'" [width]="140">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button (click)="detailView(row['applicationNumber'])">

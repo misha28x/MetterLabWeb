@@ -79,16 +79,6 @@
               Детальніше
             </button>
 
-            <!-- <button mat-menu-item>
-              <mat-icon>person</mat-icon>
-              Інформація про клієнта
-            </button> -->
-
-            <button (click)="editSeal(row['applicationNumber'])" mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              Редагувати номер пломби
-            </button>
-
             <button
               (click)="
                 editProvider(
@@ -132,7 +122,7 @@
       </app-column>
 
       <app-column
-        [width]="180"
+        [width]="220"
         [columnTitle]="'ПІБ Клієнта'"
         [columnName]="'client'"
         [enableSorting]="true"
@@ -148,7 +138,7 @@
       ></app-column>
 
       <app-column
-        [width]="150"
+        [width]="200"
         [columnTitle]="'Вулиця клієнта'"
         [columnName]="'street'"
         [enableSorting]="true"
@@ -156,7 +146,7 @@
       ></app-column>
 
       <app-column
-        [width]="50"
+        [width]="40"
         [columnTitle]="'Будинок'"
         [columnName]="'house'"
         [enableSorting]="true"
@@ -164,7 +154,7 @@
       ></app-column>
 
       <app-column
-        [width]="50"
+        [width]="40"
         [columnTitle]="'Квартира'"
         [columnName]="'apartment'"
         [enableSorting]="true"
@@ -183,14 +173,6 @@
         [width]="150"
         [columnTitle]="'Статус'"
         [columnName]="'status'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Уповноважена лабораторія'"
-        [columnName]="'laboratory'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -231,24 +213,8 @@
 
       <app-column
         [width]="75"
-        [columnTitle]="'Умовне позначення'"
-        [columnName]="'symbol'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
         [columnTitle]="'Номер лічильника'"
         [columnName]="'counterNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Рік випуску лічильника'"
-        [columnName]="'productionYear'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -262,7 +228,7 @@
       ></app-column>
 
       <app-column
-        [width]="75"
+        [width]="200"
         [columnTitle]="'Надавач послуг'"
         [columnName]="'serviceProvider'"
         [enableSorting]="true"
@@ -294,15 +260,6 @@
         [width]="75"
         [columnTitle]="'Коментар'"
         [columnName]="'comment'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [date]="true"
-        [width]="75"
-        [columnTitle]="'Дата монтажу лічильника'"
-        [columnName]="'montageDate'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>

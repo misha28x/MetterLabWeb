@@ -30,6 +30,7 @@
         [columnName]="'client'"
         [enableSorting]="true"
         [enableFiltering]="true"
+        [width]="220"
       ></app-column>
 
       <app-column
@@ -37,6 +38,7 @@
         [columnName]="'serviceProvider'"
         [enableSorting]="true"
         [enableFiltering]="true"
+        [width]="200"
       >
         <ng-template #tableBodyTemplate let-value>
           {{ providersSv.getProviderById(value) }}
@@ -92,7 +94,7 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column [columnTitle]="'Дії'" [width]="125">
+      <app-column [columnTitle]="'Дії'" [width]="155">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button (click)="detailView(row['applicationNumber'])">

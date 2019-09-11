@@ -55,7 +55,10 @@ export class PageStationsTasksComponent implements OnInit {
   }
 
   disbandTask(id: string): void {
-    this.taskSv.disbandTask(id).subscribe(() => this.updateList);
+    this.taskSv.disbandTask(id).subscribe(res => {
+      console.log(res);
+      this.updateList();
+    });
   }
 
   changeStationNumber(taskId: string, stationNumber: string): void {

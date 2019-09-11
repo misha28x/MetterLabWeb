@@ -18,26 +18,25 @@ import { DataService } from '../../../../services/data.service';
   styleUrls: ['./protocol-dialog.component.scss']
 })
 export class ProtocolDialogComponent implements OnInit, OnDestroy {
-
   subscription: Subscription;
   permission: number;
   checked: boolean;
   angle: number;
 
   constructor(
-      private dialog: MatDialog,
-      private dataSv: DataService,
-      private store: Store<number>,
-      private sourceSv: SourceService,
-      private protocolSv: ProtocolService,
-      private photoSv: PhotoOrientationService,
-      @Inject(MAT_DIALOG_DATA) public data: any
-    ) { }
+    private dialog: MatDialog,
+    private dataSv: DataService,
+    private store: Store<number>,
+    private sourceSv: SourceService,
+    private protocolSv: ProtocolService,
+    private photoSv: PhotoOrientationService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit(): void {
     this.checked = false;
-    this.subscription = this.photoSv.getAngleObservable().subscribe(angle => this.angle = angle);
-    this.store.pipe(select('permission')).subscribe(user => this.permission = user.permission);
+    this.subscription = this.photoSv.getAngleObservable().subscribe(angle => (this.angle = angle));
+    this.store.pipe(select('permission')).subscribe(user => (this.permission = user.permission));
   }
 
   ngOnDestroy(): void {
@@ -49,7 +48,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     return parseFloat(data).toFixed(2);
   }
 
-  saveProtocol(): void { 
+  saveProtocol(): void {
     this.protocolSv.upladteProtocol(this.data.counterNumber, this.data).subscribe(console.log);
   }
 
@@ -59,13 +58,19 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     this.checked = true;
   }
 
+  unsuitableProtocol(): void {
+    this.sourceSv.fetchMetrologyProtocols();
+    this.protocolSv.unsuitableProtocol(this.data.applicationNumber).subscribe();
+    this.checked = true;
+  }
+
   rejectProtocol(): void {
     this.sourceSv.fetchMetrologyProtocols();
     this.protocolSv.rejectProtocol(this.data.applicationNumber).subscribe();
     this.checked = true;
   }
 
-  changeProtocolData(protocolData: Protocol): void { 
+  changeProtocolData(protocolData: Protocol): void {
     this.dialog.open(CounterDialogDataComponent, {
       data: protocolData
     });
@@ -110,8 +115,8 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   calculateExes(selectedTest: Test): void {
     selectedTest.counterCapacity = selectedTest.finalValue - selectedTest.initValue;
     const differ = selectedTest.counterCapacity - selectedTest.etalonCapacity;
-    const calculatedFault = (differ * 100 / selectedTest.etalonCapacity);
-    
+    const calculatedFault = (differ * 100) / selectedTest.etalonCapacity;
+
     this.data.tests.map((test: Test) => {
       if (test.id === selectedTest.id) {
         test.calculatedFault = calculatedFault;
@@ -120,7 +125,9 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
           this.data.result = 'Не годен';
         } else {
           test.result = 'Годен';
-          const passed = this.data.tests.filter((currentTest: Test) => currentTest.result === 'Годен' || 'Не обработан').length;
+          const passed = this.data.tests.filter(
+            (currentTest: Test) => currentTest.result === 'Годен' || 'Не обработан'
+          ).length;
           if (passed === this.data.tests.length) {
             this.data.result = 'Годен';
           }

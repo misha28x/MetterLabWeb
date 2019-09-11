@@ -8,6 +8,7 @@ import { User } from '../interfaces/user';
 
 const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols/';
 const rejectUrl = 'http://165.22.83.21:3000/api/verications-protocols/reject/';
+const unsuitableUrl = 'http://165.22.83.21:3000/api/verications-protocols/unsuitable/';
 const acceptUrl = 'http://165.22.83.21:3000/api/verications-protocols/accept/';
 
 @Injectable({
@@ -42,6 +43,10 @@ export class ProtocolService {
 
   public rejectProtocol(id: any): Observable<any> {
     return this.http.get(rejectUrl + id);
+  }
+
+  public unsuitableProtocol(id: any): Observable<any> {
+    return this.http.get(unsuitableUrl + id);
   }
 
   downloadDoc(protocolNumber: string): void {
