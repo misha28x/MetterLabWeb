@@ -1,0 +1,128 @@
+<mat-card class="mb-4">
+  <span class="section-title">За тиждень</span>
+  <mat-divider class="mb-4"></mat-divider>
+
+  <div class="form-field row">
+    <div class="col-4">
+      <div class="label-block">
+        <span class="label">
+          За поточний тиждень
+        </span>
+        <div class="light">З {{ getDateString(weekStart) }} по {{ getDateString(weekEnd) }}</div>
+      </div>
+    </div>
+    <div class="col-8">
+      <button color="primary" mat-button (click)="getWeekReport()">
+        Завантажити за поточний тиждень
+      </button>
+    </div>
+  </div>
+
+  <div class="form-field row">
+    <div class="col-4">
+      <div class="label-block">
+        <span class="label">
+          Обрати тиждень
+        </span>
+      </div>
+    </div>
+    <div class="col-8">
+      <input
+        class="date-picker"
+        placeholder="Обрати тиждень"
+        #week="bsDatepicker"
+        bsDatepicker
+        (bsValueChange)="getWeekReport($event); week.hide()"
+        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', selectWeek: true, selectFromOtherMonth: true }"
+      />
+    </div>
+  </div>
+</mat-card>
+
+<mat-card class="mb-4">
+  <span class="section-title">За місяць</span>
+  <mat-divider></mat-divider>
+
+  <div class="form-field row">
+    <div class="col-4">
+      <div class="label-block">
+        <span class="label">
+          За поточний місяць
+        </span>
+        <div class="light">З {{ getDateString(monthStart) }} по {{ getDateString(monthEnd) }}</div>
+      </div>
+    </div>
+    <div class="col-8">
+      <button color="primary" mat-button (click)="getMonthReport()">
+        Завантажити за поточний місяць
+      </button>
+    </div>
+  </div>
+
+  <div class="form-field row">
+    <div class="col-4">
+      <div class="label-block">
+        <span class="label">
+          Обрати місяць
+        </span>
+      </div>
+    </div>
+    <div class="col-8">
+      <input
+        class="date-picker"
+        #CompletedSingle
+        placeholder="Обрати місяць"
+        #month="bsDatepicker"
+        bsDatepicker
+        (bsValueChange)="getMonthReport($event); month.hide()"
+        [bsConfig]="{ dateInputFormat: '01.MM.YYYY', minMode: 'month' }"
+      />
+    </div>
+  </div>
+</mat-card>
+
+<mat-card>
+  <span class="section-title">Довільна дата</span>
+  <mat-divider></mat-divider>
+
+  <div class="form-field row">
+    <div class="col-4">
+      <div class="label-block">
+        <span class="label">
+          Обрати день
+        </span>
+      </div>
+    </div>
+    <div class="col-8">
+      <input
+        class="date-picker"
+        placeholder="Обрати день"
+        #day="bsDatepicker"
+        bsDatepicker
+        (bsValueChange)="getDayReport($event); day.hide()"
+        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }"
+      />
+    </div>
+  </div>
+
+  <div class="form-field row">
+    <div class="col-4">
+      <div class="label-block">
+        <span class="label">
+          Обрати проміжок
+        </span>
+      </div>
+    </div>
+    <div class="col-8">
+      <input
+        class="date-picker"
+        #CompletedSingle
+        placeholder="Обрати проміжок"
+        #range="bsDaterangepicker"
+        bsDaterangepicker
+        (bsValueChange)="getReport($event); range.hide()"
+        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }"
+      />
+    </div>
+  </div>
+</mat-card>

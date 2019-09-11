@@ -3,6 +3,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from '../material/material.module';
 import { UiModule } from './../ui/ui.module';
@@ -14,16 +15,14 @@ import { PageProviderRequestsComponent } from './provider-requests';
 import { PageVerificationsProtocolsComponent } from './verifications-protocols';
 import { PageRejectedProtocolsComponent } from './rejected-protocols';
 import { PageTaskPlaningComponent, TaskSendingComponent } from './task-planing';
-import {
-  PageStationsTasksComponent,
-  TaskListEditDialogComponent,
-  TaslListViewDialogComponent
-} from './stations-tasks';
-import { PageBrigadeTasksComponent } from './brigade-tasks';
+import { PageStationsTasksComponent } from './stations-tasks/stations-tasks.component';
+import { TaslListViewDialogComponent } from './stations-tasks/tasl-list-view-dialog/tasl-list-view-dialog.component';
+import { TaskListEditDialogComponent } from './stations-tasks/task-list-edit-dialog/task-list-edit-dialog.component';
+
 import { PageRejectedVerificationComponent } from './rejected-verification';
 import { PageVerificationsArchiveComponent } from './verifications-archive';
 import { PageReportsComponent } from './reports';
-import { PageUserGuideComponent } from './user-guide';
+
 import { AuthorizationPageComponent } from './authorization-page';
 import { MetrologyProtocolsComponent } from './metrology-protocols';
 import { FailedTasksComponent } from './failed-tasks';
@@ -38,11 +37,14 @@ import { StatusPageComponent } from './status-page/status-page.component';
 import { VerificationFormComponent } from './verification-form/verification-form.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PageMetrologyArchiveComponent } from './metrology-archive/metrology-archive.component';
+import { MetrologyReportsComponent } from './metrology-reports/metrology-reports.component';
+import { MetrologyRejectedComponent } from './metrology-rejected/metrology-rejected.component';
 
 @NgModule({
   imports: [
     MaterialModule,
     NgxChartsModule,
+    HttpClientModule,
     UiModule,
     FormsModule,
     ReactiveFormsModule,
@@ -57,11 +59,9 @@ import { PageMetrologyArchiveComponent } from './metrology-archive/metrology-arc
     PageRejectedProtocolsComponent,
     PageTaskPlaningComponent,
     PageStationsTasksComponent,
-    PageBrigadeTasksComponent,
     PageRejectedVerificationComponent,
     PageVerificationsArchiveComponent,
     PageReportsComponent,
-    PageUserGuideComponent,
     EmployeeDialogComponent,
     TaskSendingComponent,
     TaslListViewDialogComponent,
@@ -76,7 +76,9 @@ import { PageMetrologyArchiveComponent } from './metrology-archive/metrology-arc
     StatusPageComponent,
     VerificationFormComponent,
     ProfileComponent,
-    PageMetrologyArchiveComponent
+    PageMetrologyArchiveComponent,
+    MetrologyReportsComponent,
+    MetrologyRejectedComponent
   ],
   entryComponents: [
     EmployeeDialogComponent,

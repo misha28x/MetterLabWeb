@@ -69,16 +69,36 @@
               ></i>
             </button>-->
 
-            <button mat-icon-button (click)="viewList(row['id_task'])">
-              <i class="fas fa-table color-info" matTooltip="Переглянути завдання"></i>
+            <button color="primary" mat-icon-button (click)="viewList(row['id_task'])">
+              <mat-icon matTooltip="Переглянути завдання">format_list_numbered</mat-icon>
+            </button>
+
+            <button
+              color="primary"
+              mat-icon-button
+              (click)="changeStationNumber(row['id_task'], row['stationNumber'])"
+            >
+              <mat-icon matTooltip="Змінити номер станції">open_in_new</mat-icon>
+            </button>
+
+            <button
+              color="primary"
+              mat-icon-button
+              (click)="changeDate(row['id_task'], row['taskDate'])"
+            >
+              <mat-icon matTooltip="Змінити дату завдання">date_range</mat-icon>
             </button>
 
             <button mat-icon-button (click)="downloadExcel(row['id_task'])">
-              <i class="icofont-file-excel color-success" matTooltip="Завантажити у форматі .xsl"></i>
+              <mat-icon class="color-success" matTooltip="Завантажити у форматі .xsl">
+                file_copy
+              </mat-icon>
             </button>
 
-            <button mat-icon-button (click)="changeStationNumber(row['id_task'], row['stationNumber'])">
-              <i class="icofont-edit color-info" matTooltip="Змінити номер станції"></i>
+            <button mat-icon-button (click)="disbandTask(row['id_task'])">
+              <mat-icon class="color-error" matTooltip="Розформувати завдання">
+                cancel_schedule_send
+              </mat-icon>
             </button>
           </div>
         </ng-template>

@@ -1,33 +1,61 @@
 <!-- Відхилені Протоколи -->
 <mat-card>
   <mat-card-content>
-    <div class="actions"> </div>
+    <app-table
+      [hovered]="true"
+      [bordered]="true"
+      [tableData]="rejectedProtocols | async"
+      [pagination]="true"
+    >
+      <app-column
+        [date]="true"
+        [width]="110"
+        [columnTitle]="'Дата створення протоколу'"
+        [columnName]="'protocolDate'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-    <app-table  [hovered]="true" [bordered]="true" [tableData]="(rejectedProtocols | async)" [pagination]="true">
+      <app-column
+        [width]="110"
+        [columnTitle]="'Номер протоколу'"
+        [columnName]="'protocolNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [date]="true" [width]="110" [columnTitle]="'Дата створення протоколу'" [columnName]="'protocolDate'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="110"
+        [columnTitle]="'Номер заявки'"
+        [columnName]="'applicationNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <!-- TODO: <app-column [width]="110" [columnTitle]="'Номер установки'" [columnName]="'stationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column> -->
+      <app-column
+        [width]="110"
+        [columnTitle]="'Номер лічильника'"
+        [columnName]="'counterNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="110" [columnTitle]="'Номер протоколу'" [columnName]="'protocolNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="110" [columnTitle]="'Номер заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="110" [columnTitle]="'Номер лічильника'" [columnName]="'counterNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
-
-      <app-column [width]="110" [columnTitle]="'Номер пломби'" [columnName]="'sealNumber'" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
       <!-- TODO: причини відхилення -->
-      <app-column [width]="110" [columnTitle]="'Причина відхилення'" [columnName]="''" [enableSorting]="true"
-        [enableFiltering]="true"></app-column>
+      <app-column
+        [width]="110"
+        [columnTitle]="'Причина відхилення'"
+        [columnName]="''"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
 
-      <app-column [width]="110" [columnTitle]="'ПІБ працівника який відхилив'" [columnName]="'employeeName'"
-        [enableSorting]="true" [enableFiltering]="true"></app-column>
+<!--      <app-column-->
+<!--        [width]="110"-->
+<!--        [columnTitle]="'ПІБ працівника який відхилив'"-->
+<!--        [columnName]="'employeeName'"-->
+<!--        [enableSorting]="true"-->
+<!--        [enableFiltering]="true"-->
+<!--      ></app-column>-->
 
       <app-column [width]="185" [columnTitle]="'Дії'">
         <ng-template #tableBodyTemplate let-row="row">
@@ -36,14 +64,8 @@
               <mat-icon>restore</mat-icon>
             </button>
 
-            <button
-              mat-icon-button
-              (click)="displayProtocol(row['counterNumber'])"
-            >
-              <i
-                class="icofont-edit color-info"
-                matTooltip="Переглянути протокол"
-              ></i>
+            <button mat-icon-button (click)="displayProtocol(row['counterNumber'])">
+              <i class="icofont-edit color-info" matTooltip="Переглянути протокол"></i>
             </button>
           </div>
         </ng-template>

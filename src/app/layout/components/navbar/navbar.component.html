@@ -1,26 +1,51 @@
 <div class="navbar-wraper">
   <div class="logo">
-    <img src="../../../../assets/content/logo.png" alt="" class="logo-img">
+    <img src="../../../../assets/content/logo.png" alt="" class="logo-img" />
   </div>
 
-  <div class="nav-button" (click)="onButtonClick()" [ngClass]="{'min': !menuState}" *ngIf="permission !== 0">
+  <div
+    class="nav-button"
+    (click)="onButtonClick()"
+    [ngClass]="{ min: !menuState }"
+    *ngIf="permission !== 0"
+  >
     <span class="bar"></span>
     <span class="bar"></span>
     <span class="bar"></span>
   </div>
 
-  <button [routerLink]="'/default/employees'" (click)="cancelVisit()" class="back-btn" mat-icon-button *ngIf="visit && visit.state">
+  <button
+    [routerLink]="'/default/employees'"
+    (click)="cancelVisit()"
+    class="back-btn"
+    mat-icon-button
+    *ngIf="visit && visit.state"
+  >
     <i class="icon fas fa-chevron-left"></i>
   </button>
 
   <span *ngIf="visit" class="visit-name">{{ visit.name }}</span>
 
   <div class="upload" *ngIf="permission == 0">
-    <button *ngIf="router.url.includes('shared/status')" mat-raised-button color="primary" [routerLink]="['/shared/new-verif']">Створити повірку</button>
-    <button *ngIf="!router.url.includes('shared/status')" mat-raised-button color="primary" [routerLink]="['/shared/status']">Статус лічильника</button>
+    <button
+      *ngIf="router.url.includes('shared/status')"
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/shared/new-verif']"
+    >
+      Створити повірку
+    </button>
+    <button
+      *ngIf="!router.url.includes('shared/status')"
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/shared/status']"
+    >
+      Статус лічильника
+    </button>
   </div>
-  <div class="upload" *ngIf="permission !== 0">
+  <div class="upload" *ngIf="![0, 5, 6].includes(permission)">
     <app-new-verification class="mr-4"></app-new-verification>
-    <app-file-upload *ngIf="permission !== 6"></app-file-upload>
+    <app-file-upload></app-file-upload>
   </div>
 </div>

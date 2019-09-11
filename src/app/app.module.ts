@@ -1,4 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ruLocale } from 'ngx-bootstrap/locale';
+
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,29 +19,29 @@ import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
+console.log(ruLocale);
+defineLocale('ru', ruLocale);
 
 const config: SocketIoConfig = { url: 'http://165.22.83.21:3000', options: { reconnect: true } };
 
 @NgModule({
-	declarations: [
-		AppComponent
-	],
-	imports: [
-		BrowserModule,
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
     SocketIoModule.forRoot(config),
-		RouterModule.forRoot(ROUTES, { useHash: true }),
-		BrowserAnimationsModule,
-		HttpClientModule,
-		UiModule,
-		StoreModule.forRoot({
+    RouterModule.forRoot(ROUTES, { useHash: true }),
+    BrowserAnimationsModule,
+    HttpClientModule,
+    UiModule,
+    StoreModule.forRoot({
       menuState: MenuReducer,
       permission: permissionReducer
-		}),
-		LayoutModule,
-		RoutingModule,
+    }),
+    LayoutModule,
+    RoutingModule,
     PagesModule
-	],
-	providers: [],
-	bootstrap: [AppComponent]
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

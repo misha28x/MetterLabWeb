@@ -1,4 +1,4 @@
-import { Component, ElementRef, forwardRef, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, forwardRef, HostBinding, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { IInputProperties } from '../../interfaces/input';
@@ -23,10 +23,10 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   @HostBinding('class.input-sm') get smSize(): boolean {
     return this.size === 'sm';
   }
-	@HostBinding('class.input-lg') get lgSize(): boolean {
+  @HostBinding('class.input-lg') get lgSize(): boolean {
     return this.size === 'lg';
   }
-	@HostBinding('class.input-focus') get focus(): boolean {
+  @HostBinding('class.input-focus') get focus(): boolean {
     return this.inputFocus;
   }
   @HostBinding('class.input-disabled') @Input() disabled: boolean;
@@ -39,21 +39,15 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   @Input() suffix: string | string[];
   @Input() prefixIcon: string | string[];
   @Input() suffixIcon: string | string[];
-  @Input() size: string;
-  @Input() required: boolean;
   @Input() autoSize: boolean;
   @Input() innerValue: string;
-  @Input() bgColor: string | string[];
-  @Input() borderColor: string | string[];
-  @Input() color: string | string[];
+  @Input() size: string;
+
   inputFocus: boolean;
   charLength: number;
   properties: IInputProperties;
-  currentBgColor: string;
-  currentBorderColor: string;
-  currentColor: string;
   states: any;
-  
+
   constructor(private element: ElementRef) {
     this.type = 'text';
     this.name = '';
@@ -61,7 +55,6 @@ export class InputComponent implements ControlValueAccessor, OnInit {
     this.inputFocus = false;
     this.readonly = false;
     this.disabled = false;
-    this.required = false;
     this.autoSize = false;
     this.innerValue = '';
     this.properties = {
@@ -73,13 +66,13 @@ export class InputComponent implements ControlValueAccessor, OnInit {
       prefixIconColor: '',
       suffixIconValue: '',
       suffixIconColor: ''
-		};
-		
+    };
+
     this.states = state;
-	}
-	
-	onChange: any = () => { };
-	onTouched: any = () => { };
+  }
+
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   ngOnInit(): void {
     this.charLength = this.charLimiting;
@@ -96,15 +89,13 @@ export class InputComponent implements ControlValueAccessor, OnInit {
       this.properties[`${property}Value`] = PROPERTY instanceof Array ? PROPERTY[0] : PROPERTY;
       this.properties[`${property}Color`] = PROPERTY instanceof Array ? PROPERTY[1] : null;
     });
-
-    this.setStyles(!this.disabled ? this.states.default : this.states.disabled);
   }
 
-	get value(): string {
+  get value(): string {
     return this.innerValue;
   }
 
-	set value(v: string) {
+  set value(v: string) {
     if (v !== this.innerValue) {
       this.innerValue = v;
       this.onChange(v);
@@ -115,53 +106,32 @@ export class InputComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-	registerOnChange(fn: any): void {
+  registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-	registerOnTouched(fn: any): void {
+  registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
-	writeValue(value: string): void {
+  writeValue(value: string): void {
     if (value !== this.innerValue) {
       this.innerValue = value;
     }
   }
 
-	onFocus(disabled: boolean): void {
+  onFocus(disabled: boolean): void {
     if (!this.inputFocus && !disabled) {
       this.element.nativeElement.querySelector('.input-control').focus();
       this.inputFocus = true;
-
-      this.setStyles(this.states.focus);
     }
   }
 
-	onBlur(disabled: boolean): void {
-    this.inputFocus = false;
-
-    if (!disabled) { 
-			this.setStyles(this.states.default);
-		}
-  }
-
-	@HostListener('mouseenter') onMouseEnter(): void {
-		if (!this.inputFocus && !this.disabled && !this.readonly) { 
-			this.setStyles(this.states.hover); 
-		} 
-  }
-	@HostListener('mouseleave') onMouseLeave(): void {
-		if (!this.inputFocus && !this.disabled && !this.readonly) {
-			this.setStyles(this.states.default);
-		}
-  }
-
-	resizable(el: any, factor?: number): void {
+  resizable(el: any, factor?: number): void {
     const INT: number = Number(factor) || 7.7;
 
-		function resize(): void {
-      el.parentElement.style.maxWidth = ((el.value.length * INT) + 4) + 'px';
+    function resize(): void {
+      el.parentElement.style.maxWidth = el.value.length * INT + 4 + 'px';
     }
 
     const e = 'keyup, keypress, focus, blur, change'.split(',');
@@ -171,40 +141,5 @@ export class InputComponent implements ControlValueAccessor, OnInit {
     }
 
     resize();
-  }
-
-  setStyles(
-    st: state,
-    bg: string | string[] = this.bgColor,
-    border: string | string[] = this.borderColor,
-    color: string | string[] = this.color
-	): void {
-    let styleIndex: number = 0;
-
-    switch (st) {
-      case this.states.hover:
-        styleIndex = 1;
-        break;
-      case this.states.focus:
-        styleIndex = 2;
-        break;
-      case this.states.disabled:
-        styleIndex = 3;
-        break;
-      default:
-        styleIndex = 0;
-    }
-
-    this.currentBgColor = bg instanceof Array ? bg[styleIndex] : bg;
-    this.currentBorderColor = border instanceof Array ? border[styleIndex] : border;
-    this.currentColor = color instanceof Array ? color[styleIndex] : color;
-  }
-
-  getStyles(): any {
-    return {
-      'background-color': this.currentBgColor,
-      'border-color': this.currentBorderColor,
-      'color': this.currentColor
-    };
   }
 }

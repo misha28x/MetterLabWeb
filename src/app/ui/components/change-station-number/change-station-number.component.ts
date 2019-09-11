@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs';
 
 interface DialogData {
@@ -17,10 +17,7 @@ export class ChangeStationNumberComponent implements OnInit {
   stationNumber: string;
   selectedNumber: string;
 
-  constructor(
-    private dialogRef: MatDialogRef<ChangeStationNumberComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit(): void {
     const { stations, oldNumber } = this.data;

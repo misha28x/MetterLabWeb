@@ -152,21 +152,21 @@ mat-card-header {
 
   &-success {
     @extend .table;
-    background: rgba($success-color, 0.18);
+    background: rgba($success-color, 0.12);
   }
 
   &-error {
     @extend .table;
-    background: rgba($error-color, 0.18);
+    background: rgba($error-color, 0.12);
   }
 }
 
 .success {
-  background: rgba($success-color, 0.4);
+  background: rgba($success-color, 0.2);
 }
 
 .error {
-  background: rgba($error-color, 0.4);
+  background: rgba($error-color, 0.2);
 }
 
 .unresolved {

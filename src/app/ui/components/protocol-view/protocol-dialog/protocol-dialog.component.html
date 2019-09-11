@@ -113,17 +113,17 @@
           <button mat-raised-button class="bg-success" (click)="acceptProtocol()">
             Придатний
           </button>
-        
+
           <button mat-raised-button class="bg-error" (click)="rejectProtocol()">
             Не придатний
           </button>
         </div>
-        
+
         <div *ngIf="permission == 5 && checked" class="metrology-actions">
           <button (click)="downloadDoc()" mat-raised-button class="bg-success">
             Завантажити документ
           </button>
-        
+
           <button (click)="checked = false" mat-icon-button color="primary" matTooltip="Повірити знову">
             <i class="fas fa-undo"></i>
           </button>

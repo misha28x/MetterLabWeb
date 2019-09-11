@@ -12,22 +12,25 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-	@HostBinding('class.sidebar') true;
-	@HostBinding('class.min') @Input() min: Boolean;
-  @HostBinding('class.open') get getMenuState(): boolean { return !this.min; }
+  @HostBinding('class.sidebar') true;
+  @HostBinding('class.min') @Input() min: Boolean;
+  @HostBinding('class.open') get getMenuState(): boolean {
+    return !this.min;
+  }
 
   user: User;
 
-  constructor(
-    public authSv: AuthService,
-    private store: Store<User>
-  ) { }
+  constructor(public authSv: AuthService, private store: Store<User>) {}
 
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
-      console.log(_user);
     });
+  }
+
+  getUserName(username: string): string {
+    const [last, first] = username.split(' ');
+    return `${last} ${!!first ? first : ''}`;
   }
 
   logOut(): void {

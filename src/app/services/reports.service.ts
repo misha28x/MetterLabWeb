@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 
 import { User } from '../interfaces/user';
 
-enum DateType  {
+enum DateType {
   Single = 'single/',
   Range = 'range/'
 }
@@ -12,8 +12,8 @@ enum DateType  {
 enum ReportType {
   InProgress = 'in-progress/',
   Completed = 'completed/',
-	Convert = 'convert/',
-	Rejected = 'rejected/'
+  Convert = 'convert/',
+  Rejected = 'rejected/'
 }
 
 const Url = 'http://165.22.83.21:3000/api/reports/';
@@ -24,11 +24,15 @@ const Url = 'http://165.22.83.21:3000/api/reports/';
 export class ReportsService {
   private user: User;
 
-  constructor(
-    private http: HttpClient,
-    private store: Store<User>
-  ) {
-    this.store.pipe(select('permission')).subscribe(_user => this.user = _user);
+  constructor(private http: HttpClient, private store: Store<User>) {
+    this.store.pipe(select('permission')).subscribe(_user => (this.user = _user));
+  }
+
+  public getMetrologyReport(date: [Date, Date]): void {
+    const [start, end] = date.map(value => this.getDateString(value));
+    const url = `${Url}metrology/${start}/${end}`;
+
+    window.open(url);
   }
 
   public getReport(type: string, date: string[]): void {
@@ -37,7 +41,7 @@ export class ReportsService {
     const dateType = reportDate.type;
     const serviceProvider = '/' + this.user.createFor;
 
-    const url = Url + reportType + dateType  + date  + serviceProvider;
+    const url = Url + reportType + dateType + date + serviceProvider;
 
     window.open(url);
   }
@@ -64,5 +68,13 @@ export class ReportsService {
       date: date[0],
       type: DateType.Single
     };
+  }
+
+  getDateString(d: Date): string {
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+
+    return `${year}-${month > 9 ? month : '0' + month}-${day > 9 ? day : '0' + day}`;
   }
 }

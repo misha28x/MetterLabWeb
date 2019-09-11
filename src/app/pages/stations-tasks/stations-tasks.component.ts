@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
+import { Observable } from 'rxjs';
 
-import { DataService } from '../../services/data.service';
+import { TaskService } from '../../services/task.service';
 import { SourceService } from '../../services/source.service';
 import { StationsService } from '../../services/stations.service';
-
-import { TaskListEditDialogComponent } from './task-list-edit-dialog/task-list-edit-dialog.component';
-import { TaslListViewDialogComponent } from './tasl-list-view-dialog/tasl-list-view-dialog.component';
-
-const url = 'http://165.22.83.21:3000/api/stations-tasks';
-const sendUrl = 'http://165.22.83.21:3000/api/file-sending';
 
 @Component({
   selector: 'app-stations-tasks',
@@ -25,36 +19,25 @@ export class PageStationsTasksComponent implements OnInit {
     private stationSv: StationsService,
     private sourceSv: SourceService,
     private snackBar: MatSnackBar,
-    private dataSv: DataService,
-    private dialog: MatDialog
+    private taskSv: TaskService
   ) {}
 
   ngOnInit(): void {
-    this.sourceSv.fetchStationTasks();
+    this.updateList();
     this.stationsTasks = this.sourceSv.getStationTasks();
     this.selectedData = [];
   }
 
-  editList(id: number): void {
-    this.dialog.open(TaskListEditDialogComponent, {
-      data: id,
-      width: '95%',
-      height: '80%',
-      panelClass: 'full-screen-modal'
-    });
+  viewList(id: string): void {
+    this.taskSv.viewList(id);
   }
 
-  viewList(id: number): void {
-    this.dialog.open(TaslListViewDialogComponent, {
-      data: { taskId: id },
-      width: '90%',
-      height: '80%',
-      panelClass: 'full-screen-modal'
-    });
+  changeDate(id: string, date: string): void {
+    this.taskSv.changeTaskDate(id, date).subscribe(() => this.updateList());
   }
 
-  downloadExcel(id: number): void {
-    this.dataSv.getFile(url + '/excel/' + id);
+  downloadExcel(id: string): void {
+    this.taskSv.downloadExcel(id);
   }
 
   sendData(): void {
@@ -68,13 +51,11 @@ export class PageStationsTasksComponent implements OnInit {
       complete: () => this.showSnackBar()
     };
 
-    const task = forkJoin(
-      this.selectedData.map(message =>
-        this.dataSv.sendData(sendUrl, { id: message.id_task, status: message.task_status })
-      )
-    );
+    this.taskSv.sendTasks(this.selectedData).subscribe(observer);
+  }
 
-    task.subscribe(observer);
+  disbandTask(id: string): void {
+    this.taskSv.disbandTask(id).subscribe(() => this.updateList);
   }
 
   changeStationNumber(taskId: string, stationNumber: string): void {
@@ -91,5 +72,9 @@ export class PageStationsTasksComponent implements OnInit {
 
   onChange(data: any): void {
     this.selectedData = data;
+  }
+
+  updateList(): void {
+    this.sourceSv.fetchStationTasks();
   }
 }

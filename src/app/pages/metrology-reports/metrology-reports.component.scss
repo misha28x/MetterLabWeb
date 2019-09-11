@@ -1,0 +1,39 @@
+@import '../../../assets/sass/variables';
+
+:host {
+  .form-field {
+    align-items: center;
+    display: flex;
+    padding: ($module-rem * 2) 0;
+  }
+
+  .label-block {
+    .label {
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+
+    .light {
+      font-weight: 300;
+      color: rgba(main-palette(500), 0.8);
+    }
+  }
+
+  .date-picker {
+    border-color: rgba(#000, 0.12);
+    border-radius: $shape;
+    padding: ($module-rem * 0.75) (16px);
+    width: calc(100%);
+  }
+  .section-title {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: $module-rem * 1;
+    color: rgba(main-palette(500), 0.8);
+    font-weight: 500;
+
+    &:not(:first-child) {
+      margin-top: $module-rem;
+    }
+  }
+}

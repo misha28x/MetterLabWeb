@@ -81,7 +81,7 @@ export class TaslListViewDialogComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.verificationSv.deleteFromTask(verifId, this.data).subscribe(() => this.updateData());
+        this.verificationSv.deleteFromTask(verifId, this.data.taskId).subscribe(() => this.updateData());
       }
     });
   }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
-import { filter, switchMap   } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { Verification } from '../interfaces/verifications';
 import { DeleteDialogComponent } from '../ui/components/delete-dialog';
@@ -37,8 +37,8 @@ export class VerificationService {
     return this.verificationAdded$;
   }
 
-  public deleteFromTask(id: any, idTask: any): Observable<any> {
-    return this.http.post(deleteFromTask + '' + id, { id_task: idTask });
+  public deleteFromTask(id: any, taskId: any): Observable<any> {
+    return this.http.post(deleteFromTask + '' + id, { taskId: taskId });
   }
 
   public rejectVerification(id: any, reason: string): Observable<any> {
@@ -87,18 +87,21 @@ export class VerificationService {
   }
 
   public openDeleteDialog(): Observable<any> {
-    return this.dialog.open(DeleteDialogComponent, {
-      minWidth: '600px',
-      data: 'повірку'
-    }).afterClosed();
+    return this.dialog
+      .open(DeleteDialogComponent, {
+        minWidth: '600px',
+        data: 'повірку'
+      })
+      .afterClosed();
   }
 
   public openRejectDialog(): Observable<any> {
-    return this.dialog.open(RejectionDialogComponent, {
-      minWidth: '450px',
-      maxWidth: '95%',
-      data: 'повірку'
-    }).afterClosed();
+    return this.dialog
+      .open(RejectionDialogComponent, {
+        minWidth: '450px',
+        maxWidth: '95%',
+        data: 'повірку'
+      })
+      .afterClosed();
   }
 }
-

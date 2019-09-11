@@ -17,9 +17,9 @@ import { FilterTableDirective } from './directives/filter-table/filter-table.dir
 import { SortTableDirective } from './directives/sort-table/sort-table.directive';
 import { UploadDialogComponent } from './components/file-upload/upload-dialog/upload-dialog.component';
 import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
-import { VerificationViewComponent } from './components/verification-view/verification-view.component';
 import { DetailViewComponent, DetailViewDialogComponent } from './components/detail-view';
 import { DuplicateViewComponent, DuplicatViewDialogComponent } from './components/duplicate-view';
+import { VerificationViewComponent } from './components/verification-view';
 import { BadgeComponent } from './components/badge';
 
 import {
@@ -43,6 +43,8 @@ import { RejectionDialogComponent } from './components/rejection-dialog/rejectio
 import { StatusViewComponent } from './status-view/status-view.component';
 import { StatusDialogComponent } from './components/status-dialog/status-dialog.component';
 import { ChangeStationNumberComponent } from './components/change-station-number/change-station-number.component';
+import { ChangeTaskDateComponent } from './components/change-task-date/change-task-date.component';
+import { SourceService } from '../services/source.service';
 
 @NgModule({
   imports: [
@@ -104,8 +106,10 @@ import { ChangeStationNumberComponent } from './components/change-station-number
     RejectionDialogComponent,
     StatusViewComponent,
     StatusDialogComponent,
-    ChangeStationNumberComponent
+    ChangeStationNumberComponent,
+    ChangeTaskDateComponent
   ],
+  providers: [SourceService],
   entryComponents: [
     UploadDialogComponent,
     NewVerificationDialogComponent,
@@ -124,7 +128,8 @@ import { ChangeStationNumberComponent } from './components/change-station-number
     AddContractorComponent,
     RejectionDialogComponent,
     StatusDialogComponent,
-    ChangeStationNumberComponent
+    ChangeStationNumberComponent,
+    ChangeTaskDateComponent
   ]
 })
 export class UiModule {}

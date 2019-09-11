@@ -32,4 +32,6 @@ export class PageRejectedProtocolsComponent implements OnInit {
       this.protocolSv.addProtocol(protocol);
     });
   }
+
+  rejectProtocol(id: string): void {}
 }

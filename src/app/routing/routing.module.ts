@@ -3,12 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { GuardService } from '../services/guard.service';
 
-import { PageUserGuideComponent } from './../pages/user-guide';
-import { PageReportsComponent } from './../pages/reports';
-import { PageVerificationsArchiveComponent } from './../pages/verifications-archive';
-import { PageRejectedProtocolsComponent } from './../pages/rejected-protocols';
-import { PageBrigadeTasksComponent } from './../pages/brigade-tasks';
-import { PageStationsTasksComponent } from './../pages/stations-tasks';
+import { PageReportsComponent } from '../pages/reports';
+import { PageVerificationsArchiveComponent } from '../pages/verifications-archive';
+import { PageRejectedProtocolsComponent } from '../pages/rejected-protocols';
+import { PageStationsTasksComponent } from '../pages/stations-tasks/stations-tasks.component';
 import { DefaultLayoutComponent } from '../layout/default';
 import { PageHomePageComponent } from '../pages/home-page';
 import { PageNewVerificationsComponent } from '../pages/new-verifications';
@@ -26,11 +24,11 @@ import { PageEmployeesComponent } from '../pages/employees';
 import { StatusPageComponent } from '../pages/status-page';
 import { VerificationFormComponent } from '../pages/verification-form';
 import { ProfileComponent } from '../pages/profile/profile.component';
-
-import { ExtraComponent } from '../layout/extra/extra.component';
-import { SharedComponent } from '../layout/shared';
 import { PageMetrologyArchiveComponent } from '../pages/metrology-archive/metrology-archive.component';
-// import { MetrologyArchiveComponent } from '../pages/metrology-archive/metrology-archive.component';
+import { MetrologyReportsComponent } from '../pages/metrology-reports/metrology-reports.component';
+
+import { ExtraComponent } from '../layout/extra';
+import { SharedComponent } from '../layout/shared';
 
 export const DEFAULT_ROUTES = [
   {
@@ -74,11 +72,6 @@ export const DEFAULT_ROUTES = [
     data: { title: 'Завдання Для Станцій' }
   },
   {
-    path: 'brigade-tasks',
-    component: PageBrigadeTasksComponent,
-    data: { title: 'Завдання Для Бригад' }
-  },
-  {
     path: 'rejected-verification',
     component: PageRejectedVerificationComponent,
     data: { title: 'Відхилені Повірки' }
@@ -97,11 +90,6 @@ export const DEFAULT_ROUTES = [
     path: 'reports',
     component: PageReportsComponent,
     data: { title: 'Звіти' }
-  },
-  {
-    path: 'user-guide',
-    component: PageUserGuideComponent,
-    data: { title: 'Інструкція Користувача' }
   },
   {
     path: 'metrology',
@@ -137,12 +125,15 @@ export const DEFAULT_ROUTES = [
     path: 'status',
     component: StatusPageComponent,
     data: { title: 'Перевірка стану лічильника' }
+  },
+  {
+    path: 'metrology-reports',
+    component: MetrologyReportsComponent,
+    data: { title: 'Звіт' }
   }
 ];
 
-export const EXTRA_ROUTES = [
-  { path: 'auth', component: AuthorizationPageComponent }
-];
+export const EXTRA_ROUTES = [{ path: 'auth', component: AuthorizationPageComponent }];
 
 export const SHARED_ROUTES: Routes = [
   { path: 'status', component: StatusPageComponent },

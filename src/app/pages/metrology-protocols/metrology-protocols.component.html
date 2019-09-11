@@ -1,13 +1,5 @@
 <mat-card>
   <mat-card-content>
-    <div class="actions">
-      <div class="task-actions">
-        <button mat-raised-button class="bg-success">
-          <i class="icofont-send-mail"></i> Надіслати
-        </button>
-      </div>
-    </div>
-
     <app-table
       [checkboxes]="true"
       [desiredStatus]="'Повірено. Придатний'"
@@ -42,13 +34,6 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column
-        [width]="100"
-        [columnTitle]="'Номер заявки'"
-        [columnName]="'applicationNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
 
       <app-column
         [width]="200"
@@ -66,78 +51,9 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column
-        [width]="115"
-        [columnTitle]="'Номер пломби'"
-        [columnName]="'sealNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="125"
-        [columnTitle]="'Населений пункт'"
-        [columnName]="'settlement'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="115"
-        [columnTitle]="'Район'"
-        [columnName]="'district'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [columnTitle]="'Вулиця'"
-        [columnName]="'street'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Буд.'"
-        [columnName]="'house'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Кв.'"
-        [columnName]="'apartment'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="110"
-        [columnTitle]="'Коментар'"
-        [columnName]="'comment'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column [columnTitle]="'Дії'">
+      <app-column [columnTitle]="''" [width]="40">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <button mat-icon-button>
-              <i
-                class="icofont-info color-info"
-                matTooltip="Інформація про заявку"
-              ></i>
-            </button>
-
-            <button mat-icon-button>
-              <i
-                class="icofont-info-circle color-info"
-                matTooltip="Інформація про протокол"
-              ></i>
-            </button>
-
             <button
               mat-icon-button
               (click)="displayProtocol(row['counterNumber'])"
