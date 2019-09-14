@@ -7,7 +7,7 @@ import { User } from '../interfaces/user';
 
 const metrologyProtocolsUrl: string =
   'http://165.22.83.21:3000/api/verications-protocols/metrology/protocols';
-const rejectedProtocolsUrl: string = 'http://165.22.83.21:3000/api/metrology/rejected';
+const rejectedProtocolsUrl: string = 'http://165.22.83.21:3000/api/rejected-protocols';
 const failedTasksUrl: string = 'http://165.22.83.21:3000/api/stations-tasks/failed/1';
 const newVerificationUrl: string = 'http://165.22.83.21:3000/api/new-verifications';
 const rejectedVerif: string = 'http://165.22.83.21:3000/api/rejected-verification';
@@ -87,7 +87,12 @@ export class SourceService {
   }
 
   fetchRejectedProtocols(): void {
-    this.http.get(rejectedProtocolsUrl).subscribe((res: any) => this.rejectedProtocolsSource$.next(res));
+    const url =
+      this.user.permission === 5
+        ? rejectedProtocolsUrl
+        : `${rejectedProtocolsUrl}/${this.user.createFor}`;
+
+    this.http.get(url).subscribe((res: any) => this.rejectedProtocolsSource$.next(res));
   }
 
   fetchArchive(): void {

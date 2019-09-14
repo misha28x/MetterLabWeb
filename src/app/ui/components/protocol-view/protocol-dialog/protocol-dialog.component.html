@@ -78,49 +78,42 @@
     </table>
 
     <div class="controls">
-      <div class="img">
-        <img (click)="changeProtocolData(data)" [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" [src]="getImage(data.image)">
+      <div class="img d-flex flex-column">
+        <img class="mb-3" (click)="changeProtocolData(data)" [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" [src]="getImage(data.image)">
+        <div class="w-100 d-flex">
+          <button mat-button color="warn" class="mr-2" mat-dialog-close>
+            Закрити
+          </button>
+
+          <button mat-button (click)="saveProtocol()" color="primary">Зберегти</button>
+        </div>
       </div>
       <div class="protocol-actions">
         <h3 class="action-title">Перегляд фото</h3>
-        <div class="photo-actions">
+        <div class="photo-actions mb-1">
           <button mat-icon-button color="primary" (click)="rotate(-90)">
             <i class="icofont-reply"></i>
           </button>
 
-          <button mat-raised-button color="primary" (click)="rotate(180)">180&#176;</button>
+          <button mat-button color="primary" (click)="rotate(180)">180&#176;</button>
 
           <button mat-icon-button color="primary" (click)="rotate(90)" class="reverse">
             <i class="icofont-reply"></i>
           </button>
         </div>
 
-        <h3 class="action-title">Протокол</h3>
-
-        <div class="protocol-actions">
-          <button mat-icon-button color="primary">
-            <i class="icofont-rounded-left"></i>
+        <div *ngIf="permission == 5 && !checked" class="protocol-actions">
+          <button mat-raised-button class="bg-success" (click)="verificateProtocol(data.applicationNumber)">
+            Повірити
           </button>
 
-          <button mat-raised-button (click)="saveProtocol()" class="bg-success">Зберегти</button>
-
-          <button mat-icon-button color="primary">
-            <i class="icofont-rounded-right"></i>
+          <button mat-stroked-button color="warn" (click)="rejectProtocol()">
+            Відхилити
           </button>
         </div>
 
-        <div *ngIf="permission == 5 && !checked" class="metrology-actions">
-          <button mat-raised-button class="bg-success" (click)="acceptProtocol()">
-            Придатний
-          </button>
-
-          <button mat-raised-button class="bg-error" (click)="rejectProtocol()">
-            Не придатний
-          </button>
-        </div>
-
-        <div *ngIf="permission == 5 && checked" class="metrology-actions">
-          <button (click)="downloadDoc()" mat-raised-button class="bg-success">
+        <div *ngIf="permission == 5 && checked" class="protocol-actions flex-row">
+          <button (click)="downloadDoc()" mat-button class="bg-success">
             Завантажити документ
           </button>
 

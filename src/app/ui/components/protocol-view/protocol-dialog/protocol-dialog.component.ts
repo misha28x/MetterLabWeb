@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { CounterDialogDataComponent } from '../counter-dialog-data/counter-dialog-data.component';
@@ -49,25 +49,33 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   }
 
   saveProtocol(): void {
-    this.protocolSv.upladteProtocol(this.data.counterNumber, this.data).subscribe(console.log);
+    this.protocolSv.updateProtocol(this.data.counterNumber, this.data).subscribe(console.log);
   }
 
-  acceptProtocol(): void {
-    this.sourceSv.fetchMetrologyProtocols();
-    this.protocolSv.acceptProtocol(this.data.applicationNumber).subscribe();
-    this.checked = true;
+  acceptProtocol(applicationNumber: string): Observable<any> {
+    return this.protocolSv.acceptProtocol(applicationNumber);
   }
 
-  unsuitableProtocol(): void {
-    this.sourceSv.fetchMetrologyProtocols();
-    this.protocolSv.unsuitableProtocol(this.data.applicationNumber).subscribe();
-    this.checked = true;
+  unsuitableProtocol(applicationNumber: string): Observable<any> {
+    return this.protocolSv.unsuitableProtocol(applicationNumber);
+  }
+
+  verificateProtocol(applicationNumber: string): void {
+    const verFunc: (applicationNumber: string) => Observable<Object> =
+      this.data.result === 'Годен'
+        ? this.acceptProtocol.bind(this, applicationNumber)
+        : this.unsuitableProtocol.bind(this, applicationNumber);
+
+    verFunc(applicationNumber).subscribe(() => {
+      this.sourceSv.fetchMetrologyProtocols();
+      this.checked = true;
+    });
   }
 
   rejectProtocol(): void {
-    this.sourceSv.fetchMetrologyProtocols();
-    this.protocolSv.rejectProtocol(this.data.applicationNumber).subscribe();
-    this.checked = true;
+    this.protocolSv.rejectProtocol(this.data.applicationNumber).subscribe(() => {
+      this.sourceSv.fetchMetrologyProtocols();
+    });
   }
 
   changeProtocolData(protocolData: Protocol): void {

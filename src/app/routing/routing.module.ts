@@ -29,6 +29,7 @@ import { MetrologyReportsComponent } from '../pages/metrology-reports/metrology-
 
 import { ExtraComponent } from '../layout/extra';
 import { SharedComponent } from '../layout/shared';
+import { MetrologyRejectedComponent } from '../pages/metrology-rejected/metrology-rejected.component';
 
 export const DEFAULT_ROUTES = [
   {
@@ -130,6 +131,11 @@ export const DEFAULT_ROUTES = [
     path: 'metrology-reports',
     component: MetrologyReportsComponent,
     data: { title: 'Звіт' }
+  },
+  {
+    path: 'metrology-rejected',
+    component: MetrologyRejectedComponent,
+    data: { title: 'Відхилені протоколи' }
   }
 ];
 

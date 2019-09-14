@@ -33,5 +33,13 @@ export class MetrologyRejectedComponent implements OnInit {
     });
   }
 
-  rejectProtocol(id: string): void {}
+  updateList(): void {
+    this.sourceSv.fetchRejectedProtocols();
+  }
+
+  returnProtocol(id: string): void {
+    this.protocolSv.returnProtocol(id).subscribe(() => {
+      this.updateList();
+    });
+  }
 }

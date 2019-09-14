@@ -89,8 +89,8 @@
 
       .protocol-actions {
         flex: 1;
-        padding: 0 $module-rem;
-        justify-content: center;
+        justify-content: space-between;
+        flex-direction: column;
 
         .action-title {
           font-size: 1.2em;

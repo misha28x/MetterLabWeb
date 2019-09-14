@@ -11,6 +11,9 @@ const rejectUrl = 'http://165.22.83.21:3000/api/verications-protocols/reject/';
 const unsuitableUrl = 'http://165.22.83.21:3000/api/verications-protocols/unsuitable/';
 const acceptUrl = 'http://165.22.83.21:3000/api/verications-protocols/accept/';
 
+const returnUrl = 'http://165.22.83.21:3000/api/rejected-protocols/back/';
+const recycleUrl = 'http://165.22.83.21:3000/api/rejected-protocols/recycle/';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +36,7 @@ export class ProtocolService {
     return this.protocolAdded$;
   }
 
-  public upladteProtocol(id: any, data: Protocol): Observable<any> {
+  public updateProtocol(id: any, data: Protocol): Observable<any> {
     return this.http.put(protocolUrl + data.counterNumber, { ...data });
   }
 
@@ -49,7 +52,18 @@ export class ProtocolService {
     return this.http.get(unsuitableUrl + id);
   }
 
+  returnProtocol(id: string): Observable<Object> {
+    return this.http.put(returnUrl + id, {});
+  }
+
+  recycleProtocol(id: string): Observable<Object> {
+    return this.http.put(recycleUrl + id, {});
+  }
+
   downloadDoc(protocolNumber: string): void {
-    window.open(`http://165.22.83.21:3000/api/report-formation/doc/${protocolNumber}/${this.userId}`);
+    const docUrl = `http://165.22.83.21:3000/api/report-formation/doc/${protocolNumber}/${this.userId}`;
+    const viewerUrl = 'https://docs.google.com/viewer?url=';
+
+    window.open(`${viewerUrl}${docUrl}`);
   }
 }

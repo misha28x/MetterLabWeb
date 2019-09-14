@@ -60,7 +60,7 @@
       <app-column [width]="185" [columnTitle]="'Дії'">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <button class="color-info" mat-icon-button>
+            <button matTooltip="Повернути протокол" (click)="returnProtocol(row['applicationNumber'])" class="color-info" mat-icon-button>
               <mat-icon>restore</mat-icon>
             </button>
 

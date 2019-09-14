@@ -27,11 +27,19 @@ export class PageRejectedProtocolsComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  updateList(): void {
+    this.sourceSv.fetchRejectedProtocols();
+  }
+
   displayProtocol(id: string): void {
     this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
       this.protocolSv.addProtocol(protocol);
     });
   }
 
-  rejectProtocol(id: string): void {}
+  returnProtocol(id: string): void {
+    this.protocolSv.recycleProtocol(id).subscribe(() => {
+      this.updateList();
+    });
+  }
 }
