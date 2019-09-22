@@ -17,11 +17,18 @@ export class MetrologyReportsComponent implements OnInit {
 
   monthStartDate: Date;
 
+  dayReportDate: Date;
+  rangeReportDate: Date[];
+
+  monthReportDate: Date;
+  weekReportDate: Date;
+
   constructor(private reportSv: ReportsService) {}
 
   ngOnInit(): void {
     [this.weekStart, this.weekEnd] = this.getCurrentWeek();
     [this.monthStart, this.monthEnd] = this.getCurrentMonth();
+
     this.monthStartDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   }
 

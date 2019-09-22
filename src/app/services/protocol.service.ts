@@ -28,8 +28,9 @@ export class ProtocolService {
     });
   }
 
-  public addProtocol(protocol: Protocol): void {
-    this.protocolSource$.next(protocol);
+  public addProtocol(protocol: Protocol, status: string = ''): void {
+    const updatedProcol = { ...protocol, status };
+    this.protocolSource$.next(updatedProcol);
   }
 
   public getProtocol(): Observable<Protocol> {
@@ -61,9 +62,8 @@ export class ProtocolService {
   }
 
   downloadDoc(protocolNumber: string): void {
-    const docUrl = `http://165.22.83.21:3000/api/report-formation/doc/${protocolNumber}/${this.userId}`;
-    const viewerUrl = 'https://docs.google.com/viewer?url=';
+    const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${protocolNumber}/${this.userId}`;
 
-    window.open(`${viewerUrl}${docUrl}`);
+    window.open(docUrl);
   }
 }

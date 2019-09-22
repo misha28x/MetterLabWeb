@@ -14,16 +14,14 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput [matDatepicker]="picker" placeholder="Дата завдання" [(ngModel)]="selectedDate">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <mat-form-field>
     <mat-select placeholder="Виберіть установку" [(ngModel)]="selectedStation">
       <mat-option *ngFor="let station of (stations | async)" value="{{ station }}">{{ station }}</mat-option>
     </mat-select>
   </mat-form-field>
+
+  <div class="form-field w-100">
+    <nz-date-picker [nzShowToday]="false" [ngStyle]="{ width: '100%' }" [(ngModel)]="selectedDate" ></nz-date-picker>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions>

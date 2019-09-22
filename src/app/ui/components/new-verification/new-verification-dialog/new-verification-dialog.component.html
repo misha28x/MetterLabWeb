@@ -205,8 +205,11 @@
         <div class="full-width">
           <span>Дата монтажу лічильника</span>
           <div class="input-field form-group">
-            <input type="text" class="form-control" #dp="bsDatepicker" bsDatepicker formControlName="montageDate"
-                                                                    [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            <nz-date-picker
+              [nzShowToday]="false"
+              [ngStyle]="{ width: '100%' }"
+              formControlName="montageDate"
+            ></nz-date-picker>
           </div>
         </div>
 

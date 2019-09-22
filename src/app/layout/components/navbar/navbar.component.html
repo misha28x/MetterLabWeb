@@ -44,8 +44,8 @@
       Статус лічильника
     </button>
   </div>
-  <div class="upload" *ngIf="![0, 5, 6].includes(permission)">
-    <app-new-verification class="mr-4"></app-new-verification>
-    <app-file-upload></app-file-upload>
+  <div class="upload">
+    <app-new-verification class="mr-4" *ngIf="![0, 5].includes(permission)"></app-new-verification>
+    <app-file-upload *ngIf="![0, 5, 6].includes(permission)"></app-file-upload>
   </div>
 </div>

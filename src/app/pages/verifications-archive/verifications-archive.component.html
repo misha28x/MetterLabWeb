@@ -1,34 +1,29 @@
 <!-- Архів Повірок -->
 <mat-card>
   <mat-card-content>
-    <div class="actions">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="dateStatus = true"
-        *ngIf="!dateStatus"
-      >
-        Встановити дату видачі
-      </button>
+    <!--    <div class="actions">-->
+    <!--      <button-->
+    <!--        mat-raised-button-->
+    <!--        color="primary"-->
+    <!--        (click)="dateStatus = true"-->
+    <!--        *ngIf="!dateStatus"-->
+    <!--      >-->
+    <!--        Встановити дату видачі-->
+    <!--      </button>-->
 
-      <div class="date" *ngIf="dateStatus">
-        <input
-          #issueDate
-          class="form-control mb-3"
-          placeholder="Дата видачі"
-          bsDatepicker
-          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
-          [(ngModel)]="currentDate"
-        />
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="setIssueDate(); dateStatus = false"
-        >
-          Встановити
-        </button>
-      </div>
-    </div>
+    <!--      <div class="date" *ngIf="dateStatus">-->
+    <!--        <div class="form-field w-100 mb-3">-->
+    <!--          <nz-date-picker [nzShowToday]="false" [ngStyle]="{ width: '100%' }" [(ngModel)]="currentDate" ></nz-date-picker>-->
+    <!--        </div>-->
+    <!--        <button-->
+    <!--          mat-raised-button-->
+    <!--          color="primary"-->
+    <!--          (click)="setIssueDate(); dateStatus = false"-->
+    <!--        >-->
+    <!--          Встановити-->
+    <!--        </button>-->
+    <!--      </div>-->
+    <!--    </div>-->
 
     <app-table
       (rowSelected)="onChange($event)"
@@ -40,7 +35,7 @@
     >
       <app-column
         [date]="true"
-        [width]="75"
+        [width]="200"
         [columnTitle]="'Дата надходження'"
         [columnName]="'addingDate'"
         [enableSorting]="true"
@@ -71,31 +66,19 @@
           </mat-menu>
 
           <mat-menu #ver="matMenu">
-            <button
-              (click)="detailView(row['applicationNumber'])"
-              mat-menu-item
-            >
+            <button (click)="detailView(row['applicationNumber'])" mat-menu-item>
               <mat-icon>info</mat-icon>
               Детальніше
             </button>
 
             <button
               (click)="
-                editProvider(
-                  row['applicationNumber'],
-                  row['serviceProvider'],
-                  row['serviceType']
-                )
+                editProvider(row['applicationNumber'], row['serviceProvider'], row['serviceType'])
               "
               mat-menu-item
             >
               <mat-icon>edit</mat-icon>
               Змінити надавача послуг
-            </button>
-
-            <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
-              <mat-icon>file_copy</mat-icon>
-              Завантажити документ
             </button>
 
             <button (click)="addScan(row['applicationNumber'])" mat-menu-item>
@@ -105,17 +88,14 @@
           </mat-menu>
 
           <mat-menu #protocol="matMenu">
-            <button
-              (click)="displayProtocol(row['counterNumber'])"
-              mat-menu-item
-            >
+            <button (click)="displayProtocol(row['counterNumber'])" mat-menu-item>
               <mat-icon>more</mat-icon>
               Детальніше
             </button>
 
             <button (click)="downloadDoc(row['protocolNumber'])" mat-menu-item>
-              <mat-icon>save_alt</mat-icon>
-              Завантажити свідоцтво
+              <mat-icon>file_copy</mat-icon>
+              Завантажити документ
             </button>
           </mat-menu>
         </ng-template>
@@ -186,15 +166,6 @@
       ></app-column>
 
       <app-column
-        [date]="true"
-        [width]="75"
-        [columnTitle]="'Дата створення протоколу'"
-        [columnName]="'protocolDate'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
         [width]="75"
         [columnTitle]="'Номер протоколу'"
         [columnName]="'protocolNumber'"
@@ -243,15 +214,6 @@
         [width]="75"
         [columnTitle]="'Тип послуги'"
         [columnName]="'serviceType'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [date]="true"
-        [width]="75"
-        [columnTitle]="'Дата видачі документу'"
-        [columnName]="'documentPrintDate'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>

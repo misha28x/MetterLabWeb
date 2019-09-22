@@ -107,18 +107,14 @@
             Повірити
           </button>
 
-          <button mat-stroked-button color="warn" (click)="rejectProtocol()">
+          <button mat-stroked-button mat-dialog-close color="warn" (click)="rejectProtocol()">
             Відхилити
           </button>
         </div>
 
-        <div *ngIf="permission == 5 && checked" class="protocol-actions flex-row">
-          <button (click)="downloadDoc()" mat-button class="bg-success">
+        <div *ngIf="permission == 5 && checked" class="protocol-actions flex-row pt-3 mt-5">
+          <button (click)="downloadDoc()" mat-dialog-close mat-button class="bg-success">
             Завантажити документ
-          </button>
-
-          <button (click)="checked = false" mat-icon-button color="primary" matTooltip="Повірити знову">
-            <i class="fas fa-undo"></i>
           </button>
         </div>
       </div>

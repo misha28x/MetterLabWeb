@@ -41,26 +41,17 @@
       </app-column>
 
       <app-column
+        [width]="75"
+        [columnTitle]="'Номер лічильника'"
+        [columnName]="'counterNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
         [width]="200"
         [columnTitle]="'Статус'"
         [columnName]="'status'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Номер установки'"
-        [columnName]="'stationNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [date]="true"
-        [width]="75"
-        [columnTitle]="'Дата створення протоколу'"
-        [columnName]="'protocolDate'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -78,22 +69,6 @@
         [width]="75"
         [columnTitle]="'Дата підпису протоколу'"
         [columnName]="'protocolSignDate'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Номер лічильника'"
-        [columnName]="'counterNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Придатний до'"
-        [columnName]="'suitableFor'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>

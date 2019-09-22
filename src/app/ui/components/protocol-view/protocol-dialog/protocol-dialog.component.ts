@@ -34,7 +34,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.checked = false;
+    this.checked = this.data.status;
     this.subscription = this.photoSv.getAngleObservable().subscribe(angle => (this.angle = angle));
     this.store.pipe(select('permission')).subscribe(user => (this.permission = user.permission));
   }
@@ -75,6 +75,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   rejectProtocol(): void {
     this.protocolSv.rejectProtocol(this.data.applicationNumber).subscribe(() => {
       this.sourceSv.fetchMetrologyProtocols();
+      this.sourceSv.fetchMetrologyArchive();
     });
   }
 

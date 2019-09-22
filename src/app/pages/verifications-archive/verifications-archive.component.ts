@@ -13,7 +13,7 @@ import { VerificationService } from '../../services/verification.service';
 
 import { ScanUploadComponent } from '../../ui/components/scan-upload';
 import { SelectDialogComponent } from '../../ui/components/select-dialog';
-import { SealEditComponent } from '../../ui/components/seal-edit';
+
 import { Protocol } from '../../interfaces/protocol';
 
 @Component({
@@ -61,24 +61,6 @@ export class PageVerificationsArchiveComponent implements OnInit {
         const url = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
 
         this.http.post(url, { provider: data.provider, type: data.type }).subscribe(() => this.update);
-      }
-    });
-  }
-
-  editSeal(id: number): void {
-    const ref = this.dialog.open(SealEditComponent);
-
-    ref.afterClosed().subscribe((data: any) => {
-      if (data) {
-        const url = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
-
-        this.http
-          .post(url, {
-            date: data.date,
-            number: data.number,
-            comment: data.comment
-          })
-          .subscribe(() => this.update);
       }
     });
   }

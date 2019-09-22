@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 
-import { defineLocale } from 'ngx-bootstrap/chronos';
-import { ruLocale } from 'ngx-bootstrap/locale';
+import { NgZorroAntdModule, NZ_DATE_CONFIG } from 'ng-zorro-antd';
+import { FormsModule } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
+import uk from '@angular/common/locales/uk';
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -19,8 +21,8 @@ import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
-console.log(ruLocale);
-defineLocale('ru', ruLocale);
+
+registerLocaleData(uk);
 
 const config: SocketIoConfig = { url: 'http://165.22.83.21:3000', options: { reconnect: true } };
 
@@ -39,9 +41,11 @@ const config: SocketIoConfig = { url: 'http://165.22.83.21:3000', options: { rec
     }),
     LayoutModule,
     RoutingModule,
-    PagesModule
+    PagesModule,
+    NgZorroAntdModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [{ provide: NZ_DATE_CONFIG, useValue: { firstDayOfWeek: 1 } }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

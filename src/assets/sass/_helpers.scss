@@ -284,3 +284,19 @@ mat-card-header {
 .mat-dialog-container {
   position: relative;
 }
+.form-field {
+  &.w-100 {
+    width: 100%;
+
+    .ant-calendar-picker {
+      width: 100% !important;
+    }
+  }
+}
+.ant-calendar-picker {
+  &.ant-calendar-picker-small {
+    .ant-calendar-picker-icon {
+      top: 35% !important;
+    }
+  }
+}

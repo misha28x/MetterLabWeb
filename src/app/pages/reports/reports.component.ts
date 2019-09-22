@@ -11,37 +11,48 @@ export class PageReportsComponent {
   selectedRange: Date[];
   selectedDate: Date;
 
-  constructor(private reportsSv: ReportsService) { 
+  resolvedDay: Date;
+  resolvedRange: Date[];
+
+  rejectedDay: Date;
+  rejectedRange: Date[];
+
+  inWorkDay: Date;
+  inWorkRange: Date[];
+
+  constructor(private reportsSv: ReportsService) {
     this.selectedDate = new Date();
     this.selectedRange = [new Date(), new Date()];
   }
 
-  downloadInProgress(date: string): void {
+  downloadInProgress(date: Date | Date[]): void {
     const type = 'in-progress/';
     this.downloadReport(type, date);
   }
 
-  downloadCompleted(date: string): void {
+  downloadCompleted(date: Date | Date[]): void {
     const type = 'completed/';
     this.downloadReport(type, date);
   }
-
-  downloadConvert(date: string): void {
-    const type = 'convert/';
+  ф;
+  downloadRejected(date: Date | Date[]): void {
+    const type = 'rejected/';
     this.downloadReport(type, date);
-	}
-	
-	downloadRejected(date: string): void {
-		const type = 'rejected/';
-		this.downloadReport(type, date);
-	}
+  }
 
-  downloadReport(type: string, date: string): void {
-    let dateArr = [date];
-    if (date.split(' - ').length > 0) {
-      dateArr = date.split(' - ');
-    }
+  downloadReport(type: string, date: Date | Date[]): void {
+    const dateArr = Array.isArray(date)
+      ? [this.getDateString(date[0]), this.getDateString(date[1])]
+      : [this.getDateString(date)];
 
     this.reportsSv.getReport(type, dateArr);
+  }
+
+  getDateString(d: Date): string {
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+
+    return `${year}-${month > 9 ? month : '0' + month}-${day > 9 ? day : '0' + day}`;
   }
 }

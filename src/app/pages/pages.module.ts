@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzDatePickerModule } from 'ng-zorro-antd';
 
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from '../material/material.module';
@@ -31,10 +31,10 @@ import { FinishedVerificationsComponent } from './finished-verifications';
 
 import { ScanUploadComponent } from '../ui/components/scan-upload';
 import { SelectDialogComponent } from '../ui/components/select-dialog';
-import { PageEmployeesComponent } from './employees/employees.component';
-import { InfoPageComponent } from './info-page/info-page.component';
-import { StatusPageComponent } from './status-page/status-page.component';
-import { VerificationFormComponent } from './verification-form/verification-form.component';
+import { PageEmployeesComponent } from './employees';
+import { InfoPageComponent } from './info-page';
+import { StatusPageComponent } from './status-page';
+import { VerificationFormComponent } from './verification-form';
 import { ProfileComponent } from './profile/profile.component';
 import { PageMetrologyArchiveComponent } from './metrology-archive/metrology-archive.component';
 import { MetrologyReportsComponent } from './metrology-reports/metrology-reports.component';
@@ -48,7 +48,7 @@ import { MetrologyRejectedComponent } from './metrology-rejected/metrology-rejec
     UiModule,
     FormsModule,
     ReactiveFormsModule,
-    BsDatepickerModule.forRoot()
+    NzDatePickerModule
   ],
   declarations: [
     PageHomePageComponent,

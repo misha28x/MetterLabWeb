@@ -30,6 +30,8 @@ export class TableComponent implements OnInit, OnChanges {
 
   @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
+  date: Date | Date[];
+
   columnList: ColumnComponent[];
 
   pageEvent: PageEvent;
@@ -56,7 +58,7 @@ export class TableComponent implements OnInit, OnChanges {
       }
     };
 
-    this.pageSizeOptions = [10, 50, 100, 200];
+    this.pageSizeOptions = [30, 50, 100, 200];
     this.itemsPerPage = this.pageSizeOptions[0];
     this.page = 0;
   }
@@ -106,11 +108,11 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   getSuccessClass(row: any): boolean {
-    return row[this.statusKey] == this.desiredStatus;
+    return row[this.statusKey] === this.desiredStatus;
   }
 
   getErrorClass(row: any): boolean {
-    return row[this.statusKey] == this.errorStatus;
+    return row[this.statusKey] === this.errorStatus;
   }
 
   public onChangePage(event: PageEvent): void {
@@ -185,9 +187,13 @@ export class TableComponent implements OnInit, OnChanges {
   public changeFilter(data: any, filterString: string, column?: ColumnComponent): any {
     let filteredData: Array<any> = data;
 
-    if (column && column.date && Array.isArray(column.config.filtering)) {
+    const isDateColumn =
+      column && column.date && Array.isArray(column.config.filtering) && column.config.filtering.length;
+
+    if (isDateColumn) {
       const firstDate = new Date(column.config.filtering[0]).toISOString();
       const secondDate = new Date(column.config.filtering[1]).toISOString();
+
       filteredData = filteredData.filter(row => {
         return row[column.config.name] <= secondDate && row[column.config.name] >= firstDate;
       });
@@ -235,6 +241,7 @@ export class TableComponent implements OnInit, OnChanges {
   onChangeTable(column?: ColumnComponent, value?: string): void {
     if (column) {
       Object.assign(this.config.filtering, column.config.filtering);
+      column.config.filtering = value || column.config.filtering;
     }
 
     const filteredData = this.changeFilter(this.data, this.config.filtering.filterString, column);
@@ -255,8 +262,25 @@ export class TableComponent implements OnInit, OnChanges {
     this.rowSelected.emit(this.selection.selected);
   }
 
+  onDateChange(c: ColumnComponent, date: Date[]): void {
+    if (date) {
+      const dateString = `${this.getDateString(date[0])} - ${this.getDateString(date[1])}`;
+      c.config.filtering = dateString;
+
+      this.onChangeTable(c, dateString);
+    }
+  }
+
   trackByFn(index: number, item: any): any {
     return index;
+  }
+
+  getDateString(d: Date): string {
+    const date = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+
+    return `${year}-${month > 9 ? month : '0' + month}-${date > 9 ? date : '0' + date}`;
   }
 
   getTableClasses(): any {

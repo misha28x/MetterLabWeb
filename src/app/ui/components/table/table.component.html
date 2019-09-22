@@ -45,17 +45,15 @@
             </ng-container>
 
             <ng-container *ngIf="c.date">
-              <div class="search-box">
-                <input
-                  #Range
-                  class="form-control mb-3"
-                  [(ngModel)]="c.config.filtering"
-                  [appFilterTable]="c.config.filtering"
-                  (onHidden)="onChangeTable(c, Range.value)"
-                  placeholder="За проміжок"
-                  bsDaterangepicker
-                  [bsConfig]="{ rangeInputFormat: 'YYYY-MM-DD' }"
-                />
+              <div class="search-box form-field small">
+                <nz-range-picker
+                  [(ngModel)]="date"
+                  [nzFormat]="'MM-dd'"
+                  (ngModelChange)="onChangeTable(c, $event)"
+                  [ngStyle]="{ width: '100%', height: 24 }"
+                  [nzSize]="'small'"
+                  [nzPlaceHolder]="['', '']"
+                ></nz-range-picker>
               </div>
             </ng-container>
 

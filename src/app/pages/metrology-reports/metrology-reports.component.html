@@ -27,14 +27,13 @@
       </div>
     </div>
     <div class="col-8">
-      <input
-        class="date-picker"
-        placeholder="Обрати тиждень"
-        #week="bsDatepicker"
-        bsDatepicker
-        (bsValueChange)="getWeekReport($event); week.hide()"
-        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', selectWeek: true, selectFromOtherMonth: true }"
-      />
+      <div class="form-field w-100">
+        <nz-week-picker
+          [(ngModel)]="weekReportDate"
+          (ngModelChange)="getWeekReport($event)"
+          [ngStyle]="{ width: '100%' }"
+        ></nz-week-picker>
+      </div>
     </div>
   </div>
 </mat-card>
@@ -68,15 +67,13 @@
       </div>
     </div>
     <div class="col-8">
-      <input
-        class="date-picker"
-        #CompletedSingle
-        placeholder="Обрати місяць"
-        #month="bsDatepicker"
-        bsDatepicker
-        (bsValueChange)="getMonthReport($event); month.hide()"
-        [bsConfig]="{ dateInputFormat: '01.MM.YYYY', minMode: 'month', adaptivePosition: true }"
-      />
+      <div class="form-field w-100">
+        <nz-month-picker
+          [(ngModel)]="monthReportDate"
+          (ngModelChange)="getMonthReport($event)"
+          [ngStyle]="{ width: '100%' }"
+        ></nz-month-picker>
+      </div>
     </div>
   </div>
 </mat-card>
@@ -94,14 +91,14 @@
       </div>
     </div>
     <div class="col-8">
-      <input
-        class="date-picker"
-        placeholder="Обрати день"
-        #day="bsDatepicker"
-        bsDatepicker
-        (bsValueChange)="getDayReport($event); day.hide()"
-        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }"
-      />
+      <div class="form-field w-100">
+        <nz-date-picker
+          [(ngModel)]="dayReportDate"
+          (ngModelChange)="getDayReport($event)"
+          [nzShowToday]="false"
+          [ngStyle]="{ width: '100%' }"
+        ></nz-date-picker>
+      </div>
     </div>
   </div>
 
@@ -114,15 +111,13 @@
       </div>
     </div>
     <div class="col-8">
-      <input
-        class="date-picker"
-        #CompletedSingle
-        placeholder="Обрати проміжок"
-        #range="bsDaterangepicker"
-        bsDaterangepicker
-        (bsValueChange)="getReport($event); range.hide()"
-        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', adaptivePosition: true }"
-      />
+      <div class="form-field w-100">
+        <nz-range-picker
+          [(ngModel)]="rangeReportDate"
+          (ngModelChange)="getReport($event)"
+          [ngStyle]="{ width: '100%' }"
+        ></nz-range-picker>
+      </div>
     </div>
   </div>
 </mat-card>

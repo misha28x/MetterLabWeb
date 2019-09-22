@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NzDatePickerModule } from 'ng-zorro-antd';
 
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 import { MaterialModule } from './../material/material.module';
@@ -32,7 +32,6 @@ import {
 
 import { ScanUploadComponent } from './components/scan-upload';
 import { SelectDialogComponent } from './components/select-dialog';
-import { SealEditComponent } from './components/seal-edit';
 import { UserInfoComponent } from './components/user-info';
 import { AddEmployeeComponent } from './components/add-employee';
 import { AddStationComponent } from './components/add-station';
@@ -52,9 +51,9 @@ import { SourceService } from '../services/source.service';
     CommonModule,
     BrowserModule,
     FormsModule,
+    NzDatePickerModule,
     ReactiveFormsModule,
-    TimepickerModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    TimepickerModule.forRoot()
   ],
   exports: [
     SortTableDirective,
@@ -96,7 +95,6 @@ import { SourceService } from '../services/source.service';
     StartStateDialogComponent,
     ScanUploadComponent,
     SelectDialogComponent,
-    SealEditComponent,
     UserInfoComponent,
     AddEmployeeComponent,
     AddStationComponent,
@@ -121,7 +119,6 @@ import { SourceService } from '../services/source.service';
     StartStateDialogComponent,
     DeleteDialogComponent,
     AddEmployeeComponent,
-    SealEditComponent,
     UserInfoComponent,
     AddStationComponent,
     AddCityComponent,
