@@ -9,7 +9,9 @@
       </div>
 
       <div class="user-actions">
-        <button mat-raised-button color="warn"><i class="icofont-minus"></i>Відхилити Повірку</button>
+        <button (click)="rejectSelectedVerifications()" mat-raised-button color="warn">
+          <i class="icofont-minus"></i>Відхилити Повірку
+        </button>
       </div>
     </div>
 

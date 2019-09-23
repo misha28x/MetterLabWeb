@@ -8,7 +8,6 @@ import { PageVerificationsArchiveComponent } from '../pages/verifications-archiv
 import { PageRejectedProtocolsComponent } from '../pages/rejected-protocols';
 import { PageStationsTasksComponent } from '../pages/stations-tasks/stations-tasks.component';
 import { DefaultLayoutComponent } from '../layout/default';
-import { PageHomePageComponent } from '../pages/home-page';
 import { PageNewVerificationsComponent } from '../pages/new-verifications';
 import { PageLabRequestsComponent } from '../pages/lab-requests';
 import { PageProviderRequestsComponent } from '../pages/provider-requests';
@@ -32,11 +31,6 @@ import { SharedComponent } from '../layout/shared';
 import { MetrologyRejectedComponent } from '../pages/metrology-rejected/metrology-rejected.component';
 
 export const DEFAULT_ROUTES = [
-  {
-    path: 'home',
-    component: PageHomePageComponent,
-    data: { title: 'Головна Панель' }
-  },
   {
     path: 'new-verifications',
     component: PageNewVerificationsComponent,

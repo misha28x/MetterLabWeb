@@ -8,7 +8,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "nodemon --icu-data-dir=node_modules/full-icu server.js",
     "precommit": "lint-staged",
     "prettify": "prettier --write ./**/*.{json,css,scss,md,js,ts}"
   },
@@ -27,7 +26,6 @@
     "@angular/platform-browser-dynamic": "8.2.4",
     "@angular/router": "8.2.4",
     "@ngrx/store": "^8.3.0",
-    "@swimlane/ngx-charts": "12.0.1",
     "@types/socket.io": "2.1.2",
     "base64-arraybuffer": "0.2.0",
     "bootstrap": "4.3.1",

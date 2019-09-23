@@ -4,7 +4,7 @@
     <form class="login-form mb-0">
 
 			<h3 class="header-style">Вхід</h3>
-			
+
 			<p>Для входу пройдіть авторизацію</p>
 
       <mat-form-field class="full-width">
@@ -15,7 +15,7 @@
       </mat-form-field>
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="Password" [formControl]="passwordFormControl" type="password">
+        <input matInput placeholder="Пароль" [formControl]="passwordFormControl" type="password">
         <mat-error *ngIf="emailFormControl.hasError('required')">
           Будь ласка, <strong>введіть</strong> пароль
         </mat-error>

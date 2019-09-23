@@ -73,7 +73,7 @@ export class DetailViewDialogComponent implements OnInit {
       surname: surname,
       name: name,
       middlename: middlename,
-      phone: this.data.verification[0].phoneNumber,
+      phoneNumber: this.data.verification[0].phoneNumber,
       mail: this.data.verification[0].mail || '',
       ipn: this.data.verification[0].ipn || ''
     });
@@ -129,9 +129,7 @@ export class DetailViewDialogComponent implements OnInit {
 
     this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
       startWith(''),
-      map(_res =>
-        this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase()))
-      )
+      map(_res => this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase())))
     );
 
     this.filteredSettlement = this.locationForm.get('settlement').valueChanges.pipe(
@@ -146,6 +144,7 @@ export class DetailViewDialogComponent implements OnInit {
   }
 
   sendData(): void {
+    console.log(this.setVerification());
     this.verificationSv
       .updateVerification(this.data.verification[0].applicationNumber, this.setVerification())
       .subscribe(() => {
@@ -172,6 +171,7 @@ export class DetailViewDialogComponent implements OnInit {
 
     const haveSeal = this.counterForm.get('haveSeal').value ? 1 : 0;
     return {
+      ...this.generalDataForm.value,
       ...this.locationForm.value,
       ...this.counterForm.value,
       ...this.additionalDataForm.value,

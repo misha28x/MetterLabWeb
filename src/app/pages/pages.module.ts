@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzDatePickerModule } from 'ng-zorro-antd';
-
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from '../material/material.module';
 import { UiModule } from './../ui/ui.module';
 
-import { PageHomePageComponent } from './home-page';
 import { EmployeeDialogComponent, PageNewVerificationsComponent } from './new-verifications';
 import { PageLabRequestsComponent } from './lab-requests';
 import { PageProviderRequestsComponent } from './provider-requests';
@@ -43,7 +41,7 @@ import { MetrologyRejectedComponent } from './metrology-rejected/metrology-rejec
 @NgModule({
   imports: [
     MaterialModule,
-    NgxChartsModule,
+    CommonModule,
     HttpClientModule,
     UiModule,
     FormsModule,
@@ -51,7 +49,6 @@ import { MetrologyRejectedComponent } from './metrology-rejected/metrology-rejec
     NzDatePickerModule
   ],
   declarations: [
-    PageHomePageComponent,
     PageNewVerificationsComponent,
     PageLabRequestsComponent,
     PageProviderRequestsComponent,

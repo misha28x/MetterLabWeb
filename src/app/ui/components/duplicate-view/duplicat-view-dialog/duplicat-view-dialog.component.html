@@ -1,34 +1,98 @@
-<app-table [hovered]="true" [bordered]="true" [tableData]="(duplicates | async)" [pagination]="true">
+<app-table [hovered]="true" [bordered]="true" [tableData]="duplicates | async" [pagination]="true">
+  <app-column
+    [columnTitle]="'Номер Заявки'"
+    [columnName]="'applicationNumber'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [columnTitle]="'Номер Заявки'" [columnName]="'applicationNumber'" [enableSorting]="true"
-    [enableFiltering]="true"></app-column>
+  <app-column
+    [date]="true"
+    [columnTitle]="'Дата Надходження Заявки'"
+    [columnName]="'addingDate'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [date]="true" [columnTitle]="'Дата Надходження Заявки'" [columnName]="'addingDate'" [enableSorting]="true"
-    [enableFiltering]="true"></app-column>
+  <app-column
+    [columnTitle]="'Клієнт'"
+    [columnName]="'client'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [columnTitle]="'Клієнт'" [columnName]="'client'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column
+    [columnTitle]="'Надавач Послуг'"
+    [columnName]="'serviceProvider'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [columnTitle]="'Надавач Послуг'" [columnName]="'serviceProvider'" [enableSorting]="true"
-    [enableFiltering]="true"></app-column>
+  <app-column
+    [width]="115"
+    [columnTitle]="'Район'"
+    [columnName]="'district'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [width]="115" [columnTitle]="'Район'" [columnName]="'district'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column
+    [columnTitle]="'Вулиця'"
+    [columnName]="'street'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [columnTitle]="'Вулиця'" [columnName]="'street'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column
+    [width]="75"
+    [columnTitle]="'Будинок'"
+    [columnName]="'house'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [width]="75" [columnTitle]="'Будинок'" [columnName]="'house'" [enableSorting]="true" [enableFiltering]="true"></app-column>
+  <app-column
+    [width]="90"
+    [columnTitle]="'Квартира'"
+    [columnName]="'apartment'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [width]="90" [columnTitle]="'Квартира'" [columnName]="'apartment'" [enableSorting]="true"
-    [enableFiltering]="true"></app-column>
+  <app-column
+    [width]="120"
+    [columnTitle]="'Телефон'"
+    [columnName]="'phoneNumber'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [width]="120" [columnTitle]="'Телефон'" [columnName]="'phoneNumber'" [enableSorting]="true"
-    [enableFiltering]="true"></app-column>
+  <app-column
+    [width]="110"
+    [columnTitle]="'Тип послуги'"
+    [columnName]="'serviceType'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  >
+    <ng-template #tableBodyTemplate let-val>
+      {{ val == 1 ? 'Холодна' : 'Гаряча' }}
+    </ng-template>
+  </app-column>
 
-  <app-column [width]="110" [columnTitle]="'Тип послуги'" [columnName]="'serviceType'" [enableSorting]="true"
-    [enableFiltering]="true"></app-column>
+  <app-column
+    [date]="true"
+    [width]="110"
+    [columnTitle]="'Дата завдання'"
+    [columnName]="'taskDate'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 
-  <app-column [date]="true" [width]="110" [columnTitle]="'Дата завдання'" [columnName]="'taskDate'" [enableSorting]="true"
-    [enableFiltering]="true"></app-column>
-
-  <app-column [width]="110" [columnTitle]="'Примітка'" [columnName]="'note'" [enableSorting]="true" [enableFiltering]="true"></app-column>
-
+  <app-column
+    [width]="110"
+    [columnTitle]="'Примітка'"
+    [columnName]="'note'"
+    [enableSorting]="true"
+    [enableFiltering]="true"
+  ></app-column>
 </app-table>

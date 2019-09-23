@@ -216,7 +216,11 @@
         [columnName]="'serviceType'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>
+          {{ val == 1 ? 'Холодна' : 'Гаряча' }}
+        </ng-template>
+      </app-column>
 
       <app-column
         [width]="75"

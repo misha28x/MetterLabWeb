@@ -29,7 +29,7 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span matPrefix>+ &nbsp;</span>
-            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phone" />
+            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber" />
             <mat-hint align="end">{{ phone.value.length }} / 12</mat-hint>
           </mat-form-field>
         </div>
@@ -104,14 +104,11 @@
               <td class="w-2">
                 <mat-form-field>
                   <mat-select formControlName="counterQuantity">
-                    <mat-option [value]="'1'">1</mat-option>
-                    <mat-option [value]="'2'">2</mat-option>
-                    <mat-option [value]="'3'">3</mat-option>
-                    <mat-option [value]="'4'">4</mat-option>
-                    <mat-option [value]="'5'">5</mat-option>
-                    <mat-option [value]="'6'">6</mat-option>
-                    <mat-option [value]="'7'">7</mat-option>
-                    <mat-option [value]="'8'">8</mat-option>
+                    <mat-option [value]="1">1</mat-option>
+                    <mat-option [value]="2">2</mat-option>
+                    <mat-option [value]="3">3</mat-option>
+                    <mat-option [value]="4">4</mat-option>
+                    <mat-option [value]="5">5</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -126,9 +123,10 @@
               <td class="w-6">
                 <mat-form-field>
                   <mat-select formControlName="serviceProvider">
-                    <!-- TODO: Добавити табличку виробників -->
+
                     <mat-option [value]="'13270431'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
                     <mat-option [value]="'26366904'">ДКП "ЛУЦЬКТЕПЛО"</mat-option>
+                    <mat-option [value]="'49672834'">УВГК "Ковельводоканал"</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>

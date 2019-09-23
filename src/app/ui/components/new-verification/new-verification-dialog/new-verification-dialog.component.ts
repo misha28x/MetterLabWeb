@@ -75,7 +75,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       surname: '',
       name: '',
       middlename: '',
-      phone: '380',
+      phoneNumber: '380',
       ipn: ''
     });
 
@@ -179,13 +179,14 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 
     const fullName = `${surname} ${name} ${middlename}`;
     const time = new Date(this.additionalDataForm.get('favorTime').value);
-
+    const status = this.user.permission > 3 ? '' : 'Визначено відповідальну особу';
     const haveSeal = this.counterForm.get('haveSeal').value ? 1 : 0;
     return {
       ...this.locationForm.value,
       ...this.counterForm.value,
       ...this.additionalDataForm.value,
       client: fullName,
+      status,
       haveSeal: haveSeal,
       favorTime: [time.getHours(), time.getMinutes()]
     };

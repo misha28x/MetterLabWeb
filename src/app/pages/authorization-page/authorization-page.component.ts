@@ -16,23 +16,18 @@ const authUrl = 'http://165.22.83.21:3000/api/authorization';
   styleUrls: ['./authorization-page.component.scss']
 })
 export class AuthorizationPageComponent implements OnInit {
+  emailFormControl = new FormControl('', [Validators.required]);
 
-  emailFormControl = new FormControl('', [
-    Validators.required
-  ]);
-
-  passwordFormControl = new FormControl('', [
-    Validators.required
-  ]);
+  passwordFormControl = new FormControl('', [Validators.required]);
 
   constructor(
     private store: Store<string>,
     private dataSv: DataService,
     private menuSv: MenuService,
     private router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   authorization(): void {
     const authData = {
@@ -68,7 +63,7 @@ export class AuthorizationPageComponent implements OnInit {
       case 2:
       case 3:
       case 4:
-        url = 'default/home';
+        url = 'default/tasks-planing';
         break;
       case 6:
         url = 'default/verifications';

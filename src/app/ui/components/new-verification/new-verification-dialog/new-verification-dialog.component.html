@@ -31,7 +31,7 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span matPrefix>+ &nbsp;</span>
-            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phone">
+            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber">
             <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
           </mat-form-field>
         </div>
@@ -151,8 +151,8 @@
               <td class="w-4">
                 <mat-form-field>
                   <mat-select formControlName="serviceType">
-                    <mat-option [value]="'Холодна вода'">Холодна вода</mat-option>
-                    <mat-option [value]="'Гаряча вода'">Гаряча вода</mat-option>
+                    <mat-option [value]="'0'">Холодна вода</mat-option>
+                    <mat-option [value]="'1'">Гаряча вода</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -162,6 +162,7 @@
                     <!-- TODO: Добавити табличку виробників -->
                     <mat-option [value]="'13270431'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
                     <mat-option [value]="'26366904'">ДКП "ЛУЦЬКТЕПЛО"</mat-option>
+                    <mat-option [value]="'49672834'">УВГК "Ковельводоканал"</mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -294,7 +295,7 @@
           <mat-form-field class="input-field">
             <mat-label>Примітка</mat-label>
             <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-              cdkAutosizeMaxRows="10"></textarea>
+              cdkAutosizeMaxRows="10" formControlName="note"></textarea>
           </mat-form-field>
         </div>
       </form>
