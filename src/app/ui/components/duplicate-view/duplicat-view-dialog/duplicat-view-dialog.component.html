@@ -75,7 +75,7 @@
     [enableFiltering]="true"
   >
     <ng-template #tableBodyTemplate let-val>
-      {{ val == 1 ? 'Холодна' : 'Гаряча' }}
+      {{ val == 0 ? 'Холодна' : 'Гаряча' }}
     </ng-template>
   </app-column>
 

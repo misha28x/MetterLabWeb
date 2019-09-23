@@ -28,27 +28,25 @@
         <div class="full-width">
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
-            <span matPrefix>+ &nbsp;</span>
             <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber" />
-            <mat-hint align="end">{{ phone.value.length }} / 12</mat-hint>
           </mat-form-field>
         </div>
 
-        <div class="full-width inline">
-          <div class="d-flex justify-content-between align-items-center">
-            <span>Юридична особа</span>
-            <div class="input-field">
-              <mat-checkbox #isEntity></mat-checkbox>
-            </div>
-          </div>
-        </div>
+<!--        <div class="full-width inline">-->
+<!--          <div class="d-flex justify-content-between align-items-center">-->
+<!--            <span>Юридична особа</span>-->
+<!--            <div class="input-field">-->
+<!--              <mat-checkbox #isEntity></mat-checkbox>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div *ngIf="isEntity.checked" class="full-width">
-          <span>ІПН</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Індивідуальний податковий номер" formControlName="ipn" />
-          </mat-form-field>
-        </div>
+<!--        <div *ngIf="isEntity.checked" class="full-width">-->
+<!--          <span>ІПН</span>-->
+<!--          <mat-form-field class="input-field">-->
+<!--            <input matInput placeholder="Індивідуальний податковий номер" formControlName="ipn" />-->
+<!--          </mat-form-field>-->
+<!--        </div>-->
       </form>
     </mat-tab>
 
@@ -163,63 +161,6 @@
               <i class="icofont-copy"></i>
             </button>
           </div>
-        </div>
-      </form>
-    </mat-tab>
-
-    <mat-tab *ngIf="permission !== 2" [label]="'Лічильник'">
-      <form [formGroup]="counterForm">
-        <div class="full-width">
-          <span>Номер лічильника</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Номер лічильника" formControlName="counterNumber" />
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Наявність пломби</span>
-          <div class="input-field">
-            <mat-checkbox formControlName="haveSeal"></mat-checkbox>
-          </div>
-        </div>
-
-        <div class="full-width">
-          <span>Тип Лічильника</span>
-          <mat-form-field class="input-field">
-            <input
-              type="text"
-              placeholder="Типорозмір лічильника"
-              formControlName="counterType"
-              matInput
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let type of data.Device" [value]="type">{{ type }}</mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Символ</span>
-          <mat-form-field class="input-field">
-            <mat-select placeholder="Символ" formControlName="symbol">
-              <mat-option *ngFor="let symbol of data.DN" [value]="symbol">{{ symbol }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Рік випуску</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Рік випуску лічильника" formControlName="productionYear" />
-          </mat-form-field>
-        </div>
-
-        <div class="full-width">
-          <span>Накопичений об'єм</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="'xxxxx'" formControlName="acumulatedVolume" />
-          </mat-form-field>
         </div>
       </form>
     </mat-tab>

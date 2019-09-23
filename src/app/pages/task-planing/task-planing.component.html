@@ -62,6 +62,18 @@
       </app-column>
 
       <app-column
+        [width]="110"
+        [columnTitle]="'Тип послуги'"
+        [columnName]="'serviceType'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      >
+        <ng-template #tableBodyTemplate let-val>
+          {{ val == 0 ? 'Холодна' : 'Гаряча' }}
+        </ng-template>
+      </app-column>
+
+      <app-column
         [width]="115"
         [columnTitle]="'Район'"
         [columnName]="'district'"
@@ -71,6 +83,7 @@
 
       <app-column
         [columnTitle]="'Вулиця'"
+        [width]="200"
         [columnName]="'street'"
         [enableSorting]="true"
         [enableFiltering]="true"
