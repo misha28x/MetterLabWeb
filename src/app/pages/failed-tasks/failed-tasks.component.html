@@ -1,13 +1,6 @@
 <!-- Завдання Для Станцій -->
 <mat-card>
   <mat-card-content>
-    <div class="actions">
-      <button mat-raised-button class="bg-success" (click)="sendData()">
-        <i class="icon icofont-paper-plane"></i>
-        Надіслати завдання
-      </button>
-    </div>
-
     <app-table
       (rowSelected)="onChange($event)"
       [hovered]="true"

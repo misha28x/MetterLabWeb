@@ -24,7 +24,9 @@ export class SourceService {
   private rejectedProtocolsSource$ = new BehaviorSubject([]);
   private metrologyArchiveSource$ = new BehaviorSubject([]);
   private newVerificationSource$ = new BehaviorSubject([]);
+  private providerArchive$ = new BehaviorSubject([]);
   private rejectedVerifSource$ = new BehaviorSubject([]);
+  private rejectedProviders$ = new BehaviorSubject([]);
   private failedTasksSource$ = new BehaviorSubject([]);
   private stationTaskSource$ = new BehaviorSubject([]);
   private taskPlaningSource$ = new BehaviorSubject([]);
@@ -64,6 +66,12 @@ export class SourceService {
       .subscribe((res: any) => this.protocolsSource$.next(res));
   }
 
+  fetchProvidersArchive(): void {
+    this.http
+      .get(`${archiveUrl}/provider/${this.user.serviceProvider}`)
+      .subscribe((res: any) => this.providerArchive$.next(res));
+  }
+
   fetchMetrologyArchive(): void {
     this.http.get(metrologyArchive).subscribe((res: any) => this.metrologyArchiveSource$.next(res));
   }
@@ -78,6 +86,10 @@ export class SourceService {
     this.http
       .get(rejectedVerif + '/' + this.user.serviceProvider)
       .subscribe((res: any) => this.rejectedVerifSource$.next(res));
+  }
+
+  fetchProviderRejected(): void {
+    this.http.get(`${rejectedVerif}/provider/${this.user.serviceProvider}`);
   }
 
   fetchFailedTasks(): void {
@@ -149,5 +161,13 @@ export class SourceService {
 
   getArchive(): Observable<any> {
     return this.archiveSource$.asObservable();
+  }
+
+  getProvidersArchive(): Observable<any> {
+    return this.providerArchive$.asObservable();
+  }
+
+  fetchRejectedProvider(): Observable<any> {
+    return this.rejectedProviders$.asObservable();
   }
 }

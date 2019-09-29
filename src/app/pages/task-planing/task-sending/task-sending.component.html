@@ -1,30 +1,18 @@
 <h2 mat-dialog-title>Надіслати завдання на станцію</h2>
 
 <mat-dialog-content class="content">
-  <mat-form-field>
-    <mat-select placeholder="Тип послуги" [(ngModel)]="selectedService">
-      <mat-option [value]="'Холодна вода'">
-        Холодна вода
-      </mat-option>
-
-      <mat-option [value]="'Гаряча вода'">
-        Гаряча вода
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
+  <mat-form-field class="mb-3">
     <mat-select placeholder="Виберіть установку" [(ngModel)]="selectedStation">
       <mat-option *ngFor="let station of (stations | async)" value="{{ station }}">{{ station }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <div class="form-field w-100">
+  <div class="form-field w-100 mb-4">
     <nz-date-picker [nzShowToday]="false" [ngStyle]="{ width: '100%' }" [(ngModel)]="selectedDate" ></nz-date-picker>
   </div>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Скасувати</button>
   <button class="bg-success" mat-raised-button (click)="saveData()">Надіслати</button>
+  <button mat-button mat-dialog-close>Скасувати</button>
 </mat-dialog-actions>

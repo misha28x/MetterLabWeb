@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 import { Verification } from '../interfaces/verifications';
 import { DeleteDialogComponent } from '../ui/components/delete-dialog';
 import { RejectionDialogComponent } from '../ui/components/rejection-dialog';
+import { AddToTaskComponent } from '../pages/task-planing/add-to-task/add-to-task.component';
 
-const employeeCancelUrl = 'http://165.22.83.21:3000/api/new-verifications/cancel-employee/';
+const addToTask = 'http://165.22.83.21:3000/api/task-planing/add-to-task';
 const duplicateUrl = 'http://165.22.83.21:3000/api/new-verifications/duplicate';
 const archiveUrl = 'http://165.22.83.21:3000/api/verifications-archive';
 const deleteFromTask = 'http://165.22.83.21:3000/api/stations-tasks/delete/';
@@ -41,8 +42,8 @@ export class VerificationService {
     return this.http.post(deleteFromTask + '' + id, { taskId: taskId });
   }
 
-  public rejectVerification(id: any, reason: string): Observable<any> {
-    return this.http.post(rejectUrl + id, { reason: reason });
+  public rejectVerification(id: any, reason: string, taskId?: string): Observable<any> {
+    return this.http.post(rejectUrl + id, { reason: reason, id_task: taskId });
   }
 
   public deleteVerification(id: any): Observable<any> {
@@ -53,8 +54,8 @@ export class VerificationService {
     return this.http.post(duplicateUrl, address);
   }
 
-  public cancelEmployee(id: any): Observable<any> {
-    return this.http.get(employeeCancelUrl + id);
+  public addVerificationToTask(id: string, taskId: string): Observable<any> {
+    return this.http.put(`${addToTask}/${id}/${taskId}`, {});
   }
 
   public updateVerification(id: any, verification: Verification): Observable<any> {
@@ -84,6 +85,14 @@ export class VerificationService {
 
   public setIssueDate(id: any, date: string): Observable<any> {
     return this.http.post(issueDate + id, { issueDate: date });
+  }
+
+  public openTaskSelection(): Observable<string> {
+    const ref = this.dialog.open(AddToTaskComponent, {
+      width: '80%'
+    });
+
+    return ref.afterClosed().pipe(filter(val => !!val));
   }
 
   public openDeleteDialog(): Observable<any> {

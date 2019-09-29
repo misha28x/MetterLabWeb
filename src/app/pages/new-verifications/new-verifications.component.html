@@ -12,16 +12,7 @@
           class="bg-success"
           (click)="addEmployeeToSelected()"
         >
-          <i class="icofont-ui-user"></i> Додати ДійовуОсобу
-        </button>
-
-        <button
-          mat-raised-button
-          color="primary"
-          class="bg-warning"
-          (click)="cancelEmployeeToSelected()"
-        >
-          <i class="icofont-delete"></i> Скасувати Дійову Особу
+          <i class="icofont-ui-user"></i> Надіслати
         </button>
 
         <button mat-raised-button color="warn" (click)="rejectSelectedVerifications()">
@@ -95,38 +86,6 @@
         [width]="90"
         [columnTitle]="'Квартира'"
         [columnName]="'apartment'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [date]="true"
-        [columnTitle]="'Бажана дата повірки'"
-        [columnName]="'favorDate'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [columnTitle]="'Cправність Сантехніки'"
-        [columnName]="'sanitaryWellfare'"
-        [enableSorting]="true"
-        [width]="80"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="115"
-        [columnTitle]="'Вода відсутня до'"
-        [columnName]="'waterAbsentTo'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="140"
-        [columnTitle]="'Наявність пломби'"
-        [columnName]="'haveSeal'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>

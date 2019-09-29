@@ -39,12 +39,7 @@ export class PageRejectedVerificationComponent implements OnInit {
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id);
-  }
-
-  cancelEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) =>
-      this.verificationSv.cancelEmployee(ver.applicationNumber))).subscribe(() => this.updateData());
+    this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
   deleteVerification(id: number): void {

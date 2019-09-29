@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { combineLatest, Observable } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../services/data.service';
+import { Verification } from '../../interfaces/verifications';
 import { SourceService } from '../../services/source.service';
 import { UploadService } from '../../services/upload.service';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
-import { filter, switchMap } from 'rxjs/operators';
-import { Verification } from '../../interfaces/verifications';
 
 @Component({
   selector: 'app-finished-verifications',
@@ -30,7 +30,8 @@ export class FinishedVerificationsComponent implements OnInit {
     private verificationSv: VerificationService
   ) {
     this.updateData();
-    this.newVerifications = this.sourceSv.getLab();
+    this.newVerifications = this.sourceSv.getProvidersArchive();
+    this.sourceSv.getProvidersArchive().subscribe(console.log);
   }
 
   ngOnInit(): void {
@@ -40,11 +41,11 @@ export class FinishedVerificationsComponent implements OnInit {
   }
 
   updateData(): void {
-    this.sourceSv.fetchLabRequest();
+    this.sourceSv.fetchProvidersArchive();
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id);
+    this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
   getScan(id: string): void {
@@ -85,10 +86,6 @@ export class FinishedVerificationsComponent implements OnInit {
         switchMap(() => this.verificationSv.deleteVerification(id))
       )
       .subscribe(() => this.updateData());
-  }
-
-  cancelEmployee(id: number): void {
-    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
   }
 
   onChange(data: any): void {

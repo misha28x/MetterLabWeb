@@ -92,8 +92,8 @@ export class PageVerificationsArchiveComponent implements OnInit {
     this.sourceSv.fetchArchive();
   }
 
-  downloadDoc(id: string): void {
-    this.protocolSv.downloadDoc(id);
+  downloadDoc(id: string, mId: string): void {
+    this.protocolSv.downloadDoc(id, mId);
   }
 
   onChange(data: any): void {

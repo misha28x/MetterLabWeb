@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NzDatePickerModule } from 'ng-zorro-antd';
-
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { NzDatePickerModule, NzTimePickerModule } from 'ng-zorro-antd';
 
 import { MaterialModule } from './../material/material.module';
 
@@ -17,7 +15,7 @@ import { FilterTableDirective } from './directives/filter-table/filter-table.dir
 import { SortTableDirective } from './directives/sort-table/sort-table.directive';
 import { UploadDialogComponent } from './components/file-upload/upload-dialog/upload-dialog.component';
 import { NewVerificationComponent, NewVerificationDialogComponent } from './components/new-verification';
-import { DetailViewComponent, DetailViewDialogComponent } from './components/detail-view';
+import { DetailViewDialogComponent } from './components/detail-view-dialog/detail-view-dialog.component';
 import { DuplicateViewComponent, DuplicatViewDialogComponent } from './components/duplicate-view';
 import { VerificationViewComponent } from './components/verification-view';
 import { BadgeComponent } from './components/badge';
@@ -53,7 +51,7 @@ import { SourceService } from '../services/source.service';
     FormsModule,
     NzDatePickerModule,
     ReactiveFormsModule,
-    TimepickerModule.forRoot()
+    NzTimePickerModule
   ],
   exports: [
     SortTableDirective,
@@ -66,7 +64,6 @@ import { SourceService } from '../services/source.service';
     ProtocolViewComponent,
     DuplicateViewComponent,
     DuplicatViewDialogComponent,
-    DetailViewComponent,
     BadgeComponent,
     CounterDialogDataComponent,
     EndStateDialogComponent,
@@ -85,7 +82,6 @@ import { SourceService } from '../services/source.service';
     ProtocolViewComponent,
     ProtocolDialogComponent,
     VerificationViewComponent,
-    DetailViewComponent,
     DetailViewDialogComponent,
     DuplicateViewComponent,
     DuplicatViewDialogComponent,

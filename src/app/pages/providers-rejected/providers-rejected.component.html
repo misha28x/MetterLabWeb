@@ -1,28 +1,31 @@
+<!-- Архів Повірок -->
 <mat-card>
   <mat-card-content>
     <app-table
       [hovered]="true"
       [bordered]="true"
-      (rowSelected)="onChange($event)"
-      [tableData]="newVerifications | async"
+      [tableData]="rejectedVerif | async"
       [pagination]="true"
     >
       <app-column
-        [columnTitle]="'Номер Заявки'"
-        [columnName]="'applicationNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
         [date]="true"
-        [columnTitle]="'Дата Надходження Заявки'"
+        [width]="75"
+        [columnTitle]="'Дата надходження'"
         [columnName]="'addingDate'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
+        [width]="75"
+        [columnTitle]="'Номер заявки'"
+        [columnName]="'applicationNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="200"
         [columnTitle]="'Клієнт'"
         [columnName]="'client'"
         [enableSorting]="true"
@@ -30,62 +33,56 @@
       ></app-column>
 
       <app-column
-        [columnTitle]="'Надавач Послуг'"
-        [columnName]="'serviceProvider'"
+        [width]="75"
+        [columnTitle]="'Населений пункт'"
+        [columnName]="'settlement'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="115"
-        [columnTitle]="'Район'"
-        [columnName]="'district'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [columnTitle]="'Вулиця'"
+        [width]="150"
+        [columnTitle]="'Вулиця клієнта'"
         [columnName]="'street'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="75"
-        [columnTitle]="'Будинок'"
+        [width]="30"
+        [columnTitle]="'Буд.'"
         [columnName]="'house'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="90"
-        [columnTitle]="'Квартира'"
+        [width]="30"
+        [columnTitle]="'Кв.'"
         [columnName]="'apartment'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="110"
-        [columnTitle]="'Примітка'"
-        [columnName]="'note'"
+        [width]="75"
+        [columnTitle]="'Номер телефону'"
+        [columnName]="'phoneNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column [columnTitle]="''" [width]="40">
+      <app-column [columnTitle]="'Дії'" [width]="140">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <!-- TODO: ПЕРЕРОБИТИ ПЕРЕВІРКУ НА ДУБЛІ -->
+            <button mat-icon-button (click)="revertVerif(row['applicationNumber'])">
+              <mat-icon class="color-info" matTooltip="Повернути до планування"
+                >settings_backup_restore</mat-icon
+              >
+            </button>
 
             <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
               <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
-            </button>
-
-            <button mat-icon-button (click)="getScan(row['applicationNumber'])">
-              <i class="far fa-file-pdf color-info" matTooltip="Отримати скан документів"></i>
             </button>
           </div>
         </ng-template>

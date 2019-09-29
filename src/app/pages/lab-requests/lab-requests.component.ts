@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { combineLatest, forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
@@ -10,10 +11,6 @@ import { DetailViewService } from '../../services/detail-view.service';
 import { ProvidersService } from '../../services/providers.service';
 import { VerificationService } from '../../services/verification.service';
 import { SelectDialogComponent } from '../../ui/components/select-dialog';
-import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
-import { filter, switchMap } from 'rxjs/operators';
-
-const url = 'http://165.22.83.21:3000/api/new-verifications';
 
 @Component({
   selector: 'app-lab-requests',
@@ -48,30 +45,7 @@ export class PageLabRequestsComponent implements OnInit {
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id);
-  }
-
-  addEmployee(id: number): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        this.dataSv.sendData(url + '/employee/' + id, { employee: employee || this.employee })
-          .subscribe(() => this.updateData());
-      }
-    );
-  }
-
-  addEmployeeToSelected(): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        forkJoin(this.selectedData.map((ver: Verification) =>
-          this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
-        ).subscribe(() => this.updateData());
-      }
-    );
+    this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
   editProvider(id: string, provider: string, type: string): void {
@@ -83,12 +57,11 @@ export class PageLabRequestsComponent implements OnInit {
     });
 
     ref.afterClosed().subscribe(data => {
-
       if (data) {
         const providerUrl = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
 
-        this.http.post(
-          providerUrl, { provider: data.provider, type: data.type })
+        this.http
+          .post(providerUrl, { provider: data.provider, type: data.type })
           .subscribe(() => this.update());
       }
     });
@@ -99,16 +72,8 @@ export class PageLabRequestsComponent implements OnInit {
   }
 
   sendVerif(): void {
-    forkJoin(this.selectedData
-      .map((ver: Verification) => this.verificationSv.sendVerif(ver.applicationNumber))
-    ).subscribe(() => this.updateData());
-  }
-
-  cancelEmployeeToSelected(): void {
-    combineLatest(
-      this.selectedData.map((ver: Verification) =>
-        this.verificationSv.cancelEmployee(ver.applicationNumber)
-      )
+    forkJoin(
+      this.selectedData.map((ver: Verification) => this.verificationSv.sendVerif(ver.applicationNumber))
     ).subscribe(() => this.updateData());
   }
 
@@ -122,22 +87,6 @@ export class PageLabRequestsComponent implements OnInit {
       .subscribe(() => this.updateData());
   }
 
-  rejectSelectedVerifications(): void {
-    this.verificationSv
-      .openRejectDialog()
-      .pipe(
-        filter(res => !!res),
-        switchMap(res =>
-          combineLatest(
-            this.selectedData.map((ver: Verification) =>
-              this.verificationSv.rejectVerification(ver.applicationNumber, res)
-            )
-          )
-        )
-      )
-      .subscribe(() => this.updateData());
-  }
-
   deleteVerification(id: number): void {
     this.verificationSv
       .openDeleteDialog()
@@ -146,10 +95,6 @@ export class PageLabRequestsComponent implements OnInit {
         switchMap(() => this.verificationSv.deleteVerification(id))
       )
       .subscribe(() => this.updateData());
-  }
-
-  cancelEmployee(id: number): void {
-    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
   }
 
   checkForDuplicate(verification: Verification): void {

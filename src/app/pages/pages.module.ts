@@ -37,6 +37,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { PageMetrologyArchiveComponent } from './metrology-archive/metrology-archive.component';
 import { MetrologyReportsComponent } from './metrology-reports/metrology-reports.component';
 import { MetrologyRejectedComponent } from './metrology-rejected/metrology-rejected.component';
+import { ProviderArchiveComponent } from './provider-archive/provider-archive.component';
+import { ProvidersRejectedComponent } from './providers-rejected/providers-rejected.component';
+import { AddToTaskComponent } from './task-planing/add-to-task/add-to-task.component';
 
 @NgModule({
   imports: [
@@ -75,9 +78,13 @@ import { MetrologyRejectedComponent } from './metrology-rejected/metrology-rejec
     ProfileComponent,
     PageMetrologyArchiveComponent,
     MetrologyReportsComponent,
-    MetrologyRejectedComponent
+    MetrologyRejectedComponent,
+    ProviderArchiveComponent,
+    ProvidersRejectedComponent,
+    AddToTaskComponent
   ],
   entryComponents: [
+    AddToTaskComponent,
     EmployeeDialogComponent,
     TaskSendingComponent,
     TaslListViewDialogComponent,

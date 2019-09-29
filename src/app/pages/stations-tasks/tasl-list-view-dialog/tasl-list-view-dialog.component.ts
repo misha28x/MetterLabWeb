@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { DataService } from '../../../services/data.service';
 import { SourceService } from '../../../services/source.service';
@@ -45,20 +45,6 @@ export class TaslListViewDialogComponent implements OnInit {
     this.updateData();
   }
 
-  cancelTask(id: string): void {
-    this.dataSv.getData('http://165.22.83.21:3000/api/stations-tasks/delete/' + id).subscribe();
-  }
-
-  rowStyle(date: string, status: string): any {
-    return {
-      'table-error': this.isFailed(date, status),
-      'table-success': !this.isFailed(date, status)
-    };
-  }
-
-  isFailed(date: string, status: string): boolean {
-    return new Date(date) > new Date() || status.includes('Проведено повірку');
-  }
   updateData(): void {
     this.taskList = this.dataSv.getData(this.url);
   }
@@ -68,7 +54,7 @@ export class TaslListViewDialogComponent implements OnInit {
       .openRejectDialog()
       .pipe(
         filter(res => !!res),
-        switchMap(res => this.verificationSv.rejectVerification(id, res))
+        switchMap(res => this.verificationSv.rejectVerification(id, res, this.data.taskId))
       )
       .subscribe(() => this.updateData());
   }
@@ -86,10 +72,6 @@ export class TaslListViewDialogComponent implements OnInit {
     });
   }
 
-  cancelEmployee(id: number): void {
-    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
-  }
-
   checkForDuplicate(verification: any): void {
     this.verificationSv.addVerification(verification);
   }
@@ -99,6 +81,6 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id);
+    this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 }

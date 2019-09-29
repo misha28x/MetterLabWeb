@@ -3,22 +3,24 @@
 @import '/fonts';
 @import '/typography';
 @import '/helpers';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import '~ng-zorro-antd/date-picker/style/index.min.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 html {
-	background: $primary-bg;
-	color: $default-color;
-	font-family: $main-ff;
-	font-size: 14px;
-	height: 100%;
+  background: $primary-bg;
+  color: $default-color;
+  font-family: $main-ff;
+  font-size: 14px;
+  height: 100%;
 }
 
 body {
-	overflow-x: hidden;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-	width: 100%;
+  overflow-x: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 app {

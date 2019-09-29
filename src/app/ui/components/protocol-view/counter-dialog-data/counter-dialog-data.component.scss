@@ -7,7 +7,7 @@
 
     .protocol-img {
       border-radius: 3px;
-      height: 326px;;
+      height: 326px;
       min-width: 406px;
       margin-right: $module-rem * 2;
     }
@@ -16,6 +16,12 @@
       align-items: flex-start;
       display: flex;
       flex-direction: column;
+      flex: 1;
+      max-width: unset;
+
+      .mat-form-field {
+        width: 100%;
+      }
     }
   }
 }

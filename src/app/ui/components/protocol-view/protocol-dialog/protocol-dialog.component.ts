@@ -11,6 +11,7 @@ import { ProtocolService } from '../../../../services/protocol.service';
 import { SourceService } from '../../../../services/source.service';
 import { Protocol, Test } from '../../../../interfaces/protocol';
 import { DataService } from '../../../../services/data.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-protocol-dialog',
@@ -80,9 +81,17 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   }
 
   changeProtocolData(protocolData: Protocol): void {
-    this.dialog.open(CounterDialogDataComponent, {
-      data: protocolData
+    const ref = this.dialog.open(CounterDialogDataComponent, {
+      data: protocolData,
+      width: '950px'
     });
+
+    ref
+      .afterClosed()
+      .pipe(filter(val => !!val))
+      .subscribe(counterData => {
+        this.data = { ...this.data, ...counterData };
+      });
   }
 
   changeStartState(test: Test): void {
@@ -123,12 +132,14 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
 
   calculateExes(selectedTest: Test): void {
     selectedTest.counterCapacity = selectedTest.finalValue - selectedTest.initValue;
+
     const differ = selectedTest.counterCapacity - selectedTest.etalonCapacity;
     const calculatedFault = (differ * 100) / selectedTest.etalonCapacity;
 
     this.data.tests.map((test: Test) => {
       if (test.id === selectedTest.id) {
         test.calculatedFault = calculatedFault;
+
         if (Math.abs(test.calculatedFault) > test.assumedFault) {
           test.result = 'Не годен';
           this.data.result = 'Не годен';
@@ -137,6 +148,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
           const passed = this.data.tests.filter(
             (currentTest: Test) => currentTest.result === 'Годен' || 'Не обработан'
           ).length;
+
           if (passed === this.data.tests.length) {
             this.data.result = 'Годен';
           }

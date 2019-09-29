@@ -62,7 +62,10 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   ngAfterContentInit(): void {
-    setTimeout(() => (this.showForm = true), 150);
+    setTimeout(() => {
+      this.showForm = true;
+      this.setStep(0);
+    }, 150);
   }
 
   ngOnInit(): void {
@@ -87,23 +90,28 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       house: '',
       apartment: '',
       isUnique: false,
-      counterQuantity: 0,
+      counterQuantity: 1,
       serviceType: '',
-      serviceProvider: '',
-      comment: ''
+      serviceProvider: ''
     });
 
     this.counterForm = this.fb.group({
       counterNumber: '',
       haveSeal: '',
+      comment: '',
       counterType: '',
       productionYear: '',
       symbol: '',
       acumulatedVolume: ''
     });
+    const time = new Date();
+
+    time.setHours(0);
+    time.setMinutes(0);
 
     this.additionalDataForm = this.fb.group({
-      favorTime: '',
+      favorTime: time,
+      comment: '',
       sanitaryWellFare: '',
       waterAbsentTo: '',
       note: ''
@@ -158,10 +166,10 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   saveByPattern(): void {
     this.dataSv.sendData(url, this.setVerification()).subscribe();
 
-    this.step = 0;
+    this.step = 1;
 
     this.locationForm.patchValue({
-      counterQuantity: 0,
+      counterQuantity: 1,
       serviceType: '',
       serviceProvider: ''
     });
@@ -172,10 +180,10 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   setVerification(): Verification {
-    const name = this.generalDataForm.get('name').value.replace(/'/g, /\'/);
-    const surname = this.generalDataForm.get('surname').value.replace(/'/g, /\'/);
+    const name = this.generalDataForm.get('name').value.replace("'", '`');
+    const surname = this.generalDataForm.get('surname').value.replace("'", '`');
 
-    const middlename = this.generalDataForm.get('middlename').value.replace(/'/g, /\'/);
+    const middlename = this.generalDataForm.get('middlename').value.replace("'", '`');
 
     const fullName = `${surname} ${name} ${middlename}`;
     const time = new Date(this.additionalDataForm.get('favorTime').value);

@@ -34,8 +34,6 @@ export class TableComponent implements OnInit, OnChanges {
 
   columnList: ColumnComponent[];
 
-  pageEvent: PageEvent;
-  filtering: any;
   _columns: Array<any>;
   page: number;
   pageSizeOptions: number[];
@@ -108,11 +106,15 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   getSuccessClass(row: any): boolean {
-    return row[this.statusKey] === this.desiredStatus;
+    if (this.desiredStatus) {
+      return row[this.statusKey] === this.desiredStatus;
+    }
   }
 
   getErrorClass(row: any): boolean {
-    return row[this.statusKey] === this.errorStatus;
+    if (this.errorStatus) {
+      return row[this.statusKey] === this.errorStatus;
+    }
   }
 
   public onChangePage(event: PageEvent): void {
@@ -260,6 +262,12 @@ export class TableComponent implements OnInit, OnChanges {
   onRowSelected(row: any): void {
     this.selection.toggle(row);
     this.rowSelected.emit(this.selection.selected);
+  }
+
+  clearSelected(): void {
+    if (this.selection) {
+      this.selection.clear();
+    }
   }
 
   onDateChange(c: ColumnComponent, date: Date[]): void {

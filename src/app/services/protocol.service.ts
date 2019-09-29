@@ -42,7 +42,7 @@ export class ProtocolService {
   }
 
   public acceptProtocol(id: any): Observable<any> {
-    return this.http.get(acceptUrl + id);
+    return this.http.get(`${acceptUrl}${id}/${this.userId}`);
   }
 
   public rejectProtocol(id: any): Observable<any> {
@@ -50,7 +50,7 @@ export class ProtocolService {
   }
 
   public unsuitableProtocol(id: any): Observable<any> {
-    return this.http.get(unsuitableUrl + id);
+    return this.http.get(`${unsuitableUrl}${id}/${this.userId}`);
   }
 
   returnProtocol(id: string): Observable<Object> {
@@ -61,8 +61,8 @@ export class ProtocolService {
     return this.http.put(recycleUrl + id, {});
   }
 
-  downloadDoc(protocolNumber: string): void {
-    const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${protocolNumber}/${this.userId}`;
+  downloadDoc(protocolNumber: string, mId: string = this.userId): void {
+    const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${protocolNumber}/${mId}`;
 
     window.open(docUrl);
   }

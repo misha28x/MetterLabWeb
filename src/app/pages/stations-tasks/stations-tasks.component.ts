@@ -29,7 +29,7 @@ export class PageStationsTasksComponent implements OnInit {
   }
 
   viewList(id: string): void {
-    this.taskSv.viewList(id);
+    this.taskSv.viewList(id).subscribe(() => this.updateList());
   }
 
   changeDate(id: string, date: string): void {
@@ -55,8 +55,7 @@ export class PageStationsTasksComponent implements OnInit {
   }
 
   disbandTask(id: string): void {
-    this.taskSv.disbandTask(id).subscribe(res => {
-      console.log(res);
+    this.taskSv.disbandTask(id).subscribe(() => {
       this.updateList();
     });
   }
@@ -78,6 +77,7 @@ export class PageStationsTasksComponent implements OnInit {
   }
 
   updateList(): void {
+    this.selectedData = [];
     this.sourceSv.fetchStationTasks();
   }
 }

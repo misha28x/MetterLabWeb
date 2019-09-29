@@ -1,3 +1,11 @@
+<div class="dialog-title d-flex justify-content-between align-items-baseline">
+  <h2 mat-dialog-title>Створення повірки</h2>
+
+  <button mat-dialog-close mat-icon-button color="warn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
 <mat-accordion *ngIf="showForm">
   <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
@@ -9,46 +17,46 @@
         <div class="full-width">
           <span>Прізвище</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Прізвище" formControlName="surname">
+            <input matInput placeholder="Прізвище" formControlName="surname" />
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Ім'я</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Ім'я" formControlName="name">
+            <input matInput placeholder="Ім'я" formControlName="name" />
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>По-батькові</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="По-батькові" formControlName="middlename">
+            <input matInput placeholder="По-батькові" formControlName="middlename" />
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
-            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber">
+            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber" />
           </mat-form-field>
         </div>
 
-<!--        <div class="full-width inline">-->
-<!--          <div class="d-flex justify-content-between align-items-center">-->
-<!--            <span>Юридична особа</span>-->
-<!--            <div class="input-field">-->
-<!--              <mat-checkbox #isEntity></mat-checkbox>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--        <div class="full-width inline">-->
+        <!--          <div class="d-flex justify-content-between align-items-center">-->
+        <!--            <span>Юридична особа</span>-->
+        <!--            <div class="input-field">-->
+        <!--              <mat-checkbox #isEntity></mat-checkbox>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
-<!--        <div *ngIf="isEntity.checked" class="full-width">-->
-<!--          <span>ІПН</span>-->
-<!--          <mat-form-field class="input-field">-->
-<!--            <input matInput placeholder="Індивідуальний податковий номер" formControlName="ipn">-->
-<!--          </mat-form-field>-->
-<!--        </div>-->
+        <!--        <div *ngIf="isEntity.checked" class="full-width">-->
+        <!--          <span>ІПН</span>-->
+        <!--          <mat-form-field class="input-field">-->
+        <!--            <input matInput placeholder="Індивідуальний податковий номер" formControlName="ipn">-->
+        <!--          </mat-form-field>-->
+        <!--        </div>-->
       </form>
     </ng-template>
 
@@ -67,63 +75,70 @@
         <div class="full-width">
           <span>Область</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Область" formControlName="region" value="Волинська">
+            <input matInput placeholder="Область" formControlName="region" value="Волинська" />
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Район</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Район" formControlName="district" [matAutocomplete]="district">
+            <input
+              matInput
+              placeholder="Район"
+              formControlName="district"
+              [matAutocomplete]="district"
+            />
 
-             <mat-autocomplete #district="matAutocomplete">
-               <mat-option *ngFor="let country of filteredDistricts | async" [value]="country">
-                 {{ country }}
-               </mat-option>
-             </mat-autocomplete>
-
+            <mat-autocomplete #district="matAutocomplete">
+              <mat-option *ngFor="let country of filteredDistricts | async" [value]="country">
+                {{ country }}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Населений пункт</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Населений пункт" formControlName="settlement" [matAutocomplete]="auto">
+            <input
+              matInput
+              placeholder="Населений пункт"
+              formControlName="settlement"
+              [matAutocomplete]="auto"
+            />
 
-             <mat-autocomplete #auto="matAutocomplete">
-               <mat-option *ngFor="let country of filteredSettlement | async" [value]="country">
-                 {{ country }}
-               </mat-option>
-             </mat-autocomplete>
-
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let country of filteredSettlement | async" [value]="country">
+                {{ country }}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Вулиця</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Вулиця" formControlName="street" [matAutocomplete]="streets">
+            <input matInput placeholder="Вулиця" formControlName="street" [matAutocomplete]="streets" />
 
-             <mat-autocomplete #streets="matAutocomplete">
-               <mat-option *ngFor="let country of filteredStreets | async" [value]="country">
-                 {{ country }}
-               </mat-option>
-             </mat-autocomplete>
-
+            <mat-autocomplete #streets="matAutocomplete">
+              <mat-option *ngFor="let country of filteredStreets | async" [value]="country">
+                {{ country }}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Будинок</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Будинок" formControlName="house">
+            <input matInput placeholder="Будинок" formControlName="house" />
           </mat-form-field>
         </div>
 
         <div class="full-width">
           <span>Квартира</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Квартира" formControlName="apartment">
+            <input matInput placeholder="Квартира" formControlName="apartment" />
           </mat-form-field>
         </div>
 
@@ -168,19 +183,19 @@
           </table>
         </div>
 
-        <div class="full-width">
-          <span>Коментар</span>
-          <mat-form-field class="input-field">
-            <mat-label>Коментар</mat-label>
-            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-              cdkAutosizeMaxRows="10" formControlName="comment"></textarea>
-          </mat-form-field>
-        </div>
+        <div class="full-width w-100">
+          <div class="d-flex justify-content-between w-100 align-items-center">
+            <mat-checkbox [labelPosition]="'before'" formControlName="isUnique">
+              Перевірено на дублі
+            </mat-checkbox>
 
-        <div class="full-width inline">
-          <div class="d-flex justify-content-between align-items-center">
-            <mat-checkbox [labelPosition]="'before'" formControlName="isUnique">Перевірено на дублі</mat-checkbox>
-            <button mat-raised-button color="primary" matTooltip="Перевірити на дублі" (click)="checkForDupliacates()">
+            <button
+              class="ml-4"
+              mat-raised-button
+              color="primary"
+              matTooltip="Перевірити на дублі"
+              (click)="checkForDupliacates()"
+            >
               <i class="icofont-copy"></i>
             </button>
           </div>
@@ -201,10 +216,14 @@
 
     <ng-template matExpansionPanelContent>
       <form [formGroup]="additionalDataForm">
-        <div *ngIf="permission !== 2" class="full-width">
+        <div class="full-width d-flex align-items-center pb-4">
           <span>Час проведення повірки</span>
-          <div class="input-field form-group">
-            <timepicker formControlName="favorTime" [showMeridian]="false"></timepicker>
+          <div class="input-field form-group mb-0">
+            <nz-time-picker
+              [nzMinuteStep]="10"
+              formControlName="favorTime"
+              nzFormat="HH:mm"
+            ></nz-time-picker>
           </div>
         </div>
 
@@ -216,11 +235,32 @@
         </div>
 
         <div class="full-width">
+          <span>Коментар</span>
+          <mat-form-field class="input-field">
+            <mat-label>Коментар</mat-label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="10"
+              formControlName="comment"
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
           <span>Примітка</span>
           <mat-form-field class="input-field">
             <mat-label>Примітка</mat-label>
-            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5"
-              cdkAutosizeMaxRows="10" formControlName="note"></textarea>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="10"
+              formControlName="note"
+            ></textarea>
           </mat-form-field>
         </div>
       </form>
@@ -228,13 +268,12 @@
 
     <mat-action-row>
       <button mat-button color="warn" (click)="prevStep()">Назад</button>
-      <button mat-button color="primary" (click)="nextStep()">Завершити</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 
-<div class="buttons">
+<div class="buttons d-flex">
+  <button class="mr-auto" mat-button color="warn" (click)="clearForm()">Очистити</button>
+  <button mat-stroked-button color="primary" (click)="saveByPattern()">Зберегти за шаблоном</button>
   <button mat-raised-button color="primary" (click)="sendData()">Надіслати</button>
-  <button mat-raised-button color="primary" (click)="saveByPattern()">Зберегти за шаблоном</button>
-  <button mat-raised-button color="warn" (click)="clearForm()">Очистити</button>
 </div>

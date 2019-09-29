@@ -56,7 +56,7 @@ export class PageNewVerificationsComponent implements OnInit {
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id);
+    this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
   addEmployee(id: number): void {
@@ -71,14 +71,6 @@ export class PageNewVerificationsComponent implements OnInit {
         this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, {
           employee: this.user.username
         })
-      )
-    ).subscribe(() => this.updateData());
-  }
-
-  cancelEmployeeToSelected(): void {
-    combineLatest(
-      this.selectedData.map((ver: Verification) =>
-        this.verificationSv.cancelEmployee(ver.applicationNumber)
       )
     ).subscribe(() => this.updateData());
   }
@@ -117,10 +109,6 @@ export class PageNewVerificationsComponent implements OnInit {
         switchMap(() => this.verificationSv.deleteVerification(id))
       )
       .subscribe(() => this.updateData());
-  }
-
-  cancelEmployee(id: number): void {
-    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
   }
 
   checkForDuplicate(verification: Verification): void {

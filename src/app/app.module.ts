@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 
-import { NgZorroAntdModule, NZ_DATE_CONFIG } from 'ng-zorro-antd';
+import { NzDatePickerModule, NZ_DATE_CONFIG } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import uk from '@angular/common/locales/uk';
@@ -21,7 +21,6 @@ import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
 
 import { AppComponent } from './app.component';
-
 registerLocaleData(uk);
 
 const config: SocketIoConfig = { url: 'http://165.22.83.21:3000', options: { reconnect: true } };
@@ -42,7 +41,7 @@ const config: SocketIoConfig = { url: 'http://165.22.83.21:3000', options: { rec
     LayoutModule,
     RoutingModule,
     PagesModule,
-    NgZorroAntdModule,
+    NzDatePickerModule,
     FormsModule
   ],
   providers: [{ provide: NZ_DATE_CONFIG, useValue: { firstDayOfWeek: 1 } }],

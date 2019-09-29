@@ -2,20 +2,40 @@
   <mat-card-content>
     <div class="actions">
       <div class="task-actions">
-        <button mat-raised-button class="bg-success" (click)="sendData()">
+        <button
+          [disabled]="selectedData.length <= 0"
+          mat-raised-button
+          class="bg-success"
+          (click)="sendData()"
+        >
           <mat-icon>send</mat-icon>
           Створити завдання
         </button>
       </div>
 
       <div class="user-actions">
-        <button (click)="rejectSelectedVerifications()" mat-raised-button color="warn">
-          <i class="icofont-minus"></i>Відхилити Повірку
+        <button
+          (click)="addVerificationToTask()"
+          [disabled]="selectedData.length <= 0"
+          mat-raised-button
+          class="bg-success"
+        >
+          <mat-icon>playlist_add</mat-icon> Додати в завдання
+        </button>
+
+        <button
+          (click)="rejectSelectedVerifications()"
+          [disabled]="selectedData.length <= 0"
+          mat-raised-button
+          color="warn"
+        >
+          <mat-icon class="mr-1">cancel</mat-icon>Відхилити Повірку
         </button>
       </div>
     </div>
 
     <app-table
+      #table
       [checkboxes]="true"
       [desiredStatus]="'В роботі'"
       (rowSelected)="onChange($event)"
@@ -116,7 +136,7 @@
       ></app-column>
 
       <app-column
-        [width]="110"
+        [width]="250"
         [columnTitle]="'Примітка'"
         [columnName]="'note'"
         [enableSorting]="true"

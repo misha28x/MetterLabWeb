@@ -1,4 +1,4 @@
-@import "../../../../../assets/sass/variables";
+@import '../../../../assets/sass/variables';
 
 :host {
   display: flex;
@@ -22,7 +22,7 @@
     width: 100%;
 
     &.inline {
-      >* {
+      > * {
         width: 36%;
       }
     }
@@ -59,7 +59,6 @@
           width: 100%;
         }
       }
-
     }
   }
 

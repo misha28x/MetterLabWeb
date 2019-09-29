@@ -54,24 +54,21 @@ export class ProvidersPageComponent implements OnInit {
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id);
+    this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
   addEmployee(id: number): void {
-    this.dataSv.sendData(url + '/employee/' + id, { employee: this.user.username })
+    this.dataSv
+      .sendData(url + '/employee/' + id, { employee: this.user.username })
       .subscribe(() => this.updateData());
   }
 
   addEmployeeToSelected(): void {
-    forkJoin(this.selectedData.map((ver: Verification) =>
-      this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, { employee: this.user.username }))
-    ).subscribe(() => this.updateData());
-  }
-
-  cancelEmployeeToSelected(): void {
-    combineLatest(
+    forkJoin(
       this.selectedData.map((ver: Verification) =>
-        this.verificationSv.cancelEmployee(ver.applicationNumber)
+        this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, {
+          employee: this.user.username
+        })
       )
     ).subscribe(() => this.updateData());
   }
@@ -110,10 +107,6 @@ export class ProvidersPageComponent implements OnInit {
         switchMap(() => this.verificationSv.deleteVerification(id))
       )
       .subscribe(() => this.updateData());
-  }
-
-  cancelEmployee(id: number): void {
-    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
   }
 
   checkForDuplicate(verification: Verification): void {

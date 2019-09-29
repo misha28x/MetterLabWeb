@@ -1,0 +1,54 @@
+<div class="dialog-title d-flex justify-content-between align-items-baseline">
+  <h2 mat-dialog-title>Додати до завдання</h2>
+
+  <button mat-dialog-close mat-icon-button color="warn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <app-table [hovered]="true" [bordered]="true" [tableData]="taskList | async" [pagination]="true">
+    <app-column
+      [date]="true"
+      [width]="165"
+      [columnTitle]="'Дата завдання'"
+      [columnName]="'taskDate'"
+      [enableSorting]="true"
+      [enableFiltering]="true"
+    ></app-column>
+
+    <app-column
+      [width]="145"
+      [columnTitle]="'Номер установки'"
+      [columnName]="'stationNumber'"
+      [enableSorting]="true"
+      [enableFiltering]="true"
+    ></app-column>
+
+    <app-column
+      [width]="155"
+      [columnTitle]="'ПІБ працівника'"
+      [columnName]="'contactName'"
+      [enableSorting]="true"
+      [enableFiltering]="true"
+    ></app-column>
+
+    <app-column
+      [width]="115"
+      [columnTitle]="'Кількість заявок'"
+      [columnName]="'verifCount'"
+      [enableSorting]="true"
+      [enableFiltering]="true"
+    ></app-column>
+
+    <app-column [width]="30">
+      <ng-template #tableBodyTemplate let-row="row">
+        <div class="actions-row">
+          <button [mat-dialog-close]="row['id_task']" color="primary" mat-icon-button>
+            <mat-icon matTooltip="Додати до завдання">check_circle_outline</mat-icon>
+          </button>
+        </div>
+      </ng-template>
+    </app-column>
+  </app-table>
+</div>

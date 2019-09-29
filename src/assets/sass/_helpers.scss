@@ -90,14 +90,18 @@ mat-card-header {
 }
 
 .full-height-modal {
-  max-height: 95vh;
+  max-height: 98vh;
   overflow: auto;
 }
 
 .full-screen-modal {
   max-width: none !important;
-  max-height: 95vh;
+  max-height: none;
   overflow: hidden;
+
+  .mat-dialog-content {
+    max-height: none;
+  }
 }
 
 .chart-container {
@@ -240,6 +244,10 @@ mat-card-header {
   width: 100%;
 }
 
+.mat-raised-button[disabled][disabled] {
+  color: rgba(#fff, 0.35);
+}
+
 .table-actions {
   display: flex;
   align-items: baseline;
@@ -248,7 +256,7 @@ mat-card-header {
   .title {
     font-size: 1.1em;
     color: rgba(0, 0, 0, 0.87);
-    padding-right: 24px;
+    padding-right: 18px;
     margin: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.12);
     margin: 0;
@@ -290,13 +298,6 @@ mat-card-header {
 
     .ant-calendar-picker {
       width: 100% !important;
-    }
-  }
-}
-.ant-calendar-picker {
-  &.ant-calendar-picker-small {
-    .ant-calendar-picker-icon {
-      top: 35% !important;
     }
   }
 }

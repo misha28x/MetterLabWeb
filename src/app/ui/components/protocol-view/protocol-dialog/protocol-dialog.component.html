@@ -19,7 +19,11 @@
       </tr>
       <tr>
         <td>Тип лічильника</td>
-        <td>{{ data.symbol }} {{ data.type }}</td>
+        <td>{{ data.type }} - {{ data.symbol }}</td>
+      </tr>
+      <tr>
+        <td>Виробник</td>
+        <td>{{ data.manufacturer }}</td>
       </tr>
       <tr>
         <td>Призначення лічильника</td>
@@ -38,30 +42,28 @@
         <td>{{ data.acumulatedVolume }}</td>
       </tr>
       <tr>
-        <td>Широта</td>
-        <td>{{ data.latitude }}</td>
-      </tr>
-      <tr>
-        <td>Довгота</td>
-        <td>{{ data.longitude }}</td>
-      </tr>
-      <tr>
         <td>Статус витрат</td>
-        <td [ngClass]="{
-            'success': data.isInZone === 'В зоні',
-            'error': data.isInZone === 'Не в зоні',
-            'unresolved': data.isInZone == 'Не обработан'
-          }">
-          {{ data.isInZone }}</td>
+        <td
+          [ngClass]="{
+            success: data.isInZone === 'В зоні',
+            error: data.isInZone === 'Не в зоні',
+            unresolved: data.isInZone == 'Не обработан'
+          }"
+        >
+          {{ data.isInZone }}
+        </td>
       </tr>
       <tr>
         <td>Результат</td>
-        <td [ngClass]="{
-            'success': data.result === 'Годен',
-            'error': data.result === 'Не годен',
-            'unresolved': data.result === 'Не обработан'
-        }">
-          {{ data.result }}</td>
+        <td
+          [ngClass]="{
+            success: data.result === 'Годен',
+            error: data.result === 'Не годен',
+            unresolved: data.result === 'Не обработан'
+          }"
+        >
+          {{ data.result }}
+        </td>
       </tr>
       <!-- <tr>
         <td>Дата підпису особи</td>
@@ -79,7 +81,12 @@
 
     <div class="controls">
       <div class="img d-flex flex-column">
-        <img class="mb-3" (click)="changeProtocolData(data)" [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" [src]="getImage(data.image)">
+        <img
+          class="mb-3"
+          (click)="changeProtocolData(data)"
+          [ngStyle]="{ transform: 'rotate(' + angle + 'deg)' }"
+          [src]="getImage(data.image)"
+        />
         <div class="w-100 d-flex">
           <button mat-button color="warn" class="mr-2" mat-dialog-close>
             Закрити
@@ -103,7 +110,11 @@
         </div>
 
         <div *ngIf="permission == 5 && !checked" class="protocol-actions">
-          <button mat-raised-button class="bg-success" (click)="verificateProtocol(data.applicationNumber)">
+          <button
+            mat-raised-button
+            class="bg-success"
+            (click)="verificateProtocol(data.applicationNumber)"
+          >
             Повірити
           </button>
 
@@ -122,7 +133,6 @@
   </div>
 
   <div class="tests-block">
-
     <table class="test-table first">
       <tr>
         <td>Назва тесту</td>
@@ -162,61 +172,72 @@
       </tr>
     </table>
 
-
     <div class="test" *ngFor="let test of data.tests">
       <table class="test-table">
         <tr>
           <td>{{ test.name }}</td>
         </tr>
         <tr>
-          <td>{{ test.installedExes | number:'1.0-2' }}</td>
+          <td>{{ test.installedExes | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.assumedFault | number:'1.0-2'}}</td>
+          <td>{{ test.assumedFault | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.etalonCapacity | number:'1.0-2'}}</td>
+          <td>{{ test.etalonCapacity | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.initValue | number:'1.0-2' }}</td>
+          <td>{{ test.initValue | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.finalValue | number:'1.0-2'}}</td>
+          <td>{{ test.finalValue | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.counterCapacity | number:'1.0-2' }}</td>
+          <td>{{ test.counterCapacity | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.testDuration | number:'1.0-2'}}</td>
+          <td>{{ test.testDuration | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td>{{ test.mediumExes | number:'1.0-2' }}</td>
+          <td>{{ test.mediumExes | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td [ngClass]="{
-            'success': test.isInZone == 'В зоні',
-            'error': test.isInZone != 'В зоні'
-          }">
+          <td
+            [ngClass]="{
+              success: test.isInZone == 'В зоні',
+              error: test.isInZone != 'В зоні'
+            }"
+          >
             {{ test.isInZone }}
           </td>
         </tr>
         <tr>
-          <td>{{ test.calculatedFault | number:'1.0-2' }}</td>
+          <td>{{ test.calculatedFault | number: '1.0-2' }}</td>
         </tr>
         <tr>
-          <td [ngClass]="{
-            'success': test.result == 'Годен',
-            'error': test.result === 'Не годен',
-            'unresolved': test.result === 'Не обработан'
-          }">
+          <td
+            [ngClass]="{
+              success: test.result == 'Годен',
+              error: test.result === 'Не годен',
+              unresolved: test.result === 'Не обработан'
+            }"
+          >
             {{ test.result }}
           </td>
         </tr>
       </table>
 
       <div class="test-images">
-        <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" (click)="changeStartState(test)" [src]="getImage(test.startStateImage)">
-        <img [ngStyle]="{'transform': 'rotate('+angle+'deg)'}" (click)="changeEndState(test)" [src]="getImage(test.endStateImage)">
+        <img
+          [ngStyle]="{ transform: 'rotate(' + angle + 'deg)' }"
+          (click)="changeStartState(test)"
+          [src]="getImage(test.startStateImage)"
+        />
+        <img
+          [ngStyle]="{ transform: 'rotate(' + angle + 'deg)' }"
+          (click)="changeEndState(test)"
+          [src]="getImage(test.endStateImage)"
+        />
       </div>
     </div>
   </div>

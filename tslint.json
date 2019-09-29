@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "tslint-eslint-rules"
-  ],
+  "extends": ["tslint-eslint-rules"],
   "rulesDirectory": [
     "node_modules/codelyzer",
     "node_modules/tslint-origin-ordered-imports-rule/dist",
@@ -27,16 +25,8 @@
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
-    "typedef": [
-      true,
-      "call-signature",
-      "parameter",
-      "property-declaration"
-    ],
-    "comment-format": [
-      true,
-      "check-space"
-    ],
+    "typedef": [true, "call-signature", "parameter", "property-declaration"],
+    "comment-format": [true, "check-space"],
     "curly": true,
     "eofline": true,
     "forin": true,
@@ -45,14 +35,8 @@
     "interface-over-type-literal": true,
     "interface-name": false,
     "label-position": true,
-    "origin-ordered-imports": [
-      true,
-      "one-blank-line"
-    ],
-    "max-line-length": [
-      true,
-      140
-    ],
+    "origin-ordered-imports": [true, "one-blank-line"],
+    "max-line-length": [true, 140],
     "member-ordering": [
       true,
       {
@@ -69,14 +53,7 @@
     ],
     "no-arg": true,
     "no-consecutive-blank-lines": true,
-    "no-console": [
-      true,
-      "log",
-      "debug",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "log", "debug", "time", "timeEnd", "trace"],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
@@ -97,26 +74,12 @@
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-catch",
-      "check-else",
-      "check-whitespace"
-    ],
+    "one-line": [true, "check-open-brace", "check-catch", "check-else", "check-whitespace"],
     "prefer-const": true,
-    "quotemark": [
-      true,
-      "single"
-    ],
+    "quotemark": [true, "single"],
     "radix": true,
-    "semicolon": [
-      true,
-      "always"
-    ],
-    "triple-equals": [
-      true
-    ],
+    "semicolon": [true, "always"],
+    "triple-equals": [true],
     "typedef-whitespace": [
       true,
       {
@@ -145,18 +108,8 @@
       "check-type",
       "check-module"
     ],
-    "directive-selector": [
-      true,
-      "attribute",
-      "$your-selector$",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "$your-selector$",
-      "kebab-case"
-    ],
+    "directive-selector": [true, "attribute", "$your-selector$", "camelCase"],
+    "component-selector": [true, "element", "app", "kebab-case"],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -166,17 +119,11 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
-    "angular-whitespace": [
-      true,
-      "check-interpolation"
-    ],
+    "angular-whitespace": [true, "check-interpolation"],
     "banana-in-box": true,
     "templates-no-negated-async": true,
     "no-attribute-parameter-decorator": true,
     "no-forward-ref": false,
-    "object-curly-spacing": [
-      true,
-      "always"
-    ]
+    "object-curly-spacing": [true, "always"]
   }
 }

@@ -29,6 +29,7 @@ import { MetrologyReportsComponent } from '../pages/metrology-reports/metrology-
 import { ExtraComponent } from '../layout/extra';
 import { SharedComponent } from '../layout/shared';
 import { MetrologyRejectedComponent } from '../pages/metrology-rejected/metrology-rejected.component';
+import { ProvidersRejectedComponent } from '../pages/providers-rejected/providers-rejected.component';
 
 export const DEFAULT_ROUTES = [
   {
@@ -90,6 +91,11 @@ export const DEFAULT_ROUTES = [
     path: 'metrology',
     component: MetrologyProtocolsComponent,
     data: { title: 'Список протоколів' }
+  },
+  {
+    path: 'provider-rejected',
+    component: ProvidersRejectedComponent,
+    data: { title: 'Відхиленні повірки' }
   },
   {
     path: 'failed-tasks',

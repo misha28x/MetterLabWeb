@@ -43,7 +43,7 @@ export class PageMetrologyArchiveComponent implements OnInit {
   ngOnInit(): void {}
 
   detailView(id: any): void {
-    this.detailSv.addVerification(id);
+    this.detailSv.addVerification(id).subscribe(() => this.sourceSv.fetchMetrologyArchive());
   }
 
   displayProtocol(id: string, status: string = 'Повірено'): void {

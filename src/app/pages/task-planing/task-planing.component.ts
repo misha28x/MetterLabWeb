@@ -1,23 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { combineLatest, forkJoin, Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
 import { User } from '../../interfaces/user';
 import { Task } from '../../interfaces/taskData';
+import { Verification } from '../../interfaces/verifications';
+
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
 import { ProvidersService } from '../../services/providers.service';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
-import { EmployeeDialogComponent } from '../new-verifications/employee-dialog/employee-dialog.component';
 
 import { TaskSendingComponent } from './task-sending/task-sending.component';
 import { UserInfoComponent } from '../../ui/components/user-info';
-
-const verificationUrl = 'http://165.22.83.21:3000/api/new-verifications';
+import { TableComponent } from '../../ui/components/table';
 
 @Component({
   selector: 'app-task-planing',
@@ -25,13 +24,14 @@ const verificationUrl = 'http://165.22.83.21:3000/api/new-verifications';
   styleUrls: ['./task-planing.component.scss']
 })
 export class PageTaskPlaningComponent implements OnInit {
+  @ViewChild('table', { static: false }) table: TableComponent;
+
   data: any;
   config: any;
   columns: Array<any>;
   tableData: any;
 
   selectedData: any[];
-  labRequests: Observable<any[]>;
   employee: string;
   user: User;
 
@@ -43,12 +43,13 @@ export class PageTaskPlaningComponent implements OnInit {
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
     private verificationSv: VerificationService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
     });
+
     this.sourceSv.fetchTaskPlaning();
 
     this.config = {
@@ -66,30 +67,30 @@ export class PageTaskPlaningComponent implements OnInit {
   sendData(): void {
     const url = 'http://165.22.83.21:3000/api/task-planing/stations/' + this.user.serviceProvider;
 
-    const obs = this.dataSv.getData(url).pipe(map((res: any[]) => res.map(station => station.stationNumber)));
+    const obs = this.dataSv
+      .getData(url)
+      .pipe(map((res: any[]) => res.map(station => station.stationNumber)));
 
     const dialogRef = this.dialog.open(TaskSendingComponent, {
       data: obs
     });
 
-    dialogRef.afterClosed().subscribe(
-      (data: Task) => {
-        if (data) {
-          const taskData = {
-            taskDate: data.taskDate,
-            type: data.serviceType,
-            stationNumber: data.stationNumber,
-            verifications: this.selectedData,
-            serviceProvider: this.user.serviceProvider
-          };
+    dialogRef
+      .afterClosed()
+      .pipe(filter(val => !!val))
+      .subscribe((data: Task) => {
+        const taskData = {
+          taskDate: data.taskDate,
+          type: data.serviceType,
+          stationNumber: data.stationNumber,
+          verifications: this.selectedData,
+          serviceProvider: this.user.serviceProvider
+        };
 
-          const sendUrl = 'http://165.22.83.21:3000/api/task-planing/station-task';
+        const sendUrl = 'http://165.22.83.21:3000/api/task-planing/station-task';
 
-          this.dataSv.sendData(sendUrl, taskData)
-            .subscribe(() => this.sourceSv.fetchTaskPlaning());
-        }
-      }
-    );
+        this.dataSv.sendData(sendUrl, taskData).subscribe(() => this.sourceSv.fetchTaskPlaning());
+      });
   }
 
   onChange(data: any): void {
@@ -98,41 +99,26 @@ export class PageTaskPlaningComponent implements OnInit {
 
   updateData(): void {
     this.sourceSv.fetchTaskPlaning();
+    this.table.clearSelected();
+    this.selectedData = [];
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id);
+    this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
-  addEmployee(id: number): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        this.dataSv.sendData(verificationUrl + '/employee/' + id, { employee: employee || this.employee })
-          .subscribe(() => this.updateData());
-      }
-    );
-  }
-
-  addEmployeeToSelected(): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent);
-
-    dialogRef.afterClosed().subscribe(
-      employee => {
-        forkJoin(this.selectedData.map((ver: Verification) =>
-          this.dataSv.sendData(verificationUrl + '/employee/' + ver.applicationNumber, { employee: employee || this.employee }))
-        ).subscribe(() => this.updateData());
-      }
-    );
-  }
-
-  cancelEmployeeToSelected(): void {
-    combineLatest(
-      this.selectedData.map((ver: Verification) =>
-        this.verificationSv.cancelEmployee(ver.applicationNumber)
+  addVerificationToTask(): void {
+    this.verificationSv
+      .openTaskSelection()
+      .pipe(
+        switchMap(taskId => {
+          const obs = this.selectedData.map(ver =>
+            this.verificationSv.addVerificationToTask(ver.applicationNumber, taskId)
+          );
+          return combineLatest(obs);
+        })
       )
-    ).subscribe(() => this.updateData());
+      .subscribe(() => this.updateData());
   }
 
   rejectVerification(id: number): void {
@@ -142,7 +128,10 @@ export class PageTaskPlaningComponent implements OnInit {
         filter(res => !!res),
         switchMap(res => this.verificationSv.rejectVerification(id, res))
       )
-      .subscribe(() => this.updateData());
+      .subscribe(() => {
+        this.updateData();
+        this.selectedData = [];
+      });
   }
 
   rejectSelectedVerifications(): void {
@@ -171,10 +160,6 @@ export class PageTaskPlaningComponent implements OnInit {
       .subscribe(() => this.updateData());
   }
 
-  cancelEmployee(id: number): void {
-    this.verificationSv.cancelEmployee(id).subscribe(() => this.updateData());
-  }
-
   checkForDuplicate(verification: Verification): void {
     this.verificationSv.addVerification(verification);
   }
@@ -184,10 +169,9 @@ export class PageTaskPlaningComponent implements OnInit {
   }
 
   showClientInfo(id: any): void {
-
     this.dialog.open(UserInfoComponent, {
       height: '90%',
-      minWidth: '70%',
+      minWidth: '60%',
       data: id
     });
   }

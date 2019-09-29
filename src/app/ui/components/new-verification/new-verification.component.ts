@@ -17,15 +17,14 @@ const symbolUrl = 'http://165.22.83.21:3000/api/new-verifications/dn';
   styleUrls: ['./new-verification.component.scss']
 })
 export class NewVerificationComponent implements OnInit {
-
   constructor(
     private matDialog: MatDialog,
     private dataSv: DataService,
     private socket: SocketService,
     private sourceSv: SourceService
-    ) { }
+  ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   getData(): void {
     const $addressObservable = this.dataSv.getData(addressUrl);
@@ -33,8 +32,8 @@ export class NewVerificationComponent implements OnInit {
     const $typeObservable = this.dataSv.getData(typeUrl);
 
     const dialogRef = this.matDialog.open(NewVerificationDialogComponent, {
-			width: '85%',
-      maxWidth: 1100,
+      width: '95%',
+      maxWidth: 900,
       data: {
         symbols: $symbolObservable,
         types: $typeObservable,
@@ -43,6 +42,6 @@ export class NewVerificationComponent implements OnInit {
       panelClass: 'full-height-modal'
     });
 
-    dialogRef.afterClosed().subscribe(() => this.sourceSv.fetchTaskPlaning());
+    dialogRef.afterClosed().subscribe(() => setTimeout(() => this.sourceSv.fetchTaskPlaning(), 200));
   }
 }

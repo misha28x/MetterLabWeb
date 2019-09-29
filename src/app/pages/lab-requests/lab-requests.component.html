@@ -49,16 +49,14 @@
         [width]="130"
         [columnTitle]="'Район'"
         [columnName]="'district'"
-        [width]="50"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="120"
         [columnTitle]="'Вулиця'"
         [columnName]="'street'"
-        [width]="50"
+        [width]="150"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -94,24 +92,11 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column [columnTitle]="'Дії'" [width]="155">
+      <app-column [columnTitle]="'Дії'" [width]="220">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button (click)="detailView(row['applicationNumber'])">
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
-            </button>
-
-            <button
-              mat-icon-button
-              (click)="
-                editProvider(row['applicationNumber'], row['serviceProvider'], row['serviceType'])
-              "
-            >
-              <i class="icofont-edit-alt color-success" matTooltip="Змінити надавача послуг"></i>
-            </button>
-
-            <button mat-icon-button (click)="cancelEmployee(row['applicationNumber'])">
-              <i class="fas fa-user-times color-warning" matTooltip="Скасувати відповідальну особу"></i>
             </button>
 
             <button mat-icon-button (click)="checkForDuplicate(row)">
