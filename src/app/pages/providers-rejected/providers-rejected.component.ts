@@ -25,15 +25,15 @@ export class ProvidersRejectedComponent implements OnInit {
     private detailSv: DetailViewService,
     private verificationSv: VerificationService
   ) {
-    this.sourceSv.fetchRejectedVerif();
+    this.sourceSv.fetchProviderRejected();
   }
 
   ngOnInit(): void {
-    this.rejectedVerif = this.sourceSv.getRejectedVerifications();
+    this.rejectedVerif = this.sourceSv.getRejectedProvider();
   }
 
   updateData(): void {
-    this.sourceSv.fetchRejectedVerif();
+    this.sourceSv.fetchProviderRejected();
   }
 
   detailView(id: number): void {

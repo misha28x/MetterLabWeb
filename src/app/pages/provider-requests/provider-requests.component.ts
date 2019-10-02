@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
 
-const url = 'http://165.22.83.21:3000/api/provider-requests';
+const url = 'http://localhost:3000/api/provider-requests';
 
 @Component({
   selector: 'app-provider-requests',
   templateUrl: './provider-requests.component.html',
-  styleUrls: ['./provider-requests.component.scss'],
+  styleUrls: ['./provider-requests.component.scss']
 })
 export class PageProviderRequestsComponent implements OnInit {
   providerRequests: Observable<any[]>;

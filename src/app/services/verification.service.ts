@@ -9,17 +9,18 @@ import { DeleteDialogComponent } from '../ui/components/delete-dialog';
 import { RejectionDialogComponent } from '../ui/components/rejection-dialog';
 import { AddToTaskComponent } from '../pages/task-planing/add-to-task/add-to-task.component';
 
-const addToTask = 'http://165.22.83.21:3000/api/task-planing/add-to-task';
-const duplicateUrl = 'http://165.22.83.21:3000/api/new-verifications/duplicate';
-const archiveUrl = 'http://165.22.83.21:3000/api/verifications-archive';
-const deleteFromTask = 'http://165.22.83.21:3000/api/stations-tasks/delete/';
-const rejectUrl = 'http://165.22.83.21:3000/api/new-verifications/rejected/';
-const editUrl = 'http://165.22.83.21:3000/api/verifications-archive/edit/';
-const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols';
-const deleteUrl = 'http://165.22.83.21:3000/api/new-verifications/';
-const sendVerif = 'http://165.22.83.21:3000/api/lab-requests/send/';
-const issueDate = '165.22.83.21:3000/api/verifications-archive/issue/';
-const revertURL = 'http://165.22.83.21:3000/api/rejected-verification/back';
+const createUrl = 'http://localhost:3000/api/new-verifications';
+const addToTask = 'http://localhost:3000/api/task-planing/add-to-task';
+const duplicateUrl = 'http://localhost:3000/api/new-verifications/duplicate';
+const archiveUrl = 'http://localhost:3000/api/verifications-archive';
+const deleteFromTask = 'http://localhost:3000/api/stations-tasks/delete/';
+const rejectUrl = 'http://localhost:3000/api/new-verifications/rejected/';
+const editUrl = 'http://localhost:3000/api/verifications-archive/edit/';
+const protocolUrl = 'http://localhost:3000/api/verications-protocols';
+const deleteUrl = 'http://localhost:3000/api/new-verifications/';
+const sendVerif = 'http://localhost:3000/api/lab-requests/send/';
+const issueDate = 'localhost:3000/api/verifications-archive/issue/';
+const revertURL = 'http://localhost:3000/api/rejected-verification/back';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,10 @@ export class VerificationService {
 
   public addVerification(verification: Verification): void {
     this.verificationSource$.next(verification);
+  }
+
+  public createVerification(verification: Verification): Observable<Object> {
+    return this.http.post(createUrl, verification);
   }
 
   public getVerification(): Observable<Verification> {

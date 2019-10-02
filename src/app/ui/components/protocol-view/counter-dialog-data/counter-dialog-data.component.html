@@ -34,14 +34,11 @@
         formControlName="symbol"
       />
     </mat-form-field>
-
     <mat-form-field>
-      <input
-        matInput
-        placeholder="Призначення лічильника"
-        value="{{ data.serviceType }}"
-        formControlName="serviceType"
-      />
+      <mat-select formControlName="serviceType" placeholder="Призначення лічильника">
+        <mat-option [value]="'1'">Холодна вода</mat-option>
+        <mat-option [value]="'2'">Гаряча вода</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <mat-form-field>

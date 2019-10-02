@@ -8,7 +8,7 @@ import { SourceService } from '../../services/source.service';
 import { DataService } from '../../services/data.service';
 import { Protocol } from '../../interfaces/protocol';
 
-const url = 'http://165.22.83.21:3000/api/verications-protocols';
+const url = 'http://localhost:3000/api/verications-protocols';
 
 @Component({
   selector: 'app-verifications-protocols',
@@ -39,7 +39,9 @@ export class PageVerificationsProtocolsComponent implements OnInit {
 
   sendProtocols(): void {
     this.selectedData.forEach((ver: any) =>
-      this.dataSv.sendData(url + '/metrology/' + ver.applicationNumber).subscribe(() => this.updateData())
+      this.dataSv
+        .sendData(url + '/metrology/' + ver.applicationNumber)
+        .subscribe(() => this.updateData())
     );
   }
 

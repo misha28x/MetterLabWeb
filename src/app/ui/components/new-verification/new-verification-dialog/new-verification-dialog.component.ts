@@ -11,8 +11,6 @@ import { VerificationService } from 'src/app/services/verification.service';
 
 import { User } from '../../../../interfaces/user';
 
-const url = 'http://165.22.83.21:3000/api/new-verifications';
-
 @Component({
   selector: 'app-new-verification-dialog',
   templateUrl: './new-verification-dialog.component.html',
@@ -71,6 +69,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
+      console.log(this.user);
       this.permission = _user.permission;
     });
 
@@ -91,7 +90,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       apartment: '',
       isUnique: false,
       counterQuantity: 1,
-      serviceType: '',
+      serviceType: '1',
       serviceProvider: ''
     });
 
@@ -150,11 +149,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     });
   }
 
-  sendData(): void {
-    this.dataSv.sendData(url, this.setVerification()).subscribe();
-    this.dialogRef.close();
-  }
-
   clearForm(): void {
     this.additionalDataForm.reset();
     this.generalDataForm.reset();
@@ -163,14 +157,20 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     this.step = 0;
   }
 
+  sendData(): void {
+    const verification = this.setVerification();
+    this.verificationSv.createVerification(verification).subscribe();
+    this.dialogRef.close();
+  }
+
   saveByPattern(): void {
-    this.dataSv.sendData(url, this.setVerification()).subscribe();
+    this.sendData();
 
     this.step = 1;
 
     this.locationForm.patchValue({
       counterQuantity: 1,
-      serviceType: '',
+      serviceType: '1',
       serviceProvider: ''
     });
   }
@@ -189,12 +189,14 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     const time = new Date(this.additionalDataForm.get('favorTime').value);
     const status = this.user.permission > 3 ? '' : 'Визначено відповідальну особу';
     const haveSeal = this.counterForm.get('haveSeal').value ? 1 : 0;
+
     return {
       ...this.generalDataForm.value,
       ...this.locationForm.value,
       ...this.counterForm.value,
       ...this.additionalDataForm.value,
       client: fullName,
+      userId: this.user.serviceProvider,
       status,
       haveSeal: haveSeal,
       favorTime: [time.getHours(), time.getMinutes()]

@@ -8,7 +8,7 @@ import { login } from '../../store/actions/permission.action';
 import { DataService } from '../../services/data.service';
 import { MenuService } from '../../services/menu.service';
 
-const authUrl = 'http://165.22.83.21:3000/api/authorization';
+const authUrl = 'http://localhost:3000/api/authorization';
 
 @Component({
   selector: 'app-authorization-page',
@@ -66,7 +66,7 @@ export class AuthorizationPageComponent implements OnInit {
         url = 'default/tasks-planing';
         break;
       case 6:
-        url = 'default/verifications';
+        url = 'default/new-verifications';
         break;
       case 5:
         url = 'default/metrology';

@@ -4,7 +4,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-verification-form',
   templateUrl: './verification-form.component.html',
-  styleUrls: ['../../ui/components/new-verification/new-verification-dialog/new-verification-dialog.component.scss','./verification-form.component.scss']
+  styleUrls: [
+    '../../ui/components/new-verification/new-verification-dialog/new-verification-dialog.component.scss',
+    './verification-form.component.scss'
+  ]
 })
 export class VerificationFormComponent implements OnInit {
   form: FormGroup;
@@ -25,13 +28,11 @@ export class VerificationFormComponent implements OnInit {
       apartment: '',
       isUnique: false,
       counterQuantity: 0,
-      serviceType: '',
+      serviceType: '1',
       serviceProvider: '',
       comment: ''
     });
-   }
-
-  ngOnInit() {
   }
 
+  ngOnInit(): void {}
 }

@@ -1,41 +1,45 @@
-@import "../../../../assets/sass/variables";
+@import '../../../../assets/sass/variables';
 
 :host {
   background: #0c2c40ed;
-  background-color: rgba($sidebar-bg, .95);
-	box-shadow: 
-		1px 0 4px -1px rgba(0, 0, 0, .18),
-		1px 0 4px 0 rgba(0, 0, 0, .12),
-    1px 0 4px 0 rgba(0, 0, 0, .1);
+  background-color: rgba($sidebar-bg, 0.95);
+  box-shadow: 1px 0 4px -1px rgba(0, 0, 0, 0.18), 1px 0 4px 0 rgba(0, 0, 0, 0.12),
+    1px 0 4px 0 rgba(0, 0, 0, 0.1);
   color: rgba(#fff, 0.9);
-	height: calc(100% - #{$navbar-height});
-	overflow-y: auto;
-	overflow-x: hidden;
+  height: calc(100% - #{$navbar-height});
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 0;
-	position: fixed;
+  position: fixed;
   top: $navbar-height;
-	transition: width 0.3s $animation;
-	width: $sidebar-width;
+  transition: width 0.3s $animation;
+  width: $sidebar-width;
 
-	@media #{max991} {
-		left: -100%;
+  .user-info {
+    overflow: hidden;
+    .username {
+      white-space: nowrap;
+    }
   }
-  
-	&.open {
-		left: 0;
-	}
-	&.min {
-		width: $min-sidebar-width;
+  @media #{max991} {
+    left: -100%;
+  }
+
+  &.open {
+    left: 0;
+  }
+  &.min {
+    width: $min-sidebar-width;
 
     .user-block {
       .username {
         display: none !important;
       }
     }
-		@media #{max991} {
-			width: $sidebar-width;
-			left: -100%;
-		}
+    @media #{max991} {
+      width: $sidebar-width;
+      left: -100%;
+    }
   }
   .user-block {
     font-size: 1.2em;

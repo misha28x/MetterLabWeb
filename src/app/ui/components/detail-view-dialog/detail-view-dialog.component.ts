@@ -10,8 +10,8 @@ import { Verification } from '../../../interfaces/verifications';
 import { SourceService } from '../../../services/source.service';
 import { DataService } from '../../../services/data.service';
 
-const typeUrl = 'http://165.22.83.21:3000/api/new-verifications/device';
-const symbolUrl = 'http://165.22.83.21:3000/api/new-verifications/dn';
+const typeUrl = 'http://localhost:3000/api/new-verifications/device';
+const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
 
 @Component({
   selector: 'app-detail-view-dialog',

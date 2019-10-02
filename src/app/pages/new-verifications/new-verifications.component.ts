@@ -13,7 +13,7 @@ import { VerificationService } from '../../services/verification.service';
 
 import { UserInfoComponent } from '../../ui/components/user-info';
 
-const url = 'http://165.22.83.21:3000/api/new-verifications';
+const url = 'http://localhost:3000/api/new-verifications';
 
 @Component({
   selector: 'app-new-verifications',
@@ -22,8 +22,6 @@ const url = 'http://165.22.83.21:3000/api/new-verifications';
 })
 export class PageNewVerificationsComponent implements OnInit {
   newVerifications: Observable<any[]>;
-  employee: string;
-
   selectedData: any[];
   permission: number;
 
@@ -47,7 +45,6 @@ export class PageNewVerificationsComponent implements OnInit {
     });
 
     this.selectedData = [];
-    this.employee = 'Віталій Кришталюк';
     this.updateData();
   }
 

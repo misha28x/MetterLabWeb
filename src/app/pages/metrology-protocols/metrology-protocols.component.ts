@@ -6,7 +6,7 @@ import { SourceService } from '../../services/source.service';
 import { ProtocolService } from '../../services/protocol.service';
 import { Protocol } from '../../interfaces/protocol';
 
-const url = 'http://165.22.83.21:3000/api/verications-protocols';
+const url = 'http://localhost:3000/api/verications-protocols';
 
 @Component({
   selector: 'app-metrology-protocols',
@@ -25,13 +25,11 @@ export class MetrologyProtocolsComponent implements OnInit {
     this.protocols = this.sourceSv.getMetrologyProtocols();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   displayProtocol(id: string): void {
-    this.dataSv.getData(url + '/protocol/' + id).subscribe(
-      (protocol: Protocol) => {
-        this.protocolSv.addProtocol(protocol);
-      }
-    );
+    this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
+      this.protocolSv.addProtocol(protocol);
+    });
   }
 }

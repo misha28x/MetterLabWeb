@@ -1,22 +1,24 @@
 <mat-card>
   <mat-card-content>
     <div class="actions">
-      <div class="task-actions">
-        <app-new-verification></app-new-verification>
-      </div>
-
       <div class="user-actions">
         <button
           mat-raised-button
           color="primary"
           class="bg-success"
           (click)="addEmployeeToSelected()"
+          [disabled]="selectedData.length <= 0"
         >
-          <i class="icofont-ui-user"></i> Надіслати
+          <mat-icon class="mr-1">send</mat-icon> Надіслати
         </button>
 
-        <button mat-raised-button color="warn" (click)="rejectSelectedVerifications()">
-          <i class="icofont-minus"></i>Відхилити Повірку
+        <button
+          (click)="rejectSelectedVerifications()"
+          [disabled]="selectedData.length <= 0"
+          mat-raised-button
+          color="warn"
+        >
+          <mat-icon class="mr-1">cancel</mat-icon>Відхилити Повірку
         </button>
       </div>
     </div>
@@ -106,46 +108,19 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <app-column [columnTitle]="'Дії'" [width]="125">
+      <app-column [columnTitle]="'Дії'" [width]="145">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <button mat-icon-button (click)="detailView(row['applicationNumber'])">
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
             </button>
 
-            <button
-              *ngIf="!row['employeeName'].length"
-              mat-icon-button
-              (click)="addEmployee(row['applicationNumber'])"
-            >
-              <i class="icofont-ui-user color-success" matTooltip="Додати відповідальну особу"></i>
-            </button>
-
-            <button
-              *ngIf="row['employeeName'].length"
-              mat-icon-button
-              (click)="cancelEmployee(row['applicationNumber'])"
-            >
-              <i
-                class="fas fa-user-times color-warning"
-                matTooltip="Скасувати відповідальну особу"
-              ></i>
-            </button>
-
             <button mat-icon-button (click)="checkForDuplicate(row)">
               <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
             </button>
 
-            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
-              <mat-icon class="color-error" matTooltip="Видалити файл">delete_outline</mat-icon>
-            </button>
-
             <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
               <mat-icon class="color-error" matTooltip="Відхилити повірку">cancel</mat-icon>
-            </button>
-
-            <button mat-icon-button (click)="showClientInfo(row['applicationNumber'])">
-              <i class="icofont-info color-info" matTooltip="Інформація про клієнта"></i>
             </button>
           </div>
         </ng-template>

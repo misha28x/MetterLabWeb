@@ -6,7 +6,7 @@ import { SourceService } from '../../services/source.service';
 import { Protocol } from '../../interfaces/protocol';
 import { ProtocolService } from '../../services/protocol.service';
 
-const url = 'http://165.22.83.21:3000/api/verications-protocols';
+const url = 'http://localhost:3000/api/verications-protocols';
 
 @Component({
   selector: 'app-rejected-protocols',
