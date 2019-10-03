@@ -49,12 +49,12 @@ export class TaslListViewDialogComponent implements OnInit {
     this.taskList = this.dataSv.getData(this.url);
   }
 
-  rejectVerification(id: number): void {
+  rejectVerification(id: number, taskId: string): void {
     this.verificationSv
       .openRejectDialog()
       .pipe(
         filter(res => !!res),
-        switchMap(res => this.verificationSv.rejectVerification(id, res, this.data.taskId))
+        switchMap(res => this.verificationSv.rejectVerification(id, res, taskId))
       )
       .subscribe(() => this.updateData());
   }
