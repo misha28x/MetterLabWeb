@@ -13,7 +13,7 @@ export class ProfileComponent {
   user: any;
   constructor(private store: Store<User>, private http: HttpClient) {
     this.store.pipe(select('permission')).subscribe(_user => {
-      this.http.get('http://localhost:3000/api/employees/user/' + _user.userId).subscribe(res => {
+      this.http.get('http://165.22.83.21:3000/api/employees/user/' + _user.userId).subscribe(res => {
         this.user = res[0];
       });
     });

@@ -150,6 +150,7 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   public changeSort(data: any, config: any): any {
+    console.log({ data, config });
     if (!config.sorting) {
       return data;
     }

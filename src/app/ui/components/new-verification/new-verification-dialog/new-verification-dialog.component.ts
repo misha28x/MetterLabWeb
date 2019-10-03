@@ -36,7 +36,6 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   filteredDistricts: Observable<string[]>;
   filteredSettlement: Observable<string[]>;
   filteredStreets: Observable<string[]>;
-  filteredTypes: Observable<string[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -63,13 +62,12 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     setTimeout(() => {
       this.showForm = true;
       this.setStep(0);
-    }, 150);
+    }, 50);
   }
 
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
-      console.log(this.user);
       this.permission = _user.permission;
     });
 
@@ -164,7 +162,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   }
 
   saveByPattern(): void {
-    this.sendData();
+    this.verificationSv.createVerification(this.setVerification()).subscribe();
 
     this.step = 1;
 

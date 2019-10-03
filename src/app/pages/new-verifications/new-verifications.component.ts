@@ -9,11 +9,12 @@ import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
+import { ProvidersService } from '../../services/providers.service';
 import { VerificationService } from '../../services/verification.service';
 
 import { UserInfoComponent } from '../../ui/components/user-info';
 
-const url = 'http://localhost:3000/api/new-verifications';
+const url = 'http://165.22.83.21:3000/api/new-verifications';
 
 @Component({
   selector: 'app-new-verifications',
@@ -33,7 +34,8 @@ export class PageNewVerificationsComponent implements OnInit {
     private store: Store<User>,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
-    private verificationSv: VerificationService
+    private verificationSv: VerificationService,
+    public providersSv: ProvidersService
   ) {
     this.newVerifications = this.sourceSv.getNewVerifications();
   }

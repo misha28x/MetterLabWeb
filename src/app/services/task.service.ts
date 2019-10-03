@@ -9,8 +9,8 @@ import { TaslListViewDialogComponent } from '../pages/stations-tasks/tasl-list-v
 import { DeleteDialogComponent } from '../ui/components/delete-dialog';
 import { ChangeTaskDateComponent } from '../ui/components/change-task-date';
 
-const taskUrl = 'http://localhost:3000/api/stations-tasks';
-const sendUrl = 'http://localhost:3000/api/file-sending';
+const taskUrl = 'http://165.22.83.21:3000/api/stations-tasks';
+const sendUrl = 'http://165.22.83.21:3000/api/file-sending';
 
 @Injectable({
   providedIn: 'root'

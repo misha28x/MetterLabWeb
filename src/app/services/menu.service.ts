@@ -8,7 +8,7 @@ import { User } from '../interfaces/user';
 import { IMenuItem } from '../interfaces/menu';
 import { login } from '../store/actions/permission.action';
 
-const menuUrl = 'http://localhost:3000/api/menu/';
+const menuUrl = 'http://165.22.83.21:3000/api/menu/';
 
 @Injectable({
   providedIn: 'root'

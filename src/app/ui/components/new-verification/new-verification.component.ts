@@ -7,9 +7,9 @@ import { SocketService } from '../../../services/socket.service';
 
 import { NewVerificationDialogComponent } from './new-verification-dialog/new-verification-dialog.component';
 
-const addressUrl = 'http://localhost:3000/api/new-verifications/all/address';
-const typeUrl = 'http://localhost:3000/api/new-verifications/device';
-const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
+const addressUrl = 'http://165.22.83.21:3000/api/new-verifications/all/address';
+const typeUrl = 'http://165.22.83.21:3000/api/new-verifications/device';
+const symbolUrl = 'http://165.22.83.21:3000/api/new-verifications/dn';
 
 @Component({
   selector: 'app-new-verification',
@@ -42,6 +42,11 @@ export class NewVerificationComponent implements OnInit {
       panelClass: 'full-height-modal'
     });
 
-    dialogRef.afterClosed().subscribe(() => setTimeout(() => this.sourceSv.fetchTaskPlaning(), 200));
+    dialogRef.afterClosed().subscribe(() => setTimeout(() => this.updateData(), 50));
+  }
+
+  updateData(): void {
+    this.sourceSv.fetchTaskPlaning();
+    this.sourceSv.fetchNewVerifications();
   }
 }

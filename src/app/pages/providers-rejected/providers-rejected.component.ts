@@ -49,7 +49,7 @@ export class ProvidersRejectedComponent implements OnInit {
   }
 
   revertVerif(id: any): void {
-    this.verificationSv.revertVerif(id).subscribe(() => this.updateData());
+    this.verificationSv.revertVerifProvider(id).subscribe(() => this.updateData());
   }
 
   onChange(data: any): void {
