@@ -1,4 +1,4 @@
-import { User } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 
 export enum PermissionTypes {
   ServiceProvider = '[Login] SeviceProvider',
@@ -12,30 +12,30 @@ export enum PermissionTypes {
 
 const getType = (permission: number) => {
   switch (permission) {
-    case 1: 
+    case 1:
       return PermissionTypes.SuperAdmin;
-    
-    case 2: 
+
+    case 2:
       return PermissionTypes.Admin;
 
     case 3:
       return PermissionTypes.MetrologyMeneger;
 
-    case 4: 
+    case 4:
       return PermissionTypes.Meneger;
 
-    case 5: 
+    case 5:
       return PermissionTypes.Metrology;
 
-    case 6: 
+    case 6:
       return PermissionTypes.ServiceProvider;
-      
-    default: 
+
+    default:
       return PermissionTypes.Unauthorized;
   }
 };
 
-export const login = (info: User) => ({
+export const login = (info: IUser) => ({
   type: getType(info.permission),
   payload: { username: info.username, serviceProvider: info.serviceProvider, id: info.userId }
 });

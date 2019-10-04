@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { EmployeeService } from '../../../services/employee.service';
-import { User } from '../../../interfaces/user';
+import { IUser } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-add-employee',
@@ -17,20 +17,20 @@ export class AddEmployeeComponent implements OnInit {
 
   permissions: Observable<any[]>;
   serviceProvider: string;
-  user: User;
+  user: IUser;
   title: string;
 
   constructor(
     private dialogRef: MatDialogRef<AddEmployeeComponent>,
-    private store: Store<User>,
+    private store: Store<IUser>,
     private employeeSv: EmployeeService,
     @Inject(MAT_DIALOG_DATA) public employee: any
   ) {
-    this.store.pipe(select('permission')).subscribe((user: User) => {
+    this.store.pipe(select('permission')).subscribe((user: IUser) => {
       if (user.serviceProvider) {
         this.serviceProvider = user.serviceProvider;
       }
-      
+
       this.user = user;
     });
 
@@ -57,7 +57,7 @@ export class AddEmployeeComponent implements OnInit {
     this.permissions = this.employeeSv.getPermissions();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   saveEmployee(): void {
     if (this.employee) {

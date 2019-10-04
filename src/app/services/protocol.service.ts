@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
 
 import { Protocol } from '../interfaces/protocol';
-import { User } from '../interfaces/user';
+import { IUser } from '../interfaces/user';
 
 const protocolUrl = 'http://localhost:3000/api/verications-protocols/';
 const rejectUrl = 'http://localhost:3000/api/verications-protocols/reject/';
@@ -22,8 +22,8 @@ export class ProtocolService {
   private protocolAdded$ = this.protocolSource$.asObservable();
   private userId: string;
 
-  constructor(private http: HttpClient, private store: Store<User>) {
-    this.store.pipe(select('permission')).subscribe((_user: User) => {
+  constructor(private http: HttpClient, private store: Store<IUser>) {
+    this.store.pipe(select('permission')).subscribe((_user: IUser) => {
       this.userId = _user.userId;
     });
   }

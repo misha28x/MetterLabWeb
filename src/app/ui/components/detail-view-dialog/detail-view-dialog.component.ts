@@ -74,6 +74,7 @@ export class DetailViewDialogComponent implements OnInit {
       name: name,
       middlename: middlename,
       phoneNumber: this.data.verification[0].phoneNumber,
+      additionalPhone: this.data.verification[0].additionalPhone,
       mail: this.data.verification[0].mail || '',
       ipn: this.data.verification[0].ipn || ''
     });

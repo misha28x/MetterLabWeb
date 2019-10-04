@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
 
-import { User } from '../interfaces/user';
+import { IUser } from '../interfaces/user';
 
 const scanUrl = 'http://localhost:3000/api/verifications-archive/scan/';
 const url = 'http://localhost:3000/api/upload/';
@@ -12,9 +12,9 @@ const url = 'http://localhost:3000/api/upload/';
   providedIn: 'root'
 })
 export class UploadService {
-  user: User;
+  user: IUser;
 
-  constructor(private http: HttpClient, private store: Store<User>) {
+  constructor(private http: HttpClient, private store: Store<IUser>) {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
     });

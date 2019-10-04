@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Socket } from 'ngx-socket-io';
 import { Store } from '@ngrx/store';
 
-import { User } from '../interfaces/user';
+import { IUser } from '../interfaces/user';
 import { IMenuItem } from '../interfaces/menu';
 import { login } from '../store/actions/permission.action';
 
@@ -18,7 +18,7 @@ export class MenuService {
   private isVisiting$ = new BehaviorSubject<{ state: boolean; name?: string }>({ state: false });
   private menuUpdate = this.socket.fromEvent<any>('update');
   private permission: any;
-  private user: User;
+  private user: IUser;
   private home: any = null;
 
   constructor(private http: HttpClient, private store: Store<string>, private socket: Socket) {
@@ -59,7 +59,7 @@ export class MenuService {
     this.store.dispatch(login(this.home));
   }
 
-  public setVisitState(user: User): void {
+  public setVisitState(user: IUser): void {
     this.store.dispatch(login(user));
 
     this.setMenu(user.permission, user.serviceProvider);

@@ -2,7 +2,7 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { User } from '../../../interfaces/user';
+import { IUser } from '../../../interfaces/user';
 
 import { AuthService } from '../../../services/auth.service';
 
@@ -18,9 +18,9 @@ export class SidebarComponent implements OnInit {
     return !this.min;
   }
 
-  user: User;
+  user: IUser;
 
-  constructor(public authSv: AuthService, private store: Store<User>) {}
+  constructor(public authSv: AuthService, private store: Store<IUser>) {}
 
   ngOnInit(): void {
     this.store.pipe(select('permission')).subscribe(_user => {

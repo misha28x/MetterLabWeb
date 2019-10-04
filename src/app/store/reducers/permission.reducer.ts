@@ -1,13 +1,14 @@
 import { PermissionTypes } from '../actions/permission.action';
-import { User } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 
-const DEFAULT_STATE: User = { 
+const DEFAULT_STATE: IUser = {
   permission: 0
 };
 
 export function permissionReducer(
-  state: User = DEFAULT_STATE,
-  action: { payload: {username: string, serviceProvider: string, id: string}, type: PermissionTypes }): User {
+  state: IUser = DEFAULT_STATE,
+  action: { payload: { username: string; serviceProvider: string; id: string }; type: PermissionTypes }
+): IUser {
   switch (action.type) {
     case PermissionTypes.Unauthorized: {
       state = { permission: 0 };
@@ -48,9 +49,9 @@ export function permissionReducer(
       };
       return state;
     }
-    
+
     case PermissionTypes.Meneger: {
-      state = { 
+      state = {
         permission: 4,
         username: action.payload.username,
         serviceProvider: action.payload.serviceProvider,

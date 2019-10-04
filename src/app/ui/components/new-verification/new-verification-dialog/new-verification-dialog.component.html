@@ -6,7 +6,7 @@
   </button>
 </div>
 
-<mat-accordion *ngIf="showForm">
+<mat-accordion>
   <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
       Загальні відомості
@@ -38,9 +38,18 @@
         <div class="full-width">
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
-            <span matPrefix>+380 </span>
+            <span class="mr-1" matPrefix>+380</span>
             <input matInput #phone placeholder="Телефон" maxlength="9" formControlName="phoneNumber" />
-            <mat-hint align="end">{{phone.value.length}} / 9</mat-hint>
+            <mat-hint align="end">{{ phone.value.length }} / 9</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="full-width">
+          <span>Додатковий номер</span>
+          <mat-form-field class="input-field">
+            <span class="mr-1" matPrefix>+380</span>
+            <input matInput #phone placeholder="Телефон" maxlength="9" formControlName="additionalPhone" />
+            <mat-hint align="end">{{ phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
       </form>
@@ -207,8 +216,8 @@
               matInput
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"
-              cdkAutosizeMinRows="5"
-              cdkAutosizeMaxRows="10"
+              cdkAutosizeMinRows="8"
+              cdkAutosizeMaxRows="12"
               formControlName="note"
             ></textarea>
           </mat-form-field>

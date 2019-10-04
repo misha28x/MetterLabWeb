@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
 
-import { User } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +11,7 @@ import { User } from '../../interfaces/user';
 })
 export class ProfileComponent {
   user: any;
-  constructor(private store: Store<User>, private http: HttpClient) {
+  constructor(private store: Store<IUser>, private http: HttpClient) {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.http.get('http://localhost:3000/api/employees/user/' + _user.userId).subscribe(res => {
         this.user = res[0];

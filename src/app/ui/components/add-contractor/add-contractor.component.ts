@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { ContractorService } from '../../../services/contractor.service';
 import { CityService } from '../../../services/city.service';
-import { User } from '../../../interfaces/user';
+import { IUser } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-add-contractor',
@@ -25,10 +25,10 @@ export class AddContractorComponent implements OnInit {
     private dialogRef: MatDialogRef<AddContractorComponent>,
     private contractorSv: ContractorService,
     private citySv: CityService,
-    private store: Store<User>,
+    private store: Store<IUser>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.store.pipe(select('permission')).subscribe((user: User) => {
+    this.store.pipe(select('permission')).subscribe((user: IUser) => {
       if (user.serviceProvider) {
         this.serviceProvider = user.serviceProvider;
         this.citySv.fetchCities();
@@ -58,11 +58,10 @@ export class AddContractorComponent implements OnInit {
     this.permissions = this.contractorSv.getPermissions();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   saveContractor(): void {
     if (typeof this.data !== 'number') {
-
       const contractor = {
         ...this.data,
         ...this.contractorForm.value,

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
-import { User } from '../interfaces/user';
+import { IUser } from '../interfaces/user';
 
 const metrologyProtocolsUrl: string =
   'http://localhost:3000/api/verications-protocols/metrology/protocols';
@@ -34,9 +34,9 @@ export class SourceService {
   private archiveSource$ = new BehaviorSubject([]);
   private labSource$ = new BehaviorSubject([]);
 
-  private user: User;
+  private user: IUser;
 
-  constructor(private http: HttpClient, private store: Store<User>) {
+  constructor(private http: HttpClient, private store: Store<IUser>) {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
     });

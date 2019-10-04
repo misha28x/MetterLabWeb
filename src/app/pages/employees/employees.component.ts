@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { User } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 import { Station } from '../../interfaces/station';
 import { Employee } from '../../interfaces/employee';
 import { CityService } from '../../services/city.service';
@@ -34,7 +34,7 @@ export class PageEmployeesComponent implements OnInit {
   permissions: any[];
   stations;
 
-  user: User;
+  user: IUser;
 
   step: number;
 
@@ -44,12 +44,12 @@ export class PageEmployeesComponent implements OnInit {
     private stationsSv: StationsService,
     private citySv: CityService,
     private menuSv: MenuService,
-    private store: Store<User>,
+    private store: Store<IUser>,
     private dialog: MatDialog
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.store.pipe(select('permission')).subscribe( _user => {
+    this.store.pipe(select('permission')).subscribe(_user => {
       this.employeeSv.fetchEmployees(_user.serviceProvider);
       this.stationsSv.fetchStations(_user.serviceProvider);
       this.contractorSv.fetchContractors();
@@ -57,7 +57,7 @@ export class PageEmployeesComponent implements OnInit {
       this.user = _user;
     });
 
-    this.employeeSv.getPermissions().subscribe( _permissions => this.permissions = _permissions); 
+    this.employeeSv.getPermissions().subscribe(_permissions => (this.permissions = _permissions));
 
     this.contractors = this.contractorSv.getContractors();
     this.employees = this.employeeSv.getEmployees();
@@ -66,11 +66,11 @@ export class PageEmployeesComponent implements OnInit {
   }
 
   getMenu(contractor: Contractor): void {
-    const user: User = {
+    const user: IUser = {
       username: contractor.name,
       serviceProvider: contractor.id,
       permission: contractor.permission
-    }; 
+    };
     this.menuSv.setVisitState(user);
   }
 
@@ -86,16 +86,17 @@ export class PageEmployeesComponent implements OnInit {
 
   getContractorType(id: number): string {
     switch (id) {
-      case 2: 
+      case 2:
         return 'Адмін';
 
-      case 5: 
+      case 5:
         return 'Метрологія';
 
-      case 6: 
+      case 6:
         return 'Надавач Послуг';
 
-      default: return 'Підприємство';
+      default:
+        return 'Підприємство';
     }
   }
 
@@ -124,7 +125,9 @@ export class PageEmployeesComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.employeeSv.deleteEmployee(employee).subscribe(() => this.employeeSv.fetchEmployees(this.user.serviceProvider));
+        this.employeeSv
+          .deleteEmployee(employee)
+          .subscribe(() => this.employeeSv.fetchEmployees(this.user.serviceProvider));
       }
     });
   }
@@ -154,7 +157,9 @@ export class PageEmployeesComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.stationsSv.deleteStation(station).subscribe(() => this.stationsSv.fetchStations(this.user.serviceProvider));
+        this.stationsSv
+          .deleteStation(station)
+          .subscribe(() => this.stationsSv.fetchStations(this.user.serviceProvider));
       }
     });
   }
@@ -164,7 +169,7 @@ export class PageEmployeesComponent implements OnInit {
       minWidth: '600px'
     });
 
-    ref.afterClosed().subscribe(() =>  this.citySv.fetchCities())
+    ref.afterClosed().subscribe(() => this.citySv.fetchCities());
   }
 
   editCity(city: City): void {
@@ -173,7 +178,7 @@ export class PageEmployeesComponent implements OnInit {
       data: city.name
     });
 
-    ref.afterClosed().subscribe(() => this.citySv.fetchCities())
+    ref.afterClosed().subscribe(() => this.citySv.fetchCities());
   }
 
   deleteCity(city: City): void {
@@ -210,7 +215,7 @@ export class PageEmployeesComponent implements OnInit {
       data: contractor
     });
 
-    ref.afterClosed().subscribe(() =>  this.contractorSv.fetchContractors());
+    ref.afterClosed().subscribe(() => this.contractorSv.fetchContractors());
   }
 
   deleteContractor(event: Event, contractor: Contractor): void {
@@ -224,7 +229,9 @@ export class PageEmployeesComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.contractorSv.deleteContractor(contractor).subscribe(() => this.contractorSv.fetchContractors());
+        this.contractorSv
+          .deleteContractor(contractor)
+          .subscribe(() => this.contractorSv.fetchContractors());
       }
     });
   }

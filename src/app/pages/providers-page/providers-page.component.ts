@@ -4,7 +4,7 @@ import { combineLatest, forkJoin, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { filter, switchMap } from 'rxjs/operators';
 
-import { User } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
 import { Verification } from '../../interfaces/verifications';
@@ -25,11 +25,11 @@ export class ProvidersPageComponent implements OnInit {
   selectedData: any[];
 
   permission: number;
-  user: User;
+  user: IUser;
 
   constructor(
     private dialog: MatDialog,
-    private store: Store<User>,
+    private store: Store<IUser>,
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,

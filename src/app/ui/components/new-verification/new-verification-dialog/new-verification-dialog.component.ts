@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
@@ -9,12 +9,13 @@ import { DataService } from 'src/app/services/data.service';
 import { Verification } from 'src/app/interfaces/verifications';
 import { VerificationService } from 'src/app/services/verification.service';
 
-import { User } from '../../../../interfaces/user';
+import { IProvider, IUser, ServiceTypes } from '../../../../interfaces/user';
 
 @Component({
   selector: 'app-new-verification-dialog',
   templateUrl: './new-verification-dialog.component.html',
-  styleUrls: ['./new-verification-dialog.component.scss']
+  styleUrls: ['./new-verification-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewVerificationDialogComponent implements OnInit, AfterContentInit {
   step: number;
@@ -27,7 +28,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   showForm: boolean;
 
   permission: number;
-  user: User;
+  user: IUser;
 
   cities: string[];
   streets: string[];
@@ -37,10 +38,13 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
   filteredSettlement: Observable<string[]>;
   filteredStreets: Observable<string[]>;
 
+  userProviders: IProvider | IProvider[];
+  userServices: ServiceTypes;
+
   constructor(
     private fb: FormBuilder,
     private dataSv: DataService,
-    private store: Store<User>,
+    private store: Store<IUser>,
     private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -58,14 +62,8 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     this.step--;
   }
 
-  ngAfterContentInit(): void {
-    setTimeout(() => {
-      this.showForm = true;
-      this.setStep(0);
-    }, 50);
-  }
-
   ngOnInit(): void {
+    this.setStep(0);
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
       this.permission = _user.permission;
@@ -76,11 +74,11 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
       name: '',
       middlename: '',
       phoneNumber: '',
-      ipn: ''
+      additionalPhone: ''
     });
 
     this.locationForm = this.fb.group({
-      region: '',
+      region: 'Волинська',
       district: '',
       settlement: '',
       street: '',
@@ -116,6 +114,13 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
 
     this.getAddress();
     this.getTypes();
+  }
+
+  ngAfterContentInit(): void {
+    setTimeout(() => {
+      this.showForm = true;
+      this.setStep(0);
+    }, 50);
   }
 
   getTypes(): any {

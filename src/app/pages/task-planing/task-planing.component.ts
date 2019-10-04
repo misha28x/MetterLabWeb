@@ -4,7 +4,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 
-import { User } from '../../interfaces/user';
+import { IUser } from '../../interfaces/user';
 import { Task } from '../../interfaces/taskData';
 import { Verification } from '../../interfaces/verifications';
 
@@ -33,12 +33,12 @@ export class PageTaskPlaningComponent implements OnInit {
 
   selectedData: any[];
   employee: string;
-  user: User;
+  user: IUser;
 
   constructor(
     public providersSv: ProvidersService,
     private dialog: MatDialog,
-    private store: Store<User>,
+    private store: Store<IUser>,
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
@@ -66,7 +66,7 @@ export class PageTaskPlaningComponent implements OnInit {
 
   sendData(): void {
     const url = 'http://localhost:3000/api/task-planing/stations/' + this.user.serviceProvider;
-    console.log(this.selectedData);
+
     const obs = this.dataSv
       .getData(url)
       .pipe(map((res: any[]) => res.map(station => station.stationNumber)));

@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { CityService } from '../../../services/city.service';
-import { User } from '../../../interfaces/user';
+import { IUser } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-add-city',
@@ -22,10 +22,10 @@ export class AddCityComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddCityComponent>,
     private citySv: CityService,
-    private store: Store<User>,
+    private store: Store<IUser>,
     @Inject(MAT_DIALOG_DATA) public city: any
   ) {
-    this.store.pipe(select('permission')).subscribe((user: User) => {
+    this.store.pipe(select('permission')).subscribe((user: IUser) => {
       if (user.serviceProvider) {
         this.serviceProvider = user.serviceProvider;
       }
@@ -47,7 +47,7 @@ export class AddCityComponent implements OnInit {
     this.permissions = this.citySv.getPermissions();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   saveCity(): void {
     if (this.city) {

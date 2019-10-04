@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { StationsService } from '../../../services/stations.service';
 import { Station } from '../../../interfaces/station';
-import { User } from '../../../interfaces/user';
+import { IUser } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-add-station',
@@ -22,11 +22,11 @@ export class AddStationComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<AddStationComponent>,
-    private store: Store<User>,
+    private store: Store<IUser>,
     private stationsSv: StationsService,
     @Inject(MAT_DIALOG_DATA) public station: Station
   ) {
-    this.store.pipe(select('permission')).subscribe((user: User) => {
+    this.store.pipe(select('permission')).subscribe((user: IUser) => {
       if (user.serviceProvider) {
         this.serviceProvider = user.serviceProvider;
       }
@@ -56,7 +56,7 @@ export class AddStationComponent implements OnInit {
     this.permissions = this.stationsSv.getPermissions();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   saveStation(): void {
     if (this.station) {
