@@ -65,8 +65,8 @@ export class PageTaskPlaningComponent implements OnInit {
   }
 
   sendData(): void {
-    const url = 'http://165.22.83.21:3000/api/task-planing/stations/' + this.user.serviceProvider;
-
+    const url = 'http://localhost:3000/api/task-planing/stations/' + this.user.serviceProvider;
+    console.log(this.selectedData);
     const obs = this.dataSv
       .getData(url)
       .pipe(map((res: any[]) => res.map(station => station.stationNumber)));
@@ -77,20 +77,23 @@ export class PageTaskPlaningComponent implements OnInit {
 
     dialogRef
       .afterClosed()
-      .pipe(filter(val => !!val))
-      .subscribe((data: Task) => {
-        const taskData = {
-          taskDate: data.taskDate,
-          type: data.serviceType,
-          stationNumber: data.stationNumber,
-          verifications: this.selectedData,
-          serviceProvider: this.user.serviceProvider
-        };
+      .pipe(
+        filter(val => !!val),
+        switchMap((data: Task) => {
+          const taskData = {
+            taskDate: data.taskDate,
+            type: data.serviceType,
+            stationNumber: data.stationNumber,
+            verifications: this.selectedData,
+            serviceProvider: this.user.serviceProvider
+          };
 
-        const sendUrl = 'http://165.22.83.21:3000/api/task-planing/station-task';
+          const sendUrl = 'http://localhost:3000/api/task-planing/station-task';
 
-        this.dataSv.sendData(sendUrl, taskData).subscribe(() => this.sourceSv.fetchTaskPlaning());
-      });
+          return this.dataSv.sendData(sendUrl, taskData);
+        })
+      )
+      .subscribe(() => this.updateData());
   }
 
   onChange(data: any): void {

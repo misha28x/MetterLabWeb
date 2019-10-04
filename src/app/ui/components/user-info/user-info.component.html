@@ -23,26 +23,12 @@
   <div class="full-width">
     <span>Номер телефону</span>
     <mat-form-field class="input-field">
-      <span matPrefix>+ &nbsp;</span>
+      <span matPrefix>+380</span>
       <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber">
-      <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
+      <mat-hint align="end">{{phone.value.length}} / 9</mat-hint>
     </mat-form-field>
   </div>
 
-  <div class="full-width">
-    <span>E-mail</span>
-    <mat-form-field class="input-field">
-      <input matInput placeholder="E-mail" formControlName="email">
-    </mat-form-field>
-  </div>
-
-  <div class="full-width">
-    <span>Номер телефону</span>
-    <mat-form-field class="input-field">
-      <input matInput placeholder="Номер телефону" formControlName="phoneNumber">
-    </mat-form-field>
-  </div>
-  
   <div class="full-width">
     <span>Додатковий номер</span>
     <mat-form-field class="input-field">

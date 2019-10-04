@@ -4,11 +4,12 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { SourceService } from '../../services/source.service';
 import { DataService } from '../../services/data.service';
+import { TaskService } from '../../services/task.service';
 import { TaskListEditDialogComponent } from '../stations-tasks/task-list-edit-dialog/task-list-edit-dialog.component';
 import { TaslListViewDialogComponent } from '../stations-tasks/tasl-list-view-dialog/tasl-list-view-dialog.component';
 
-const url = 'http://165.22.83.21:3000/api/stations-tasks/failed/1';
-const sendUrl = 'http://165.22.83.21:3000/api/file-sending/';
+const url = 'http://localhost:3000/api/stations-tasks/failed/1';
+const sendUrl = 'http://localhost:3000/api/file-sending/';
 
 @Component({
   selector: 'app-failed-tasks',
@@ -23,6 +24,7 @@ export class FailedTasksComponent implements OnInit {
     private sourceSv: SourceService,
     private snackBar: MatSnackBar,
     private dataSv: DataService,
+    private tasksv: TaskService,
     private dialog: MatDialog
   ) {
     this.sourceSv.fetchFailedTasks();
@@ -37,8 +39,8 @@ export class FailedTasksComponent implements OnInit {
     this.dialog.open(TaskListEditDialogComponent, { data: id });
   }
 
-  viewList(id: number): void {
-    this.dialog.open(TaslListViewDialogComponent, { data: { taskId: id, unresolved: true } });
+  viewList(id: string): void {
+    this.tasksv.viewList(id, true);
   }
 
   downloadExcel(id: number): void {

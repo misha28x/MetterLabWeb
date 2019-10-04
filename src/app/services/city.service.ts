@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { City } from '../interfaces/city';
 
-const cityUrl = 'http://165.22.83.21:3000/api/employees/city';
+const cityUrl = 'http://localhost:3000/api/employees/city';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class CityService {
   }
 
   getPermissions(): Observable<any> {
-    return this.http.get('http://165.22.83.21:3000/api/cityes/permissions');
+    return this.http.get('http://localhost:3000/api/cityes/permissions');
   }
 
   addCity(city: City): Observable<any> {
