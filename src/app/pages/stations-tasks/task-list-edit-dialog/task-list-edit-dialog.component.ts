@@ -20,7 +20,7 @@ export class TaskListEditDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.idTask;
+    this.url = 'http://165.22.83.21:3000/api/stations-tasks/tasks/' + this.idTask;
 
     this.taskList = this.dataSv.getData(this.url);
   }

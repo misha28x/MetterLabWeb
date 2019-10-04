@@ -39,7 +39,7 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input matInput #phone placeholder="Телефон" maxlength="9" formControlName="phoneNumber" />
+            <input matInput type="tel" pattern="[0-9]{9}" #phone placeholder="Телефон" maxlength="9" formControlName="phoneNumber" />
             <mat-hint align="end">{{ phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
@@ -48,7 +48,7 @@
           <span>Додатковий номер</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input matInput #add_phone placeholder="Телефон" maxlength="9" formControlName="additionalPhone" />
+            <input type="tel" pattern="[0-9]{9}" matInput #add_phone placeholder="Додатковий номер" maxlength="9" formControlName="additionalPhone" />
             <mat-hint align="end">{{ add_phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
@@ -233,6 +233,6 @@
 
 <div class="buttons d-flex">
   <button class="mr-auto" mat-button color="warn" (click)="clearForm()">Очистити</button>
-  <button mat-stroked-button color="primary" (click)="saveByPattern()">Зберегти за шаблоном</button>
+  <button *ngIf="user.permission < 6" mat-stroked-button color="primary" (click)="saveByPattern()">Зберегти за шаблоном</button>
   <button mat-raised-button color="primary" (click)="sendData()">Надіслати</button>
 </div>

@@ -6,13 +6,13 @@ import { Store, select } from '@ngrx/store';
 import { Protocol } from '../interfaces/protocol';
 import { IUser } from '../interfaces/user';
 
-const protocolUrl = 'http://localhost:3000/api/verications-protocols/';
-const rejectUrl = 'http://localhost:3000/api/verications-protocols/reject/';
-const unsuitableUrl = 'http://localhost:3000/api/verications-protocols/unsuitable/';
-const acceptUrl = 'http://localhost:3000/api/verications-protocols/accept/';
+const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols/';
+const rejectUrl = 'http://165.22.83.21:3000/api/verications-protocols/reject/';
+const unsuitableUrl = 'http://165.22.83.21:3000/api/verications-protocols/unsuitable/';
+const acceptUrl = 'http://165.22.83.21:3000/api/verications-protocols/accept/';
 
-const returnUrl = 'http://localhost:3000/api/rejected-protocols/back/';
-const recycleUrl = 'http://localhost:3000/api/rejected-protocols/recycle/';
+const returnUrl = 'http://165.22.83.21:3000/api/rejected-protocols/back/';
+const recycleUrl = 'http://165.22.83.21:3000/api/rejected-protocols/recycle/';
 
 @Injectable({
   providedIn: 'root'
@@ -62,7 +62,7 @@ export class ProtocolService {
   }
 
   downloadDoc(protocolNumber: string, mId: string = this.userId): void {
-    const docUrl = `http://localhost:3000/api/report-formation/pdf/${protocolNumber}/${mId}`;
+    const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${protocolNumber}/${mId}`;
 
     window.open(docUrl);
   }

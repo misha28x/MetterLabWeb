@@ -41,6 +41,9 @@ export class NewVerificationDialogComponent implements OnInit {
   userProviders: IProvider | IProvider[];
   userServices: ServiceTypes;
 
+  displayedServiceTypes: string[];
+  userCity: string;
+
   constructor(
     private fb: FormBuilder,
     private dataSv: DataService,

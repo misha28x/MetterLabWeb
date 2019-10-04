@@ -18,7 +18,7 @@ export interface ClientInfo {
   client?: string;
   email?: string;
   phoneNumber?: string;
-  secondNumber?: string;
+  additionalPhone?: string;
   region?: string;
   district?: string;
   settlement?: string;

@@ -29,7 +29,7 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber" />
+            <input matInput type="tel" pattern="[0-9]{9}" #phone placeholder="Телефон" maxlength="9" formControlName="phoneNumber" />
             <mat-hint align="end">{{ phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
@@ -38,7 +38,7 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input matInput #add_phone placeholder="Телефон" maxlength="12" formControlName="additionalPhone" />
+            <input type="tel" pattern="[0-9]{9}" matInput #add_phone placeholder="Додатковий номер" maxlength="9" formControlName="additionalPhone" />
             <mat-hint align="end">{{ add_phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
