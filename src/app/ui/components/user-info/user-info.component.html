@@ -2,21 +2,21 @@
   <div class="full-width">
     <span>Прізвище</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Прізвище" formControlName="surName">
+      <input matInput placeholder="Прізвище" formControlName="surName" />
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>Ім'я</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Ім'я" formControlName="name">
+      <input matInput placeholder="Ім'я" formControlName="name" />
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>По-батькові</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="По-батькові" formControlName="middlename">
+      <input matInput placeholder="По-батькові" formControlName="middlename" />
     </mat-form-field>
   </div>
 
@@ -24,8 +24,8 @@
     <span>Номер телефону</span>
     <mat-form-field class="input-field">
       <span matPrefix>+380</span>
-      <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber">
-      <mat-hint align="end">{{phone.value.length}} / 9</mat-hint>
+      <input matInput #phone placeholder="Телефон" maxlength="12" formControlName="phoneNumber" />
+      <mat-hint align="end">{{ phone.value.length }} / 9</mat-hint>
     </mat-form-field>
   </div>
 
@@ -33,54 +33,55 @@
     <span>Додатковий номер</span>
     <mat-form-field class="input-field">
       <span matPrefix>+380</span>
-      <input matInput placeholder="Додатковий номер" formControlName="secondNumber">
+      <input #add_phone matInput placeholder="Додатковий номер" formControlName="secondNumber" />
+      <mat-hint align="end">{{ add_phone.value.length }} / 9</mat-hint>
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>Область</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Область" formControlName="region">
+      <input matInput placeholder="Область" formControlName="region" />
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>Район</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Район" formControlName="district">
+      <input matInput placeholder="Район" formControlName="district" />
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>Населений пункт</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Населений пункт" formControlName="settlement">
+      <input matInput placeholder="Населений пункт" formControlName="settlement" />
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>Вулиця</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Вулиця" formControlName="street">
+      <input matInput placeholder="Вулиця" formControlName="street" />
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>Будинок</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Будинок" formControlName="house">
+      <input matInput placeholder="Будинок" formControlName="house" />
     </mat-form-field>
   </div>
 
   <div class="full-width">
     <span>Квартира</span>
     <mat-form-field class="input-field">
-      <input matInput placeholder="Квартира" formControlName="apartment">
+      <input matInput placeholder="Квартира" formControlName="apartment" />
     </mat-form-field>
   </div>
 </form>
 
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Скасувати</button>
-  <button mat-button color="primary" (click)="saveClientInfo()" >Зберегти</button>
+  <button mat-button color="primary" (click)="saveClientInfo()">Зберегти</button>
 </mat-dialog-actions>

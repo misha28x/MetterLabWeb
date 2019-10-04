@@ -17,7 +17,7 @@ import { IProvider, IUser, ServiceTypes } from '../../../../interfaces/user';
   styleUrls: ['./new-verification-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewVerificationDialogComponent implements OnInit, AfterContentInit {
+export class NewVerificationDialogComponent implements OnInit {
   step: number;
   verification: Verification;
 
@@ -116,12 +116,7 @@ export class NewVerificationDialogComponent implements OnInit, AfterContentInit 
     this.getTypes();
   }
 
-  ngAfterContentInit(): void {
-    setTimeout(() => {
-      this.showForm = true;
-      this.setStep(0);
-    }, 50);
-  }
+  setUpUserData(): void {}
 
   getTypes(): any {
     this.data.types.pipe().subscribe(_types => {});
