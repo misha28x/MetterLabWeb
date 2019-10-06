@@ -10,8 +10,8 @@ import { Verification } from '../../../interfaces/verifications';
 import { SourceService } from '../../../services/source.service';
 import { DataService } from '../../../services/data.service';
 
-const typeUrl = 'http://165.22.83.21:3000/api/new-verifications/device';
-const symbolUrl = 'http://165.22.83.21:3000/api/new-verifications/dn';
+const typeUrl = 'http://localhost:3000/api/new-verifications/device';
+const symbolUrl = 'http://localhost:3000/api/new-verifications/dn';
 
 @Component({
   selector: 'app-detail-view-dialog',
@@ -47,7 +47,9 @@ export class DetailViewDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.pipe(select('permission')).subscribe(user => (this.permission = user.permission));
+    this.store
+      .pipe(select('permission'))
+      .subscribe(user => (this.permission = user.permission));
 
     const $symbolObservable = this.dataSv.getData(symbolUrl);
     const $typeObservable = this.dataSv.getData(typeUrl);
@@ -130,23 +132,34 @@ export class DetailViewDialogComponent implements OnInit {
 
     this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
       startWith(''),
-      map(_res => this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase())))
+      map(_res =>
+        this.districts.filter(district =>
+          district.toLowerCase().includes(_res.toLowerCase())
+        )
+      )
     );
 
     this.filteredSettlement = this.locationForm.get('settlement').valueChanges.pipe(
       startWith(''),
-      map(_res => this.cities.filter(city => city.toLowerCase().includes(_res.toLowerCase())))
+      map(_res =>
+        this.cities.filter(city => city.toLowerCase().includes(_res.toLowerCase()))
+      )
     );
 
     this.filteredStreets = this.locationForm.get('street').valueChanges.pipe(
       startWith(''),
-      map(_res => this.streets.filter(street => street.toLowerCase().includes(_res.toLowerCase())))
+      map(_res =>
+        this.streets.filter(street => street.toLowerCase().includes(_res.toLowerCase()))
+      )
     );
   }
 
   sendData(): void {
     this.verificationSv
-      .updateVerification(this.data.verification[0].applicationNumber, this.setVerification())
+      .updateVerification(
+        this.data.verification[0].applicationNumber,
+        this.setVerification()
+      )
       .subscribe(() => {
         this.sourceSv.fetchNewVerifications();
         this.sourceSv.fetchTaskPlaning();

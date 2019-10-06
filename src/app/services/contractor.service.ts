@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Contractor } from '../interfaces/contractor';
 
-const contractorsUrl = 'http://165.22.83.21:3000/api/employees/contractors';
+const contractorsUrl = 'http://localhost:3000/api/employees/contractors';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,9 @@ export class ContractorService {
   constructor(private http: HttpClient) {}
 
   fetchContractors(): void {
-    this.http.get(contractorsUrl).subscribe((res: any) => this.contractorSource$.next(res));
+    this.http
+      .get(contractorsUrl)
+      .subscribe((res: any) => this.contractorSource$.next(res));
   }
 
   getContractors(): Observable<Contractor[]> {
@@ -23,7 +25,7 @@ export class ContractorService {
   }
 
   getPermissions(): Observable<any> {
-    return this.http.get('http://165.22.83.21:3000/api/cityes/permissions');
+    return this.http.get('http://localhost:3000/api/cityes/permissions');
   }
 
   addContractor(contractor: Contractor): Observable<any> {

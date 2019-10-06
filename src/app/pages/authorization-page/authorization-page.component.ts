@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
 
-import { login } from '../../store/actions/permission.action';
-
+import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
 import { MenuService } from '../../services/menu.service';
-
-const authUrl = 'http://165.22.83.21:3000/api/authorization';
 
 @Component({
   selector: 'app-authorization-page',
@@ -21,8 +17,8 @@ export class AuthorizationPageComponent implements OnInit {
   passwordFormControl = new FormControl('', [Validators.required]);
 
   constructor(
-    private store: Store<string>,
     private dataSv: DataService,
+    private authSv: AuthService,
     private menuSv: MenuService,
     private router: Router
   ) {}
@@ -38,20 +34,11 @@ export class AuthorizationPageComponent implements OnInit {
     authData.email = this.emailFormControl.value;
     authData.pass = this.passwordFormControl.value;
 
-    this.dataSv.sendData(authUrl, authData).subscribe(res => {
-      if (res.hasOwnProperty('error')) {
-        return;
-      }
-
+    this.authSv.authorization(authData).subscribe(res => {
       window.localStorage.setItem('user', JSON.stringify(res));
       window.localStorage.setItem('time', new Date().getTime().toString());
-      this.store.dispatch(login(res));
-
-      setTimeout(() => {
-        if (parseInt(res.permission, 10) > 0) {
-          this.redirectHome(res.permission);
-        }
-      });
+      console.log(res);
+      this.redirectHome(res.permission);
     });
   }
 

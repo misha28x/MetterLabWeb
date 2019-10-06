@@ -58,7 +58,8 @@ export class PageLabRequestsComponent implements OnInit {
 
     ref.afterClosed().subscribe(data => {
       if (data) {
-        const providerUrl = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
+        const providerUrl =
+          'http://localhost:3000/api/verifications-archive/service-provider/' + id;
 
         this.http
           .post(providerUrl, { provider: data.provider, type: data.type })
@@ -73,7 +74,9 @@ export class PageLabRequestsComponent implements OnInit {
 
   sendVerif(): void {
     forkJoin(
-      this.selectedData.map((ver: Verification) => this.verificationSv.sendVerif(ver.applicationNumber))
+      this.selectedData.map((ver: Verification) =>
+        this.verificationSv.sendVerif(ver.applicationNumber)
+      )
     ).subscribe(() => this.updateData());
   }
 

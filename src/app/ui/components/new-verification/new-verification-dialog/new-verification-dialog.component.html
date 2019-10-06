@@ -39,7 +39,15 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input matInput type="tel" pattern="[0-9]{9}" #phone placeholder="Телефон" maxlength="9" formControlName="phoneNumber" />
+            <input
+              matInput
+              type="tel"
+              pattern="[0-9]{9}"
+              #phone
+              placeholder="Телефон"
+              maxlength="9"
+              formControlName="phoneNumber"
+            />
             <mat-hint align="end">{{ phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
@@ -48,7 +56,15 @@
           <span>Додатковий номер</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input type="tel" pattern="[0-9]{9}" matInput #add_phone placeholder="Додатковий номер" maxlength="9" formControlName="additionalPhone" />
+            <input
+              type="tel"
+              pattern="[0-9]{9}"
+              matInput
+              #add_phone
+              placeholder="Додатковий номер"
+              maxlength="9"
+              formControlName="additionalPhone"
+            />
             <mat-hint align="end">{{ add_phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
@@ -67,14 +83,6 @@
 
     <ng-template matExpansionPanelContent>
       <form [formGroup]="locationForm">
-        <!--
-        <div class="full-width">
-          <span>Область</span>
-          <mat-form-field class="input-field">
-            <input matInput placeholder="Область" formControlName="region" value="Волинська" />
-          </mat-form-field>
-        </div> -->
-
         <div class="full-width">
           <span>Район</span>
           <mat-form-field class="input-field">
@@ -86,7 +94,10 @@
             />
 
             <mat-autocomplete #district="matAutocomplete">
-              <mat-option *ngFor="let country of filteredDistricts | async" [value]="country">
+              <mat-option
+                *ngFor="let country of filteredDistricts | async"
+                [value]="country"
+              >
                 {{ country }}
               </mat-option>
             </mat-autocomplete>
@@ -104,7 +115,10 @@
             />
 
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let country of filteredSettlement | async" [value]="country">
+              <mat-option
+                *ngFor="let country of filteredSettlement | async"
+                [value]="country"
+              >
                 {{ country }}
               </mat-option>
             </mat-autocomplete>
@@ -114,10 +128,18 @@
         <div class="full-width">
           <span>Вулиця</span>
           <mat-form-field class="input-field">
-            <input matInput placeholder="Вулиця" formControlName="street" [matAutocomplete]="streets" />
+            <input
+              matInput
+              placeholder="Вулиця"
+              formControlName="street"
+              [matAutocomplete]="streets"
+            />
 
             <mat-autocomplete #streets="matAutocomplete">
-              <mat-option *ngFor="let country of filteredStreets | async" [value]="country">
+              <mat-option
+                *ngFor="let country of filteredStreets | async"
+                [value]="country"
+              >
                 {{ country }}
               </mat-option>
             </mat-autocomplete>
@@ -160,18 +182,26 @@
               <td class="w-4">
                 <mat-form-field>
                   <mat-select formControlName="serviceType">
-                    <mat-option [value]="'1'">Холодна вода</mat-option>
-                    <mat-option [value]="'2'">Гаряча вода</mat-option>
+                    <mat-option *ngIf="userServices.includes(1)" [value]="1">
+                      Холодна вода
+                    </mat-option>
+                    <mat-option *ngIf="userServices.includes(2)" [value]="2">
+                      Гаряча вода
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
               <td class="w-6">
                 <mat-form-field>
-                  <mat-select formControlName="serviceProvider">
-                    <!-- TODO: Добавити табличку виробників -->
-                    <mat-option [value]="'13270431'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
-                    <mat-option [value]="'26366904'">ДКП "ЛУЦЬКТЕПЛО"</mat-option>
-                    <mat-option [value]="'49672834'">УВГК "Ковельводоканал"</mat-option>
+                  <mat-select
+                    formControlName="serviceProvider"
+                  >
+                    <mat-option
+                      *ngFor="let provider of userProviders"
+                      value="provider.id"
+                    >
+                      {{ provider.name }}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -233,6 +263,13 @@
 
 <div class="buttons d-flex">
   <button class="mr-auto" mat-button color="warn" (click)="clearForm()">Очистити</button>
-  <button *ngIf="user.permission < 6" mat-stroked-button color="primary" (click)="saveByPattern()">Зберегти за шаблоном</button>
+  <button
+    *ngIf="user.permission < 6"
+    mat-stroked-button
+    color="primary"
+    (click)="saveByPattern()"
+  >
+    Зберегти за шаблоном
+  </button>
   <button mat-raised-button color="primary" (click)="sendData()">Надіслати</button>
 </div>

@@ -49,7 +49,8 @@
   },
   "prettier": {
     "singleQuote": true,
-    "printWidth": 105
+    "printWidth": 90,
+    "htmlWhitespaceSensitivity": "ignore"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.5",

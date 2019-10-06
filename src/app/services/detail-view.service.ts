@@ -7,8 +7,8 @@ import { switchMap } from 'rxjs/operators';
 import { Verification } from '../interfaces/verifications';
 import { DetailViewDialogComponent } from '../ui/components/detail-view-dialog/detail-view-dialog.component';
 
-const verUrl = 'http://165.22.83.21:3000/api/verifications-archive/single/';
-const addressUrl = 'http://165.22.83.21:3000/api/new-verifications/all/address';
+const verUrl = 'http://localhost:3000/api/verifications-archive/single/';
+const addressUrl = 'http://localhost:3000/api/new-verifications/all/address';
 
 @Injectable({
   providedIn: 'root'

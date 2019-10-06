@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-const manufactorsUrl = 'http://165.22.83.21:3000/api/verications-protocols/manufacturers';
+const manufactorsUrl = 'http://localhost:3000/api/verications-protocols/manufacturers';
 
 interface Manufacturer {
   manufacturer: string;
@@ -12,7 +12,9 @@ interface Manufacturer {
   providedIn: 'root'
 })
 export class ManufacturersService {
-  private manuSource$: BehaviorSubject<Manufacturer[]> = new BehaviorSubject<Manufacturer[]>([]);
+  private manuSource$: BehaviorSubject<Manufacturer[]> = new BehaviorSubject<
+    Manufacturer[]
+  >([]);
   manufacturers$: Observable<Manufacturer[]> = this.manuSource$.asObservable();
 
   constructor(private http: HttpClient) {
@@ -20,7 +22,9 @@ export class ManufacturersService {
   }
 
   fetchManufacturers(): void {
-    this.http.get<Manufacturer[]>(manufactorsUrl).subscribe(value => this.manuSource$.next(value));
+    this.http
+      .get<Manufacturer[]>(manufactorsUrl)
+      .subscribe(value => this.manuSource$.next(value));
   }
 
   getManufacturers(): Observable<Manufacturer[]> {

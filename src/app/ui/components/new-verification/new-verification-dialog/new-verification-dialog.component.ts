@@ -1,15 +1,16 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-import { DataService } from 'src/app/services/data.service';
-import { Verification } from 'src/app/interfaces/verifications';
-import { VerificationService } from 'src/app/services/verification.service';
+import { DataService } from '../../../../services/data.service';
+import { Verification } from '../../../../interfaces/verifications';
+import { ProvidersService } from '../../../../services/providers.service';
+import { VerificationService } from '../../../../services/verification.service';
 
-import { IProvider, IUser, ServiceTypes } from '../../../../interfaces/user';
+import { IUser, ServiceTypes } from '../../../../interfaces/user';
 
 @Component({
   selector: 'app-new-verification-dialog',
@@ -25,7 +26,6 @@ export class NewVerificationDialogComponent implements OnInit {
   locationForm: FormGroup;
   counterForm: FormGroup;
   additionalDataForm: FormGroup;
-  showForm: boolean;
 
   permission: number;
   user: IUser;
@@ -38,8 +38,8 @@ export class NewVerificationDialogComponent implements OnInit {
   filteredSettlement: Observable<string[]>;
   filteredStreets: Observable<string[]>;
 
-  userProviders: IProvider | IProvider[];
-  userServices: ServiceTypes;
+  userProviders: any[];
+  userServices: ServiceTypes[] = [];
 
   displayedServiceTypes: string[];
   userCity: string;
@@ -48,6 +48,7 @@ export class NewVerificationDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dataSv: DataService,
     private store: Store<IUser>,
+    private providersSv: ProvidersService,
     private verificationSv: VerificationService,
     private dialogRef: MatDialogRef<NewVerificationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -66,12 +67,33 @@ export class NewVerificationDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initForms();
+    this.getTypes();
     this.setStep(0);
+
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
-      this.permission = _user.permission;
-    });
 
+      this.permission = _user.permission;
+      this.setUpUserData(_user);
+      this.getAddress(this.userCity);
+      this.initLocationData();
+    });
+  }
+
+  setUpUserData(user: IUser): void {
+    this.userServices =
+      user.serviceType === ServiceTypes.Both ? [1, 2] : [user.serviceType];
+
+    this.userProviders =
+      user.permission > 4
+        ? [this.providersSv.getProviderById(user.serviceProvider)]
+        : this.providersSv.getProviders();
+
+    this.userCity = user.permission > 4 ? user.district : '';
+  }
+
+  initForms(): void {
     this.generalDataForm = this.fb.group({
       surname: '',
       name: '',
@@ -102,6 +124,7 @@ export class NewVerificationDialogComponent implements OnInit {
       symbol: '',
       acumulatedVolume: ''
     });
+
     const time = new Date();
 
     time.setHours(0);
@@ -114,40 +137,71 @@ export class NewVerificationDialogComponent implements OnInit {
       waterAbsentTo: '',
       note: ''
     });
-
-    this.getAddress();
-    this.getTypes();
   }
 
-  setUpUserData(): void {}
+  initLocationData(): void {
+    const serviceType =
+      this.userServices.length === 1 ? this.userServices[0] : ServiceTypes.ColdWater;
+
+    const serviceProvider =
+      this.userProviders.length === 1 ? this.userProviders[0].id : '';
+
+    setTimeout(() => {
+      this.locationForm.patchValue({
+        serviceType,
+        serviceProvider: serviceProvider
+      });
+    }, 50);
+  }
 
   getTypes(): any {
     this.data.types.pipe().subscribe(_types => {});
   }
 
-  getAddress(): any {
-    this.data.address.subscribe(res => {
-      this.cities = Array.from(new Set(res.map(address => address.city)));
-      this.streets = Array.from(new Set(res.map(address => address.street)));
-      this.districts = Array.from(new Set(res.map(address => address.district)));
-
-      this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
-        startWith(''),
-        map(_res =>
-          this.districts.filter(district => district.toLowerCase().includes(_res.toLowerCase()))
+  getAddress(allowedDistrict: string): any {
+    this.data.address
+      .pipe(
+        map((res: any) =>
+          res.filter(address => address.district.includes(allowedDistrict))
         )
-      );
+      )
+      .subscribe(res => {
+        this.cities = Array.from(new Set(res.map(address => address.city)));
+        this.streets = Array.from(new Set(res.map(address => address.street)));
+        this.districts = Array.from(new Set(res.map(address => address.district)));
 
-      this.filteredSettlement = this.locationForm.get('settlement').valueChanges.pipe(
-        startWith(''),
-        map(_res => this.cities.filter(city => city.toLowerCase().includes(_res.toLowerCase())))
-      );
+        this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
+          startWith(''),
+          map(_res =>
+            this.districts.filter(district =>
+              district.toLowerCase().includes(_res.toLowerCase())
+            )
+          )
+        );
 
-      this.filteredStreets = this.locationForm.get('street').valueChanges.pipe(
-        startWith(''),
-        map(_res => this.streets.filter(street => street.toLowerCase().includes(_res.toLowerCase())))
-      );
-    });
+        this.filteredSettlement = this.locationForm.get('settlement').valueChanges.pipe(
+          startWith(''),
+          map(_res =>
+            this.cities.filter(city => city.toLowerCase().includes(_res.toLowerCase()))
+          )
+        );
+
+        this.filteredStreets = this.locationForm.get('street').valueChanges.pipe(
+          startWith(''),
+          map(_res =>
+            this.streets.filter(street =>
+              street.toLowerCase().includes(_res.toLowerCase())
+            )
+          )
+        );
+      });
+  }
+
+  getProviders(providers: any): any {
+    return Object.keys(providers).map(providerId => ({
+      id: providerId,
+      providerName: providers[providerId]
+    }));
   }
 
   clearForm(): void {

@@ -8,20 +8,26 @@ import { IUser } from '../interfaces/user';
 import { IMenuItem } from '../interfaces/menu';
 import { login } from '../store/actions/permission.action';
 
-const menuUrl = 'http://165.22.83.21:3000/api/menu/';
+const menuUrl = 'http://localhost:3000/api/menu/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuService {
   private menuSource$ = new BehaviorSubject<IMenuItem[]>([]);
-  private isVisiting$ = new BehaviorSubject<{ state: boolean; name?: string }>({ state: false });
+  private isVisiting$ = new BehaviorSubject<{ state: boolean; name?: string }>({
+    state: false
+  });
   private menuUpdate = this.socket.fromEvent<any>('update');
   private permission: any;
   private user: IUser;
   private home: any = null;
 
-  constructor(private http: HttpClient, private store: Store<string>, private socket: Socket) {
+  constructor(
+    private http: HttpClient,
+    private store: Store<string>,
+    private socket: Socket
+  ) {
     this.store.select('permission').subscribe(user => {
       this.user = user;
 

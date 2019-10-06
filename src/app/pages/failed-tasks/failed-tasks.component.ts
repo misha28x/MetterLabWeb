@@ -8,8 +8,8 @@ import { TaskService } from '../../services/task.service';
 import { TaskListEditDialogComponent } from '../stations-tasks/task-list-edit-dialog/task-list-edit-dialog.component';
 import { TaslListViewDialogComponent } from '../stations-tasks/tasl-list-view-dialog/tasl-list-view-dialog.component';
 
-const url = 'http://165.22.83.21:3000/api/stations-tasks/failed/1';
-const sendUrl = 'http://165.22.83.21:3000/api/file-sending/';
+const url = 'http://localhost:3000/api/stations-tasks/failed/1';
+const sendUrl = 'http://localhost:3000/api/file-sending/';
 
 @Component({
   selector: 'app-failed-tasks',
@@ -54,7 +54,9 @@ export class FailedTasksComponent implements OnInit {
       complete: () => this.showSnackBar()
     };
 
-    const task = forkJoin(this.selectedData.map(id => this.dataSv.sendData(sendUrl + id)));
+    const task = forkJoin(
+      this.selectedData.map(id => this.dataSv.sendData(sendUrl + id))
+    );
 
     task.subscribe(observer);
   }

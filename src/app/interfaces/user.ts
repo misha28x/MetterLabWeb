@@ -1,11 +1,10 @@
 export interface IUser {
-  user_full_name?: string;
   username?: string;
   permission?: number;
-  serviceProvider?: string;
+  serviceProvider?: any;
   createFor?: string;
   userId?: string;
-  cityId?: string;
+  district?: string;
   serviceType?: ServiceTypes;
 }
 

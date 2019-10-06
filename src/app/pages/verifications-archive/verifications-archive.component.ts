@@ -58,15 +58,18 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
     ref.afterClosed().subscribe(data => {
       if (data) {
-        const url = 'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
+        const url =
+          'http://localhost:3000/api/verifications-archive/service-provider/' + id;
 
-        this.http.post(url, { provider: data.provider, type: data.type }).subscribe(() => this.update);
+        this.http
+          .post(url, { provider: data.provider, type: data.type })
+          .subscribe(() => this.update);
       }
     });
   }
 
   displayProtocol(id: string): void {
-    const url = 'http://165.22.83.21:3000/api/verications-protocols';
+    const url = 'http://localhost:3000/api/verications-protocols';
     this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
       this.protocolSv.addProtocol(protocol);
     });

@@ -37,9 +37,10 @@ export class TaslListViewDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.unresolved) {
-      this.url = 'http://165.22.83.21:3000/api/stations-tasks/unresolved/' + this.data.taskId;
+      this.url =
+        'http://localhost:3000/api/stations-tasks/unresolved/' + this.data.taskId;
     } else {
-      this.url = 'http://165.22.83.21:3000/api/stations-tasks/tasks/' + this.data.taskId;
+      this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.data.taskId;
     }
 
     this.updateData();
@@ -67,7 +68,9 @@ export class TaslListViewDialogComponent implements OnInit {
 
     ref.afterClosed().subscribe((result: string) => {
       if (result === 'delete') {
-        this.verificationSv.deleteFromTask(verifId, this.data.taskId).subscribe(() => this.updateData());
+        this.verificationSv
+          .deleteFromTask(verifId, this.data.taskId)
+          .subscribe(() => this.updateData());
       }
     });
   }

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Verification } from 'src/app/interfaces/verifications';
 import { DataService } from 'src/app/services/data.service';
 
-const url = 'http://165.22.83.21:3000/api/new-verifications/duplicate';
+const url = 'http://localhost:3000/api/new-verifications/duplicate';
 @Component({
   selector: 'app-duplicat-view-dialog',
   templateUrl: './duplicat-view-dialog.component.html',
@@ -14,7 +14,10 @@ const url = 'http://165.22.83.21:3000/api/new-verifications/duplicate';
 export class DuplicatViewDialogComponent implements OnInit {
   duplicates: Observable<Verification>;
 
-  constructor(private dataSv: DataService, @Inject(MAT_DIALOG_DATA) public data: Verification) {}
+  constructor(
+    private dataSv: DataService,
+    @Inject(MAT_DIALOG_DATA) public data: Verification
+  ) {}
 
   ngOnInit(): void {
     const address = {

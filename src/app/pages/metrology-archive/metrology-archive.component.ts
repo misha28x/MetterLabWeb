@@ -43,11 +43,13 @@ export class PageMetrologyArchiveComponent implements OnInit {
   ngOnInit(): void {}
 
   detailView(id: any): void {
-    this.detailSv.addVerification(id).subscribe(() => this.sourceSv.fetchMetrologyArchive());
+    this.detailSv
+      .addVerification(id)
+      .subscribe(() => this.sourceSv.fetchMetrologyArchive());
   }
 
   displayProtocol(id: string, status: string = 'Повірено'): void {
-    const url = 'http://165.22.83.21:3000/api/verications-protocols';
+    const url = 'http://localhost:3000/api/verications-protocols';
     this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
       this.protocolSv.addProtocol(protocol, status);
     });

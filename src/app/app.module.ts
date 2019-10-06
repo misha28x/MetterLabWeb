@@ -23,7 +23,10 @@ import { UiModule } from './ui/ui.module';
 import { AppComponent } from './app.component';
 registerLocaleData(uk);
 
-const config: SocketIoConfig = { url: 'http://165.22.83.21:3000', options: { reconnect: true } };
+const config: SocketIoConfig = {
+  url: 'http://localhost:3000',
+  options: { reconnect: true }
+};
 
 @NgModule({
   declarations: [AppComponent],
