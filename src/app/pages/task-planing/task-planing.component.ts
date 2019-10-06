@@ -134,7 +134,6 @@ export class PageTaskPlaningComponent implements OnInit {
       )
       .subscribe(() => {
         this.updateData();
-        this.selectedData = [];
       });
   }
 

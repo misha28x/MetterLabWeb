@@ -41,7 +41,6 @@ export class NewVerificationDialogComponent implements OnInit {
   userProviders: any[];
   userServices: ServiceTypes[] = [];
 
-  displayedServiceTypes: string[];
   userCity: string;
 
   constructor(
@@ -111,7 +110,7 @@ export class NewVerificationDialogComponent implements OnInit {
       apartment: '',
       isUnique: false,
       counterQuantity: 1,
-      serviceType: '1',
+      serviceType: 1,
       serviceProvider: ''
     });
 
@@ -225,7 +224,7 @@ export class NewVerificationDialogComponent implements OnInit {
 
     this.locationForm.patchValue({
       counterQuantity: 1,
-      serviceType: '1',
+      serviceType: 1,
       serviceProvider: ''
     });
   }

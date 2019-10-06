@@ -301,3 +301,10 @@ mat-card-header {
     }
   }
 }
+
+.note-wrapper {
+  max-width: 30ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

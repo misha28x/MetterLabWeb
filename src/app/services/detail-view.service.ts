@@ -35,7 +35,7 @@ export class DetailViewService {
 
   openDialog(ver: Verification): MatDialogRef<DetailViewDialogComponent> {
     const ref = this.dialog.open(DetailViewDialogComponent, {
-      height: '70%',
+      height: '75%',
       width: '800px',
       data: {
         verification: ver,

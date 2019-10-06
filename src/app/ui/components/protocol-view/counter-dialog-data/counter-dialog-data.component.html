@@ -36,13 +36,18 @@
     </mat-form-field>
     <mat-form-field>
       <mat-select formControlName="serviceType" placeholder="Призначення лічильника">
-        <mat-option [value]="'1'">Холодна вода</mat-option>
-        <mat-option [value]="'2'">Гаряча вода</mat-option>
+        <mat-option [value]="1">Холодна вода</mat-option>
+        <mat-option [value]="2">Гаряча вода</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Тип лічильника" value="{{ data.type }}" formControlName="type" />
+      <input
+        matInput
+        placeholder="Тип лічильника"
+        value="{{ data.type }}"
+        formControlName="type"
+      />
     </mat-form-field>
 
     <mat-form-field>
@@ -63,7 +68,10 @@
       />
 
       <mat-autocomplete #streets="matAutocomplete">
-        <mat-option *ngFor="let manufacturer of filteredManufacturers | async" [value]="manufacturer">
+        <mat-option
+          *ngFor="let manufacturer of filteredManufacturers | async"
+          [value]="manufacturer"
+        >
           {{ manufacturer }}
         </mat-option>
       </mat-autocomplete>

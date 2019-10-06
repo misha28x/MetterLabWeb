@@ -87,6 +87,11 @@
       [columnName]="'note'"
       [enableFiltering]="true"
     >
+      <ng-template #tableBodyTemplate let-row="row">
+        <div class="note-wrapper">
+          {{ row['note']}}
+        </div>
+      </ng-template>
     </app-column>
 
     <app-column [columnTitle]="''" [width]="140">

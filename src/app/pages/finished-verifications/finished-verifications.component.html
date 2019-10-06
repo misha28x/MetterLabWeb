@@ -73,19 +73,31 @@
         [columnName]="'note'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-row="row">
+          <div class="note-wrapper">
+            {{ row['note'] }}
+          </div>
+        </ng-template>
+      </app-column>
 
       <app-column [columnTitle]="''" [width]="40">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <!-- TODO: ПЕРЕРОБИТИ ПЕРЕВІРКУ НА ДУБЛІ -->
 
-            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
+            <button
+              mat-icon-button
+              (click)="deleteVerification(row['applicationNumber'])"
+            >
               <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
             </button>
 
             <button mat-icon-button (click)="getScan(row['applicationNumber'])">
-              <i class="far fa-file-pdf color-info" matTooltip="Отримати скан документів"></i>
+              <i
+                class="far fa-file-pdf color-info"
+                matTooltip="Отримати скан документів"
+              ></i>
             </button>
           </div>
         </ng-template>

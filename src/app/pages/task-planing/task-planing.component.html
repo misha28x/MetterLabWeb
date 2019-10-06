@@ -20,7 +20,8 @@
           mat-raised-button
           class="bg-success"
         >
-          <mat-icon>playlist_add</mat-icon> Додати в завдання
+          <mat-icon>playlist_add</mat-icon>
+          Додати в завдання
         </button>
 
         <button
@@ -29,7 +30,8 @@
           mat-raised-button
           color="warn"
         >
-          <mat-icon class="mr-1">cancel</mat-icon>Відхилити Повірку
+          <mat-icon class="mr-1">cancel</mat-icon>
+          Відхилити Повірку
         </button>
       </div>
     </div>
@@ -66,8 +68,7 @@
         [enableSorting]="true"
         [enableFiltering]="true"
         [width]="235"
-      >
-      </app-column>
+      ></app-column>
 
       <app-column
         [columnTitle]="'Надавач Послуг'"
@@ -107,8 +108,7 @@
         [columnName]="'street'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      >
-      </app-column>
+      ></app-column>
 
       <app-column
         [width]="75"
@@ -141,7 +141,13 @@
         [columnName]="'note'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-row="row">
+          <div class="note-wrapper">
+            {{ row['note'] }}
+          </div>
+        </ng-template>
+      </app-column>
 
       <app-column [columnTitle]="'Дії'" [width]="140">
         <ng-template #tableBodyTemplate let-row="row">
@@ -158,8 +164,13 @@
               <mat-icon class="color-error" matTooltip="Недозвон">phone_missed</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="rejectVerification(row['applicationNumber'])">
-              <mat-icon class="color-error" matTooltip="Відхилити повірку">cancel</mat-icon>
+            <button
+              mat-icon-button
+              (click)="rejectVerification(row['applicationNumber'])"
+            >
+              <mat-icon class="color-error" matTooltip="Відхилити повірку">
+                cancel
+              </mat-icon>
             </button>
 
             <button mat-icon-button (click)="showClientInfo(row['applicationNumber'])">

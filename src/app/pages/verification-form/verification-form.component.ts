@@ -28,7 +28,7 @@ export class VerificationFormComponent implements OnInit {
       apartment: '',
       isUnique: false,
       counterQuantity: 0,
-      serviceType: '1',
+      serviceType: 1,
       serviceProvider: '',
       comment: ''
     });

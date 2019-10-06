@@ -29,7 +29,15 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input matInput type="tel" pattern="[0-9]{9}" #phone placeholder="Телефон" maxlength="9" formControlName="phoneNumber" />
+            <input
+              matInput
+              type="tel"
+              pattern="[0-9]{9}"
+              #phone
+              placeholder="Телефон"
+              maxlength="9"
+              formControlName="phoneNumber"
+            />
             <mat-hint align="end">{{ phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
@@ -38,12 +46,18 @@
           <span>Номер телефону</span>
           <mat-form-field class="input-field">
             <span class="mr-1" matPrefix>+380</span>
-            <input type="tel" pattern="[0-9]{9}" matInput #add_phone placeholder="Додатковий номер" maxlength="9" formControlName="additionalPhone" />
+            <input
+              type="tel"
+              pattern="[0-9]{9}"
+              matInput
+              #add_phone
+              placeholder="Додатковий номер"
+              maxlength="9"
+              formControlName="additionalPhone"
+            />
             <mat-hint align="end">{{ add_phone.value.length }} / 9</mat-hint>
           </mat-form-field>
         </div>
-
-
       </form>
     </mat-tab>
 
@@ -92,17 +106,24 @@
               <td class="w-4">
                 <mat-form-field>
                   <mat-select formControlName="serviceType">
-                    <mat-option [value]="'1'">Холодна вода</mat-option>
-                    <mat-option [value]="'2'">Гаряча вода</mat-option>
+                    <mat-option *ngIf="userServices.includes(1)" [value]="1">
+                      Холодна вода
+                    </mat-option>
+                    <mat-option *ngIf="userServices.includes(2)" [value]="2">
+                      Гаряча вода
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
               <td class="w-6">
                 <mat-form-field>
                   <mat-select formControlName="serviceProvider">
-                    <mat-option [value]="'13270431'">КП "ЛУЦЬКВОДОКАНАЛ"</mat-option>
-                    <mat-option [value]="'26366904'">ДКП "ЛУЦЬКТЕПЛО"</mat-option>
-                    <mat-option [value]="'49672834'">УВГК "Ковельводоканал"</mat-option>
+                    <mat-option
+                      *ngFor="let provider of userProviders"
+                      [value]="provider.id"
+                    >
+                      {{ provider.name }}
+                    </mat-option>
                   </mat-select>
                 </mat-form-field>
               </td>
@@ -128,7 +149,7 @@
 
     <mat-tab [label]="'Додаткова інформація'">
       <form [formGroup]="additionalDataForm" class="pt-3">
-        <div class="full-width py-2 mb-4">
+        <div *ngIf="permission < 6" class="full-width py-2 mb-4">
           <span>Час проведення повірки</span>
           <div class="input-field form-group mb-0">
             <nz-time-picker
