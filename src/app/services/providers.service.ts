@@ -17,7 +17,11 @@ const providers = new Map([
 export class ProvidersService {
   constructor() {}
 
-  public getProviderById(id: number): Provider {
+  public getProviderById(id: number): string {
+    return providers.get(id);
+  }
+
+  public getProvider(id: number): Provider {
     const name = providers.get(id);
     return { id, name };
   }

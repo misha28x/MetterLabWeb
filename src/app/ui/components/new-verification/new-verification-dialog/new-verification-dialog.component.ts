@@ -87,7 +87,7 @@ export class NewVerificationDialogComponent implements OnInit {
 
     this.userProviders =
       user.permission > 4
-        ? [this.providersSv.getProviderById(user.serviceProvider)]
+        ? [this.providersSv.getProvider(user.serviceProvider)]
         : this.providersSv.getProviders();
 
     this.userCity = user.permission > 4 ? user.district : '';

@@ -194,11 +194,12 @@
               <td class="w-6">
                 <mat-form-field>
                   <mat-select
+
                     formControlName="serviceProvider"
                   >
                     <mat-option
                       *ngFor="let provider of userProviders"
-                      value="provider.id"
+                      [value]="provider.id"
                     >
                       {{ provider.name }}
                     </mat-option>
