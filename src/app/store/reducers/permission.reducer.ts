@@ -15,7 +15,8 @@ export function permissionReducer(
   switch (action.type) {
     case PermissionTypes.Auth: {
       return {
-        ...action.payload
+        ...action.payload,
+        createFor: action.payload.serviceProvider
       };
     }
 

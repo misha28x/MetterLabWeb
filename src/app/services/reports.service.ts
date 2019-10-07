@@ -16,7 +16,7 @@ enum ReportType {
   Rejected = 'rejected/'
 }
 
-const Url = 'http://localhost:3000/api/reports/';
+const Url = 'http://165.22.83.21:3000/api/reports/';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +42,7 @@ export class ReportsService {
     const serviceProvider = '/' + this.user.createFor;
 
     const url = Url + reportType + dateType + date + serviceProvider;
-
+    console.log();
     window.open(url);
   }
 

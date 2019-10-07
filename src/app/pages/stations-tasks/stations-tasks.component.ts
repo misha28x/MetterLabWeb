@@ -44,6 +44,7 @@ export class PageStationsTasksComponent implements OnInit {
 
   filterTasks(status: TaskStatuses): void {
     this.updateList();
+    this.selectedData = [];
 
     this.errorStatus = null;
     this.infoStatus = null;
@@ -94,6 +95,9 @@ export class PageStationsTasksComponent implements OnInit {
     };
   }
 
+  viewFailed(id: string): void {
+    this.taskSv.viewList(id, true);
+  }
   viewList(id: string): void {
     this.taskSv.viewList(id).subscribe(() => this.updateList());
   }

@@ -21,7 +21,7 @@
             <mat-option [value]="taskStatuses.Send">Надіслані</mat-option>
             <mat-option [value]="taskStatuses.Uploaded">Завантаженні</mat-option>
             <mat-option [value]="taskStatuses.Resolved">Виконані</mat-option>
-            <mat-option [value]="taskStatuses.Failed">Не виконанні</mat-option>
+            <mat-option [value]="taskStatuses.Failed">Невиконанні</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -90,7 +90,21 @@
               ></i>
             </button>-->
 
-            <button color="primary" mat-icon-button (click)="viewList(row['id_task'])">
+            <button
+              *ngIf="selectedStatus === taskStatuses.Failed"
+              color="primary"
+              mat-icon-button
+              (click)="viewFailed(row['id_task'])"
+            >
+              <mat-icon matTooltip="Переглянути завдання">format_list_numbered</mat-icon>
+            </button>
+
+            <button
+              *ngIf="selectedStatus !== taskStatuses.Failed"
+              color="primary"
+              mat-icon-button
+              (click)="viewList(row['id_task'])"
+            >
               <mat-icon matTooltip="Переглянути завдання">format_list_numbered</mat-icon>
             </button>
 

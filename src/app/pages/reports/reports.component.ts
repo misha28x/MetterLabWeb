@@ -34,7 +34,7 @@ export class PageReportsComponent {
     const type = 'completed/';
     this.downloadReport(type, date);
   }
-  ф;
+
   downloadRejected(date: Date | Date[]): void {
     const type = 'rejected/';
     this.downloadReport(type, date);

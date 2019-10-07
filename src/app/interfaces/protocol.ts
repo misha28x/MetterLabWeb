@@ -15,6 +15,7 @@ export interface Protocol {
   counterNumber: string; // Номер лічильника
   capacity: string; // Об'єм
   image: String;
+  status: string;
   manufacturer: string;
   temperature: number; // Температура
   productionYear: number; // Рік виробітку

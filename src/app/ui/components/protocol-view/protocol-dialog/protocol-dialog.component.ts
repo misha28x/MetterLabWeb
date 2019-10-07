@@ -31,13 +31,18 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
     private sourceSv: SourceService,
     private protocolSv: ProtocolService,
     private photoSv: PhotoOrientationService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: Protocol
   ) {}
 
   ngOnInit(): void {
-    this.checked = this.data.status;
-    this.subscription = this.photoSv.getAngleObservable().subscribe(angle => (this.angle = angle));
-    this.store.pipe(select('permission')).subscribe(user => (this.permission = user.permission));
+    console.log(this.data);
+    this.checked = !!this.data.status;
+    this.subscription = this.photoSv
+      .getAngleObservable()
+      .subscribe(angle => (this.angle = angle));
+    this.store
+      .pipe(select('permission'))
+      .subscribe(user => (this.permission = user.permission));
   }
 
   ngOnDestroy(): void {
@@ -50,7 +55,9 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   }
 
   saveProtocol(): void {
-    this.protocolSv.updateProtocol(this.data.counterNumber, this.data).subscribe(console.log);
+    this.protocolSv
+      .updateProtocol(this.data.counterNumber, this.data)
+      .subscribe(console.log);
   }
 
   acceptProtocol(applicationNumber: string): Observable<any> {
@@ -158,7 +165,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   }
 
   downloadDoc(): void {
-    this.protocolSv.downloadDoc(this.data.protocolNumber);
+    this.protocolSv.downloadDoc(this.data.counterNumber);
   }
 
   getImage(base64Data: String): any {

@@ -66,7 +66,7 @@ export class PageTaskPlaningComponent implements OnInit {
 
   sendData(): void {
     const url =
-      'http://localhost:3000/api/task-planing/stations/' + this.user.serviceProvider;
+      'http://165.22.83.21:3000/api/task-planing/stations/' + this.user.serviceProvider;
 
     const obs = this.dataSv
       .getData(url)
@@ -89,7 +89,7 @@ export class PageTaskPlaningComponent implements OnInit {
             serviceProvider: this.user.serviceProvider
           };
 
-          const sendUrl = 'http://localhost:3000/api/task-planing/station-task';
+          const sendUrl = 'http://165.22.83.21:3000/api/task-planing/station-task';
 
           return this.dataSv.sendData(sendUrl, taskData);
         })
