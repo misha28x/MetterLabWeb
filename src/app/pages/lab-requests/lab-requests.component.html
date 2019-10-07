@@ -83,7 +83,9 @@
         [width]="90"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
+      </app-column>
 
       <app-column
         [columnTitle]="'Примітка'"

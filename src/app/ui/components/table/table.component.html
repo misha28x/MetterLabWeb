@@ -10,13 +10,12 @@
 <div class="table-wrap">
   <table [style.height]="'100%'" [ngClass]="getTableClasses()">
     <tr>
-      <th [ngStyle]="{'padding-top.px': 22 }" *ngIf="checkboxes">
+      <th [ngStyle]="{ 'padding-top.px': 22 }" *ngIf="checkboxes">
         <mat-checkbox
           (change)="$event ? masterToggle() : null"
           [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()"
-        >
-        </mat-checkbox>
+        ></mat-checkbox>
       </th>
 
       <th
@@ -63,18 +62,28 @@
                   class="up icofont icofont-caret-up pull-left"
                   [class.active]="c.config.sort == 'asc'"
                 ></i>
-                <i class="down icofont icofont-caret-down" [class.active]="c.config.sort == 'desc'"></i>
+                <i
+                  class="down icofont icofont-caret-down"
+                  [class.active]="c.config.sort == 'desc'"
+                ></i>
               </span>
             </span>
           </ng-container>
-          <ng-template *ngIf="c.headerTemplate" [ngTemplateOutlet]="c.headerTemplate"></ng-template>
+          <ng-template
+            *ngIf="c.headerTemplate"
+            [ngTemplateOutlet]="c.headerTemplate"
+          ></ng-template>
         </div>
       </th>
     </tr>
 
     <tr *ngFor="let row of rows; trackBy: trackByFn">
       <td
-        [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }"
+        [ngClass]="{
+          'table-success': getSuccessClass(row),
+          'table-info': getInfoClass(row),
+          'table-error': getErrorClass(row)
+        }"
         *ngIf="checkboxes"
       >
         <mat-checkbox
@@ -86,7 +95,10 @@
       <td
         *ngFor="let col of columnList"
         [ngStyle]="{ 'min-width.px': col.width }"
-        [ngClass]="{ 'table-success': getSuccessClass(row), 'table-error': getErrorClass(row) }"
+        [ngClass]="{
+          'table-success': getSuccessClass(row),
+          'table-error': getErrorClass(row)
+        }"
       >
         <ng-container *ngIf="!col.bodyTemplate">
           {{ row[col.config.name] }}

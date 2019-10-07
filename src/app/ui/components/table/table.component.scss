@@ -23,7 +23,8 @@ $_animation: $animation;
 
     tr {
       padding: ($module-rem / 2) 4px;
-      transition: background 0.2s $_animation, border 0.2s $_animation, color 0.2s $_animation;
+      transition: background 0.2s $_animation, border 0.2s $_animation,
+        color 0.2s $_animation;
       width: 100%;
 
       &:hover {
@@ -34,7 +35,8 @@ $_animation: $animation;
       td {
         border-bottom: $table-border;
         padding: ($module-rem * 0.35) ($module-rem * 0.75);
-        transition: background 0.25s $_animation, border 0.25s $_animation, color 0.2s $_animation;
+        transition: background 0.25s $_animation, border 0.25s $_animation,
+          color 0.2s $_animation;
 
         &:first-child,
         &:last-child {
@@ -106,6 +108,9 @@ $_animation: $animation;
             }
           }
         }
+      }
+      td {
+        font-size: 1.15em;
       }
     }
     .header-wrapper {

@@ -70,7 +70,9 @@
         [columnName]="'phoneNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
+      </app-column>
 
       <app-column [columnTitle]="'Дії'" [width]="140">
         <ng-template #tableBodyTemplate let-row="row">

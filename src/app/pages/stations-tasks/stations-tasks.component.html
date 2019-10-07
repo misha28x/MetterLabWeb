@@ -2,16 +2,37 @@
 <mat-card>
   <mat-card-content>
     <div class="actions">
-      <button mat-raised-button class="bg-success" (click)="sendData()">
+      <button
+        [disabled]="selectedStatus !== taskStatuses.New"
+        mat-raised-button
+        class="bg-success"
+        (click)="sendData()"
+      >
         <i class="icon icofont-paper-plane"></i>
         Надіслати завдання
       </button>
+
+      <div class="user-actions top-page-action">
+        <mat-form-field appearance="outline">
+          <mat-label>Тип завдань</mat-label>
+          <mat-select [(ngModel)]="selectedStatus" (valueChange)="filterTasks($event)">
+            <mat-option [value]="taskStatuses.All">Усі</mat-option>
+            <mat-option [value]="taskStatuses.New">Нові завдання</mat-option>
+            <mat-option [value]="taskStatuses.Send">Надіслані</mat-option>
+            <mat-option [value]="taskStatuses.Uploaded">Завантаженні</mat-option>
+            <mat-option [value]="taskStatuses.Resolved">Виконані</mat-option>
+            <mat-option [value]="taskStatuses.Failed">Не виконанні</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
 
     <app-table
       [checkboxes]="true"
       [statusKey]="'task_status'"
-      [desiredStatus]="'В роботі'"
+      [desiredStatus]="successStatus"
+      [infoStatus]="infoStatus"
+      [errorStatus]="errorStatus"
       (rowSelected)="onChange($event)"
       [hovered]="true"
       [bordered]="true"

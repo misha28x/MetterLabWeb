@@ -54,8 +54,7 @@
       [columnTitle]="'ПІБ Клієнта'"
       [columnName]="'client'"
       [enableFiltering]="true"
-    >
-    </app-column>
+    ></app-column>
 
     <app-column
       [columnTitle]="'Надавач послуг'"
@@ -80,16 +79,14 @@
       [columnName]="'phoneNumber'"
       [width]="110"
       [enableFiltering]="true"
-    ></app-column>
-
-    <app-column
-      [columnTitle]="'Примітка'"
-      [columnName]="'note'"
-      [enableFiltering]="true"
     >
+      <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
+    </app-column>
+
+    <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableFiltering]="true">
       <ng-template #tableBodyTemplate let-row="row">
         <div class="note-wrapper">
-          {{ row['note']}}
+          {{ row['note'] }}
         </div>
       </ng-template>
     </app-column>
@@ -98,12 +95,15 @@
       <ng-template #tableBodyTemplate let-row="row">
         <div class="actions-row">
           <button mat-icon-button (click)="deleteFromTask(row['applicationNumber'])">
-            <mat-icon class="color-info" matTooltip="Повернути до планування"
-              >settings_backup_restore</mat-icon
-            >
+            <mat-icon class="color-info" matTooltip="Повернути до планування">
+              settings_backup_restore
+            </mat-icon>
           </button>
 
-          <button mat-icon-button (click)="rejectVerification(row['applicationNumber'], row['idForStation'])">
+          <button
+            mat-icon-button
+            (click)="rejectVerification(row['applicationNumber'], row['idForStation'])"
+          >
             <mat-icon class="color-error" matTooltip="Відхилити повірку">cancel</mat-icon>
           </button>
 
@@ -111,7 +111,11 @@
             <mat-icon class="color-info" matTooltip="Інформація">info</mat-icon>
           </button>
 
-          <button *ngIf="!data.unresolved" mat-icon-button (click)="checkForDuplicate(row)">
+          <button
+            *ngIf="!data.unresolved"
+            mat-icon-button
+            (click)="checkForDuplicate(row)"
+          >
             <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
           </button>
 

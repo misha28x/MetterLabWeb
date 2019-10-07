@@ -1,18 +1,19 @@
-@import "../../../assets/sass/variables";
+@import '../../../assets/sass/variables';
 
 :host {
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 
-	.content {
-		height: 100%;
-		overflow: auto;
-		width: 100%;
+  .content {
+    height: 100%;
+    overflow: auto;
+    width: 100%;
 
-		.main-content {
-			padding: $module-rem * 2;
-			margin: $navbar-height 0 0 $sidebar-width;
+    .main-content {
+      padding: $module-rem * 2;
+      margin: $navbar-height 0 0 $sidebar-width;
       transition: margin 0.3s $animation;
+      position: relative;
 
       .page-title-box {
         margin: 0 0 ($module-rem) 0;
@@ -23,13 +24,13 @@
           padding: 0;
         }
       }
-			
-			@media #{min991} {
-			  margin: $navbar-height 0 0 (2 * $module-rem) !important;
-			}
-			&.min {
-				margin: $navbar-height 0 0 $min-sidebar-width;
-			}
-		}
-	}
+
+      @media #{min991} {
+        margin: $navbar-height 0 0 (2 * $module-rem) !important;
+      }
+      &.min {
+        margin: $navbar-height 0 0 $min-sidebar-width;
+      }
+    }
+  }
 }

@@ -1,4 +1,13 @@
-import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  Output
+} from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PageEvent } from '@angular/material';
 
@@ -8,7 +17,8 @@ import { ITableConfig } from '../../interfaces/tableConfig';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit, OnChanges {
   @HostBinding('class.tc-table') true;
@@ -26,6 +36,7 @@ export class TableComponent implements OnInit, OnChanges {
 
   @Input() statusKey: string;
   @Input() desiredStatus: string;
+  @Input() infoStatus: string;
   @Input() errorStatus: string;
 
   @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
@@ -93,18 +104,6 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
 
-  public getConfigColumns(): any {
-    const sortColumns: Array<any> = [];
-
-    this._columns.forEach(column => {
-      if (column.sort) {
-        sortColumns.push(column);
-      }
-    });
-
-    return { _columns: sortColumns };
-  }
-
   getSuccessClass(row: any): boolean {
     if (this.desiredStatus) {
       return row[this.statusKey] === this.desiredStatus;
@@ -114,6 +113,12 @@ export class TableComponent implements OnInit, OnChanges {
   getErrorClass(row: any): boolean {
     if (this.errorStatus) {
       return row[this.statusKey] === this.errorStatus;
+    }
+  }
+
+  getInfoClass(row: any): boolean {
+    if (this.infoStatus) {
+      return row[this.statusKey] === this.infoStatus;
     }
   }
 
@@ -130,7 +135,9 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   masterToggle(): void {
-    this.isAllSelected() ? this.selection.clear() : this.rows.forEach(row => this.selection.select(row));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.rows.forEach(row => this.selection.select(row));
     this.rowSelected.emit(this.selection.selected);
   }
 
@@ -190,14 +197,19 @@ export class TableComponent implements OnInit, OnChanges {
     let filteredData: Array<any> = data;
 
     const isDateColumn =
-      column && column.date && Array.isArray(column.config.filtering) && column.config.filtering.length;
+      column &&
+      column.date &&
+      Array.isArray(column.config.filtering) &&
+      column.config.filtering.length;
 
     if (isDateColumn) {
       const firstDate = new Date(column.config.filtering[0]).toISOString();
       const secondDate = new Date(column.config.filtering[1]).toISOString();
 
       filteredData = filteredData.filter(row => {
-        return row[column.config.name] <= secondDate && row[column.config.name] >= firstDate;
+        return (
+          row[column.config.name] <= secondDate && row[column.config.name] >= firstDate
+        );
       });
 
       return filteredData;
@@ -246,7 +258,11 @@ export class TableComponent implements OnInit, OnChanges {
       column.config.filtering = value || column.config.filtering;
     }
 
-    const filteredData = this.changeFilter(this.data, this.config.filtering.filterString, column);
+    const filteredData = this.changeFilter(
+      this.data,
+      this.config.filtering.filterString,
+      column
+    );
 
     const sortedData = this.changeSort(filteredData, this.config);
 
@@ -272,7 +288,9 @@ export class TableComponent implements OnInit, OnChanges {
 
   onDateChange(c: ColumnComponent, date: Date[]): void {
     if (date) {
-      const dateString = `${this.getDateString(date[0])} - ${this.getDateString(date[1])}`;
+      const dateString = `${this.getDateString(date[0])} - ${this.getDateString(
+        date[1]
+      )}`;
       c.config.filtering = dateString;
 
       this.onChangeTable(c, dateString);

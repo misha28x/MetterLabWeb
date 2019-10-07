@@ -20,8 +20,15 @@
   white-space: nowrap !important;
 }
 
-mat-card {
-  overflow: hidden;
+.top-page-action {
+  position: absolute;
+  top: $module-rem;
+  right: 16px;
+  font-size: 1.2em;
+
+  .mat-form-field-infix {
+    padding: 0.5em 0 0.5em 0;
+  }
 }
 
 mat-card-header {
@@ -149,19 +156,16 @@ mat-card-header {
 }
 
 .table {
-  // margin: -($module-rem);
-  // padding: $module-rem;
-  // margin-top: -($module-rem * 2);
-  // margin-bottom: -($module-rem * 2);
-
   &-success {
-    @extend .table;
-    background: rgba($success-color, 0.12);
+    background: rgba($success-color, 0.08);
   }
 
   &-error {
-    @extend .table;
-    background: rgba($error-color, 0.12);
+    background: rgba($error-color, 0.08);
+  }
+
+  &-info {
+    background-color: rgba($info-color, 0.08);
   }
 }
 
