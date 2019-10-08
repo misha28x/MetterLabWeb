@@ -1,30 +1,6 @@
 <!-- Архів Повірок -->
 <mat-card>
   <mat-card-content>
-    <!--    <div class="actions">-->
-    <!--      <button-->
-    <!--        mat-raised-button-->
-    <!--        color="primary"-->
-    <!--        (click)="dateStatus = true"-->
-    <!--        *ngIf="!dateStatus"-->
-    <!--      >-->
-    <!--        Встановити дату видачі-->
-    <!--      </button>-->
-
-    <!--      <div class="date" *ngIf="dateStatus">-->
-    <!--        <div class="form-field w-100 mb-3">-->
-    <!--          <nz-date-picker [nzShowToday]="false" [ngStyle]="{ width: '100%' }" [(ngModel)]="currentDate" ></nz-date-picker>-->
-    <!--        </div>-->
-    <!--        <button-->
-    <!--          mat-raised-button-->
-    <!--          color="primary"-->
-    <!--          (click)="setIssueDate(); dateStatus = false"-->
-    <!--        >-->
-    <!--          Встановити-->
-    <!--        </button>-->
-    <!--      </div>-->
-    <!--    </div>-->
-
     <app-table
       (rowSelected)="onChange($event)"
       [checkboxes]="true"
@@ -44,8 +20,8 @@
 
       <app-column
         [width]="75"
-        [columnTitle]="'Номер заявки'"
-        [columnName]="'applicationNumber'"
+        [columnTitle]="'Номер лічильника'"
+        [columnName]="'counterNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -71,16 +47,6 @@
               Детальніше
             </button>
 
-            <button
-              (click)="
-                editProvider(row['applicationNumber'], row['serviceProvider'], row['serviceType'])
-              "
-              mat-menu-item
-            >
-              <mat-icon>edit</mat-icon>
-              Змінити надавача послуг
-            </button>
-
             <button (click)="addScan(row['applicationNumber'])" mat-menu-item>
               <mat-icon>attach_file</mat-icon>
               Прикріпити скан документів
@@ -93,7 +59,10 @@
               Детальніше
             </button>
 
-            <button (click)="downloadDoc(row['protocolNumber'], row['metrologyId'])" mat-menu-item>
+            <button
+              (click)="downloadDoc(row['counterNumber'], row['metrologyId'])"
+              mat-menu-item
+            >
               <mat-icon>file_copy</mat-icon>
               Завантажити документ
             </button>
@@ -148,13 +117,23 @@
         [enableSorting]="true"
         [enableFiltering]="true"
       >
-        <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
+        <ng-template #tableBodyTemplate let-val>
+          {{ val ? '+380' + val : '' }}
+        </ng-template>
       </app-column>
 
       <app-column
         [width]="150"
         [columnTitle]="'Статус'"
         [columnName]="'status'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
+        [width]="75"
+        [columnTitle]="'Номер заявки'"
+        [columnName]="'applicationNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -180,14 +159,6 @@
         [width]="75"
         [columnTitle]="'Дата підпису протоколу'"
         [columnName]="'protocolSignDate'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Номер лічильника'"
-        [columnName]="'counterNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -249,8 +220,16 @@
         [enableFiltering]="true"
       >
         <ng-template #tableBodyTemplate let-row="row">
-          <div class="note-wrapper">
-            {{ row['note']}}
+          <div (click)="tooltip.toggle()" class="note-wrapper">
+            <div
+              class="tooltip"
+              [style.pointerEvents]="'none'"
+              matTooltipPosition="left"
+              matTooltipClass="note-tooltip"
+              matTooltip="{{ row['note'] }}"
+              #tooltip="matTooltip"
+            ></div>
+            {{ row['note'] }}
           </div>
         </ng-template>
       </app-column>

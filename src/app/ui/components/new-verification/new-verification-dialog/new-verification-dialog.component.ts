@@ -41,7 +41,7 @@ export class NewVerificationDialogComponent implements OnInit {
   userProviders: any[];
   userServices: ServiceTypes[] = [];
 
-  userCity: string;
+  userDistrict: string;
 
   constructor(
     private fb: FormBuilder,
@@ -75,8 +75,7 @@ export class NewVerificationDialogComponent implements OnInit {
 
       this.permission = _user.permission;
       this.setUpUserData(_user);
-      this.getAddress(this.userCity);
-      this.initLocationData();
+      this.getAddress(this.userDistrict);
     });
   }
 
@@ -89,7 +88,7 @@ export class NewVerificationDialogComponent implements OnInit {
         ? [this.providersSv.getProvider(user.serviceProvider)]
         : this.providersSv.getProviders();
 
-    this.userCity = user.permission > 4 ? user.district : '';
+    this.userDistrict = user.permission > 4 ? user.district : '';
   }
 
   initForms(): void {
@@ -145,8 +144,13 @@ export class NewVerificationDialogComponent implements OnInit {
     const serviceProvider =
       this.userProviders.length === 1 ? this.userProviders[0].id : '';
 
+    const district = this.userDistrict;
+    const settlement = this.permission > 5 ? this.cities[0] : '';
+
     setTimeout(() => {
       this.locationForm.patchValue({
+        district,
+        settlement,
         serviceType,
         serviceProvider: serviceProvider
       });
@@ -168,6 +172,8 @@ export class NewVerificationDialogComponent implements OnInit {
         this.cities = Array.from(new Set(res.map(address => address.city)));
         this.streets = Array.from(new Set(res.map(address => address.street)));
         this.districts = Array.from(new Set(res.map(address => address.district)));
+
+        this.initLocationData();
 
         this.filteredDistricts = this.locationForm.get('district').valueChanges.pipe(
           startWith(''),

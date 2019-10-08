@@ -307,8 +307,21 @@ mat-card-header {
 }
 
 .note-wrapper {
+  cursor: pointer;
   max-width: 25ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.note-tooltip {
+  color: rgba(#000, 0.8);
+  padding: 2px 5px;
+  font-size: 17px;
+  max-width: 360px !important;
+
+  .mat-tooltip {
+    font-size: 18px;
+    max-width: 100ch;
+  }
 }

@@ -115,8 +115,16 @@
         [width]="200"
       >
         <ng-template #tableBodyTemplate let-row="row">
-          <div class="note-wrapper">
-            {{ row['note']}}
+          <div (click)="tooltip.toggle()" class="note-wrapper">
+            <div
+              class="tooltip"
+              [style.pointerEvents]="'none'"
+              matTooltipPosition="left"
+              matTooltipClass="note-tooltip"
+              matTooltip="{{ row['note'] }}"
+              #tooltip="matTooltip"
+            ></div>
+            {{ row['note'] }}
           </div>
         </ng-template>
       </app-column>

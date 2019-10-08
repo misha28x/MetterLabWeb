@@ -45,7 +45,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
   ngOnInit(): void {}
 
   detailView(id: any): void {
-    this.detailSv.addVerification(id);
+    this.detailSv.addVerification(id).subscribe(() => this.update());
   }
 
   editProvider(id: string, provider: string, type: string): void {
@@ -73,16 +73,6 @@ export class PageVerificationsArchiveComponent implements OnInit {
     this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
       this.protocolSv.addProtocol(protocol);
     });
-  }
-
-  setIssueDate(): void {
-    this.selectedData.forEach((data: Verification) => {
-      this.verificationSv
-        .setIssueDate(data.applicationNumber, this.currentDate.toISOString())
-        .subscribe(() => this.update());
-    });
-
-    this.selectedData.length = 0;
   }
 
   addScan(id: string): void {

@@ -134,7 +134,9 @@
         [enableSorting]="true"
         [enableFiltering]="true"
       >
-        <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
+        <ng-template #tableBodyTemplate let-val>
+          {{ val ? '+380' + val : '' }}
+        </ng-template>
       </app-column>
 
       <app-column
@@ -145,7 +147,15 @@
         [enableFiltering]="true"
       >
         <ng-template #tableBodyTemplate let-row="row">
-          <div class="note-wrapper">
+          <div (click)="tooltip.toggle()" class="note-wrapper">
+            <div
+              class="tooltip"
+              [style.pointerEvents]="'none'"
+              matTooltipPosition="left"
+              matTooltipClass="note-tooltip"
+              matTooltip="{{ row['note'] }}"
+              #tooltip="matTooltip"
+            ></div>
             {{ row['note'] }}
           </div>
         </ng-template>
