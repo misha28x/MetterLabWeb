@@ -19,6 +19,7 @@
     [columnName]="'client'"
     [enableSorting]="true"
     [enableFiltering]="true"
+    [width]="250"
   ></app-column>
 
   <app-column
@@ -60,16 +61,6 @@
   ></app-column>
 
   <app-column
-    [width]="120"
-    [columnTitle]="'Телефон'"
-    [columnName]="'phoneNumber'"
-    [enableSorting]="true"
-    [enableFiltering]="true"
-  >
-    <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
-  </app-column>
-
-  <app-column
     [width]="110"
     [columnTitle]="'Тип послуги'"
     [columnName]="'serviceType'"
@@ -80,13 +71,4 @@
       {{ val == 1 ? 'Холодна' : 'Гаряча' }}
     </ng-template>
   </app-column>
-
-  <app-column
-    [date]="true"
-    [width]="110"
-    [columnTitle]="'Дата завдання'"
-    [columnName]="'taskDate'"
-    [enableSorting]="true"
-    [enableFiltering]="true"
-  ></app-column>
 </app-table>

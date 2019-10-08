@@ -58,20 +58,15 @@ export class PageNewVerificationsComponent implements OnInit {
     this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
-  addEmployee(id: number): void {
-    this.dataSv
-      .sendData(`${url}/employee/${id}/${this.user.serviceProvider}`, {
-        employee: this.user.username
-      })
-      .subscribe(() => this.updateData());
-  }
-
   addEmployeeToSelected(): void {
     combineLatest(
       this.selectedData.map((ver: Verification) =>
-        this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, {
-          employee: this.user.username
-        })
+        this.dataSv.sendData(
+          `${url}/employee/${ver.applicationNumber}/${this.user.serviceProvider}`,
+          {
+            employee: this.user.username
+          }
+        )
       )
     ).subscribe(() => this.updateData());
   }
