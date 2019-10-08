@@ -60,7 +60,9 @@ export class PageNewVerificationsComponent implements OnInit {
 
   addEmployee(id: number): void {
     this.dataSv
-      .sendData(url + '/employee/' + id, { employee: this.user.username })
+      .sendData(`${url}/employee/${id}/${this.user.serviceProvider}`, {
+        employee: this.user.username
+      })
       .subscribe(() => this.updateData());
   }
 
