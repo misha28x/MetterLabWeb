@@ -325,3 +325,12 @@ mat-card-header {
     max-width: 100ch;
   }
 }
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.full-height {
+  height: calc(100vh - 222px);
+  width: 100%;
+}

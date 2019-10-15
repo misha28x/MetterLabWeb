@@ -1,0 +1,14 @@
+.ag-theme-material {
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 1px -1px rgba(#000, 0.2), 0 1px 1px 0 rgba(#000, 0.14),
+    0 1px 3px 0 rgba(#000, 0.12);
+}
+
+.ag-theme-material {
+  .ag-header-cell,
+  .ag-cell {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

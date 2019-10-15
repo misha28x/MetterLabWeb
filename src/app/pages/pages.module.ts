@@ -7,7 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '../material/material.module';
 import { UiModule } from './../ui/ui.module';
 
-import { EmployeeDialogComponent, PageNewVerificationsComponent } from './new-verifications';
+import {
+  EmployeeDialogComponent,
+  PageNewVerificationsComponent
+} from './new-verifications';
 import { PageLabRequestsComponent } from './lab-requests';
 import { PageProviderRequestsComponent } from './provider-requests';
 import { PageVerificationsProtocolsComponent } from './verifications-protocols';
@@ -40,6 +43,7 @@ import { MetrologyRejectedComponent } from './metrology-rejected/metrology-rejec
 import { ProviderArchiveComponent } from './provider-archive/provider-archive.component';
 import { ProvidersRejectedComponent } from './providers-rejected/providers-rejected.component';
 import { AddToTaskComponent } from './task-planing/add-to-task/add-to-task.component';
+import { GridModule } from '../ag-grid/grid.module';
 
 @NgModule({
   imports: [
@@ -49,7 +53,8 @@ import { AddToTaskComponent } from './task-planing/add-to-task/add-to-task.compo
     UiModule,
     FormsModule,
     ReactiveFormsModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    GridModule
   ],
   declarations: [
     PageNewVerificationsComponent,

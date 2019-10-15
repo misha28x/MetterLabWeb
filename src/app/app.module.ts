@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 
+import { AgGridModule } from 'ag-grid-angular';
 import { NzDatePickerModule, NZ_DATE_CONFIG } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
@@ -19,6 +20,7 @@ import { LayoutModule } from './layout/layout.module';
 import { ROUTES, RoutingModule } from './routing/routing.module';
 import { PagesModule } from './pages/pages.module';
 import { UiModule } from './ui/ui.module';
+import { GridModule } from './ag-grid/grid.module';
 
 import { AppComponent } from './app.component';
 registerLocaleData(uk);
@@ -37,6 +39,8 @@ const config: SocketIoConfig = {
     BrowserAnimationsModule,
     HttpClientModule,
     UiModule,
+    AgGridModule.withComponents([]),
+    GridModule,
     StoreModule.forRoot({
       menuState: MenuReducer,
       permission: permissionReducer

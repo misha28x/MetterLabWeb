@@ -1,196 +1,37 @@
-<mat-card>
-  <mat-card-content>
-    <div class="actions">
-      <div class="task-actions">
-        <button
-          [disabled]="selectedData.length <= 0"
-          mat-raised-button
-          class="bg-success"
-          (click)="sendData()"
-        >
-          <mat-icon>send</mat-icon>
-          Створити завдання
-        </button>
-      </div>
-
-      <div class="user-actions">
-        <button
-          (click)="addVerificationToTask()"
-          [disabled]="selectedData.length <= 0"
-          mat-raised-button
-          class="bg-success"
-        >
-          <mat-icon>playlist_add</mat-icon>
-          Додати в завдання
-        </button>
-
-        <button
-          (click)="rejectSelectedVerifications()"
-          [disabled]="selectedData.length <= 0"
-          mat-raised-button
-          color="warn"
-        >
-          <mat-icon class="mr-1">cancel</mat-icon>
-          Відхилити Повірку
-        </button>
-      </div>
-    </div>
-
-    <app-table
-      #table
-      [checkboxes]="true"
-      [desiredStatus]="'В роботі'"
-      (rowSelected)="onChange($event)"
-      [hovered]="true"
-      [bordered]="true"
-      [tableData]="tableData | async"
-      [pagination]="true"
+<div class="actions">
+  <div class="task-actions">
+    <button
+      [disabled]="selectedData.length <= 0"
+      mat-raised-button
+      class="bg-success"
+      (click)="sendData()"
     >
-      <app-column
-        [columnTitle]="'Номер Заявки'"
-        [columnName]="'applicationNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
+      <mat-icon>send</mat-icon>
+      Створити завдання
+    </button>
+  </div>
 
-      <app-column
-        [columnTitle]="'Дата Надходження '"
-        [columnName]="'addingDate'"
-        [date]="true"
-        [width]="200"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
+  <div class="user-actions">
+    <button
+      (click)="addVerificationToTask()"
+      [disabled]="selectedData.length <= 0"
+      mat-raised-button
+      class="bg-success"
+    >
+      <mat-icon>playlist_add</mat-icon>
+      Додати в завдання
+    </button>
 
-      <app-column
-        [columnTitle]="'Клієнт'"
-        [columnName]="'client'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-        [width]="235"
-      ></app-column>
+    <button
+      (click)="rejectSelectedVerifications()"
+      [disabled]="selectedData.length <= 0"
+      mat-raised-button
+      color="warn"
+    >
+      <mat-icon class="mr-1">cancel</mat-icon>
+      Відхилити Повірку
+    </button>
+  </div>
+</div>
 
-      <app-column
-        [columnTitle]="'Надавач Послуг'"
-        [columnName]="'serviceProvider'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-        [width]="240"
-      >
-        <ng-template #tableBodyTemplate let-row="row">
-          {{ providersSv.getProviderById(row['serviceProvider']) }}
-        </ng-template>
-      </app-column>
-
-      <app-column
-        [width]="110"
-        [columnTitle]="'Тип послуги'"
-        [columnName]="'serviceType'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      >
-        <ng-template #tableBodyTemplate let-val>
-          {{ val == 1 ? 'Холодна' : 'Гаряча' }}
-        </ng-template>
-      </app-column>
-
-      <app-column
-        [width]="115"
-        [columnTitle]="'Район'"
-        [columnName]="'district'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [columnTitle]="'Вулиця'"
-        [width]="200"
-        [columnName]="'street'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="40"
-        [columnTitle]="'Буд'"
-        [columnName]="'house'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [width]="40"
-        [columnTitle]="'Кв'"
-        [columnName]="'apartment'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-      <!-- TODO: add fields to Database & Rename fields -->
-
-      <app-column
-        [width]="120"
-        [columnTitle]="'Телефон'"
-        [columnName]="'phoneNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      >
-        <ng-template #tableBodyTemplate let-val>
-          {{ val ? '+380' + val : '' }}
-        </ng-template>
-      </app-column>
-
-      <app-column
-        [width]="150"
-        [columnTitle]="'Примітка'"
-        [columnName]="'note'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      >
-        <ng-template #tableBodyTemplate let-row="row">
-          <div (click)="tooltip.toggle()" class="note-wrapper">
-            <div
-              class="tooltip"
-              [style.pointerEvents]="'none'"
-              matTooltipPosition="left"
-              matTooltipClass="note-tooltip"
-              matTooltip="{{ row['note'] }}"
-              #tooltip="matTooltip"
-            ></div>
-            {{ row['note'] }}
-          </div>
-        </ng-template>
-      </app-column>
-
-      <app-column [columnTitle]="'Дії'" [width]="140">
-        <ng-template #tableBodyTemplate let-row="row">
-          <div class="actions-row">
-            <button mat-icon-button (click)="detailView(row['applicationNumber'])">
-              <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
-            </button>
-
-            <button mat-icon-button (click)="checkForDuplicate(row)">
-              <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
-            </button>
-
-            <button mat-icon-button (click)="clientInaccesable(row['applicationNumber'])">
-              <mat-icon class="color-error" matTooltip="Недозвон">phone_missed</mat-icon>
-            </button>
-
-            <button
-              mat-icon-button
-              (click)="rejectVerification(row['applicationNumber'])"
-            >
-              <mat-icon class="color-error" matTooltip="Відхилити повірку">
-                cancel
-              </mat-icon>
-            </button>
-
-            <button mat-icon-button (click)="showClientInfo(row['applicationNumber'])">
-              <i class="icofont-info color-info" matTooltip="Інформація про клієнта"></i>
-            </button>
-          </div>
-        </ng-template>
-      </app-column>
-    </app-table>
-  </mat-card-content>
-</mat-card>
+<app-ver-table [tableData]="tableData" [columnList]="columnList"></app-ver-table>

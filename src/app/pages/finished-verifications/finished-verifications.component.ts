@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../services/data.service';
-import { Verification } from '../../interfaces/verifications';
 import { SourceService } from '../../services/source.service';
 import { UploadService } from '../../services/upload.service';
 import { DetailViewService } from '../../services/detail-view.service';
@@ -31,7 +30,6 @@ export class FinishedVerificationsComponent implements OnInit {
   ) {
     this.updateData();
     this.newVerifications = this.sourceSv.getProvidersArchive();
-    this.sourceSv.getProvidersArchive().subscribe(console.log);
   }
 
   ngOnInit(): void {
@@ -50,32 +48,6 @@ export class FinishedVerificationsComponent implements OnInit {
 
   getScan(id: string): void {
     this.uploadSv.getScan(id);
-  }
-
-  rejectVerification(id: number): void {
-    this.verificationSv
-      .openRejectDialog()
-      .pipe(
-        filter(res => !!res),
-        switchMap(res => this.verificationSv.rejectVerification(id, res))
-      )
-      .subscribe(() => this.updateData());
-  }
-
-  rejectSelectedVerifications(): void {
-    this.verificationSv
-      .openRejectDialog()
-      .pipe(
-        filter(res => !!res),
-        switchMap(res =>
-          combineLatest(
-            this.selectedData.map((ver: Verification) =>
-              this.verificationSv.rejectVerification(ver.applicationNumber, res)
-            )
-          )
-        )
-      )
-      .subscribe(() => this.updateData());
   }
 
   deleteVerification(id: number): void {

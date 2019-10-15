@@ -1,8 +1,11 @@
+@import '~ag-grid-community/dist/styles/ag-grid.css';
+@import '~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material';
 @import './bootstrap/bootstrap.scss';
 @import '/variables';
 @import '/fonts';
 @import '/typography';
 @import '/helpers';
+@import 'ag-grid';
 
 @import '~ng-zorro-antd/date-picker/style/index.min.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';

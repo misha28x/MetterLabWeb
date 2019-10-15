@@ -56,18 +56,6 @@
       ></app-column>
 
       <app-column
-        [columnTitle]="'Надавач Послуг'"
-        [columnName]="'serviceProvider'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-        [width]="200"
-      >
-        <ng-template #tableBodyTemplate let-row="row">
-          {{ providersSv.getProviderById(row['serviceProvider']) }}
-        </ng-template>
-      </app-column>
-
-      <app-column
         [width]="115"
         [columnTitle]="'Район'"
         [columnName]="'district'"

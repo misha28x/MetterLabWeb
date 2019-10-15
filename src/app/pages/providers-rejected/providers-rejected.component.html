@@ -30,7 +30,13 @@
         [columnName]="'client'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>
+          <div class="nowrap">
+            {{ val }}
+          </div>
+        </ng-template>
+      </app-column>
 
       <app-column
         [width]="75"
@@ -41,12 +47,17 @@
       ></app-column>
 
       <app-column
-        [width]="150"
         [columnTitle]="'Вулиця клієнта'"
         [columnName]="'street'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>
+          <div class="nowrap">
+            {{ val }}
+          </div>
+        </ng-template>
+      </app-column>
 
       <app-column
         [width]="30"

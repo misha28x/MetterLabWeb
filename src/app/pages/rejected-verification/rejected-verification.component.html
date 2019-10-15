@@ -30,7 +30,13 @@
         [columnName]="'client'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>
+          <div class="nowrap">
+            {{ val }}
+          </div>
+        </ng-template>
+      </app-column>
 
       <app-column
         [width]="75"
@@ -41,12 +47,17 @@
       ></app-column>
 
       <app-column
-        [width]="150"
         [columnTitle]="'Вулиця клієнта'"
         [columnName]="'street'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>
+          <div class="nowrap">
+            {{ val }}
+          </div>
+        </ng-template>
+      </app-column>
 
       <app-column
         [width]="30"
@@ -71,7 +82,31 @@
         [enableSorting]="true"
         [enableFiltering]="true"
       >
-        <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
+        <ng-template #tableBodyTemplate let-val>
+          {{ val ? '+380' + val : '' }}
+        </ng-template>
+      </app-column>
+
+      <app-column
+        [width]="250"
+        [columnTitle]="'Примітка'"
+        [columnName]="'note'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      >
+        <ng-template #tableBodyTemplate let-row="row">
+          <div (click)="tooltip.toggle()" class="note-wrapper">
+            <div
+              class="tooltip"
+              [style.pointerEvents]="'none'"
+              matTooltipPosition="left"
+              matTooltipClass="note-tooltip"
+              matTooltip="{{ row['note'] }}"
+              #tooltip="matTooltip"
+            ></div>
+            {{ row['note'] }}
+          </div>
+        </ng-template>
       </app-column>
 
       <app-column [columnTitle]="'Дії'" [width]="140">
@@ -82,10 +117,15 @@
             </button>
 
             <button mat-icon-button (click)="revertVerif(row['applicationNumber'])">
-              <mat-icon class="color-info" matTooltip="Повернути до планування">settings_backup_restore</mat-icon>
+              <mat-icon class="color-info" matTooltip="Повернути до планування">
+                settings_backup_restore
+              </mat-icon>
             </button>
 
-            <button mat-icon-button (click)="deleteVerification(row['applicationNumber'])">
+            <button
+              mat-icon-button
+              (click)="deleteVerification(row['applicationNumber'])"
+            >
               <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
             </button>
           </div>

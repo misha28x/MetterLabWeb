@@ -34,6 +34,7 @@ export class PageTaskPlaningComponent implements OnInit {
   selectedData: any[];
   employee: string;
   user: IUser;
+  columnList: Object[];
 
   constructor(
     public providersSv: ProvidersService,
@@ -49,6 +50,19 @@ export class PageTaskPlaningComponent implements OnInit {
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
     });
+
+    this.columnList = [
+      { headerName: 'Номер заявки', field: 'applicationNumber', width: 150 },
+      { headerName: 'Дата додання', field: 'addingDate', width: 130 },
+      { headerName: 'Клієнт', field: 'client' },
+      { headerName: 'Надавач послуг', field: 'serviceProvider' },
+      { headerName: 'Тип послуги', field: 'serviceType' },
+      { headerName: 'Район', field: 'district' },
+      { headerName: 'Вулиця', field: 'street' },
+      { headerName: 'Буд', field: 'house', width: 75 },
+      { headerName: 'Кв', field: 'apartment', width: 70 },
+      { headerName: 'Примітка', field: 'note' }
+    ];
 
     this.sourceSv.fetchTaskPlaning();
 

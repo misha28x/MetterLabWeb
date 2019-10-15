@@ -1,25 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { ProvidersService } from '../../services/providers.service';
 import { ProtocolService } from '../../services/protocol.service';
-import { VerificationService } from '../../services/verification.service';
 
 import { ScanUploadComponent } from '../../ui/components/scan-upload';
-import { SelectDialogComponent } from '../../ui/components/select-dialog';
 
 import { Protocol } from '../../interfaces/protocol';
 
 @Component({
   selector: 'app-verifications-archive',
   templateUrl: './verifications-archive.component.html',
-  styleUrls: ['./verifications-archive.component.scss']
+  styleUrls: ['./verifications-archive.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageVerificationsArchiveComponent implements OnInit {
   verificationsArchive: Observable<any[]>;
@@ -34,8 +32,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
-    private protocolSv: ProtocolService,
-    private verificationSv: VerificationService
+    private protocolSv: ProtocolService
   ) {
     this.sourceSv.fetchArchive();
     this.verificationsArchive = this.sourceSv.getArchive();
@@ -46,26 +43,6 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
   detailView(id: any): void {
     this.detailSv.addVerification(id).subscribe(() => this.update());
-  }
-
-  editProvider(id: string, provider: string, type: string): void {
-    const ref = this.dialog.open(SelectDialogComponent, {
-      data: {
-        provider: provider,
-        type: type
-      }
-    });
-
-    ref.afterClosed().subscribe(data => {
-      if (data) {
-        const url =
-          'http://165.22.83.21:3000/api/verifications-archive/service-provider/' + id;
-
-        this.http
-          .post(url, { provider: data.provider, type: data.type })
-          .subscribe(() => this.update);
-      }
-    });
   }
 
   displayProtocol(id: string): void {
@@ -82,6 +59,7 @@ export class PageVerificationsArchiveComponent implements OnInit {
   }
 
   update(): void {
+    console.log('update');
     this.sourceSv.fetchArchive();
   }
 

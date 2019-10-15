@@ -235,6 +235,7 @@ export class TableComponent implements OnInit, OnChanges {
       let flag = false;
       this.columnList.forEach((_column: any) => {
         if (
+          item[_column.config.name] &&
           item[_column.config.name]
             .toString()
             .toLowerCase()

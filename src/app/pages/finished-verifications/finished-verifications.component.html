@@ -15,6 +15,13 @@
       ></app-column>
 
       <app-column
+        [columnTitle]="'Номер Лічильника'"
+        [columnName]="'counterNumber'"
+        [enableSorting]="true"
+        [enableFiltering]="true"
+      ></app-column>
+
+      <app-column
         [date]="true"
         [columnTitle]="'Дата Надходження Заявки'"
         [columnName]="'addingDate'"
@@ -27,13 +34,7 @@
         [columnName]="'client'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
-        [columnTitle]="'Надавач Послуг'"
-        [columnName]="'serviceProvider'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
+        [width]="260"
       ></app-column>
 
       <app-column
@@ -49,6 +50,7 @@
         [columnName]="'street'"
         [enableSorting]="true"
         [enableFiltering]="true"
+        [width]="200"
       ></app-column>
 
       <app-column
@@ -68,44 +70,37 @@
       ></app-column>
 
       <app-column
-        [width]="110"
-        [columnTitle]="'Примітка'"
-        [columnName]="'note'"
+        [width]="120"
+        [columnTitle]="'Телефон'"
+        [columnName]="'phoneNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
       >
-        <ng-template #tableBodyTemplate let-row="row">
-          <div (click)="tooltip.toggle()" class="note-wrapper">
-            <div
-              class="tooltip"
-              [style.pointerEvents]="'none'"
-              matTooltipPosition="left"
-              matTooltipClass="note-tooltip"
-              matTooltip="{{ row['note'] }}"
-              #tooltip="matTooltip"
-            ></div>
-            {{ row['note'] }}
-          </div>
+        <ng-template #tableBodyTemplate let-val>
+          {{ val ? '+380' + val : '' }}
         </ng-template>
       </app-column>
 
-      <app-column [columnTitle]="''" [width]="40">
+      <app-column [columnTitle]="''" [width]="120">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
             <!-- TODO: ПЕРЕРОБИТИ ПЕРЕВІРКУ НА ДУБЛІ -->
 
             <button
+              *ngIf="row['scanFile']"
               mat-icon-button
-              (click)="deleteVerification(row['applicationNumber'])"
+              (click)="getScan(row['applicationNumber'])"
             >
-              <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
-            </button>
-
-            <button mat-icon-button (click)="getScan(row['applicationNumber'])">
               <i
                 class="far fa-file-pdf color-info"
                 matTooltip="Отримати скан документів"
               ></i>
+            </button>
+            <button
+              mat-icon-button
+              (click)="deleteVerification(row['applicationNumber'])"
+            >
+              <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
             </button>
           </div>
         </ng-template>
