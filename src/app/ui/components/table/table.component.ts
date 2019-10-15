@@ -224,7 +224,7 @@ export class TableComponent implements OnInit, OnChanges {
         return item[column.config.name]
           .toString()
           .toLowerCase()
-          .startsWith(filterString.toLowerCase());
+          .includes(filterString.toLowerCase());
       });
 
       return filteredData;
@@ -238,7 +238,7 @@ export class TableComponent implements OnInit, OnChanges {
           item[_column.config.name]
             .toString()
             .toLowerCase()
-            .startsWith(filterString.toLowerCase())
+            .includes(filterString.toLowerCase())
         ) {
           flag = true;
         }

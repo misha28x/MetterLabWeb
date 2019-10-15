@@ -38,11 +38,15 @@ export class ReportsService {
   public getReport(type: string, date: string[]): void {
     const reportType = this.getReportType(type);
     const reportDate = this.getDate(date);
-    const dateType = reportDate.type;
-    const serviceProvider = '/' + this.user.createFor;
 
-    const url = Url + reportType + dateType + date + serviceProvider;
-    console.log();
+    const dateType = reportDate.type;
+
+    const serviceProvider = '/' + this.user.createFor;
+    const isProvider = this.user.permission > 5 ? 'provider/' : '';
+    console.log(isProvider);
+
+    const url = Url + isProvider + reportType + dateType + date + serviceProvider;
+
     window.open(url);
   }
 
