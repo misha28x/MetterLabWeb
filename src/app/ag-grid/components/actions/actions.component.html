@@ -1,0 +1,24 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon class="color-info">info</mat-icon>
+    <span>Інформація</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon class="color-info">file_copy</mat-icon>
+    <span>Перевірити на дублі</span>
+  </button>
+
+  <button
+    mat-menu-item
+  >
+    <mat-icon class="color-error" matTooltip="Відхилити повірку">
+      cancel
+    </mat-icon>
+    <span>Відхилити повірку</span>
+  </button>
+</mat-menu>

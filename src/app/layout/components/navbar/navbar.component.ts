@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -12,22 +12,23 @@ import { MenuService } from '../../../services/menu.service';
 })
 export class NavbarComponent implements OnInit {
   @HostBinding('class.header') true;
-  
-	pageTitle: String;
+
+  @Input() pageTitle: String;
   menuState: Boolean;
   permission: number;
   visit: any;
 
-	constructor(
-      public router: Router,
-			private menuSv: MenuService,
-			private store: Store<Boolean>) { }
+  constructor(
+    public router: Router,
+    private menuSv: MenuService,
+    private store: Store<Boolean>
+  ) {}
 
   ngOnInit(): void {
-		this.store.select('menuState').subscribe((menuState: Boolean) => {
-			this.menuState = menuState;
+    this.store.select('menuState').subscribe((menuState: Boolean) => {
+      this.menuState = menuState;
     });
-    
+
     this.store.select('permission').subscribe(user => {
       this.permission = user.permission;
     });
@@ -35,13 +36,13 @@ export class NavbarComponent implements OnInit {
     this.menuSv.getVisitState().subscribe(state => {
       this.visit = state;
     });
-	}
+  }
 
-	onButtonClick(): void {
-		this.menuState = !this.menuState;
-		this.menuState ?
-			this.store.dispatch(new MenuActions.Open()) :
-			this.store.dispatch(new MenuActions.Close());
+  onButtonClick(): void {
+    this.menuState = !this.menuState;
+    this.menuState
+      ? this.store.dispatch(new MenuActions.Open())
+      : this.store.dispatch(new MenuActions.Close());
   }
 
   cancelVisit(): void {

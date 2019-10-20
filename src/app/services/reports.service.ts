@@ -42,7 +42,7 @@ export class ReportsService {
     const serviceProvider = '/' + this.user.createFor;
 
     const url = Url + reportType + dateType + date + serviceProvider;
-    console.log();
+
     window.open(url);
   }
 

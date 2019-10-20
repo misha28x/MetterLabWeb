@@ -1,5 +1,7 @@
 @import '~ag-grid-community/dist/styles/ag-grid.css';
-@import '~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material';
+
+// @import '~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material';
+@import '~ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham';
 @import './bootstrap/bootstrap.scss';
 @import '/variables';
 @import '/fonts';

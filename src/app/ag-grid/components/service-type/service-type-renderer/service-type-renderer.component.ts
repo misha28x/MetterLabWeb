@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { ServiceTypes } from '../../../interfaces/user';
+import { ServiceTypes } from '../../../../interfaces/user';
 
 @Component({
   selector: 'app-service-type-renderer',

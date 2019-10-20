@@ -1,0 +1,11 @@
+<div (click)="tooltip.toggle()" class="note-wrapper">
+  <div
+    class="tooltip"
+    [style.pointerEvents]="'none'"
+    matTooltipPosition="left"
+    matTooltipClass="note-tooltip"
+    matTooltip="{{ note }}"
+    #tooltip="matTooltip"
+  ></div>
+  {{ note }}
+</div>

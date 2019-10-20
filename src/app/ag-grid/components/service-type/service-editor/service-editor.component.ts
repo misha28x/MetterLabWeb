@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { ServiceTypes } from '../../../interfaces/user';
+import { ServiceTypes } from '../../../../interfaces/user';
 
 @Component({
   selector: 'app-service-editor',
@@ -9,7 +9,6 @@ import { ServiceTypes } from '../../../interfaces/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ServiceEditorComponent {
-  @ViewChild('select', { static: false }) select;
   serviceType: ServiceTypes;
 
   agInit(params: any): void {

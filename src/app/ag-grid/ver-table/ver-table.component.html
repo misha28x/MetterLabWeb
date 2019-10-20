@@ -1,7 +1,11 @@
 <ag-grid-angular
-  class="ag-theme-material full-height"
+  class="ag-theme-balham full-height"
   [rowData]="tableData | async"
-  [columnDefs]="_columnList"
+  [columnDefs]="columnList"
+  [pagination]="true"
+  [paginationPageSize]="30"
+  [defaultColDef]="defaultColDef"
+  [floatingFilter]="true"
   [rowSelection]="'multiple'"
   [frameworkComponents]="frameworkComponents"
 >

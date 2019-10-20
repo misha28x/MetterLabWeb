@@ -331,6 +331,10 @@ mat-card-header {
 }
 
 .full-height {
-  height: calc(100vh - 222px);
+  height: calc(100vh - 170px);
   width: 100%;
+}
+
+.ant-calendar-picker-icon {
+  color: transparent;
 }

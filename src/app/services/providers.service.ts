@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-interface Provider {
+export interface Provider {
   id: number;
   name: string;
 }

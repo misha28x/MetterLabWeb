@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { ProvidersService } from '../../../services/providers.service';
+import { ProvidersService } from '../../../../services/providers.service';
 
 @Component({
   selector: 'app-provider-renderer',
