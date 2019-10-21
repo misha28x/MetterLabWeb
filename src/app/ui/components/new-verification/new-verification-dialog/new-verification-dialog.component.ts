@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -93,24 +93,24 @@ export class NewVerificationDialogComponent implements OnInit {
 
   initForms(): void {
     this.generalDataForm = this.fb.group({
-      surname: '',
+      surname: ['', [Validators.required]],
       name: '',
       middlename: '',
-      phoneNumber: '',
-      additionalPhone: ''
+      phoneNumber: ['', [Validators.minLength(8), Validators.required]],
+      additionalPhone: ['', [Validators.minLength(8)]]
     });
 
     this.locationForm = this.fb.group({
       region: 'Волинська',
-      district: '',
-      settlement: '',
-      street: '',
-      house: '',
+      district: ['', [Validators.required]],
+      settlement: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      house: ['', [Validators.required]],
       apartment: '',
       isUnique: false,
       counterQuantity: 1,
       serviceType: 1,
-      serviceProvider: ''
+      serviceProvider: ['', [Validators.required]]
     });
 
     this.counterForm = this.fb.group({
@@ -218,9 +218,22 @@ export class NewVerificationDialogComponent implements OnInit {
   }
 
   sendData(): void {
-    const verification = this.setVerification();
-    this.verificationSv.createVerification(verification).subscribe();
-    this.dialogRef.close();
+    const validForm = this.locationForm.valid && this.generalDataForm.valid;
+
+    if (validForm) {
+      const verification = this.setVerification();
+      this.verificationSv.createVerification(verification).subscribe();
+      this.dialogRef.close();
+    } else {
+      const activeStep = this.generalDataForm.invalid ? 0 : 1;
+
+      [this.generalDataForm, this.locationForm].forEach(form => {
+        form.markAsDirty();
+        form.markAllAsTouched();
+      });
+
+      this.setStep(activeStep);
+    }
   }
 
   saveByPattern(): void {
