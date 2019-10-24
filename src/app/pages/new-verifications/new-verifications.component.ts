@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material';
 import { Observable, combineLatest } from 'rxjs';
@@ -13,6 +13,7 @@ import { ProvidersService } from '../../services/providers.service';
 import { VerificationService } from '../../services/verification.service';
 
 import { UserInfoComponent } from '../../ui/components/user-info';
+import { TableComponent } from '../../ui/components/table';
 
 const url = 'http://165.22.83.21:3000/api/new-verifications';
 
@@ -22,6 +23,8 @@ const url = 'http://165.22.83.21:3000/api/new-verifications';
   styleUrls: ['./new-verifications.component.scss']
 })
 export class PageNewVerificationsComponent implements OnInit {
+  @ViewChild('table', { static: false }) table: TableComponent;
+
   newVerifications: Observable<any[]>;
   selectedData: any[];
   permission: number;
@@ -52,6 +55,8 @@ export class PageNewVerificationsComponent implements OnInit {
 
   updateData(): void {
     this.sourceSv.fetchNewVerifications();
+    this.selectedData = [];
+    this.table.clearSelected();
   }
 
   detailView(id: number): void {
@@ -62,10 +67,7 @@ export class PageNewVerificationsComponent implements OnInit {
     combineLatest(
       this.selectedData.map((ver: Verification) =>
         this.dataSv.sendData(
-          `${url}/employee/${ver.applicationNumber}/${this.user.serviceProvider}`,
-          {
-            employee: this.user.username
-          }
+          `${url}/employee/${ver.applicationNumber}/${this.user.serviceProvider}`
         )
       )
     ).subscribe(() => this.updateData());

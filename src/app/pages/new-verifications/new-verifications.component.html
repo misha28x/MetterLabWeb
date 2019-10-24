@@ -24,6 +24,7 @@
     </div>
 
     <app-table
+      #table
       [checkboxes]="true"
       [desiredStatus]="'Визначено відповідальну особу'"
       (rowSelected)="onChange($event)"
