@@ -6,7 +6,7 @@ import { Protocol } from '../../../../interfaces/protocol';
 import { PhotoOrientationService } from '../../../../services/photo-orientation.service';
 import { ManufacturersService } from '../../../../services/manufactors.service';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-counter-dialog-data',
@@ -41,6 +41,7 @@ export class CounterDialogDataComponent implements OnInit {
       this.manuService.getManufacturers(),
       this.counterFormGroup.get('manufacturer').valueChanges
     ).pipe(
+      debounceTime(200),
       map(([manufacturers, val]) =>
         manufacturers
           .filter(manufacturer => manufacturer.manufacturer.indexOf(val) > -1)

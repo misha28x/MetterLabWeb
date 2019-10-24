@@ -15,10 +15,10 @@ import { DateFilterComponent } from '../components/date-filter/date-filter.compo
   styleUrls: ['./ver-table.component.scss']
 })
 export class VerTableComponent implements OnInit {
-  private columnList: Object[];
-  private _columnList: Object[];
-  private frameworkComponents: Object;
-  private defaultColDef: Object;
+  columnList: Object[];
+  _columnList: Object[];
+  frameworkComponents: Object;
+  defaultColDef: Object;
 
   @Input() displayedColumns: string[];
   @Input() tableData: Observable<Object[]>;
