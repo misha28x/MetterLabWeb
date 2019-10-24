@@ -137,6 +137,7 @@ export class PageStationsTasksComponent implements OnInit {
   }
 
   showSnackBar(msg: string = 'Завдання надіслано'): void {
+    this.updateList();
     this.snackBar.open(msg, 'Закрити', {
       duration: 2000
     });

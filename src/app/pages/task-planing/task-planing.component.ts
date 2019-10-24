@@ -15,7 +15,6 @@ import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 
 import { TaskSendingComponent } from './task-sending/task-sending.component';
-import { UserInfoComponent } from '../../ui/components/user-info';
 import { TableComponent } from '../../ui/components/table';
 
 @Component({
@@ -169,13 +168,5 @@ export class PageTaskPlaningComponent implements OnInit {
 
   clientInaccesable(id: any): void {
     this.verificationSv.clientInaccessible(id).subscribe(() => this.updateData());
-  }
-
-  showClientInfo(id: any): void {
-    this.dialog.open(UserInfoComponent, {
-      height: '90%',
-      minWidth: '60%',
-      data: id
-    });
   }
 }

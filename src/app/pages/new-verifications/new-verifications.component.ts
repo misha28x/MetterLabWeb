@@ -113,14 +113,6 @@ export class PageNewVerificationsComponent implements OnInit {
     this.verificationSv.addVerification(verification);
   }
 
-  showClientInfo(id: any): void {
-    this.dialog.open(UserInfoComponent, {
-      height: '90%',
-      minWidth: '70%',
-      data: id
-    });
-  }
-
   onChange(data: any): void {
     this.selectedData = data;
   }
