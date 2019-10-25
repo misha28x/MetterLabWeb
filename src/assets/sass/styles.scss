@@ -1,8 +1,8 @@
 @import './bootstrap/bootstrap.scss';
-@import '/variables';
-@import '/fonts';
-@import '/typography';
-@import '/helpers';
+@import './variables';
+@import './fonts';
+@import './typography';
+@import './helpers';
 
 @import '~ng-zorro-antd/date-picker/style/index.min.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
