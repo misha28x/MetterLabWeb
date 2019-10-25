@@ -31,16 +31,15 @@ export class TaslListViewDialogComponent implements OnInit {
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
     private verificationSv: VerificationService,
-    private dialogRef: MatDialogRef<TaslListViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   ngOnInit(): void {
     if (this.data.unresolved) {
       this.url =
-        'http://165.22.83.21:3000/api/stations-tasks/unresolved/' + this.data.taskId;
+        'http://localhost:3000/api/stations-tasks/unresolved/' + this.data.taskId;
     } else {
-      this.url = 'http://165.22.83.21:3000/api/stations-tasks/tasks/' + this.data.taskId;
+      this.url = 'http://localhost:3000/api/stations-tasks/tasks/' + this.data.taskId;
     }
 
     this.updateData();
@@ -48,6 +47,7 @@ export class TaslListViewDialogComponent implements OnInit {
 
   updateData(): void {
     this.taskList = this.dataSv.getData(this.url);
+    this.taskList.subscribe(console.log);
   }
 
   rejectVerification(id: number, taskId: string): void {
@@ -66,13 +66,16 @@ export class TaslListViewDialogComponent implements OnInit {
       data: 'повірку з завдання'
     });
 
-    ref.afterClosed().subscribe((result: string) => {
-      if (result === 'delete') {
-        this.verificationSv
-          .deleteFromTask(verifId, this.data.taskId)
-          .subscribe(() => this.updateData());
-      }
-    });
+    ref
+      .afterClosed()
+      .pipe(
+        filter(val => !!val),
+        switchMap(() => this.verificationSv.deleteFromTask(verifId, this.data.taskId))
+      )
+      .subscribe(() => {
+        console.log('update');
+        this.updateData();
+      });
   }
 
   checkForDuplicate(verification: any): void {
@@ -84,6 +87,6 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   detailView(id: number): void {
-    this.detailSv.addVerification(id).subscribe(() => this.updateData());
+    this.detailSv.addVerification(id).subscribe(() => console.log('update'));
   }
 }

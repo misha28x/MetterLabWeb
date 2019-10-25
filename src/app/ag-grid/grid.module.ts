@@ -19,6 +19,7 @@ import { NoteRendererComponent } from './components/note/note-renderer/note-rend
 import { ProviderEditorComponent } from './components/providers/provider-editor/provider-editor.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { DateFilterComponent } from './components/date-filter/date-filter.component';
+import { PhoneComponent } from './components/phone/phone.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DateFilterComponent } from './components/date-filter/date-filter.compon
     NoteRendererComponent,
     ProviderEditorComponent,
     ActionsComponent,
-    DateFilterComponent
+    DateFilterComponent,
+    PhoneComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { DateFilterComponent } from './components/date-filter/date-filter.compon
       NoteRendererComponent,
       ProviderEditorComponent,
       ActionsComponent,
-      DateFilterComponent
+      DateFilterComponent,
+      PhoneComponent
     ])
   ],
   exports: [VerTableComponent],

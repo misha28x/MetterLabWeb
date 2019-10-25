@@ -8,6 +8,7 @@ import { NoteRendererComponent } from '../components/note/note-renderer/note-ren
 import { ProviderEditorComponent } from '../components/providers/provider-editor/provider-editor.component';
 import { ActionsComponent } from '../components/actions/actions.component';
 import { DateFilterComponent } from '../components/date-filter/date-filter.component';
+import { PhoneComponent } from '../components/phone/phone.component';
 
 @Component({
   selector: 'app-ver-table',
@@ -19,6 +20,8 @@ export class VerTableComponent implements OnInit {
   _columnList: Object[];
   frameworkComponents: Object;
   defaultColDef: Object;
+
+  gridApi: any;
 
   @Input() displayedColumns: string[];
   @Input() tableData: Observable<Object[]>;
@@ -32,8 +35,9 @@ export class VerTableComponent implements OnInit {
       providerRenderer: ProviderRendererComponent,
       providerEditor: ProviderEditorComponent,
       noteRenderer: NoteRendererComponent,
-      actions: ActionsComponent,
-      dateRangeFilter: DateFilterComponent
+      dateRangeFilter: DateFilterComponent,
+      phoneRenderer: PhoneComponent,
+      actions: ActionsComponent
     };
 
     this.defaultColDef = {
@@ -59,23 +63,29 @@ export class VerTableComponent implements OnInit {
       {
         headerName: 'Номер заявки',
         field: 'applicationNumber',
-        width: 180,
+        width: 180
+      },
+      {
+        headerName: 'Дата',
+        field: 'addingDate',
+        width: 130,
+        floatingFilterComponent: 'dateRangeFilter',
         checkboxSelection: true,
         headerCheckboxSelection: true
       },
-      {
-        headerName: 'Дата додання',
-        field: 'addingDate',
-        width: 140,
-        floatingFilterComponent: 'dateRangeFilter'
-      },
       { headerName: 'Номер лічильника', field: 'counterNumber', width: 150 },
-      { headerName: 'Клієнт', field: 'client' },
+      { headerName: 'Клієнт', field: 'client', width: 220, resizable: true },
+      {
+        headerName: 'Телефон',
+        field: 'phoneNumber',
+        width: 130,
+        cellRenderer: 'phoneRenderer'
+      },
       {
         headerName: 'Надавач послуг',
         field: 'serviceProvider',
         cellRenderer: 'providerRenderer',
-        width: 250,
+        width: 190,
         editable: true,
         cellEditor: 'providerEditor'
       },
@@ -84,26 +94,32 @@ export class VerTableComponent implements OnInit {
         field: 'serviceType',
         cellRenderer: 'serviceTypeRenderer',
         editable: true,
+        width: 130,
         cellEditor: 'serviceEditor'
       },
-      { headerName: 'Населений пункт', field: 'settle', width: 130 },
+      { headerName: 'Місто', field: 'settlement', width: 120 },
       { headerName: 'Район', field: 'district', width: 140 },
-      { headerName: 'Вулиця', field: 'street' },
-      { headerName: 'Буд', field: 'house', width: 75 },
-      { headerName: 'Кв', field: 'apartment', width: 80 },
+      { headerName: 'Вулиця', field: 'street', minWidth: 180, resizable: true },
+      { headerName: 'Буд', field: 'house', width: 50 },
+      { headerName: 'Кв', field: 'apartment', width: 45 },
       { headerName: 'Статус', field: 'status' },
       { headerName: '№ установки', field: 'apartment', width: 120 },
       { headerName: '№ протоколу', field: 'apartment', width: 120 },
       { headerName: 'Дата підпису', field: 'apartment', width: 120 },
       { headerName: 'Придатний до', field: 'apartment', width: 120 },
       { headerName: 'Дата завдання', field: 'apartment', width: 80 },
-      { headerName: 'Примітка', field: 'note', cellRenderer: 'noteRenderer' },
+      {
+        headerName: 'Примітка',
+        field: 'note',
+        cellRenderer: 'noteRenderer',
+        minWidth: 120,
+        resizable: true
+      },
       {
         headerName: 'Дії',
         field: '',
         cellRenderer: 'actions',
-        pinned: 'right',
-        width: 40,
+        width: 120,
         filter: null,
         sortable: false,
         cellStyle: {
@@ -122,5 +138,9 @@ export class VerTableComponent implements OnInit {
           this.displayedColumns.includes(col.headerName)
         )
       : this._columnList;
+  }
+
+  onGridReady(params: any): void {
+    this.gridApi = params.api;
   }
 }

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
 
-const url = 'http://165.22.83.21:3000/api/provider-requests';
+const url = 'http://localhost:3000/api/provider-requests';
 
 @Component({
   selector: 'app-provider-requests',

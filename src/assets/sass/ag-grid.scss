@@ -8,11 +8,34 @@
     display: none;
   }
   .ag-row {
-    height: 32px !important;
+    height: 36px !important;
   }
   .ag-header-cell,
   .ag-cell {
-    line-height: 24px;
-    padding: 2px 12px;
+    &:first-child {
+      padding-left: 12px;
+    }
+
+    line-height: 28px;
+    padding: 4px 6px;
   }
+}
+
+::-webkit-scrollbar {
+  background: #f4f4f4;
+  width: 7px;
+  height: 7px;
+  position: absolute;
+
+  &-thumb {
+    width: 6px;
+    border-radius: 20px;
+    background-color: rgba(#b7b5b5, 0.7);
+  }
+}
+.ag-floating-filter-input {
+  padding: 1px 6px;
+}
+::-webkit-scrollbar-corner {
+  background: #ccc;
 }
