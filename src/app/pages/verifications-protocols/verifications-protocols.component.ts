@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { forkJoin, Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 import { VerificationService } from '../../services/verification.service';
@@ -7,6 +7,7 @@ import { ProtocolService } from '../../services/protocol.service';
 import { SourceService } from '../../services/source.service';
 import { DataService } from '../../services/data.service';
 import { Protocol } from '../../interfaces/protocol';
+import { TableComponent } from '../../ui/components/table';
 
 const url = 'http://165.22.83.21:3000/api/verications-protocols';
 
@@ -16,6 +17,8 @@ const url = 'http://165.22.83.21:3000/api/verications-protocols';
   styleUrls: ['./verifications-protocols.component.scss']
 })
 export class PageVerificationsProtocolsComponent implements OnInit {
+  @ViewChild('table', { static: false }) table: TableComponent;
+
   protocols: Observable<any>;
   selectedData: any[];
 
@@ -35,14 +38,16 @@ export class PageVerificationsProtocolsComponent implements OnInit {
 
   updateData(): void {
     this.sourceSv.fetchProtocols();
+    this.selectedData = [];
+    this.table.clearSelected();
   }
 
   sendProtocols(): void {
-    this.selectedData.forEach((ver: any) =>
-      this.dataSv
-        .sendData(url + '/metrology/' + ver.applicationNumber)
-        .subscribe(() => this.updateData())
+    const protocolsSending = this.selectedData.map(ver =>
+      this.dataSv.sendData(url + '/metrology/' + ver.applicationNumber)
     );
+
+    forkJoin(protocolsSending).subscribe(() => this.updateData());
   }
 
   displayProtocol(id: string): void {

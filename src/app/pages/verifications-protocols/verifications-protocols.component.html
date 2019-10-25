@@ -9,6 +9,7 @@
     </div>
 
     <app-table
+      #table
       [checkboxes]="true"
       [desiredStatus]="'Передано повірнику'"
       (rowSelected)="onChange($event)"
