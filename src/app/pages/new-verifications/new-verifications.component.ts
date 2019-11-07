@@ -12,7 +12,6 @@ import { DetailViewService } from '../../services/detail-view.service';
 import { ProvidersService } from '../../services/providers.service';
 import { VerificationService } from '../../services/verification.service';
 
-import { UserInfoComponent } from '../../ui/components/user-info';
 import { TableComponent } from '../../ui/components/table';
 
 const url = 'http://165.22.83.21:3000/api/new-verifications';
@@ -55,7 +54,6 @@ export class PageNewVerificationsComponent implements OnInit {
 
   updateData(): void {
     this.sourceSv.fetchNewVerifications();
-    this.selectedData = [];
     this.table.clearSelected();
   }
 

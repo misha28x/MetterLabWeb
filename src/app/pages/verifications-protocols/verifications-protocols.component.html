@@ -27,29 +27,26 @@
         [enableFiltering]="true"
       ></app-column>
 
-      <!--<app-column
-        [width]="125"
-        [columnTitle]="'Номер установки'"
-        [columnName]="'deviceNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>-->
 
       <app-column
-        [width]="125"
-        [columnTitle]="'Номер протоколу'"
-        [columnName]="'protocolNumber'"
+        [width]="220"
+        [columnTitle]="'ПІБ Клієнта'"
+        [columnName]="'client'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="100"
-        [columnTitle]="'Номер заявки'"
-        [columnName]="'applicationNumber'"
+        [width]="75"
+        [columnTitle]="'Номер телефону'"
+        [columnName]="'phoneNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
+      >
+        <ng-template #tableBodyTemplate let-val>
+          {{ val ? '+380' + val : '' }}
+        </ng-template>
+      </app-column>
 
       <app-column
         [width]="200"

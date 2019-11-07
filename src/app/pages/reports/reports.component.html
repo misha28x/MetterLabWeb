@@ -73,4 +73,29 @@
       </div>
     </div>
   </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="user.permission > 5">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Звіт "По даті створення"
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="row">
+      <div class="col-xs-12 col-12 col-sm-6 form-group">
+        <nz-date-picker
+          [(ngModel)]="inWorkDay"
+          (ngModelChange)="downloadSent($event)"
+          [ngStyle]="{ width: '100%' }"
+        ></nz-date-picker>
+      </div>
+
+      <div class="col-xs-12 col-12 col-sm-6 form-group">
+        <nz-range-picker
+          [(ngModel)]="inWorkRange"
+          (ngModelChange)="downloadSent($event)"
+          [ngStyle]="{ width: '100%' }"
+        ></nz-range-picker>
+      </div>
+    </div>
+  </mat-expansion-panel>
 </mat-accordion>

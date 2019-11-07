@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 
-import { ReportsService } from '../../services/reports.service';
+import { ReportsService, ReportType } from '../../services/reports.service';
+import { IUser } from '../../interfaces/user';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class PageReportsComponent {
+export class PageReportsComponent implements OnInit {
+  user: IUser;
   selectedRange: Date[];
   selectedDate: Date;
 
@@ -20,27 +23,32 @@ export class PageReportsComponent {
   inWorkDay: Date;
   inWorkRange: Date[];
 
-  constructor(private reportsSv: ReportsService) {
+  constructor(private reportsSv: ReportsService, private store: Store<IUser>) {
     this.selectedDate = new Date();
     this.selectedRange = [new Date(), new Date()];
   }
 
+  ngOnInit(): void {
+    this.store.pipe(select('permission')).subscribe(_user => (this.user = _user));
+  }
+
   downloadInProgress(date: Date | Date[]): void {
-    const type = 'in-progress/';
-    this.downloadReport(type, date);
+    this.downloadReport('in-progress', date);
   }
 
   downloadCompleted(date: Date | Date[]): void {
-    const type = 'completed/';
-    this.downloadReport(type, date);
+    this.downloadReport('completed', date);
   }
 
   downloadRejected(date: Date | Date[]): void {
-    const type = 'rejected/';
-    this.downloadReport(type, date);
+    this.downloadReport('rejected', date);
   }
 
-  downloadReport(type: string, date: Date | Date[]): void {
+  downloadSent(date: Date | Date[]): void {
+    this.downloadReport('sent', date);
+  }
+
+  downloadReport(type: ReportType, date: Date | Date[]): void {
     const dateArr = Array.isArray(date)
       ? [this.getDateString(date[0]), this.getDateString(date[1])]
       : [this.getDateString(date)];

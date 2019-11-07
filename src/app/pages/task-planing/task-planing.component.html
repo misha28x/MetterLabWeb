@@ -47,13 +47,6 @@
       [pagination]="true"
     >
       <app-column
-        [columnTitle]="'Номер Заявки'"
-        [columnName]="'applicationNumber'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
-
-      <app-column
         [columnTitle]="'Дата Надходження '"
         [columnName]="'addingDate'"
         [date]="true"
@@ -124,8 +117,7 @@
         [columnName]="'apartment'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      ></app-column>
-      <!-- TODO: add fields to Database & Rename fields -->
+      ></app-column> dd
 
       <app-column
         [width]="120"
@@ -140,24 +132,14 @@
       </app-column>
 
       <app-column
-        [width]="150"
+        [width]="280"
         [columnTitle]="'Примітка'"
         [columnName]="'note'"
         [enableSorting]="true"
         [enableFiltering]="true"
       >
         <ng-template #tableBodyTemplate let-row="row">
-          <div (click)="tooltip.toggle()" class="note-wrapper">
-            <div
-              class="tooltip"
-              [style.pointerEvents]="'none'"
-              matTooltipPosition="left"
-              matTooltipClass="note-tooltip"
-              matTooltip="{{ row['note'] }}"
-              #tooltip="matTooltip"
-            ></div>
-            {{ row['note'] }}
-          </div>
+          {{ row['note'] }}
         </ng-template>
       </app-column>
 
@@ -166,10 +148,6 @@
           <div class="actions-row">
             <button mat-icon-button (click)="detailView(row['applicationNumber'])">
               <i class="icon icofont-info-circle color-info" matTooltip="Інформація"></i>
-            </button>
-
-            <button mat-icon-button (click)="checkForDuplicate(row)">
-              <i class="far fa-copy color-info" matTooltip="Перевірити на дублі"></i>
             </button>
 
             <button mat-icon-button (click)="clientInaccesable(row['applicationNumber'])">

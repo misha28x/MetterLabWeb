@@ -283,6 +283,7 @@ export class TableComponent implements OnInit, OnChanges {
   clearSelected(): void {
     if (this.selection) {
       this.selection.clear();
+      this.rowSelected.emit(this.selection.selected);
     }
   }
 

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { TaskService } from '../../services/task.service';
 import { SourceService } from '../../services/source.service';
 import { StationsService } from '../../services/stations.service';
-import { map } from 'rxjs/operators';
 import { Task, TaskStatuses } from '../../interfaces/taskData';
+import { TableComponent } from '../../ui/components/table';
 
 @Component({
   selector: 'app-stations-tasks',
@@ -14,6 +15,8 @@ import { Task, TaskStatuses } from '../../interfaces/taskData';
   styleUrls: ['./stations-tasks.component.scss']
 })
 export class PageStationsTasksComponent implements OnInit {
+  @ViewChild('table', { static: false }) table: TableComponent;
+
   stationsTasks: Observable<any[]>;
   selectedData: any[];
 
@@ -30,7 +33,8 @@ export class PageStationsTasksComponent implements OnInit {
     private snackBar: MatSnackBar,
     private taskSv: TaskService
   ) {
-    this.updateList();
+    this.sourceSv.fetchStationTasks();
+    this.sourceSv.fetchFailedTasks();
   }
 
   ngOnInit(): void {
@@ -150,6 +154,6 @@ export class PageStationsTasksComponent implements OnInit {
   updateList(): void {
     this.sourceSv.fetchStationTasks();
     this.sourceSv.fetchFailedTasks();
-    this.selectedData = [];
+    this.table.clearSelected();
   }
 }

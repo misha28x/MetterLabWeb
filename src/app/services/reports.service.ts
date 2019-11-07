@@ -4,19 +4,14 @@ import { select, Store } from '@ngrx/store';
 
 import { IUser } from '../interfaces/user';
 
-enum DateType {
-  Single = 'single/',
-  Range = 'range/'
+export interface ReportDateType {
+  type: 'single' | 'range';
+  date: string;
 }
 
-enum ReportType {
-  InProgress = 'in-progress/',
-  Completed = 'completed/',
-  Convert = 'convert/',
-  Rejected = 'rejected/'
-}
+export type ReportType = 'in-progress' | 'completed' | 'convert' | 'rejected' | 'sent';
 
-const Url = 'http://165.22.83.21:3000/api/reports/';
+const Url = 'http://165.22.83.21:3000/api/reports';
 
 @Injectable({
   providedIn: 'root'
@@ -30,47 +25,35 @@ export class ReportsService {
 
   public getMetrologyReport(date: [Date, Date]): void {
     const [start, end] = date.map(value => this.getDateString(value));
-    const url = `${Url}metrology/${start}/${end}`;
+    const url = `${Url}/metrology/${start}/${end}`;
 
     window.open(url);
   }
 
-  public getReport(type: string, date: string[]): void {
-    const reportType = this.getReportType(type);
+  public getReport(type: ReportType, date: string[]): void {
     const reportDate = this.getDate(date);
 
     const dateType = reportDate.type;
 
-    const serviceProvider = '/' + this.user.createFor;
-    const isProvider = this.user.permission > 5 ? 'provider/' : '';
-    console.log(isProvider);
+    const serviceProvider = this.user.createFor;
+    const isProvider = this.user.permission > 5 ? 'provider' : '';
 
-    const url = Url + isProvider + reportType + dateType + date + serviceProvider;
+    const url = `${Url}/${isProvider}/${type}/${dateType}/${date}/${serviceProvider}`;
 
     window.open(url);
   }
 
-  getReportType(type: string): string {
-    let reportType = 'in-progress/';
-
-    if (Object.values(ReportType).includes(type)) {
-      reportType = type;
-    }
-
-    return reportType;
-  }
-
-  getDate(date: string[]): any {
+  getDate(date: string[]): ReportDateType {
     if (date.length > 1) {
       return {
         date: date[0] + '-' + date[1],
-        type: DateType.Range
+        type: 'range'
       };
     }
 
     return {
       date: date[0],
-      type: DateType.Single
+      type: 'single'
     };
   }
 
