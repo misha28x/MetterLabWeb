@@ -8,16 +8,18 @@
     display: none;
   }
   .ag-row {
-    height: 36px !important;
+    min-height: 36px !important;
   }
   .ag-header-cell,
   .ag-cell {
+    align-items: center;
+    display: flex;
+    line-height: 28px;
+    padding: 4px 6px;
+
     &:first-child {
       padding-left: 12px;
     }
-
-    line-height: 28px;
-    padding: 4px 6px;
   }
 }
 

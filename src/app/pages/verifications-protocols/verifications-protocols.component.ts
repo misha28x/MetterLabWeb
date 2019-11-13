@@ -9,7 +9,7 @@ import { DataService } from '../../services/data.service';
 import { Protocol } from '../../interfaces/protocol';
 import { TableComponent } from '../../ui/components/table';
 
-const url = 'http://localhost:3000/api/verications-protocols';
+const url = 'http://165.22.83.21:3000/api/verications-protocols';
 
 @Component({
   selector: 'app-verifications-protocols',

@@ -16,7 +16,6 @@ export class NavbarComponent implements OnInit {
   @Input() pageTitle: String;
   menuState: Boolean;
   permission: number;
-  visit: any;
 
   constructor(
     public router: Router,
@@ -32,10 +31,6 @@ export class NavbarComponent implements OnInit {
     this.store.select('permission').subscribe(user => {
       this.permission = user.permission;
     });
-
-    this.menuSv.getVisitState().subscribe(state => {
-      this.visit = state;
-    });
   }
 
   onButtonClick(): void {
@@ -43,9 +38,5 @@ export class NavbarComponent implements OnInit {
     this.menuState
       ? this.store.dispatch(new MenuActions.Open())
       : this.store.dispatch(new MenuActions.Close());
-  }
-
-  cancelVisit(): void {
-    this.menuSv.cancelVisit();
   }
 }

@@ -111,9 +111,12 @@ export class VerTableComponent implements OnInit {
       {
         headerName: 'Примітка',
         field: 'note',
-        cellRenderer: 'noteRenderer',
+        autoHeight: true,
         minWidth: 120,
-        resizable: true
+        resizable: true,
+        cellStyle: {
+          whiteSpace: 'normal'
+        }
       },
       {
         headerName: 'Дії',
