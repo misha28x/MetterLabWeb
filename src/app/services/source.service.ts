@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { IUser } from '../interfaces/user';
+import { map } from 'rxjs/operators';
 
 const metrologyProtocolsUrl: string =
   'http://165.22.83.21:3000/api/verications-protocols/metrology/protocols';
@@ -17,6 +18,13 @@ const archiveUrl: string = 'http://165.22.83.21:3000/api/verifications-archive';
 const stationTasksUrl: string = 'http://165.22.83.21:3000/api/stations-tasks';
 const taskPlaningUrl: string = 'http://165.22.83.21:3000/api/task-planing';
 const labUrl: string = 'http://165.22.83.21:3000/api/lab-requests';
+
+const getDateString = (d: Date) => {
+  const day = d.getDate();
+  const month = d.getMonth();
+  const year = d.getFullYear();
+  return `${year}-${month > 9 ? month : '0' + month}-${day > 9 ? day : '0' + day}`;
+};
 
 @Injectable()
 export class SourceService {
@@ -63,6 +71,19 @@ export class SourceService {
   fetchProtocols(): void {
     this.http
       .get(ptocolsUrl + '/' + this.user.serviceProvider)
+      .pipe(
+        map((protocols: any) =>
+          protocols.map(protocol => {
+            const [date] = protocol.protocolDate.split(' ');
+            const [day, month, year] = date.split('.');
+
+            return {
+              ...protocol,
+              protocolDate: getDateString(new Date(year, month, day))
+            };
+          })
+        )
+      )
       .subscribe((res: any) => this.protocolsSource$.next(res));
   }
 

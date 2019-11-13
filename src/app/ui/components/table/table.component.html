@@ -46,6 +46,7 @@
             <ng-container *ngIf="c.date">
               <div class="search-box form-field small">
                 <nz-range-picker
+                  (click)="$event.stopPropagation()"
                   [(ngModel)]="date"
                   [nzFormat]="'MM-dd'"
                   (ngModelChange)="onChangeTable(c, $event)"
