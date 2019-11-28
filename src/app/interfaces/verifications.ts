@@ -22,7 +22,7 @@ export interface Verification {
   counterType: string; // Типорозмір_лічильника +					\\
   productionYear: string; // Рік_випуску_лічильника +					\\
   acumulatedVolume: string; // Накопичений об'єм								\\
-  serviceType: number; // Тип послуги +										\\
+  serviceType: number | string; // Тип послуги +										\\
   status?: string; // Статус +													\\
   serviceProvider: string; // Надавач_послуг + 								\\
   comment: string; // Коментар +												\\

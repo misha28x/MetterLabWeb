@@ -76,7 +76,22 @@ export class PageTaskPlaningComponent implements OnInit {
 
     this.selectedData = [];
 
-    this.tableData = this.sourceSv.getTaskPlaning();
+    this.getTableData();
+  }
+
+  getTableData(): void {
+    const serviceTypes = new Map([[1, 'Холодна вода'], [2, 'Гаряча вода']]);
+    const serviceProviders = this.providersSv.getProvidersMap();
+
+    this.tableData = this.sourceSv.getTaskPlaning().pipe(
+      map((data: Verification[]) =>
+        data.map(ver => {
+          ver.serviceProvider = serviceProviders.get(ver.serviceProvider);
+          ver.serviceType = serviceTypes.get(<number>ver.serviceType);
+          return ver;
+        })
+      )
+    );
   }
 
   sendData(): void {

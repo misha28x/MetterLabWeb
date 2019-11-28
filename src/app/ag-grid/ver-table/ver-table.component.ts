@@ -1,11 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ServiceTypeRendererComponent } from '../components/service-type/service-type-renderer/service-type-renderer.component';
-import { ProviderRendererComponent } from '../components/providers/provider-renderer/provider-renderer.component';
-import { ServiceEditorComponent } from '../components/service-type/service-editor/service-editor.component';
 import { NoteRendererComponent } from '../components/note/note-renderer/note-renderer.component';
-import { ProviderEditorComponent } from '../components/providers/provider-editor/provider-editor.component';
 import { ActionsComponent } from '../components/actions/actions.component';
 import { DateFilterComponent } from '../components/date-filter/date-filter.component';
 import { PhoneComponent } from '../components/phone/phone.component';
@@ -26,14 +22,12 @@ export class VerTableComponent implements OnInit {
   @Input() displayedColumns: string[];
   @Input() tableData: Observable<Object[]>;
 
+  @Output() dataSelected = new EventEmitter();
+
   constructor() {
     this.displayedColumns = [];
 
     this.frameworkComponents = {
-      serviceTypeRenderer: ServiceTypeRendererComponent,
-      serviceEditor: ServiceEditorComponent,
-      providerRenderer: ProviderRendererComponent,
-      providerEditor: ProviderEditorComponent,
       noteRenderer: NoteRendererComponent,
       dateRangeFilter: DateFilterComponent,
       phoneRenderer: PhoneComponent,
@@ -54,17 +48,12 @@ export class VerTableComponent implements OnInit {
           r = r.toLowerCase();
           return r;
         },
-        debounceMs: 200,
+        debounceMs: 400,
         caseSensitive: false
       }
     };
 
     this._columnList = [
-      {
-        headerName: 'Номер заявки',
-        field: 'applicationNumber',
-        width: 180
-      },
       {
         headerName: 'Дата',
         field: 'addingDate',
@@ -84,18 +73,12 @@ export class VerTableComponent implements OnInit {
       {
         headerName: 'Надавач послуг',
         field: 'serviceProvider',
-        cellRenderer: 'providerRenderer',
-        width: 190,
-        editable: true,
-        cellEditor: 'providerEditor'
+        width: 190
       },
       {
         headerName: 'Тип послуги',
         field: 'serviceType',
-        cellRenderer: 'serviceTypeRenderer',
-        editable: true,
-        width: 130,
-        cellEditor: 'serviceEditor'
+        width: 130
       },
       { headerName: 'Місто', field: 'settlement', width: 120 },
       { headerName: 'Район', field: 'district', width: 140 },
@@ -113,7 +96,7 @@ export class VerTableComponent implements OnInit {
         field: 'note',
         autoHeight: true,
         minWidth: 120,
-        resizable: true,
+        width: 300,
         cellStyle: {
           whiteSpace: 'normal'
         }

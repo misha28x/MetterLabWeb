@@ -29,4 +29,8 @@ export class ProvidersService {
   public getProviders(): Provider[] {
     return Array.from(providers, ([key, value]) => ({ id: key, name: value }));
   }
+
+  public getProvidersMap(): Map<number | string, string> {
+    return providers;
+  }
 }
