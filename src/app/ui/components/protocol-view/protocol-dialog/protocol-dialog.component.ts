@@ -23,6 +23,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   permission: number;
   checked: boolean;
   angle: number;
+  counterNumber: { number: string };
 
   constructor(
     private dialog: MatDialog,
@@ -35,7 +36,9 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
+    this.counterNumber = { number: this.data.counterNumber };
+    Object.freeze(this.counterNumber);
+
     this.checked = !!this.data.status;
     this.subscription = this.photoSv
       .getAngleObservable()
@@ -56,7 +59,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
 
   saveProtocol(): void {
     this.protocolSv
-      .updateProtocol(this.data.counterNumber, this.data)
+      .updateProtocol(this.counterNumber.number, this.data)
       .subscribe(console.log);
   }
 

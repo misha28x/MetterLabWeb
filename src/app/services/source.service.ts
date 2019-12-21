@@ -71,19 +71,6 @@ export class SourceService {
   fetchProtocols(): void {
     this.http
       .get(ptocolsUrl + '/' + this.user.serviceProvider)
-      .pipe(
-        map((protocols: any) =>
-          protocols.map(protocol => {
-            const [date] = protocol.protocolDate.split(' ');
-            const [day, month, year] = date.split('.');
-
-            return {
-              ...protocol,
-              protocolDate: getDateString(new Date(year, month, day))
-            };
-          })
-        )
-      )
       .subscribe((res: any) => this.protocolsSource$.next(res));
   }
 
@@ -108,6 +95,17 @@ export class SourceService {
   fetchMetrologyProtocols(): void {
     this.http
       .get(metrologyProtocolsUrl)
+      .pipe(
+        map((protocols: any) =>
+          protocols.map(protocol => {
+            console.log(protocol);
+
+            return {
+              ...protocol
+            };
+          })
+        )
+      )
       .subscribe((res: any) => this.metrologyProtocolsSource$.next(res));
   }
 

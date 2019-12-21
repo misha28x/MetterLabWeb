@@ -5,6 +5,8 @@ import { Store, select } from '@ngrx/store';
 
 import { Protocol } from '../interfaces/protocol';
 import { IUser } from '../interfaces/user';
+import { tap } from 'rxjs/operators';
+import { SourceService } from './source.service';
 
 const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols/';
 const rejectUrl = 'http://165.22.83.21:3000/api/verications-protocols/reject/';
@@ -22,7 +24,11 @@ export class ProtocolService {
   private protocolAdded$ = this.protocolSource$.asObservable();
   private userId: string;
 
-  constructor(private http: HttpClient, private store: Store<IUser>) {
+  constructor(
+    private http: HttpClient,
+    private store: Store<IUser>,
+    private sourceSv: SourceService
+  ) {
     this.store.pipe(select('permission')).subscribe((_user: IUser) => {
       this.userId = _user.userId;
     });
@@ -38,7 +44,13 @@ export class ProtocolService {
   }
 
   public updateProtocol(id: any, data: Protocol): Observable<any> {
-    return this.http.put(protocolUrl + data.counterNumber, { ...data });
+    return this.http.put(protocolUrl + id, { ...data }).pipe(
+      tap(() => {
+        this.sourceSv.fetchProtocols();
+        this.sourceSv.fetchMetrologyProtocols();
+        this.sourceSv.fetchRejectedProtocols();
+      })
+    );
   }
 
   public acceptProtocol(id: any): Observable<any> {

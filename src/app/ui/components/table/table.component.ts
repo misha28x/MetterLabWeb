@@ -24,20 +24,20 @@ export class TableComponent implements OnInit, OnChanges {
   @HostBinding('class.tc-table') true;
 
   @Input() pagination: boolean;
-  @Input() bordered: boolean;
-  @Input() striped: boolean;
-  @Input() hovered: boolean;
-  @Input() search: boolean;
   @Input() checkboxes: boolean;
+  @Input() bordered: boolean;
+  @Input() hovered: boolean;
+  @Input() striped: boolean;
+  @Input() search: boolean;
 
   @Input() config: ITableConfig;
-  @Input() tableData: any;
   @Input() itemsPerPage: number;
+  @Input() tableData: any;
 
-  @Input() statusKey: string;
   @Input() desiredStatus: string;
-  @Input() infoStatus: string;
   @Input() errorStatus: string;
+  @Input() infoStatus: string;
+  @Input() statusKey: string;
 
   @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
@@ -67,7 +67,7 @@ export class TableComponent implements OnInit, OnChanges {
       }
     };
 
-    this.pageSizeOptions = [30, 50, 100, 200];
+    this.pageSizeOptions = [30, 50, 100, 200, 300, 500];
     this.itemsPerPage = this.pageSizeOptions[0];
     this.page = 0;
   }
