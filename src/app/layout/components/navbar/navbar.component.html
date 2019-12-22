@@ -14,38 +14,46 @@
     <span class="bar"></span>
   </div>
 
-  <button
-    [routerLink]="'/default/employees'"
-    (click)="cancelVisit()"
-    class="back-btn"
-    mat-icon-button
-    *ngIf="visit && visit.state"
-  >
-    <i class="icon fas fa-chevron-left"></i>
-  </button>
-
-  <span *ngIf="visit" class="visit-name">{{ visit.name }}</span>
-
-  <div class="upload" *ngIf="permission == 0">
-    <button
-      *ngIf="router.url.includes('shared/status')"
-      mat-raised-button
-      color="primary"
-      [routerLink]="['/shared/new-verif']"
+  <div class="left">
+    <mat-form-field
+      *ngIf="permission == 5 || permission == 3"
+      appearance="outline"
+      class="no-intends"
     >
-      Створити повірку
-    </button>
-    <button
-      *ngIf="!router.url.includes('shared/status')"
-      mat-raised-button
-      color="primary"
-      [routerLink]="['/shared/status']"
-    >
-      Статус лічильника
-    </button>
-  </div>
-  <div class="upload">
-    <app-new-verification class="mr-2" *ngIf="![0, 5].includes(permission)"></app-new-verification>
-    <app-file-upload *ngIf="![0, 5, 6].includes(permission)"></app-file-upload>
+      <mat-select (valueChange)="changeMetrology($event)">
+        <mat-option [value]="{ permission: 5, createFor: 91444871 }">
+          ТзОВ "ВОЛИНЬ АКВА СТАНДАРТ"
+        </mat-option>
+        <mat-option [value]="{ permission: 3, createFor: 111 }">
+          ДП "Волиньстандартметрологія"
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="upload" *ngIf="permission == 0">
+      <button
+        *ngIf="router.url.includes('shared/status')"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/shared/new-verif']"
+      >
+        Створити повірку
+      </button>
+      <button
+        *ngIf="!router.url.includes('shared/status')"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/shared/status']"
+      >
+        Статус лічильника
+      </button>
+    </div>
+    <div class="upload" *ngIf="![0, 5].includes(permission)">
+      <app-new-verification
+        class="mr-2"
+        *ngIf="![0, 3, 5].includes(permission)"
+      ></app-new-verification>
+      <app-file-upload *ngIf="![0, 5, 6].includes(permission)"></app-file-upload>
+    </div>
   </div>
 </div>

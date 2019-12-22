@@ -26,6 +26,13 @@ export function permissionReducer(
       };
     }
 
+    case PermissionTypes.ChangePermission: {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+
     default: {
       return { ...state };
     }

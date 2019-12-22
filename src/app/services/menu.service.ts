@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { IUser } from '../interfaces/user';
 import { IMenuItem } from '../interfaces/menu';
 import { login } from '../store/actions/permission.action';
+import { take } from 'rxjs/operators';
 
 const menuUrl = 'http://165.22.83.21:3000/api/menu/';
 

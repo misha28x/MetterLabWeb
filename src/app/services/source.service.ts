@@ -19,12 +19,7 @@ const stationTasksUrl: string = 'http://165.22.83.21:3000/api/stations-tasks';
 const taskPlaningUrl: string = 'http://165.22.83.21:3000/api/task-planing';
 const labUrl: string = 'http://165.22.83.21:3000/api/lab-requests';
 
-const getDateString = (d: Date) => {
-  const day = d.getDate();
-  const month = d.getMonth();
-  const year = d.getFullYear();
-  return `${year}-${month > 9 ? month : '0' + month}-${day > 9 ? day : '0' + day}`;
-};
+const isMetrology = (permission: number): boolean => permission === 3 || permission === 5;
 
 @Injectable()
 export class SourceService {
@@ -45,8 +40,14 @@ export class SourceService {
   private user: IUser;
 
   constructor(private http: HttpClient, private store: Store<IUser>) {
-    this.store.pipe(select('permission')).subscribe(_user => {
+    this.store.pipe(select('permission')).subscribe((_user: IUser) => {
       this.user = _user;
+
+      if (isMetrology(_user.permission)) {
+        this.fetchMetrologyProtocols();
+        this.fetchRejectedProtocols();
+        this.fetchMetrologyArchive();
+      }
     });
   }
 
@@ -88,18 +89,16 @@ export class SourceService {
 
   fetchMetrologyArchive(): void {
     this.http
-      .get(metrologyArchive)
+      .get(`${metrologyArchive}/${this.user.createFor}`)
       .subscribe((res: any) => this.metrologyArchiveSource$.next(res));
   }
 
   fetchMetrologyProtocols(): void {
     this.http
-      .get(metrologyProtocolsUrl)
+      .get(`${metrologyProtocolsUrl}/${this.user.createFor}`)
       .pipe(
         map((protocols: any) =>
           protocols.map(protocol => {
-            console.log(protocol);
-
             return {
               ...protocol
             };
