@@ -12,22 +12,24 @@ import { MenuComponent } from './components/menu';
 import { UiModule } from '../ui/ui.module';
 import { ExtraComponent } from './extra';
 import { SharedComponent } from './shared/shared.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-	declarations: [
-		DefaultLayoutComponent,
-		SidebarComponent,
-		NavbarComponent,
-		MenuComponent,
-		ExtraComponent,
-		SharedComponent
-	],
-	imports: [
+  declarations: [
+    DefaultLayoutComponent,
+    SidebarComponent,
+    NavbarComponent,
+    MenuComponent,
+    ExtraComponent,
+    SharedComponent
+  ],
+  imports: [
     CommonModule,
     MalihuScrollbarModule.forRoot(),
-		RouterModule,
-		MaterialModule,
-    UiModule
-	]
+    RouterModule,
+    MaterialModule,
+    UiModule,
+    FormsModule
+  ]
 })
-export class LayoutModule { }
+export class LayoutModule {}

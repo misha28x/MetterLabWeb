@@ -20,14 +20,9 @@
       appearance="outline"
       class="no-intends"
     >
-      <mat-select (valueChange)="changeMetrology($event)">
-        <mat-option
-          [value]="{ permission: 5, createFor: 91444871, serviceProvider: 91444871 }"
-        >
-          ТзОВ "ВОЛИНЬ АКВА СТАНДАРТ"
-        </mat-option>
-        <mat-option [value]="{ permission: 3, createFor: 111, serviceProvider: 111 }">
-          ДП "Волиньстандартметрологія"
+      <mat-select [(ngModel)]="selectedValue" (valueChange)="changeMetrology($event)">
+        <mat-option [value]="option" *ngFor="let option of options">
+          {{ option.title }}
         </mat-option>
       </mat-select>
     </mat-form-field>

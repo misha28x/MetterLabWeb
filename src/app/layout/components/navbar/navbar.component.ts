@@ -19,8 +19,9 @@ export class NavbarComponent implements OnInit {
   user: IUser;
   menuState: Boolean;
   permission: number;
+
   options: any[];
-  visit: any;
+  selectedValue: any[];
 
   constructor(
     public router: Router,
@@ -38,9 +39,22 @@ export class NavbarComponent implements OnInit {
       this.user = user;
     });
 
-    this.menuSv.getVisitState().subscribe(state => {
-      this.visit = state;
-    });
+    this.options = [
+      {
+        permission: 5,
+        createFor: 91444871,
+        serviceProvider: 91444871,
+        title: `ТзОВ "ВОЛИНЬ АКВА СТАНДАРТ"`
+      },
+      {
+        permission: 3,
+        createFor: 111,
+        serviceProvider: 111,
+        title: ` ДП "Волиньстандартметрологія"`
+      }
+    ];
+
+    this.selectedValue = this.options[0];
   }
 
   onButtonClick(): void {
@@ -50,7 +64,9 @@ export class NavbarComponent implements OnInit {
       : this.store.dispatch(new MenuActions.Close());
   }
 
-  changeMetrology(data: Pick<IUser, 'permission' | 'createFor'>): void {
+  changeMetrology(
+    data: Pick<IUser, 'permission' | 'createFor' | 'serviceProvider'>
+  ): void {
     this.store.dispatch(changePermission(data));
   }
 }
