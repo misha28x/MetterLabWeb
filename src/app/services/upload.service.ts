@@ -22,7 +22,7 @@ export class UploadService {
 
   public upload(files: Set<File>): void {
     const fileData: FormData = new FormData();
-
+    console.log(this.user);
     files.forEach(file => {
       fileData.append('file', file);
       this.http.post(url + this.user.serviceProvider, fileData).subscribe();
