@@ -1,19 +1,24 @@
 import { Component } from '@angular/core';
+import {
+  FilterChangedEvent,
+  IFloatingFilter,
+  IFloatingFilterParams,
+  DateFilter
+} from 'ag-grid-community';
 
 @Component({
   selector: 'app-date-filter',
   templateUrl: './date-filter.component.html',
   styleUrls: ['./date-filter.component.scss']
 })
-export class DateFilterComponent {
+export class DateFilterComponent implements IFloatingFilter {
   filter = '';
-  params: any;
+  params: IFloatingFilterParams;
+  currentValue;
 
-  constructor() {
-    console.log('filter');
-  }
+  constructor() {}
 
-  agInit(params: any): void {
+  agInit(params: IFloatingFilterParams): void {
     this.params = params;
   }
 
@@ -21,31 +26,20 @@ export class DateFilterComponent {
     return this.filter !== '';
   }
 
-  doesFilterPass(params) {
-    const filter = this.filter.split('-');
-    const gt = Number(filter[0]);
-    const lt = Number(filter[1]);
-    const value = this.params.valueGetter(params.node);
-
-    return value >= gt && value <= lt;
+  onSubmit(val: Date[]) {
+    this.params.parentFilterInstance(instance => {
+      (<DateFilter>instance).onFloatingFilterChanged('greater', val);
+    });
   }
 
-  getModel() {
-    return { filter: this.filter };
-  }
-
-  setModel(model) {
-    this.filter = model ? model.filter : '';
-  }
-
-  onSubmit(event) {
-    event.preventDefault();
-
-    const filter = event.target.elements.filter.value;
-
-    if (this.filter !== filter) {
-      this.filter = filter;
-      this.params.filterChangedCallback();
+  onParentModelChanged(parentModel: any): void {
+    if (!parentModel) {
+      this.currentValue = 0;
+    } else {
+      // note that the filter could be anything here, but our purposes we're assuming a greater than filter only,
+      // so just read off the value and use that
+      console.log(parentModel);
+      this.currentValue = parentModel.filter;
     }
   }
 }

@@ -86,6 +86,9 @@ export class PageTaskPlaningComponent implements OnInit {
     this.tableData = this.sourceSv.getTaskPlaning().pipe(
       map((data: Verification[]) =>
         data.map(ver => {
+          const [y, m, d] = ver.addingDate.split('-').map(el => parseInt(el, 10));
+
+          ver.addingDate = new Date(y, m - 1, d);
           ver.serviceProvider = serviceProviders.get(ver.serviceProvider);
           ver.serviceType = serviceTypes.get(<number>ver.serviceType);
           return ver;

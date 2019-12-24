@@ -3,6 +3,7 @@
   [nzFormat]="'MM-dd'"
   [ngStyle]="{ width: '100%', height: 24 }"
   [nzSize]="'small'"
+  (nzOnCalendarChange)="onSubmit($event)"
   [nzPlaceHolder]="['', '']"
 ></nz-range-picker>
 

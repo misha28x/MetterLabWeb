@@ -5,6 +5,7 @@ import { NoteRendererComponent } from '../components/note/note-renderer/note-ren
 import { ActionsComponent } from '../components/actions/actions.component';
 import { DateFilterComponent } from '../components/date-filter/date-filter.component';
 import { PhoneComponent } from '../components/phone/phone.component';
+import { DateRendererComponent } from '../components/date-renderer/date-renderer.component';
 
 @Component({
   selector: 'app-ver-table',
@@ -31,7 +32,8 @@ export class VerTableComponent implements OnInit {
       noteRenderer: NoteRendererComponent,
       dateRangeFilter: DateFilterComponent,
       phoneRenderer: PhoneComponent,
-      actions: ActionsComponent
+      actions: ActionsComponent,
+      dateRenderer: DateRendererComponent
     };
 
     this.defaultColDef = {
@@ -58,6 +60,8 @@ export class VerTableComponent implements OnInit {
         headerName: 'Дата',
         field: 'addingDate',
         width: 130,
+        cellRenderer: 'dateRenderer',
+        floatingFilter: 'date',
         floatingFilterComponent: 'dateRangeFilter',
         checkboxSelection: true,
         headerCheckboxSelection: true

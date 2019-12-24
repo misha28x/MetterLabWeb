@@ -1,7 +1,7 @@
 export interface Verification {
   // TODO: порівняти з вмістом verif-archive і тоді створити нову табличку
   // + - було в обидвох таблицях; \\ - додано в Archive
-  addingDate: string; // Дата_надходження + 				 			\\
+  addingDate: any; // Дата_надходження + 				 			\\
   applicationNumber?: string; // Номер_заявки +										\\
   client: string; // Клієнт + 												\\
   phoneNumber: string; // Номер телефону + 								\\

@@ -16,6 +16,7 @@ import { NoteRendererComponent } from './components/note/note-renderer/note-rend
 import { ActionsComponent } from './components/actions/actions.component';
 import { DateFilterComponent } from './components/date-filter/date-filter.component';
 import { PhoneComponent } from './components/phone/phone.component';
+import { DateRendererComponent } from './components/date-renderer/date-renderer.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PhoneComponent } from './components/phone/phone.component';
     NoteRendererComponent,
     ActionsComponent,
     DateFilterComponent,
-    PhoneComponent
+    PhoneComponent,
+    DateRendererComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,6 @@ import { PhoneComponent } from './components/phone/phone.component';
     ])
   ],
   exports: [VerTableComponent],
-  entryComponents: [NoteRendererComponent, ActionsComponent]
+  entryComponents: [NoteRendererComponent, ActionsComponent, DateRendererComponent]
 })
 export class GridModule {}
