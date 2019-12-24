@@ -33,72 +33,72 @@ export class VerificationService {
 
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 
-  public addVerification(verification: Verification): void {
+  addVerification(verification: Verification): void {
     this.verificationSource$.next(verification);
   }
 
-  public createVerification(verification: Verification): Observable<Object> {
+  createVerification(verification: Verification): Observable<Object> {
     return this.http.post(createUrl, verification);
   }
 
-  public getVerification(): Observable<Verification> {
+  getVerification(): Observable<Verification> {
     return this.verificationAdded$;
   }
 
-  public deleteFromTask(id: any, taskId: any): Observable<any> {
+  deleteFromTask(id: any, taskId: any): Observable<any> {
     return this.http.post(deleteFromTask + '' + id, { taskId: taskId });
   }
 
-  public rejectVerification(id: any, reason: string, taskId?: string): Observable<any> {
+  rejectVerification(id: any, reason: string, taskId?: string): Observable<any> {
     return this.http.post(rejectUrl + id, { reason: reason, id_task: taskId });
   }
 
-  public deleteVerification(id: any): Observable<any> {
+  deleteVerification(id: any): Observable<any> {
     return this.http.delete(deleteUrl + id);
   }
 
-  public checkForDuplicate(address: any): Observable<any> {
+  checkForDuplicate(address: any): Observable<any> {
     return this.http.post(duplicateUrl, address);
   }
 
-  public addVerificationToTask(id: string, taskId: string): Observable<any> {
+  addVerificationToTask(id: string, taskId: string): Observable<any> {
     return this.http.put(`${addToTask}/${id}/${taskId}`, {});
   }
 
-  public updateVerification(id: any, verification: Verification): Observable<any> {
+  updateVerification(id: any, verification: Verification): Observable<any> {
     return this.http.put(editUrl + id, verification);
   }
 
-  public revertVerif(id: any): Observable<any> {
+  revertVerif(id: any): Observable<any> {
     return this.http.put(revertUrl, { id: id });
   }
 
-  public revertVerifProvider(id: any): Observable<any> {
+  revertVerifProvider(id: any): Observable<any> {
     return this.http.put(revertProviderUrl, { id: id });
   }
 
-  public clientInaccessible(id: any): Observable<any> {
+  clientInaccessible(id: any): Observable<any> {
     return this.http.put(`${archiveUrl}/ndz/${id}`, {});
   }
 
-  public sendVerif(id: any): Observable<any> {
+  sendVerif(id: any): Observable<any> {
     return this.http.get(sendVerif + id);
   }
 
-  public deleteProtocol(id: any): Observable<any> {
+  deleteProtocol(id: any, bbi: string): Observable<any> {
     const ref = this.dialog.open(DeleteDialogComponent, { data: 'протокол' });
 
     return ref.afterClosed().pipe(
       filter(res => !!res),
-      switchMap(() => this.http.delete(`${protocolUrl}/delete/${id}`))
+      switchMap(() => this.http.delete(`${protocolUrl}/delete/${id}/${bbi}`))
     );
   }
 
-  public setIssueDate(id: any, date: string): Observable<any> {
+  setIssueDate(id: any, date: string): Observable<any> {
     return this.http.post(issueDate + id, { issueDate: date });
   }
 
-  public openTaskSelection(): Observable<string> {
+  openTaskSelection(): Observable<string> {
     const ref = this.dialog.open(AddToTaskComponent, {
       width: '80%'
     });
@@ -106,7 +106,7 @@ export class VerificationService {
     return ref.afterClosed().pipe(filter(val => !!val));
   }
 
-  public openDeleteDialog(): Observable<any> {
+  openDeleteDialog(): Observable<any> {
     return this.dialog
       .open(DeleteDialogComponent, {
         minWidth: '600px',
@@ -115,7 +115,7 @@ export class VerificationService {
       .afterClosed();
   }
 
-  public openRejectDialog(): Observable<any> {
+  openRejectDialog(): Observable<any> {
     return this.dialog
       .open(RejectionDialogComponent, {
         minWidth: '450px',

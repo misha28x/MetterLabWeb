@@ -168,7 +168,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   }
 
   downloadDoc(): void {
-    this.protocolSv.downloadDoc(this.data.counterNumber);
+    this.protocolSv.downloadDoc(this.data.counterNumber, this.data.protocolNumber);
   }
 
   getImage(base64Data: String): any {

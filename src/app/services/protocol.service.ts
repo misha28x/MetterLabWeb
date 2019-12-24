@@ -8,7 +8,7 @@ import { IUser } from '../interfaces/user';
 import { tap } from 'rxjs/operators';
 import { SourceService } from './source.service';
 
-const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols/';
+const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols';
 const rejectUrl = 'http://165.22.83.21:3000/api/verications-protocols/reject/';
 const unsuitableUrl = 'http://165.22.83.21:3000/api/verications-protocols/unsuitable/';
 const acceptUrl = 'http://165.22.83.21:3000/api/verications-protocols/accept/';
@@ -44,7 +44,8 @@ export class ProtocolService {
   }
 
   public updateProtocol(id: any, data: Protocol): Observable<any> {
-    return this.http.put(protocolUrl + id, { ...data }).pipe(
+    console.log(data);
+    return this.http.put(`${protocolUrl}/${id}/${data.protocolNumber}`, { ...data }).pipe(
       tap(() => {
         this.sourceSv.fetchProtocols();
         this.sourceSv.fetchMetrologyProtocols();
@@ -73,8 +74,8 @@ export class ProtocolService {
     return this.http.put(recycleUrl + id, {});
   }
 
-  downloadDoc(counterNumber: string, mId: string = this.userId): void {
-    const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${counterNumber}/${mId}`;
+  downloadDoc(counterNumber: string, bbi: string, mId: string = this.userId): void {
+    const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${counterNumber}/${bbi}/${mId}`;
 
     window.open(docUrl);
   }

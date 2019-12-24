@@ -11,6 +11,7 @@ export interface Protocol {
   year: number; // Рік
   hours: number; // Години
   month: number; // Місяць
+  protocolNumber: string; // bbi
   minutes: number; // Хвилини
   counterNumber: string; // Номер лічильника
   capacity: string; // Об'єм

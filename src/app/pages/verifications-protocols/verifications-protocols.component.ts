@@ -49,31 +49,19 @@ export class PageVerificationsProtocolsComponent implements OnInit {
     forkJoin(protocolsSending).subscribe(() => this.updateData());
   }
 
-  displayProtocol(id: string): void {
-    this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
-      this.protocolSv.addProtocol(protocol);
-    });
+  displayProtocol(id: string, bbi: string): void {
+    this.dataSv
+      .getData(`${url}/protocol/${id}/${bbi}`)
+      .subscribe((protocol: Protocol) => {
+        this.protocolSv.addProtocol(protocol);
+      });
   }
 
   onChange(data: any): void {
     this.selectedData = data;
   }
 
-  rejectVerification(id: number): void {
-    this.verificationSv
-      .openRejectDialog()
-      .pipe(
-        filter(res => !!res),
-        switchMap(res => this.verificationSv.rejectVerification(id, res))
-      )
-      .subscribe(() => this.updateData());
-  }
-
-  checkForDuplicate(verification: any): void {
-    this.verificationSv.addVerification(verification);
-  }
-
-  deleteProtocol(id: any): void {
-    this.verificationSv.deleteProtocol(id).subscribe(() => this.updateData());
+  deleteProtocol(id: any, bbi: string): void {
+    this.verificationSv.deleteProtocol(id, bbi).subscribe(() => this.updateData());
   }
 }

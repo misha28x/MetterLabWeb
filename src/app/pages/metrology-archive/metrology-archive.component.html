@@ -26,12 +26,12 @@
           </button>
 
           <mat-menu #protocol="matMenu">
-            <button (click)="displayProtocol(row['counterNumber'])" mat-menu-item>
+            <button (click)="displayProtocol(row['counterNumber'], row['protocolNumber'])" mat-menu-item>
               <mat-icon>more</mat-icon>
               Детальніше
             </button>
 
-            <button (click)="downloadDoc(row['counterNumber'])" mat-menu-item>
+            <button (click)="downloadDoc(row['counterNumber'], row['protocolNumber'])" mat-menu-item>
               <mat-icon>save_alt</mat-icon>
               Завантажити свідоцтво
             </button>

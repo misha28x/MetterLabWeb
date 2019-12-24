@@ -10,9 +10,9 @@ import { DetailViewService } from '../../services/detail-view.service';
 import { ProtocolService } from '../../services/protocol.service';
 import { VerificationService } from '../../services/verification.service';
 
-import { SelectDialogComponent } from '../../ui/components/select-dialog';
-
 import { Protocol } from '../../interfaces/protocol';
+
+const url = 'http://165.22.83.21:3000/api/verications-protocols';
 
 @Component({
   selector: 'page-metrology-archive',
@@ -48,19 +48,20 @@ export class PageMetrologyArchiveComponent implements OnInit {
       .subscribe(() => this.sourceSv.fetchMetrologyArchive());
   }
 
-  displayProtocol(id: string, status: string = 'Повірено'): void {
-    const url = 'http://165.22.83.21:3000/api/verications-protocols';
-    this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
-      this.protocolSv.addProtocol(protocol, status);
-    });
+  displayProtocol(id: string, bbi: string): void {
+    this.dataSv
+      .getData(`${url}/protocol/${id}/${bbi}`)
+      .subscribe((protocol: Protocol) => {
+        this.protocolSv.addProtocol(protocol);
+      });
   }
 
   update(): void {
     this.sourceSv.fetchArchive();
   }
 
-  downloadDoc(id: string): void {
-    this.protocolSv.downloadDoc(id);
+  downloadDoc(id: string, bbi: string): void {
+    this.protocolSv.downloadDoc(id, bbi);
   }
 
   onChange(data: any): void {
