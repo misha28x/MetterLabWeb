@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Store, select } from '@ngrx/store';
+import printJs from 'print-js';
+import { tap } from 'rxjs/operators';
 
 import { Protocol } from '../interfaces/protocol';
 import { IUser } from '../interfaces/user';
-import { tap } from 'rxjs/operators';
 import { SourceService } from './source.service';
 
 const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols';
@@ -44,7 +45,6 @@ export class ProtocolService {
   }
 
   public updateProtocol(id: any, data: Protocol): Observable<any> {
-    console.log(data);
     return this.http.put(`${protocolUrl}/${id}/${data.protocolNumber}`, { ...data }).pipe(
       tap(() => {
         this.sourceSv.fetchProtocols();
@@ -76,7 +76,6 @@ export class ProtocolService {
 
   downloadDoc(counterNumber: string, bbi: string, mId: string = this.userId): void {
     const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${counterNumber}/${bbi}/${mId}`;
-
-    window.open(docUrl);
+    printJs(docUrl);
   }
 }

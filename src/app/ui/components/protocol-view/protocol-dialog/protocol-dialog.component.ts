@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
 
 import { CounterDialogDataComponent } from '../counter-dialog-data/counter-dialog-data.component';
 import { StartStateDialogComponent } from '../start-state-dialog/start-state-dialog.component';
@@ -11,7 +12,6 @@ import { ProtocolService } from '../../../../services/protocol.service';
 import { SourceService } from '../../../../services/source.service';
 import { Protocol, Test } from '../../../../interfaces/protocol';
 import { DataService } from '../../../../services/data.service';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-protocol-dialog',
