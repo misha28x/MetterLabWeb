@@ -50,7 +50,7 @@ export class VerificationService {
   }
 
   rejectAllFailded(taskId: string) {
-    const url = `http://165.22.83.21:3000/station-tasks/delete/all/${taskId}`;
+    const url = `http://165.22.83.21:3000/api/stations-tasks/delete/all/${taskId}`;
 
     return this.openDeleteDialog('Поверенення', 'повернути усі невиконанні повірки').pipe(
       filter(val => !!val),
