@@ -7,47 +7,47 @@ import { TableComponent } from '../';
   templateUrl: './column.component.html'
 })
 export class ColumnComponent implements OnInit {
-	@ContentChild('tableBodyTemplate', { static: false }) bodyTemplate: TemplateRef<any>;
-	@ContentChild('headerBodyTemplate', { static: false }) headerTemplate: TemplateRef<any>;
+  @ContentChild('tableBodyTemplate', { static: false }) bodyTemplate: TemplateRef<any>;
+  @ContentChild('headerBodyTemplate', { static: false }) headerTemplate: TemplateRef<any>;
 
-	@Input() columnTitle: string;
-	@Input() columnName: string;
-	@Input() enableFiltering: boolean;
-	@Input() enableSorting: boolean;
+  @Input() columnTitle: string;
+  @Input() columnName: string;
+  @Input() enableFiltering: boolean;
+  @Input() enableSorting: boolean;
   @Input() width: number;
   @Input() date: boolean;
 
-	public config: any;
-		
-  constructor(private table: TableComponent) {
-		this.enableFiltering = false;
-		this.enableSorting = false;
+  config: any;
 
-		this.config = {
-			title: '',
-			name: '',
+  constructor(private table: TableComponent) {
+    this.enableFiltering = false;
+    this.enableSorting = false;
+
+    this.config = {
+      title: '',
+      name: '',
       sort: '',
       date: this.date,
-			enableSorting: this.enableSorting,
-			filter: this.enableFiltering,
-			filtering: {
-				filterString: null,
-				columnName: ''
-			}
-		};
+      enableSorting: this.enableSorting,
+      filter: this.enableFiltering,
+      filtering: {
+        filterString: null,
+        columnName: ''
+      }
+    };
 
     this.width = 160;
-	}
+  }
 
-	public setConfig(): void {
-		this.config.name = this.columnName;
-		this.config.title = this.columnTitle;
-		this.config.filtering.columnName = this.columnName;
-		this.config.enableSorting = this.enableSorting;
-	}
+  public setConfig(): void {
+    this.config.name = this.columnName;
+    this.config.title = this.columnTitle;
+    this.config.filtering.columnName = this.columnName;
+    this.config.enableSorting = this.enableSorting;
+  }
 
   ngOnInit(): void {
-		this.table.addColumn(this);
-		this.setConfig();
+    this.table.addColumn(this);
+    this.setConfig();
   }
 }

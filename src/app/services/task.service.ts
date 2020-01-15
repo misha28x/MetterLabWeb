@@ -49,7 +49,12 @@ export class TaskService {
 
   disbandTask(id: string): Observable<any> {
     return this.dialog
-      .open(DeleteDialogComponent, { minWidth: '600px', data: 'завдання' })
+      .open(DeleteDialogComponent, {
+        minWidth: '600px',
+        data: {
+          msg: 'видалити завдання'
+        }
+      })
       .afterClosed()
       .pipe(
         filter(val => !!val),

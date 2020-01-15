@@ -73,6 +73,7 @@
           <ng-template
             *ngIf="c.headerTemplate"
             [ngTemplateOutlet]="c.headerTemplate"
+            [ngTemplateOutletContext]="{ $implicit: data }"
           ></ng-template>
         </div>
       </th>

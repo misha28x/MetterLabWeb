@@ -100,6 +100,18 @@
     </app-column>
 
     <app-column [columnTitle]="''" [width]="140">
+      <ng-template #headerBodyTemplate let-data>
+        <button
+          class="ml-4"
+          mat-mini-fab
+          color="primary"
+          (click)="rejectAll(data[0]['idForStation'])"
+        >
+          <mat-icon matTooltip="Повернути усі невиконанні">
+            settings_backup_restore
+          </mat-icon>
+        </button>
+      </ng-template>
       <ng-template #tableBodyTemplate let-row="row">
         <div class="actions-row">
           <button mat-icon-button (click)="deleteFromTask(row['applicationNumber'])">

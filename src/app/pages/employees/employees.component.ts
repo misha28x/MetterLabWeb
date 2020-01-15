@@ -57,7 +57,9 @@ export class PageEmployeesComponent implements OnInit {
       this.user = _user;
     });
 
-    this.employeeSv.getPermissions().subscribe(_permissions => (this.permissions = _permissions));
+    this.employeeSv
+      .getPermissions()
+      .subscribe(_permissions => (this.permissions = _permissions));
 
     this.contractors = this.contractorSv.getContractors();
     this.employees = this.employeeSv.getEmployees();
@@ -105,7 +107,9 @@ export class PageEmployeesComponent implements OnInit {
       minWidth: '600px'
     });
 
-    ref.afterClosed().subscribe(() => this.employeeSv.fetchEmployees(this.user.serviceProvider));
+    ref
+      .afterClosed()
+      .subscribe(() => this.employeeSv.fetchEmployees(this.user.serviceProvider));
   }
 
   editEmployee(employee: any): void {
@@ -114,13 +118,17 @@ export class PageEmployeesComponent implements OnInit {
       data: employee
     });
 
-    ref.afterClosed().subscribe(() => this.employeeSv.fetchEmployees(this.user.serviceProvider));
+    ref
+      .afterClosed()
+      .subscribe(() => this.employeeSv.fetchEmployees(this.user.serviceProvider));
   }
 
   deleteEmployee(employee: Employee): void {
     const ref = this.dialog.open(DeleteDialogComponent, {
       minWidth: '600px',
-      data: 'працівника'
+      data: {
+        msg: 'видалити працівника'
+      }
     });
 
     ref.afterClosed().subscribe((result: string) => {
@@ -137,7 +145,9 @@ export class PageEmployeesComponent implements OnInit {
       minWidth: '600px'
     });
 
-    ref.afterClosed().subscribe(() => this.stationsSv.fetchStations(this.user.serviceProvider));
+    ref
+      .afterClosed()
+      .subscribe(() => this.stationsSv.fetchStations(this.user.serviceProvider));
   }
 
   editStation(station: any): void {
@@ -146,13 +156,17 @@ export class PageEmployeesComponent implements OnInit {
       data: station
     });
 
-    ref.afterClosed().subscribe(() => this.stationsSv.fetchStations(this.user.serviceProvider));
+    ref
+      .afterClosed()
+      .subscribe(() => this.stationsSv.fetchStations(this.user.serviceProvider));
   }
 
   deleteStation(station: Station): void {
     const ref = this.dialog.open(DeleteDialogComponent, {
       minWidth: '600px',
-      data: 'станцію'
+      data: {
+        msg: 'видалити станцію'
+      }
     });
 
     ref.afterClosed().subscribe((result: string) => {
@@ -184,7 +198,9 @@ export class PageEmployeesComponent implements OnInit {
   deleteCity(city: City): void {
     const ref = this.dialog.open(DeleteDialogComponent, {
       minWidth: '600px',
-      data: 'місто'
+      data: {
+        msg: 'видалити місто'
+      }
     });
 
     ref.afterClosed().subscribe((result: string) => {
@@ -224,7 +240,9 @@ export class PageEmployeesComponent implements OnInit {
 
     const ref = this.dialog.open(DeleteDialogComponent, {
       minWidth: '600px',
-      data: 'підрядника'
+      data: {
+        msg: 'видалити підрядника'
+      }
     });
 
     ref.afterClosed().subscribe((result: string) => {

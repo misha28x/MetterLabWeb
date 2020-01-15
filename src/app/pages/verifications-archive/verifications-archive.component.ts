@@ -68,11 +68,14 @@ export class PageVerificationsArchiveComponent implements OnInit {
     });
   }
 
-  displayProtocol(id: string): void {
+  displayProtocol(id: string, bbi: string): void {
     const url = 'http://165.22.83.21:3000/api/verications-protocols';
-    this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
-      this.protocolSv.addProtocol(protocol);
-    });
+
+    this.dataSv
+      .getData(`${url}/protocol/${id}/${bbi}`)
+      .subscribe((protocol: Protocol) => {
+        this.protocolSv.addProtocol(protocol);
+      });
   }
 
   addScan(id: string): void {

@@ -63,7 +63,9 @@ export class TaslListViewDialogComponent implements OnInit {
   deleteFromTask(verifId: string): void {
     const ref = this.dialog.open(DeleteDialogComponent, {
       minWidth: '600px',
-      data: 'повірку з завдання'
+      data: {
+        msg: 'видалити повірку з завдання'
+      }
     });
 
     ref.afterClosed().subscribe((result: string) => {
@@ -85,5 +87,10 @@ export class TaslListViewDialogComponent implements OnInit {
 
   detailView(id: number): void {
     this.detailSv.addVerification(id).subscribe(() => this.updateData());
+  }
+
+  rejectAll(id: string) {
+    console.log(id);
+    this.verificationSv.rejectAllFailded(id).subscribe(() => this.updateData());
   }
 }

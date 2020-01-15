@@ -7,13 +7,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
   styleUrls: ['./delete-dialog.component.scss']
 })
 export class DeleteDialogComponent implements OnInit {
-
+  title: string;
+  msg: string;
   constructor(
     private dialogRef: MatDialogRef<DeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; msg: string }
+  ) {}
 
   ngOnInit() {
+    const { msg = '', title = 'Видалення' } = this.data;
+    this.title = title;
+    this.msg = msg;
   }
 
   delete(): void {

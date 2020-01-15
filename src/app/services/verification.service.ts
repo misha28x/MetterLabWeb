@@ -49,6 +49,15 @@ export class VerificationService {
     return this.http.post(deleteFromTask + '' + id, { taskId: taskId });
   }
 
+  rejectAllFailded(taskId: string) {
+    const url = `http://165.22.83.21:3000/station-tasks/delete/all/${taskId}`;
+
+    return this.openDeleteDialog('Поверенення', 'повернути усі невиконанні повірки').pipe(
+      filter(val => !!val),
+      switchMap(() => this.http.put(url, {}))
+    );
+  }
+
   rejectVerification(id: any, reason: string, taskId?: string): Observable<any> {
     return this.http.post(rejectUrl + id, { reason: reason, id_task: taskId });
   }
@@ -86,7 +95,9 @@ export class VerificationService {
   }
 
   deleteProtocol(id: any, bbi: string): Observable<any> {
-    const ref = this.dialog.open(DeleteDialogComponent, { data: 'протокол' });
+    const ref = this.dialog.open(DeleteDialogComponent, {
+      data: { title: 'Видалення', msg: 'видалити протокол' }
+    });
 
     return ref.afterClosed().pipe(
       filter(res => !!res),
@@ -106,21 +117,24 @@ export class VerificationService {
     return ref.afterClosed().pipe(filter(val => !!val));
   }
 
-  openDeleteDialog(): Observable<any> {
+  openDeleteDialog(title: string = 'Видалення', msg: string = ''): Observable<any> {
     return this.dialog
       .open(DeleteDialogComponent, {
         minWidth: '600px',
-        data: 'повірку'
+        data: {
+          title,
+          msg
+        }
       })
       .afterClosed();
   }
 
-  openRejectDialog(): Observable<any> {
+  openRejectDialog(msg: string = ''): Observable<any> {
     return this.dialog
       .open(RejectionDialogComponent, {
         minWidth: '450px',
         maxWidth: '95%',
-        data: 'повірку'
+        data: msg || 'повірку'
       })
       .afterClosed();
   }

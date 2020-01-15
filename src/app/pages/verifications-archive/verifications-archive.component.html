@@ -54,7 +54,7 @@
           </mat-menu>
 
           <mat-menu #protocol="matMenu">
-            <button (click)="displayProtocol(row['counterNumber'])" mat-menu-item>
+            <button (click)="displayProtocol(row['counterNumber'], row['protocolNumber'])" mat-menu-item>
               <mat-icon>more</mat-icon>
               Детальніше
             </button>

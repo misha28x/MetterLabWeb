@@ -27,10 +27,12 @@ export class MetrologyRejectedComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  displayProtocol(id: string): void {
-    this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
-      this.protocolSv.addProtocol(protocol);
-    });
+  displayProtocol(id: string, bbi: string): void {
+    this.dataSv
+      .getData(`${url}/protocol/${id}/${bbi}`)
+      .subscribe((protocol: Protocol) => {
+        this.protocolSv.addProtocol(protocol);
+      });
   }
 
   updateList(): void {

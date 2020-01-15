@@ -340,3 +340,12 @@ mat-card-header {
     max-width: 100ch;
   }
 }
+
+.large-icon {
+  height: 28px;
+  width: 28px;
+  font-size: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}

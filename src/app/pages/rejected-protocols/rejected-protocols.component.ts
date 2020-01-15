@@ -31,10 +31,12 @@ export class PageRejectedProtocolsComponent implements OnInit {
     this.sourceSv.fetchRejectedProtocols();
   }
 
-  displayProtocol(id: string): void {
-    this.dataSv.getData(url + '/protocol/' + id).subscribe((protocol: Protocol) => {
-      this.protocolSv.addProtocol(protocol);
-    });
+  displayProtocol(id: string, bbi: string): void {
+    this.dataSv
+      .getData(`${url}/protocol/${id}/${bbi}`)
+      .subscribe((protocol: Protocol) => {
+        this.protocolSv.addProtocol(protocol);
+      });
   }
 
   returnProtocol(id: string): void {

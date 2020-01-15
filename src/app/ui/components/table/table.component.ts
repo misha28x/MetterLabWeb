@@ -6,7 +6,8 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output
+  Output,
+  TemplateRef
 } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PageEvent } from '@angular/material';
@@ -38,6 +39,8 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() errorStatus: string;
   @Input() infoStatus: string;
   @Input() statusKey: string;
+
+  @Input() actionHeaderTpl: TemplateRef<any>;
 
   @Output() rowSelected: EventEmitter<any> = new EventEmitter<any>();
 
@@ -98,28 +101,10 @@ export class TableComponent implements OnInit, OnChanges {
     this.columnList.push(column);
   }
 
-  public getColumns(): void {
+  getColumns(): void {
     this.columnList.forEach(col => {
       this._columns.push(col.config);
     });
-  }
-
-  getSuccessClass(row: any): boolean {
-    if (this.desiredStatus) {
-      return row[this.statusKey] === this.desiredStatus;
-    }
-  }
-
-  getErrorClass(row: any): boolean {
-    if (this.errorStatus) {
-      return row[this.statusKey] === this.errorStatus;
-    }
-  }
-
-  getInfoClass(row: any): boolean {
-    if (this.infoStatus) {
-      return row[this.statusKey] === this.infoStatus;
-    }
   }
 
   public onChangePage(event: PageEvent): void {
@@ -316,5 +301,23 @@ export class TableComponent implements OnInit, OnChanges {
       hovered: this.hovered,
       bordered: this.bordered
     };
+  }
+
+  getSuccessClass(row: any): boolean {
+    if (this.desiredStatus) {
+      return row[this.statusKey] === this.desiredStatus;
+    }
+  }
+
+  getErrorClass(row: any): boolean {
+    if (this.errorStatus) {
+      return row[this.statusKey] === this.errorStatus;
+    }
+  }
+
+  getInfoClass(row: any): boolean {
+    if (this.infoStatus) {
+      return row[this.statusKey] === this.infoStatus;
+    }
   }
 }

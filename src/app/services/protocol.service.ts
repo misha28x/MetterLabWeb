@@ -76,6 +76,6 @@ export class ProtocolService {
 
   downloadDoc(counterNumber: string, bbi: string, mId: string = this.userId): void {
     const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${counterNumber}/${bbi}/${mId}`;
-    printJs(docUrl);
+    window.open(docUrl);
   }
 }
