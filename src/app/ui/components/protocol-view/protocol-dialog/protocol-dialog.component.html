@@ -109,7 +109,7 @@
           </button>
         </div>
 
-        <div *ngIf="permission == 5 && !checked" class="protocol-actions">
+        <div *ngIf="(permission == 5 || permission == 3) && !checked" class="protocol-actions">
           <button
             mat-raised-button
             class="bg-success"
