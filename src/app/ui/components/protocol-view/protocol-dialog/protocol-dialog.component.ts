@@ -58,9 +58,7 @@ export class ProtocolDialogComponent implements OnInit, OnDestroy {
   }
 
   saveProtocol(): void {
-    this.protocolSv
-      .updateProtocol(this.counterNumber.number, this.data)
-      .subscribe(console.log);
+    this.protocolSv.updateProtocol(this.counterNumber.number, this.data).subscribe();
   }
 
   acceptProtocol(applicationNumber: string): Observable<any> {
