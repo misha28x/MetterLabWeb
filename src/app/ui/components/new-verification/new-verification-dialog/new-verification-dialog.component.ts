@@ -7,7 +7,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import { DataService } from '../../../../services/data.service';
 import { Verification } from '../../../../interfaces/verifications';
-import { ProvidersService } from '../../../../services/providers.service';
+import { Provider, ProvidersService } from '../../../../services/providers.service';
 import { VerificationService } from '../../../../services/verification.service';
 
 import { IUser, ServiceTypes } from '../../../../interfaces/user';
@@ -38,7 +38,8 @@ export class NewVerificationDialogComponent implements OnInit {
   filteredSettlement: Observable<string[]>;
   filteredStreets: Observable<string[]>;
 
-  userProviders: any[];
+  userProviders: Provider[];
+  displayedProviders: Provider[];
   userServices: ServiceTypes[] = [];
 
   userDistrict: string;
@@ -85,8 +86,8 @@ export class NewVerificationDialogComponent implements OnInit {
 
     this.userProviders =
       user.permission > 4
-        ? [this.providersSv.getProvider(user.serviceProvider)]
-        : this.providersSv.getProviders();
+        ? this.providersSv.getProvider(user.serviceProvider)
+        : this.providersSv.providers;
 
     this.userDistrict = user.permission > 4 ? user.district : '';
   }
@@ -138,21 +139,32 @@ export class NewVerificationDialogComponent implements OnInit {
   }
 
   initLocationData(): void {
-    const serviceType =
-      this.userServices.length === 1 ? this.userServices[0] : ServiceTypes.ColdWater;
-
-    const serviceProvider =
-      this.userProviders.length === 1 ? this.userProviders[0].id : '';
-
     const district = this.userDistrict;
     const settlement = this.permission > 5 ? this.cities[0] : '';
+    const serviceType = this.userServices.length === 1 ? this.userServices[0] : 0;
+
+    this.displayedProviders = this.getProvidersByServiceType(serviceType);
+
+    const serviceProvider =
+      this.displayedProviders.length === 1 ? this.displayedProviders[0].id : '';
+
+    this.locationForm.get('serviceType').valueChanges.subscribe(service => {
+      this.displayedProviders = this.getProvidersByServiceType(service);
+
+      const selectedProvider =
+        this.displayedProviders.length === 1 ? this.displayedProviders[0].id : '';
+
+      this.locationForm.patchValue({
+        serviceProvider: selectedProvider
+      });
+    });
 
     setTimeout(() => {
       this.locationForm.patchValue({
         district,
         settlement,
         serviceType,
-        serviceProvider: serviceProvider
+        serviceProvider
       });
     }, 50);
   }
@@ -200,13 +212,6 @@ export class NewVerificationDialogComponent implements OnInit {
           )
         );
       });
-  }
-
-  getProviders(providers: any): any {
-    return Object.keys(providers).map(providerId => ({
-      id: providerId,
-      providerName: providers[providerId]
-    }));
   }
 
   clearForm(): void {
@@ -274,5 +279,13 @@ export class NewVerificationDialogComponent implements OnInit {
       haveSeal: haveSeal,
       favorTime: [time.getHours(), time.getMinutes()]
     };
+  }
+
+  private getProvidersByServiceType(serviceType: number) {
+    if (!serviceType) {
+      return this.userProviders;
+    }
+
+    return this.userProviders.filter(provider => provider.serviceType === serviceType);
   }
 }

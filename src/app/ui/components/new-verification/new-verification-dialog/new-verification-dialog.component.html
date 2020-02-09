@@ -193,12 +193,9 @@
               </td>
               <td class="w-6">
                 <mat-form-field>
-                  <mat-select
-
-                    formControlName="serviceProvider"
-                  >
+                  <mat-select formControlName="serviceProvider">
                     <mat-option
-                      *ngFor="let provider of userProviders"
+                      *ngFor="let provider of displayedProviders"
                       [value]="provider.id"
                     >
                       {{ provider.name }}
@@ -272,5 +269,7 @@
   >
     Зберегти за шаблоном
   </button>
-  <button type="submit" mat-raised-button color="primary" (click)="sendData()">Надіслати</button>
+  <button type="submit" mat-raised-button color="primary" (click)="sendData()">
+    Надіслати
+  </button>
 </div>

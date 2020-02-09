@@ -1,32 +1,74 @@
 import { Injectable } from '@angular/core';
 
-interface Provider {
+export interface Provider {
   id: number;
   name: string;
+  serviceType: 1 | 2 | 3;
 }
 
-const providers = new Map([
-  [13270431, 'КП "ЛУЦЬКВОДОКАНАЛ"'],
-  [26366904, 'ДКП «Луцьктепло» '],
-  [49672834, 'УВГК "Ковельводоканал"']
+type ProviderMap = Map<number, Provider[]>;
+
+const providers: ProviderMap = new Map([
+  [13270431, [{ name: 'КП "ЛУЦЬКВОДОКАНАЛ"', id: 13270431, serviceType: 1 }]],
+  [26366904, [{ name: 'ДКП «Луцьктепло»', id: 26366904, serviceType: 2 }]],
+  [49672834, [{ name: 'УВГК "Ковельводоканал"', id: 49672834, serviceType: 1 }]],
+  [73855324, [{ name: 'НОВОВОЛИНСЬКВОДОКАНАЛ', id: 73855324, serviceType: 1 }]],
+  [
+    94783653,
+    [{ name: 'КП ВОЛОДИМИР-ВОЛИНСЬКТЕПЛОЕНЕРГО', id: 94783653, serviceType: 2 }]
+  ],
+  [
+    15342645,
+    [
+      {
+        name: 'УВКГ м.Володимира-Волинського',
+        id: 15342645,
+        serviceType: 1
+      },
+      {
+        id: 94783653,
+        name: 'КП ВОЛОДИМИР-ВОЛИНСЬКТЕПЛОЕНЕРГО',
+        serviceType: 2
+      }
+    ]
+  ]
 ]);
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProvidersService {
+  private _providers: Provider[];
+
+  get providers() {
+    if (this._providers) {
+      return this._providers;
+    }
+
+    this._providers = this.getProviders();
+    return this._providers;
+  }
+
   constructor() {}
 
-  public getProviderById(id: number): string {
+  getProvider(id: number) {
     return providers.get(id);
   }
 
-  public getProvider(id: number): Provider {
-    const name = providers.get(id);
-    return { id, name };
+  getProviderById(id: number) {
+    return this.providers.find(el => el.id === id).name;
   }
 
-  public getProviders(): Provider[] {
-    return Array.from(providers, ([key, value]) => ({ id: key, name: value }));
+  getProviders(): Provider[] {
+    const valuesArray = Array.from(providers.values()).flat();
+    return valuesArray.reduce(this.getUniqueProviders, []);
+  }
+
+  private getUniqueProviders(acc: Provider[], cur: Provider) {
+    if (acc.find(el => el.id === cur.id)) {
+      return acc;
+    }
+
+    return [...acc, cur];
   }
 }
