@@ -19,12 +19,19 @@ export class ChangeTaskDateComponent implements OnInit {
   }
 
   closeDialog(): void {
-    const dateString = `${this.newDate.getFullYear()}-${this.newDate.getMonth() +
-      1}-${this.newDate.getDate()}`;
+    const dateString = this.getDateString(this.newDate);
     this.dialogRef.close(dateString);
   }
 
   setDate(date: Date): void {
     this.newDate = date;
+  }
+
+  getDateString(d: Date): string {
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+
+    return `${year}-${month > 9 ? month : '0' + month}-${day > 9 ? day : '0' + day}`;
   }
 }
