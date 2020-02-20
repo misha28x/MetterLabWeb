@@ -90,7 +90,6 @@ export class TaslListViewDialogComponent implements OnInit {
   }
 
   rejectAll(id: string) {
-    console.log(id);
-    this.verificationSv.rejectAllFailded(id).subscribe(() => this.updateData());
+    this.verificationSv.rejectAllFailed(id).subscribe(() => this.updateData());
   }
 }

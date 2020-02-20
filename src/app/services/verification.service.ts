@@ -19,7 +19,6 @@ const editUrl = 'http://165.22.83.21:3000/api/verifications-archive/edit/';
 const protocolUrl = 'http://165.22.83.21:3000/api/verications-protocols';
 const deleteUrl = 'http://165.22.83.21:3000/api/new-verifications/';
 const sendVerif = 'http://165.22.83.21:3000/api/lab-requests/send/';
-const issueDate = 'http://165.22.83.21:3000/api/verifications-archive/issue/';
 const revertUrl = 'http://165.22.83.21:3000/api/rejected-verification/back';
 const revertProviderUrl =
   'http://165.22.83.21:3000/api/rejected-verification/provider/back';
@@ -49,7 +48,7 @@ export class VerificationService {
     return this.http.post(deleteFromTask + '' + id, { taskId: taskId });
   }
 
-  rejectAllFailded(taskId: string) {
+  rejectAllFailed(taskId: string) {
     const url = `http://165.22.83.21:3000/api/stations-tasks/delete/all/${taskId}`;
 
     return this.openDeleteDialog('Поверенення', 'повернути усі невиконанні повірки').pipe(
@@ -105,10 +104,6 @@ export class VerificationService {
     );
   }
 
-  setIssueDate(id: any, date: string): Observable<any> {
-    return this.http.post(issueDate + id, { issueDate: date });
-  }
-
   openTaskSelection(): Observable<string> {
     const ref = this.dialog.open(AddToTaskComponent, {
       width: '80%'
@@ -129,12 +124,12 @@ export class VerificationService {
       .afterClosed();
   }
 
-  openRejectDialog(msg: string = ''): Observable<any> {
+  openRejectDialog(msg: string = 'повірку'): Observable<any> {
     return this.dialog
       .open(RejectionDialogComponent, {
         minWidth: '450px',
         maxWidth: '95%',
-        data: msg || 'повірку'
+        data: msg
       })
       .afterClosed();
   }

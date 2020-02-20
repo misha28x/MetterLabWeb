@@ -37,7 +37,6 @@ export class AuthorizationPageComponent implements OnInit {
     this.authSv.authorization(authData).subscribe(res => {
       window.localStorage.setItem('user', JSON.stringify(res));
       window.localStorage.setItem('time', new Date().getTime().toString());
-      console.log(res);
       this.redirectHome(res.permission);
     });
   }

@@ -49,7 +49,7 @@ export class FailedTasksComponent implements OnInit {
 
   sendData(): void {
     const observer = {
-      next: x => console.log(x),
+      next: x => null,
       error: err => this.dataSv.handleError(err),
       complete: () => this.showSnackBar()
     };

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 export interface Provider {
   id: number;
   name: string;
-  serviceType: 1 | 2 | 3;
+  serviceType: number;
 }
 
 type ProviderMap = Map<number, Provider[]>;
@@ -24,11 +24,6 @@ const providers: ProviderMap = new Map([
         name: 'УВКГ м.Володимира-Волинського',
         id: 15342645,
         serviceType: 1
-      },
-      {
-        id: 94783653,
-        name: 'КП ВОЛОДИМИР-ВОЛИНСЬКТЕПЛОЕНЕРГО',
-        serviceType: 2
       }
     ]
   ]
@@ -60,8 +55,11 @@ export class ProvidersService {
   }
 
   getProviders(): Provider[] {
-    const valuesArray = Array.from(providers.values()).flat();
-    return valuesArray.reduce(this.getUniqueProviders, []);
+    const providersArr = Array.from(providers.values()).reduce((acc, provider) => {
+      return [...acc, ...provider];
+    }, []);
+
+    return providersArr.reduce(this.getUniqueProviders, []);
   }
 
   private getUniqueProviders(acc: Provider[], cur: Provider) {

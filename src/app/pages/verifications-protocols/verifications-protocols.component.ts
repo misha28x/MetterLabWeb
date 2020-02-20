@@ -38,7 +38,10 @@ export class PageVerificationsProtocolsComponent implements OnInit {
 
   updateData(): void {
     this.sourceSv.fetchProtocols();
-    this.table.clearSelected();
+
+    if (this.table) {
+      this.table.clearSelected();
+    }
   }
 
   sendProtocols(): void {

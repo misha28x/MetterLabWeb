@@ -272,27 +272,8 @@ export class TableComponent implements OnInit, OnChanges {
     }
   }
 
-  onDateChange(c: ColumnComponent, date: Date[]): void {
-    if (date) {
-      const dateString = `${this.getDateString(date[0])} - ${this.getDateString(
-        date[1]
-      )}`;
-      c.config.filtering = dateString;
-
-      this.onChangeTable(c, dateString);
-    }
-  }
-
-  trackByFn(index: number, item: any): any {
+  trackByFn(index: number): any {
     return index;
-  }
-
-  getDateString(d: Date): string {
-    const date = d.getDate();
-    const month = d.getMonth() + 1;
-    const year = d.getFullYear();
-
-    return `${year}-${month > 9 ? month : '0' + month}-${date > 9 ? date : '0' + date}`;
   }
 
   getTableClasses(): any {

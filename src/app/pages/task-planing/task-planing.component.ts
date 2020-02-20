@@ -102,8 +102,11 @@ export class PageTaskPlaningComponent implements OnInit {
 
   updateData(): void {
     this.sourceSv.fetchTaskPlaning();
-    this.table.clearSelected();
     this.selectedData = [];
+
+    if (this.table) {
+      this.table.clearSelected();
+    }
   }
 
   detailView(id: number): void {

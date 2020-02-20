@@ -27,10 +27,6 @@ export function permissionReducer(
     }
 
     case PermissionTypes.ChangePermission: {
-      console.log({
-        ...state,
-        ...action.payload
-      });
       return {
         ...state,
         ...action.payload

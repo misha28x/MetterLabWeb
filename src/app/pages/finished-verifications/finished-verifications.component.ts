@@ -31,7 +31,7 @@ export class FinishedVerificationsComponent implements OnInit {
   ) {
     this.updateData();
     this.newVerifications = this.sourceSv.getProvidersArchive();
-    this.sourceSv.getProvidersArchive().subscribe(console.log);
+    this.sourceSv.getProvidersArchive().subscribe();
   }
 
   ngOnInit(): void {

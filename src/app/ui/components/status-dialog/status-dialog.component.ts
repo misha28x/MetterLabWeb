@@ -13,12 +13,8 @@ import { Observable } from 'rxjs';
 export class StatusDialogComponent implements OnInit {
   data: any;
   isEmpty: boolean;
-  constructor(
-    private dialogRef: MatDialogRef<StatusDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public asyncData: Observable<any>
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) public asyncData: Observable<any>) {
     this.asyncData.subscribe(data => {
-      console.log(data);
       if (!data || !data.length) {
         this.isEmpty = true;
       }

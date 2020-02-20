@@ -54,7 +54,10 @@ export class PageNewVerificationsComponent implements OnInit {
 
   updateData(): void {
     this.sourceSv.fetchNewVerifications();
-    this.table.clearSelected();
+
+    if (this.table) {
+      this.table.clearSelected();
+    }
   }
 
   detailView(id: number): void {

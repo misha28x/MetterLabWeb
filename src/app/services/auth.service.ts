@@ -31,7 +31,6 @@ export class AuthService {
   }
 
   handleAuthError(error: HttpErrorResponse): Observable<never> {
-    console.log(error);
     return throwError(error.error);
   }
 }

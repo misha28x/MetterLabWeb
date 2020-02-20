@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 
 import { DataService } from '../../../../services/data.service';
 import { Verification } from '../../../../interfaces/verifications';
@@ -73,14 +73,13 @@ export class NewVerificationDialogComponent implements OnInit {
 
     this.store.pipe(select('permission')).subscribe(_user => {
       this.user = _user;
-
       this.permission = _user.permission;
-      this.setUpUserData(_user);
+      this.setUserData(_user);
       this.getAddress(this.userDistrict);
     });
   }
 
-  setUpUserData(user: IUser): void {
+  setUserData(user: IUser): void {
     this.userServices =
       user.serviceType === ServiceTypes.Both ? [1, 2] : [user.serviceType];
 
@@ -90,52 +89,6 @@ export class NewVerificationDialogComponent implements OnInit {
         : this.providersSv.providers;
 
     this.userDistrict = user.permission > 4 ? user.district : '';
-  }
-
-  initForms(): void {
-    this.generalDataForm = this.fb.group({
-      surname: ['', [Validators.required]],
-      name: '',
-      middlename: '',
-      phoneNumber: ['', [Validators.minLength(8), Validators.required]],
-      additionalPhone: ['', [Validators.minLength(8)]]
-    });
-
-    this.locationForm = this.fb.group({
-      region: 'Волинська',
-      district: ['', [Validators.required]],
-      settlement: ['', [Validators.required]],
-      street: ['', [Validators.required]],
-      house: ['', [Validators.required]],
-      apartment: '',
-      isUnique: false,
-      counterQuantity: 1,
-      serviceType: 1,
-      serviceProvider: ['', [Validators.required]]
-    });
-
-    this.counterForm = this.fb.group({
-      counterNumber: '',
-      haveSeal: '',
-      comment: '',
-      counterType: '',
-      productionYear: '',
-      symbol: '',
-      acumulatedVolume: ''
-    });
-
-    const time = new Date();
-
-    time.setHours(0);
-    time.setMinutes(0);
-
-    this.additionalDataForm = this.fb.group({
-      favorTime: time,
-      comment: '',
-      sanitaryWellFare: '',
-      waterAbsentTo: '',
-      note: ''
-    });
   }
 
   initLocationData(): void {
@@ -223,10 +176,11 @@ export class NewVerificationDialogComponent implements OnInit {
   }
 
   sendData(): void {
-    const validForm = this.locationForm.valid && this.generalDataForm.valid;
+    const formIsValid = this.locationForm.valid && this.generalDataForm.valid;
 
-    if (validForm) {
-      const verification = this.setVerification();
+    if (formIsValid) {
+      const verification = this.getVerification();
+
       this.verificationSv.createVerification(verification).subscribe();
       this.dialogRef.close();
     } else {
@@ -242,7 +196,7 @@ export class NewVerificationDialogComponent implements OnInit {
   }
 
   saveByPattern(): void {
-    this.verificationSv.createVerification(this.setVerification()).subscribe();
+    this.verificationSv.createVerification(this.getVerification()).subscribe();
 
     this.step = 1;
 
@@ -253,14 +207,13 @@ export class NewVerificationDialogComponent implements OnInit {
     });
   }
 
-  checkForDupliacates(): void {
-    this.verificationSv.addVerification(this.setVerification());
+  checkForDuplicates(): void {
+    this.verificationSv.addVerification(this.getVerification());
   }
 
-  setVerification(): Verification {
+  getVerification(): Verification {
     const name = this.generalDataForm.get('name').value.replace("'", '`');
     const surname = this.generalDataForm.get('surname').value.replace("'", '`');
-
     const middlename = this.generalDataForm.get('middlename').value.replace("'", '`');
 
     const fullName = `${surname} ${name} ${middlename}`;
@@ -287,5 +240,51 @@ export class NewVerificationDialogComponent implements OnInit {
     }
 
     return this.userProviders.filter(provider => provider.serviceType === serviceType);
+  }
+
+  private initForms(): void {
+    this.generalDataForm = this.fb.group({
+      surname: ['', [Validators.required]],
+      name: '',
+      middlename: '',
+      phoneNumber: ['', [Validators.minLength(8), Validators.required]],
+      additionalPhone: ['', [Validators.minLength(8)]]
+    });
+
+    this.locationForm = this.fb.group({
+      region: 'Волинська',
+      district: ['', [Validators.required]],
+      settlement: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      house: ['', [Validators.required]],
+      apartment: '',
+      isUnique: false,
+      counterQuantity: 1,
+      serviceType: 1,
+      serviceProvider: ['', [Validators.required]]
+    });
+
+    this.counterForm = this.fb.group({
+      counterNumber: '',
+      haveSeal: '',
+      comment: '',
+      counterType: '',
+      productionYear: '',
+      symbol: '',
+      acumulatedVolume: ''
+    });
+
+    const time = new Date();
+
+    time.setHours(0);
+    time.setMinutes(0);
+
+    this.additionalDataForm = this.fb.group({
+      favorTime: time,
+      comment: '',
+      sanitaryWellFare: '',
+      waterAbsentTo: '',
+      note: ''
+    });
   }
 }
