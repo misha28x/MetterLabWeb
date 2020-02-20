@@ -74,6 +74,11 @@ export class ProtocolService {
     return this.http.put(recycleUrl + id, {});
   }
 
+  returnToProtocols(id: string): Observable<any> {
+    const url = `http://165.22.83.21:3000/api/lab-requests/send/${id}`;
+    return this.http.get(url);
+  }
+
   downloadDoc(counterNumber: string, bbi: string, mId: string = this.userId): void {
     const docUrl = `http://165.22.83.21:3000/api/report-formation/pdf/${counterNumber}/${bbi}/${mId}`;
     window.open(docUrl);

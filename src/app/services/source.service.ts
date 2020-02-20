@@ -5,6 +5,7 @@ import { select, Store } from '@ngrx/store';
 
 import { IUser } from '../interfaces/user';
 import { map } from 'rxjs/operators';
+import { StationTask } from '../interfaces/task';
 
 const metrologyProtocolsUrl: string =
   'http://165.22.83.21:3000/api/verications-protocols/metrology/protocols';
@@ -60,6 +61,11 @@ export class SourceService {
   fetchStationTasks(): void {
     this.http
       .get(stationTasksUrl + '/' + this.user.serviceProvider)
+      .pipe(
+        map((arr: StationTask[]) =>
+          arr.sort((cur, next) => (cur.taskDate > next.taskDate ? -1 : 1))
+        )
+      )
       .subscribe((res: any) => this.stationTaskSource$.next(res));
   }
 

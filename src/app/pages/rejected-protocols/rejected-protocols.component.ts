@@ -44,4 +44,8 @@ export class PageRejectedProtocolsComponent implements OnInit {
       this.updateList();
     });
   }
+
+  returnToProtocols(id: string) {
+    this.protocolSv.returnToProtocols(id).subscribe(() => this.updateList());
+  }
 }
