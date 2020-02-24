@@ -9,6 +9,7 @@ export interface Provider {
 type ProviderMap = Map<number, Provider[]>;
 
 const providers: ProviderMap = new Map([
+  [39573623, [{ name: 'ПТМ «КОВЕЛЬТЕПЛО»', id: 39573623, serviceType: 2 }]],
   [13270431, [{ name: 'КП "ЛУЦЬКВОДОКАНАЛ"', id: 13270431, serviceType: 1 }]],
   [26366904, [{ name: 'ДКП «Луцьктепло»', id: 26366904, serviceType: 2 }]],
   [49672834, [{ name: 'УВГК "Ковельводоканал"', id: 49672834, serviceType: 1 }]],
@@ -36,11 +37,10 @@ export class ProvidersService {
   private _providers: Provider[];
 
   get providers() {
-    if (this._providers) {
-      return this._providers;
+    if (!this._providers) {
+      this._providers = this.getProviders();
     }
 
-    this._providers = this.getProviders();
     return this._providers;
   }
 
