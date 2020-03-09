@@ -15,6 +15,7 @@ export class ColumnComponent implements OnInit {
   @Input() enableFiltering: boolean;
   @Input() enableSorting: boolean;
   @Input() width: number;
+  @Input() type: 'text' | 'date';
   @Input() date: boolean;
 
   config: any;
@@ -23,27 +24,25 @@ export class ColumnComponent implements OnInit {
     this.enableFiltering = false;
     this.enableSorting = false;
 
-    this.config = {
-      title: '',
-      name: '',
-      sort: '',
-      date: this.date,
-      enableSorting: this.enableSorting,
-      filter: this.enableFiltering,
-      filtering: {
-        filterString: null,
-        columnName: ''
-      }
-    };
-
+    this.type = 'text';
     this.width = 160;
   }
 
   public setConfig(): void {
-    this.config.name = this.columnName;
-    this.config.title = this.columnTitle;
-    this.config.filtering.columnName = this.columnName;
-    this.config.enableSorting = this.enableSorting;
+    this.config = {
+      title: this.columnTitle,
+      name: this.columnName,
+      sort: '',
+      date: this.date,
+      // Fallback till refactored
+      type: this.date || this.type === 'date' ? 'date' : 'text',
+      enableSorting: this.enableSorting,
+      filter: this.enableFiltering,
+      filtering: {
+        filterString: null,
+        columnName: this.columnName
+      }
+    };
   }
 
   ngOnInit(): void {

@@ -1,12 +1,3 @@
-<mat-form-field *ngIf="search">
-  <app-input
-    [placeholder]="'Seach in table'"
-    [appFilterTable]="config.filtering"
-    (tableChanged)="onChangeTable(config)"
-    [suffixIcon]="'icofont icofont-search-alt-2'"
-  ></app-input>
-</mat-form-field>
-
 <div class="table-wrap">
   <table [style.height]="'100%'" [ngClass]="getTableClasses()">
     <tr>
@@ -38,7 +29,7 @@
                   (click)="$event.stopPropagation()"
                   [appFilterTable]="c.config.filtering"
                   [suffixIcon]="'icofont icofont-search-alt-2'"
-                  (filterChanged)="onChangeTable(c)"
+                  (filterChanged)="filterChanged(c, $event)"
                 ></app-input>
               </div>
             </ng-container>
@@ -49,7 +40,7 @@
                   (click)="$event.stopPropagation()"
                   [(ngModel)]="date"
                   [nzFormat]="'MM-dd'"
-                  (ngModelChange)="onChangeTable(c, $event)"
+                  (ngModelChange)="dateFilterChanged(c, $event)"
                   [ngStyle]="{ width: '100%', height: 24 }"
                   [nzSize]="'small'"
                   [nzPlaceHolder]="['', '']"

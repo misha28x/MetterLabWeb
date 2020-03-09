@@ -54,7 +54,10 @@
           </mat-menu>
 
           <mat-menu #protocol="matMenu">
-            <button (click)="displayProtocol(row['counterNumber'], row['protocolNumber'])" mat-menu-item>
+            <button
+              (click)="displayProtocol(row['counterNumber'], row['protocolNumber'])"
+              mat-menu-item
+            >
               <mat-icon>more</mat-icon>
               Детальніше
             </button>
@@ -194,14 +197,6 @@
           {{ val == 1 ? 'Холодна' : 'Гаряча' }}
         </ng-template>
       </app-column>
-
-      <app-column
-        [width]="75"
-        [columnTitle]="'Коментар'"
-        [columnName]="'comment'"
-        [enableSorting]="true"
-        [enableFiltering]="true"
-      ></app-column>
 
       <app-column
         [date]="true"

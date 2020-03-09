@@ -7,7 +7,7 @@ export interface Provider {
 }
 
 type ProviderMap = Map<number, Provider[]>;
-
+const FALLBACK_TEXT = 'Не знайдено надавача!';
 const providers: ProviderMap = new Map([
   [39573623, [{ name: 'ПТМ «КОВЕЛЬТЕПЛО»', id: 39573623, serviceType: 2 }]],
   [13270431, [{ name: 'КП "ЛУЦЬКВОДОКАНАЛ"', id: 13270431, serviceType: 1 }]],
@@ -51,7 +51,13 @@ export class ProvidersService {
   }
 
   getProviderById(id: number) {
-    return this.providers.find(el => el.id === id).name;
+    if (!id) {
+      return FALLBACK_TEXT;
+    }
+
+    const { name = FALLBACK_TEXT } = this.providers.find(el => el.id === id);
+
+    return name;
   }
 
   getProviders(): Provider[] {

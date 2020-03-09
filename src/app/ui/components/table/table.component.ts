@@ -13,12 +13,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { PageEvent } from '@angular/material';
 
 import { ColumnComponent } from './column/column.component';
+import { TableService } from './table.service';
+
 import { ITableConfig } from '../../interfaces/tableConfig';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  providers: [TableService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements OnInit, OnChanges {
@@ -57,7 +60,7 @@ export class TableComponent implements OnInit, OnChanges {
 
   selection = new SelectionModel<any>(true, []);
 
-  constructor() {
+  constructor(private tableSv: TableService) {
     this.columnList = [];
     this._columns = [];
     this.statusKey = 'status';
@@ -103,11 +106,12 @@ export class TableComponent implements OnInit, OnChanges {
 
   getColumns(): void {
     this.columnList.forEach(col => {
+      this.tableSv.addColumn(col);
       this._columns.push(col.config);
     });
   }
 
-  public onChangePage(event: PageEvent): void {
+  onChangePage(event: PageEvent): void {
     this.page = event.pageIndex;
     this.itemsPerPage = event.pageSize;
     this.onChangeTable();
@@ -126,7 +130,7 @@ export class TableComponent implements OnInit, OnChanges {
     this.rowSelected.emit(this.selection.selected);
   }
 
-  public changePage(data: any[]): any[] {
+  changePage(data: any[]): any[] {
     let start = this.page * this.itemsPerPage;
 
     if (this.page > 0) {
@@ -141,7 +145,7 @@ export class TableComponent implements OnInit, OnChanges {
     return data.slice(start, end);
   }
 
-  public changeSort(data: any, config: any): any {
+  changeSort(data: any, config: any): any {
     if (!config.sorting) {
       return data;
     }
@@ -178,7 +182,7 @@ export class TableComponent implements OnInit, OnChanges {
     });
   }
 
-  public changeFilter(data: any, filterString: string, column?: ColumnComponent): any {
+  changeFilter(data: any, filterString: string, column?: ColumnComponent): any {
     let filteredData: Array<any> = data;
 
     const isDateColumn =
@@ -228,13 +232,40 @@ export class TableComponent implements OnInit, OnChanges {
           flag = true;
         }
       });
+
       if (flag) {
         tempArray.push(item);
       }
     });
+
     filteredData = tempArray;
 
     return filteredData;
+  }
+
+  filterChanged(c: ColumnComponent, value: string) {
+    const field = c.config.name;
+
+    this.tableSv.changeFilter(field, value);
+    this.onChangeTable();
+  }
+
+  dateFilterChanged(c: ColumnComponent, value: Date[]) {
+    const field = c.config.name;
+
+    if (!value || value.length < 2) {
+      this.tableSv.changeFilter(field);
+      this.onChangeTable();
+      return;
+    }
+
+    const toDateString = (date: Date) => date.toISOString().split('T')[0];
+
+    const start = toDateString(value[0]);
+    const end = toDateString(value[1]);
+
+    this.tableSv.changeFilter(field, `${start}T${end}`);
+    this.onChangeTable();
   }
 
   onChangeTable(column?: ColumnComponent, value?: string): void {
@@ -243,11 +274,7 @@ export class TableComponent implements OnInit, OnChanges {
       column.config.filtering = value || column.config.filtering;
     }
 
-    const filteredData = this.changeFilter(
-      this.data,
-      this.config.filtering.filterString,
-      column
-    );
+    const filteredData = this.tableSv.filterData(this.data);
 
     const sortedData = this.changeSort(filteredData, this.config);
 
