@@ -1,14 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../../services/data.service';
 import { SourceService } from '../../../services/source.service';
-import { ProvidersService } from '../../../services/providers.service';
 import { DetailViewService } from '../../../services/detail-view.service';
 import { VerificationService } from '../../../services/verification.service';
 import { DeleteDialogComponent } from '../../../ui/components/delete-dialog';
+import { VerificationAdapter } from '../../../models/verification';
+
+import { Provider, ProvidersService } from '../../../services/providers.service';
+import { VerificationDTO } from '../../../interfaces/verifications';
 
 interface DialogData {
   taskId: string;
@@ -22,6 +25,8 @@ interface DialogData {
 })
 export class TaslListViewDialogComponent implements OnInit {
   private url: string;
+  private providers: Map<number, Provider>;
+
   taskList: Observable<any[]>;
 
   constructor(
@@ -31,7 +36,6 @@ export class TaslListViewDialogComponent implements OnInit {
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
     private verificationSv: VerificationService,
-    private dialogRef: MatDialogRef<TaslListViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
@@ -43,11 +47,18 @@ export class TaslListViewDialogComponent implements OnInit {
       this.url = 'http://165.22.83.21:3000/api/stations-tasks/tasks/' + this.data.taskId;
     }
 
+    this.providers = this.providersSv.providersMap;
     this.updateData();
   }
 
   updateData(): void {
-    this.taskList = this.dataSv.getData(this.url);
+    this.taskList = this.dataSv
+      .getData(this.url)
+      .pipe(
+        map((res: VerificationDTO[]) =>
+          res.map(dto => new VerificationAdapter(this.providers).adapt(dto))
+        )
+      );
   }
 
   rejectVerification(id: number, taskId: string): void {

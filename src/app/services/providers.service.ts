@@ -35,6 +35,11 @@ const providers: ProviderMap = new Map([
 })
 export class ProvidersService {
   private _providers: Provider[];
+  private _providersMap: Map<number, Provider> = this.initProviders(this.providers);
+
+  get providersMap() {
+    return this._providersMap;
+  }
 
   get providers() {
     if (!this._providers) {
@@ -74,5 +79,15 @@ export class ProvidersService {
     }
 
     return [...acc, cur];
+  }
+
+  private initProviders(providersArr: Provider[]): Map<number, Provider> {
+    const resultMap = new Map<number, Provider>();
+
+    for (const provider of providersArr) {
+      resultMap.set(provider.id, provider);
+    }
+
+    return resultMap;
   }
 }

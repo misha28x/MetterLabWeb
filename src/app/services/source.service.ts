@@ -60,7 +60,7 @@ export class SourceService {
       }
     });
 
-    this.providers = this.initProviders(this.providersSv.providers);
+    this.providers = this.providersSv.providersMap;
   }
 
   fetchNewVerifications(): void {
@@ -224,15 +224,5 @@ export class SourceService {
 
   getRejectedProvider(): Observable<Object[]> {
     return this.rejectedProviders$.asObservable();
-  }
-
-  private initProviders(providersArr: Provider[]): Map<number, Provider> {
-    const resultMap = new Map<number, Provider>();
-
-    for (const provider of providersArr) {
-      resultMap.set(provider.id, provider);
-    }
-
-    return resultMap;
   }
 }

@@ -61,11 +61,7 @@
       [columnName]="'serviceProvider'"
       [width]="240"
       [enableFiltering]="true"
-    >
-      <ng-template #tableBodyTemplate let-row="row">
-        {{ providersSv.getProviderById(row['serviceProvider']) }}
-      </ng-template>
-    </app-column>
+    ></app-column>
 
     <app-column
       [columnTitle]="'Дата додання'"
@@ -79,9 +75,7 @@
       [columnName]="'phoneNumber'"
       [width]="110"
       [enableFiltering]="true"
-    >
-      <ng-template #tableBodyTemplate let-val>{{ val ? '+380' + val : '' }}</ng-template>
-    </app-column>
+    ></app-column>
 
     <app-column [columnTitle]="'Примітка'" [columnName]="'note'" [enableFiltering]="true">
       <ng-template #tableBodyTemplate let-row="row">
