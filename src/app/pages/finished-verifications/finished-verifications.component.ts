@@ -4,7 +4,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../services/data.service';
-import { Verification } from '../../interfaces/verifications';
+import { VerificationDTO } from '../../interfaces/verifications';
 import { SourceService } from '../../services/source.service';
 import { UploadService } from '../../services/upload.service';
 import { DetailViewService } from '../../services/detail-view.service';
@@ -69,7 +69,7 @@ export class FinishedVerificationsComponent implements OnInit {
         filter(res => !!res),
         switchMap(res =>
           combineLatest(
-            this.selectedData.map((ver: Verification) =>
+            this.selectedData.map((ver: VerificationDTO) =>
               this.verificationSv.rejectVerification(ver.applicationNumber, res)
             )
           )

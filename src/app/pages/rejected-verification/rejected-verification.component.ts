@@ -4,7 +4,7 @@ import { forkJoin, Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
+import { VerificationDTO } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 
@@ -46,7 +46,7 @@ export class PageRejectedVerificationComponent implements OnInit {
     this.verificationSv.deleteVerification(id).subscribe(() => this.updateData());
   }
 
-  checkForDuplicate(verification: Verification): void {
+  checkForDuplicate(verification: VerificationDTO): void {
     this.verificationSv.addVerification(verification);
   }
 

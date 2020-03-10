@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
-import { Verification } from '../interfaces/verifications';
+import { VerificationDTO } from '../interfaces/verifications';
 import { DeleteDialogComponent } from '../ui/components/delete-dialog';
 import { RejectionDialogComponent } from '../ui/components/rejection-dialog';
 import { AddToTaskComponent } from '../pages/task-planing/add-to-task/add-to-task.component';
@@ -27,20 +27,20 @@ const revertProviderUrl =
   providedIn: 'root'
 })
 export class VerificationService {
-  private verificationSource$ = new Subject<Verification>();
+  private verificationSource$ = new Subject<VerificationDTO>();
   private verificationAdded$ = this.verificationSource$.asObservable();
 
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 
-  addVerification(verification: Verification): void {
+  addVerification(verification: VerificationDTO): void {
     this.verificationSource$.next(verification);
   }
 
-  createVerification(verification: Verification): Observable<Object> {
+  createVerification(verification: VerificationDTO): Observable<Object> {
     return this.http.post(createUrl, verification);
   }
 
-  getVerification(): Observable<Verification> {
+  getVerification(): Observable<VerificationDTO> {
     return this.verificationAdded$;
   }
 
@@ -73,7 +73,7 @@ export class VerificationService {
     return this.http.put(`${addToTask}/${id}/${taskId}`, {});
   }
 
-  updateVerification(id: any, verification: Verification): Observable<any> {
+  updateVerification(id: any, verification: VerificationDTO): Observable<any> {
     return this.http.put(editUrl + id, verification);
   }
 

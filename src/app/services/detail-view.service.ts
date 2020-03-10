@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { switchMap } from 'rxjs/operators';
 
-import { Verification } from '../interfaces/verifications';
+import { VerificationDTO } from '../interfaces/verifications';
 import { DetailViewDialogComponent } from '../ui/components/detail-view-dialog/detail-view-dialog.component';
 
 const verUrl = 'http://165.22.83.21:3000/api/verifications-archive/single/';
@@ -14,18 +14,18 @@ const addressUrl = 'http://165.22.83.21:3000/api/new-verifications/all/address';
   providedIn: 'root'
 })
 export class DetailViewService {
-  private verificationSource$ = new Subject<Verification>();
+  private verificationSource$ = new Subject<VerificationDTO>();
   private verificationAdded$ = this.verificationSource$.asObservable();
 
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   addVerification(id: any): Observable<any> {
     return this.http
-      .get<Verification>(verUrl + id)
+      .get<VerificationDTO>(verUrl + id)
       .pipe(switchMap(ver => this.openDialog(ver).afterClosed()));
   }
 
-  getVerification(): Observable<Verification> {
+  getVerification(): Observable<VerificationDTO> {
     return this.verificationAdded$;
   }
 
@@ -33,7 +33,7 @@ export class DetailViewService {
     return this.http.get(addressUrl);
   }
 
-  openDialog(ver: Verification): MatDialogRef<DetailViewDialogComponent> {
+  openDialog(ver: VerificationDTO): MatDialogRef<DetailViewDialogComponent> {
     const ref = this.dialog.open(DetailViewDialogComponent, {
       height: '75%',
       width: '800px',

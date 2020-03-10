@@ -55,7 +55,6 @@ export class TableService {
       }
 
       const value = col.toString().toLowerCase();
-
       const { type = 'text' } = this.columns.get(key);
 
       const result = this.checkColumn(value, filter, type);

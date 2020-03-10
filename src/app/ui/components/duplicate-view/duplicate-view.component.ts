@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
-import { Verification } from '../../../interfaces/verifications';
+import { VerificationDTO } from '../../../interfaces/verifications';
 import { VerificationService } from '../../../services/verification.service';
 import { DuplicatViewDialogComponent } from './duplicat-view-dialog/duplicat-view-dialog.component';
 
@@ -14,21 +14,21 @@ import { DuplicatViewDialogComponent } from './duplicat-view-dialog/duplicat-vie
 export class DuplicateViewComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
-  constructor(private dialog: MatDialog, private verificationSv: VerificationService) { }
-  
+  constructor(private dialog: MatDialog, private verificationSv: VerificationService) {}
+
   ngOnInit(): void {
-    this.subscription = this.verificationSv.getVerification().subscribe(
-      (verification: Verification) => {
+    this.subscription = this.verificationSv
+      .getVerification()
+      .subscribe((verification: VerificationDTO) => {
         this.openDialog(verification);
-      }
-    );
+      });
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }  
+  }
 
-  openDialog(verification: Verification): void {
+  openDialog(verification: VerificationDTO): void {
     this.dialog.open(DuplicatViewDialogComponent, {
       data: verification,
       height: '90%',

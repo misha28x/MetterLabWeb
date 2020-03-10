@@ -6,7 +6,7 @@ import { filter, switchMap } from 'rxjs/operators';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
+import { VerificationDTO } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { ProvidersService } from '../../services/providers.service';
 import { VerificationService } from '../../services/verification.service';
@@ -74,7 +74,7 @@ export class PageLabRequestsComponent implements OnInit {
 
   sendVerif(): void {
     forkJoin(
-      this.selectedData.map((ver: Verification) =>
+      this.selectedData.map((ver: VerificationDTO) =>
         this.verificationSv.sendVerif(ver.applicationNumber)
       )
     ).subscribe(() => this.updateData());
@@ -100,7 +100,7 @@ export class PageLabRequestsComponent implements OnInit {
       .subscribe(() => this.updateData());
   }
 
-  checkForDuplicate(verification: Verification): void {
+  checkForDuplicate(verification: VerificationDTO): void {
     this.verificationSv.addVerification(verification);
   }
 

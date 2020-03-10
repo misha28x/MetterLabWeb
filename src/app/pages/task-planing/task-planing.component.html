@@ -70,11 +70,7 @@
         [enableSorting]="true"
         [enableFiltering]="true"
         [width]="240"
-      >
-        <ng-template #tableBodyTemplate let-row="row">
-          {{ providersSv.getProviderById(row['serviceProvider']) }}
-        </ng-template>
-      </app-column>
+      ></app-column>
 
       <app-column
         [width]="110"
@@ -82,11 +78,7 @@
         [columnName]="'serviceType'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      >
-        <ng-template #tableBodyTemplate let-val>
-          {{ val == 1 ? 'Холодна' : 'Гаряча' }}
-        </ng-template>
-      </app-column>
+      ></app-column>
 
       <app-column
         [width]="115"
@@ -127,11 +119,7 @@
         [columnName]="'phoneNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
-      >
-        <ng-template #tableBodyTemplate let-val>
-          {{ val ? '+380' + val : '' }}
-        </ng-template>
-      </app-column>
+      ></app-column>
 
       <app-column
         [width]="280"

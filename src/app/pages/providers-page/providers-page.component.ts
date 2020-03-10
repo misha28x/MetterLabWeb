@@ -7,7 +7,7 @@ import { filter, switchMap } from 'rxjs/operators';
 import { IUser } from '../../interfaces/user';
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
+import { VerificationDTO } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { VerificationService } from '../../services/verification.service';
 
@@ -65,7 +65,7 @@ export class ProvidersPageComponent implements OnInit {
 
   addEmployeeToSelected(): void {
     forkJoin(
-      this.selectedData.map((ver: Verification) =>
+      this.selectedData.map((ver: VerificationDTO) =>
         this.dataSv.sendData(url + '/employee/' + ver.applicationNumber, {
           employee: this.user.username
         })
@@ -90,7 +90,7 @@ export class ProvidersPageComponent implements OnInit {
         filter(res => !!res),
         switchMap(res =>
           combineLatest(
-            this.selectedData.map((ver: Verification) =>
+            this.selectedData.map((ver: VerificationDTO) =>
               this.verificationSv.rejectVerification(ver.applicationNumber, res)
             )
           )
@@ -109,7 +109,7 @@ export class ProvidersPageComponent implements OnInit {
       .subscribe(() => this.updateData());
   }
 
-  checkForDuplicate(verification: Verification): void {
+  checkForDuplicate(verification: VerificationDTO): void {
     this.verificationSv.addVerification(verification);
   }
 

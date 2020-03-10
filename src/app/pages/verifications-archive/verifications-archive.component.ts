@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
-import { Verification } from '../../interfaces/verifications';
+import { VerificationDTO } from '../../interfaces/verifications';
 import { DetailViewService } from '../../services/detail-view.service';
 import { ProvidersService } from '../../services/providers.service';
 import { ProtocolService } from '../../services/protocol.service';

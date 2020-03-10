@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { DataService } from '../../../../services/data.service';
-import { Verification } from '../../../../interfaces/verifications';
+import { VerificationDTO } from '../../../../interfaces/verifications';
 import { Provider, ProvidersService } from '../../../../services/providers.service';
 import { VerificationService } from '../../../../services/verification.service';
 
@@ -20,7 +20,7 @@ import { IUser, ServiceTypes } from '../../../../interfaces/user';
 })
 export class NewVerificationDialogComponent implements OnInit {
   step: number;
-  verification: Verification;
+  verification: VerificationDTO;
 
   generalDataForm: FormGroup;
   locationForm: FormGroup;
@@ -211,7 +211,7 @@ export class NewVerificationDialogComponent implements OnInit {
     this.verificationSv.addVerification(this.getVerification());
   }
 
-  getVerification(): Verification {
+  getVerification(): VerificationDTO {
     const name = this.generalDataForm.get('name').value.replace("'", '`');
     const surname = this.generalDataForm.get('surname').value.replace("'", '`');
     const middlename = this.generalDataForm.get('middlename').value.replace("'", '`');

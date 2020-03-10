@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 
 import { IUser } from '../interfaces/user';
-import { map } from 'rxjs/operators';
 import { StationTask } from '../interfaces/task';
+import { VerificationAdapter } from '../models/verification';
+import { Provider, ProvidersService } from './providers.service';
+import { VerificationDTO } from '../interfaces/verifications';
 
 const metrologyProtocolsUrl: string =
   'http://165.22.83.21:3000/api/verications-protocols/metrology/protocols';
@@ -40,7 +43,13 @@ export class SourceService {
 
   private user: IUser;
 
-  constructor(private http: HttpClient, private store: Store<IUser>) {
+  private providers: Map<number, Provider>;
+
+  constructor(
+    private http: HttpClient,
+    private store: Store<IUser>,
+    private providersSv: ProvidersService
+  ) {
     this.store.pipe(select('permission')).subscribe((_user: IUser) => {
       this.user = _user;
 
@@ -50,6 +59,8 @@ export class SourceService {
         this.fetchMetrologyArchive();
       }
     });
+
+    this.providers = this.initProviders(this.providersSv.providers);
   }
 
   fetchNewVerifications(): void {
@@ -72,6 +83,11 @@ export class SourceService {
   fetchTaskPlaning(): void {
     this.http
       .get(taskPlaningUrl + '/' + this.user.serviceProvider)
+      .pipe(
+        map((res: VerificationDTO[]) =>
+          res.map(dto => new VerificationAdapter(this.providers).adapt(dto))
+        )
+      )
       .subscribe((res: any) => this.taskPlaningSource$.next(res));
   }
 
@@ -144,6 +160,11 @@ export class SourceService {
   fetchArchive(): void {
     this.http
       .get(archiveUrl + '/' + this.user.serviceProvider)
+      .pipe(
+        map((res: VerificationDTO[]) =>
+          res.map(dto => new VerificationAdapter(this.providers).adapt(dto))
+        )
+      )
       .subscribe((res: any) => this.archiveSource$.next(res));
   }
 
@@ -203,5 +224,15 @@ export class SourceService {
 
   getRejectedProvider(): Observable<Object[]> {
     return this.rejectedProviders$.asObservable();
+  }
+
+  private initProviders(providersArr: Provider[]): Map<number, Provider> {
+    const resultMap = new Map<number, Provider>();
+
+    for (const provider of providersArr) {
+      resultMap.set(provider.id, provider);
+    }
+
+    return resultMap;
   }
 }

@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 
 import { IUser } from '../../interfaces/user';
 import { Task } from '../../interfaces/taskData';
-import { Verification } from '../../interfaces/verifications';
+import { VerificationDTO } from '../../interfaces/verifications';
 
 import { DataService } from '../../services/data.service';
 import { SourceService } from '../../services/source.service';
@@ -146,7 +146,7 @@ export class PageTaskPlaningComponent implements OnInit {
         filter(res => !!res),
         switchMap(res =>
           combineLatest(
-            this.selectedData.map((ver: Verification) =>
+            this.selectedData.map((ver: VerificationDTO) =>
               this.verificationSv.rejectVerification(ver.applicationNumber, res)
             )
           )
@@ -165,7 +165,7 @@ export class PageTaskPlaningComponent implements OnInit {
       .subscribe(() => this.updateData());
   }
 
-  checkForDuplicate(verification: Verification): void {
+  checkForDuplicate(verification: VerificationDTO): void {
     this.verificationSv.addVerification(verification);
   }
 

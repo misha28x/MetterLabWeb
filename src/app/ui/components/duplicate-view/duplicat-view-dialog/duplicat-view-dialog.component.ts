@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { Verification } from 'src/app/interfaces/verifications';
+import { VerificationDTO } from 'src/app/interfaces/verifications';
 import { DataService } from 'src/app/services/data.service';
 
 const url = 'http://165.22.83.21:3000/api/new-verifications/duplicate';
@@ -12,11 +12,11 @@ const url = 'http://165.22.83.21:3000/api/new-verifications/duplicate';
   styleUrls: ['./duplicat-view-dialog.component.scss']
 })
 export class DuplicatViewDialogComponent implements OnInit {
-  duplicates: Observable<Verification>;
+  duplicates: Observable<VerificationDTO>;
 
   constructor(
     private dataSv: DataService,
-    @Inject(MAT_DIALOG_DATA) public data: Verification
+    @Inject(MAT_DIALOG_DATA) public data: VerificationDTO
   ) {}
 
   ngOnInit(): void {

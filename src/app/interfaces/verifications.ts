@@ -1,20 +1,18 @@
-export interface Verification {
-  // TODO: порівняти з вмістом verif-archive і тоді створити нову табличку
-  // + - було в обидвох таблицях; \\ - додано в Archive
-  addingDate: string; // Дата_надходження + 				 			\\
-  applicationNumber?: string; // Номер_заявки +										\\
-  client: string; // Клієнт + 												\\
-  phoneNumber: string; // Номер телефону + 								\\
+export interface VerificationDTO {
+  addingDate: string;
+  applicationNumber?: string;
+  client: string;
+  phoneNumber: string;
   additionalPhone: string;
-  employeeName: string; // ПІБ_Працівника 									\\
-  index: string; // Індекс + 	              				\\
-  settlement: string; // Населений пункт + 								\\
-  region: string; // Область 													\\
-  district: string; // Район 														\\
-  street: string; // Вулиця + 												\\
-  house: string; // Будинок + 												\\
-  apartment: string; // Квартира + 											\\
-  montageDate?: string; // Дата монтажу лічильника +				\\
+  employeeName: string;
+  index: string;
+  settlement: string;
+  region: string;
+  district: string;
+  street: string;
+  house: string;
+  apartment: string;
+  montageDate?: string;
   counterQuantity?: any; // Кількість лічильників						\\
   symbol: string; // Умовне_позначення +							\\
   counterNumber: string; // Номер_лічильника +								\\
@@ -49,4 +47,27 @@ export interface Verification {
   isUnique?: any; // ?																\\
   userId?: string;
   createFor?: string;
+}
+
+export interface IVerification {
+  addingDate: string;
+  applicationNumber?: string;
+  client: string;
+  phoneNumber: string;
+  additionalPhone: string;
+  employeeName: string;
+  settlement: string;
+  district: string;
+  street: string;
+  house: string;
+  apartment: string;
+  serviceType: string;
+  status?: string;
+  serviceProvider: string;
+  note: string;
+  taskDate?: string;
+  stationNumber?: string;
+  protocolDate?: string;
+  protocolNumber?: string;
+  suitableFor?: string;
 }

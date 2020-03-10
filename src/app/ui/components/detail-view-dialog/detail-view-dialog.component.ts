@@ -6,7 +6,7 @@ import { concat } from 'rxjs';
 
 import { VerificationService } from '../../../services/verification.service';
 import { ProvidersService } from '../../../services/providers.service';
-import { Verification } from '../../../interfaces/verifications';
+import { VerificationDTO } from '../../../interfaces/verifications';
 import { SourceService } from '../../../services/source.service';
 import { DataService } from '../../../services/data.service';
 import { IUser, ServiceTypes } from '../../../interfaces/user';
@@ -20,7 +20,7 @@ const symbolUrl = 'http://165.22.83.21:3000/api/new-verifications/dn';
   styleUrls: ['./detail-view-dialog.component.scss']
 })
 export class DetailViewDialogComponent implements OnInit {
-  verification: Verification;
+  verification: VerificationDTO;
   additionalData: any;
   generalDataForm: FormGroup;
   locationForm: FormGroup;
@@ -77,7 +77,7 @@ export class DetailViewDialogComponent implements OnInit {
         : this.providersSv.getProviders();
   }
 
-  initForms(verification: Verification): void {
+  initForms(verification: VerificationDTO): void {
     const nameArr = this.data.verification[0].client.split(' ');
     const surname = nameArr[0];
     const name = nameArr[1];
@@ -136,7 +136,7 @@ export class DetailViewDialogComponent implements OnInit {
     this.verificationSv.addVerification(this.setVerification());
   }
 
-  setVerification(): Verification {
+  setVerification(): VerificationDTO {
     const name = this.generalDataForm.get('name').value.replace("'", '`');
     const surname = this.generalDataForm.get('surname').value.replace("'", '`');
 
