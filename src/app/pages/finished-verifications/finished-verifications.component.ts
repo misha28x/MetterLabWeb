@@ -16,10 +16,10 @@ import { VerificationService } from '../../services/verification.service';
   styleUrls: ['./finished-verifications.component.scss']
 })
 export class FinishedVerificationsComponent implements OnInit {
-  newVerifications: Observable<any[]>;
+  finishedVerifications$: Observable<any[]>;
   employee: string;
 
-  selectedData: any[];
+  selectedData: any[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -30,13 +30,10 @@ export class FinishedVerificationsComponent implements OnInit {
     private verificationSv: VerificationService
   ) {
     this.updateData();
-    this.newVerifications = this.sourceSv.getProvidersArchive();
-    this.sourceSv.getProvidersArchive().subscribe();
+    this.finishedVerifications$ = this.sourceSv.getProvidersArchive();
   }
 
-  ngOnInit(): void {
-    this.selectedData = [];
-    this.employee = 'Віталій Кришталюк';
+  ngOnInit() {
     this.updateData();
   }
 
@@ -48,32 +45,12 @@ export class FinishedVerificationsComponent implements OnInit {
     this.detailSv.addVerification(id).subscribe(() => this.updateData());
   }
 
-  getScan(id: string): void {
-    this.uploadSv.getScan(id);
-  }
-
   rejectVerification(id: number): void {
     this.verificationSv
       .openRejectDialog()
       .pipe(
         filter(res => !!res),
         switchMap(res => this.verificationSv.rejectVerification(id, res))
-      )
-      .subscribe(() => this.updateData());
-  }
-
-  rejectSelectedVerifications(): void {
-    this.verificationSv
-      .openRejectDialog()
-      .pipe(
-        filter(res => !!res),
-        switchMap(res =>
-          combineLatest(
-            this.selectedData.map((ver: VerificationDTO) =>
-              this.verificationSv.rejectVerification(ver.applicationNumber, res)
-            )
-          )
-        )
       )
       .subscribe(() => this.updateData());
   }

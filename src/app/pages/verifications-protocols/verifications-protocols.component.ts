@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
 
 import { VerificationService } from '../../services/verification.service';
 import { ProtocolService } from '../../services/protocol.service';

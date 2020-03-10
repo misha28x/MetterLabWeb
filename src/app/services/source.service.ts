@@ -66,6 +66,11 @@ export class SourceService {
   fetchNewVerifications(): void {
     this.http
       .get(newVerificationUrl + '/' + this.user.serviceProvider)
+      .pipe(
+        map((res: VerificationDTO[]) =>
+          res.map(dto => new VerificationAdapter(this.providers).adapt(dto))
+        )
+      )
       .subscribe((res: any) => this.newVerificationSource$.next(res));
   }
 
@@ -106,6 +111,11 @@ export class SourceService {
   fetchProvidersArchive(): void {
     this.http
       .get(`${archiveUrl}/provider/${this.user.serviceProvider}`)
+      .pipe(
+        map((res: VerificationDTO[]) =>
+          res.map(dto => new VerificationAdapter(this.providers).adapt(dto))
+        )
+      )
       .subscribe((res: any) => this.providerArchive$.next(res));
   }
 
@@ -133,6 +143,11 @@ export class SourceService {
   fetchRejectedVerif(): void {
     this.http
       .get(rejectedVerif + '/' + this.user.serviceProvider)
+      .pipe(
+        map((arr: StationTask[]) =>
+          arr.sort((cur, next) => (cur.taskDate > next.taskDate ? -1 : 1))
+        )
+      )
       .subscribe((res: any) => this.rejectedVerifSource$.next(res));
   }
 

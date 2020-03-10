@@ -16,10 +16,11 @@ export class TableService {
   constructor() {}
 
   changeFilter(field: string, value: string = '') {
-    const result = !value || !value.length;
+    const isEmpty = !value || value.length === 0;
 
-    if (result) {
+    if (isEmpty) {
       this.filters.delete(field);
+      return;
     }
 
     this.filters.set(field, value);

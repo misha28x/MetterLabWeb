@@ -4,7 +4,7 @@
       [hovered]="true"
       [bordered]="true"
       (rowSelected)="onChange($event)"
-      [tableData]="newVerifications | async"
+      [tableData]="finishedVerifications$ | async"
       [pagination]="true"
     >
       <app-column
@@ -16,13 +16,14 @@
 
       <app-column
         [date]="true"
-        [columnTitle]="'Дата Надходження Заявки'"
+        [columnTitle]="'Дата Надходження'"
         [columnName]="'addingDate'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
+        [width]="220"
         [columnTitle]="'Клієнт'"
         [columnName]="'client'"
         [enableSorting]="true"
@@ -30,8 +31,8 @@
       ></app-column>
 
       <app-column
-        [columnTitle]="'Надавач Послуг'"
-        [columnName]="'serviceProvider'"
+        [columnTitle]="'Телефон'"
+        [columnName]="'phoneNumber'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
@@ -45,6 +46,7 @@
       ></app-column>
 
       <app-column
+        [width]="200"
         [columnTitle]="'Вулиця'"
         [columnName]="'street'"
         [enableSorting]="true"
@@ -52,16 +54,16 @@
       ></app-column>
 
       <app-column
-        [width]="75"
-        [columnTitle]="'Будинок'"
+        [width]="40"
+        [columnTitle]="'Буд'"
         [columnName]="'house'"
         [enableSorting]="true"
         [enableFiltering]="true"
       ></app-column>
 
       <app-column
-        [width]="90"
-        [columnTitle]="'Квартира'"
+        [width]="40"
+        [columnTitle]="'Кв'"
         [columnName]="'apartment'"
         [enableSorting]="true"
         [enableFiltering]="true"
@@ -92,20 +94,11 @@
       <app-column [columnTitle]="''" [width]="40">
         <ng-template #tableBodyTemplate let-row="row">
           <div class="actions-row">
-            <!-- TODO: ПЕРЕРОБИТИ ПЕРЕВІРКУ НА ДУБЛІ -->
-
             <button
               mat-icon-button
               (click)="deleteVerification(row['applicationNumber'])"
             >
               <i class="icofont-ui-delete color-error" matTooltip="Видалити заявку"></i>
-            </button>
-
-            <button mat-icon-button (click)="getScan(row['applicationNumber'])">
-              <i
-                class="far fa-file-pdf color-info"
-                matTooltip="Отримати скан документів"
-              ></i>
             </button>
           </div>
         </ng-template>

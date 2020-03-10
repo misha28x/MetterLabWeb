@@ -36,8 +36,7 @@ export class PageNewVerificationsComponent implements OnInit {
     private store: Store<IUser>,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
-    private verificationSv: VerificationService,
-    public providersSv: ProvidersService
+    private verificationSv: VerificationService
   ) {
     this.newVerifications = this.sourceSv.getNewVerifications();
   }
