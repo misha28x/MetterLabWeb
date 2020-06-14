@@ -22,20 +22,17 @@ import { Protocol } from '../../interfaces/protocol';
   styleUrls: ['./verifications-archive.component.scss']
 })
 export class PageVerificationsArchiveComponent implements OnInit {
-  verificationsArchive: Observable<any[]>;
-  dateStatus: boolean;
   currentDate: Date;
   selectedData: any[];
+  verificationsArchive: Observable<any[]>;
 
   constructor(
-    public providersSv: ProvidersService,
     private http: HttpClient,
     private dialog: MatDialog,
     private dataSv: DataService,
     private sourceSv: SourceService,
     private detailSv: DetailViewService,
-    private protocolSv: ProtocolService,
-    private verificationSv: VerificationService
+    private protocolSv: ProtocolService
   ) {
     this.sourceSv.fetchArchive();
     this.verificationsArchive = this.sourceSv.getArchive();
@@ -94,5 +91,9 @@ export class PageVerificationsArchiveComponent implements OnInit {
 
   onChange(data: any): void {
     this.selectedData = data;
+  }
+
+  returnToProtocols(id) {
+    this.protocolSv.returnToProtocols(id).subscribe(() => this.sourceSv.fetchArchive());
   }
 }

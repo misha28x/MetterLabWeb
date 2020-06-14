@@ -31,7 +31,7 @@ export class FilterTableDirective implements OnDestroy {
   constructor(private elRef: ElementRef) {
     this.sub = fromEvent(elRef.nativeElement, 'keydown')
       .pipe(
-        debounceTime(500),
+        debounceTime(250),
         distinctUntilChanged(),
         pluck('target'),
         pluck('value'),

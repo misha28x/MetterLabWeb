@@ -36,6 +36,7 @@
             <button mat-menu-item [matMenuTriggerFor]="ver">
               <span>Повірка</span>
             </button>
+
             <button mat-menu-item [matMenuTriggerFor]="protocol">
               <span>Протокол</span>
             </button>
@@ -68,6 +69,11 @@
             >
               <mat-icon>file_copy</mat-icon>
               Завантажити документ
+            </button>
+
+            <button (click)="returnToProtocols(row['applicationNumber'])" mat-menu-item>
+              <mat-icon>keyboard_return</mat-icon>
+              Повернути в електроні протоколи
             </button>
           </mat-menu>
         </ng-template>
